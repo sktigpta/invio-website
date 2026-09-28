@@ -213,7 +213,7 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
               onClick={() => onDirectDownload?.()}
               className="text-[#8646F4] hover:underline font-bold text-[11px] cursor-pointer"
             >
-              Download Free →
+              Download →
             </button>
           </div>
         </div>

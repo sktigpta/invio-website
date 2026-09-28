@@ -72,7 +72,7 @@ export function FeatureGrid() {
     {
       number: '1',
       title: 'Download & Install',
-      desc: 'Free 1-click installer for your computer. No credit card or registration required.',
+      desc: '1-click installer for your computer. Sign in to get started.',
     },
     {
       number: '2',

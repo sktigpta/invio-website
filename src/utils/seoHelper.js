@@ -1,13 +1,13 @@
 /**
  * SEO & Meta Tag Registry & Synchronizer
  * Dynamically updates document.title, meta tags (title, description, keywords, Open Graph, Twitter cards),
- * canonical URL, and triggers Google Analytics (gtag) page_view events across all routes and tools.
+ * and canonical URL across all routes and tools.
  */
 
 export const SEO_CONFIGS = {
   home: {
-    title: 'Invio by Timrio — 100% Free Invoice Generator & GST Billing Software',
-    description: 'Invio is a 100% free offline invoice generator and billing software for shops and small businesses. Create GST invoices in seconds, print thermal receipts with UPI QR codes, scan barcodes, and track stock with zero subscriptions.',
+    title: 'Invio by Timrio — Invoice Generator & GST Billing Software',
+    description: 'Invio is an offline invoice generator and billing software for shops and small businesses. Create GST invoices in seconds, print thermal receipts with UPI QR codes, scan barcodes, and track stock.',
     url: 'https://invio.timrio.com/',
     canonical: 'https://invio.timrio.com/',
     keywords: 'free invoice generator, invoice generator, free billing software, GST invoice generator, GST invoice maker, free invoicing software, offline invoice software, free receipt generator, thermal receipt printer software, barcode scanner billing, invoice maker for Mac, free invoice app for Windows, retail billing software, store billing app, UPI QR invoice generator, Invio, Timrio',
@@ -20,28 +20,28 @@ export const SEO_CONFIGS = {
     keywords: 'invoice software features, thermal receipt printing, barcode scanner billing, offline SQLite billing, GST invoice maker',
   },
   comparison: {
-    title: 'Invio vs Vyapar, myBillBook & Zoho — 100% Free Offline Comparison',
-    description: 'Compare Invio with Vyapar, myBillBook, and Zoho. See why Invio’s 100% free, offline-first architecture with zero monthly subscriptions is the best choice for small retail stores and freelancers.',
+    title: 'Invio vs Vyapar, myBillBook & Zoho — Offline Comparison',
+    description: 'Compare Invio with Vyapar, myBillBook, and Zoho. See why Invio’s offline-first architecture is the best choice for small retail stores and freelancers.',
     url: 'https://invio.timrio.com/#comparison',
     canonical: 'https://invio.timrio.com/',
     keywords: 'Invio vs Vyapar, Invio vs myBillBook, Invio vs Zoho Invoice, free billing software alternative, offline billing comparison',
   },
   faq: {
-    title: 'Frequently Asked Questions — Free Invoice & GST Billing Software | Invio',
-    description: 'Answers to common questions about Invio: 100% free offline billing, thermal printer and barcode compatibility, UPI payment QR codes, and local database security.',
+    title: 'Frequently Asked Questions — Invoice & GST Billing Software | Invio',
+    description: 'Answers to common questions about Invio: offline billing, thermal printer and barcode compatibility, UPI payment QR codes, and local database security.',
     url: 'https://invio.timrio.com/#faq',
     canonical: 'https://invio.timrio.com/',
     keywords: 'Invio FAQ, GST billing questions, thermal printer setup, UPI QR invoice generator questions',
   },
   privacy: {
     title: 'Privacy Policy — Invio by Timrio (100% Offline Data Privacy)',
-    description: 'Privacy Policy for Invio by Timrio. 100% free offline invoice generator and billing software. Zero telemetry, no data collection, private local SQLite storage.',
+    description: 'Privacy Policy for Invio by Timrio. Offline invoice generator and billing software. Zero telemetry, no data collection, private local SQLite storage.',
     url: 'https://invio.timrio.com/privacy',
     canonical: 'https://invio.timrio.com/privacy',
   },
   terms: {
-    title: 'Terms of Service — Invio by Timrio (Free Commercial & Personal License)',
-    description: 'Terms of Service for Invio by Timrio. 100% free offline invoice generator and billing software. License terms, permitted use, and data ownership.',
+    title: 'Terms of Service — Invio by Timrio',
+    description: 'Terms of Service for Invio by Timrio. Offline invoice generator and billing software. License terms, plans, permitted use, and data ownership.',
     url: 'https://invio.timrio.com/terms',
     canonical: 'https://invio.timrio.com/terms',
   },
@@ -194,35 +194,4 @@ export function applySEO(pageKeyOrConfig, customOverrides = {}) {
     canonicalEl.setAttribute('href', canonicalUrl);
   }
 
-  // 6. Trigger Google Analytics (gtag) config & page_view on every URL transition
-  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-    let pagePath = window.location.pathname + window.location.hash;
-    let pageLocation = window.location.href;
-    if (config.url) {
-      try {
-        const parsed = new URL(config.url);
-        pagePath = parsed.pathname + (parsed.hash || '');
-        pageLocation = config.url;
-      } catch {
-        // fallback
-      }
-    }
-
-    window.gtag('config', 'G-FZ30KFTK62', {
-      page_title: config.title,
-      page_path: pagePath,
-      page_location: pageLocation,
-    });
-  }
-}
-
-/**
- * Dispatches custom analytics event to Google Analytics
- * @param {string} eventName
- * @param {object} [eventParams]
- */
-export function trackAnalyticsEvent(eventName, eventParams = {}) {
-  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-    window.gtag('event', eventName, eventParams);
-  }
 }

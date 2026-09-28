@@ -51,13 +51,13 @@ export function DownloadModal({ platform, onClose }) {
             setOrder(res);
           } else {
             setOrder(null);
-            setOrderError(res.error || 'Online payments are unavailable. You can still download Invio for free.');
+            setOrderError(res.error || 'Online payments are unavailable. You can still download Invio.');
           }
         }
       } catch {
         if (!isCancelled) {
           setOrder(null);
-          setOrderError('Online payments are unavailable. You can still download Invio for free.');
+          setOrderError('Online payments are unavailable. You can still download Invio.');
         }
       } finally {
         if (!isCancelled) setCreatingOrder(false);
@@ -228,7 +228,7 @@ export function DownloadModal({ platform, onClose }) {
               </h3>
             </div>
             <p className="text-xs text-slate-500 mt-1 leading-relaxed max-w-[340px]">
-              Invio is 100% free &amp; open source. Help support ongoing maintenance &amp; cross-platform updates.
+              Invio is open source. Help support ongoing maintenance &amp; cross-platform updates.
             </p>
 
             {/* Amount Selection */}
@@ -305,7 +305,7 @@ export function DownloadModal({ platform, onClose }) {
                 </>
               ) : (
                 <p className="px-2 text-center text-xs text-amber-700" role="status">
-                  {orderError || 'Online payments are unavailable. You can still download Invio for free.'}
+                  {orderError || 'Online payments are unavailable. You can still download Invio.'}
                 </p>
               )}
               {payError ? (
@@ -320,7 +320,7 @@ export function DownloadModal({ platform, onClose }) {
                 onClick={handleTriggerDownload}
                 className="text-[11px] text-slate-400/80 hover:text-slate-600 transition-colors py-1 cursor-pointer font-normal hover:underline"
               >
-                Skip &amp; Download Free ({platform.shortName || platform.name})
+                Skip &amp; Download ({platform.shortName || platform.name})
               </button>
             </div>
           </div>

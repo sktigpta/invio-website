@@ -103,7 +103,7 @@ export function Footer({ onNavigate, onDirectDownload }) {
               onClick={() => (onDirectDownload ? onDirectDownload() : onNavigate('product'))}
               className="hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 font-semibold text-[#a855f7]"
             >
-              Download Free
+              Download
             </button>
           </nav>
         </div>

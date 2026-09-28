@@ -64,9 +64,9 @@ export function LegalModal({ type, onClose }) {
           {isTerms ? (
             <>
               <div>
-                <h3 className="font-bold text-slate-900 text-sm mb-1">1. 100% Free &amp; Open Software</h3>
+                <h3 className="font-bold text-slate-900 text-sm mb-1">1. Plans &amp; Open Software</h3>
                 <p>
-                  Invio by Timrio (&quot;Software&quot;) is provided as a <strong>100% free offline desktop invoice generator and billing application</strong>. There are no mandatory subscription fees, no locked paywalls, no watermark restrictions, and no limits on the number of invoices, thermal receipts, products, or customers you can manage.
+                  Invio by Timrio (&quot;Software&quot;) is a desktop invoice generator and billing application offered under Free, Plus, and Pro plans. Your plan determines which features are available. There are no watermark restrictions on your business data, which always stays on your device.
                 </p>
               </div>
 
@@ -154,7 +154,7 @@ export function LegalModal({ type, onClose }) {
 
         <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
           <span className="text-[11px] text-slate-400">
-            Invio by Timrio &bull; Free &amp; Open Source
+            Invio by Timrio &bull; Open Source
           </span>
           <button
             type="button"

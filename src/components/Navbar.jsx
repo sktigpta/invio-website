@@ -140,7 +140,7 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               title={activeOS.isMobileFallback ? 'Invio needs a Mac, Windows, or Linux computer' : undefined}
             >
               {getOsIcon(activeOS.id, 'size-3.5')}
-              <span>Download Free</span>
+              <span>Download</span>
             </button>
           </div>
 
@@ -256,7 +256,7 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
                 title={activeOS.isMobileFallback ? 'Invio needs a Mac, Windows, or Linux computer' : undefined}
               >
                 {getOsIcon(activeOS.id)}
-                <span>Download Free</span>
+                <span>Download</span>
               </button>
             </div>
           </div>

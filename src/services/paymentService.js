@@ -46,13 +46,13 @@ export async function createPaymentOrder(amount = 51) {
     return {
       success: false,
       amount: sanitizedAmount,
-      error: (data && data.error) || 'Online payments are unavailable right now. You can still download Invio for free.',
+      error: (data && data.error) || 'Online payments are unavailable right now. You can still download Invio.',
     };
   } catch {
     return {
       success: false,
       amount: sanitizedAmount,
-      error: 'Could not reach the payment server. You can still download Invio for free.',
+      error: 'Could not reach the payment server. You can still download Invio.',
     };
   } finally {
     clearTimeout(timeoutId);

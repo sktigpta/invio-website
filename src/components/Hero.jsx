@@ -1,6 +1,5 @@
 import { Button } from './Button';
 import { AppleIcon, WindowsIcon, LinuxIcon } from './Icons';
-import { APP_VERSION } from '../utils/osDetector';
 
 export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
   const getOsIcon = (id) => {
@@ -56,17 +55,13 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
             onClick={() => onDirectDownload(activeOS)}
             className="w-full sm:w-auto text-xs font-semibold shimmer-btn shadow-md hover:shadow-lg transition-all px-8 h-11"
           >
-            Download for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name} (Free)
+            Download for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}
           </Button>
           {activeOS.isMobileFallback ? (
             <p className="text-[11px] text-slate-500 leading-relaxed text-center px-4">
               You&apos;re on a phone or tablet — Invio runs on Mac, Windows, or Linux computers. Pick your desktop OS below.
             </p>
-          ) : (
-            <p className="text-[11px] text-slate-400 font-medium">
-              v{APP_VERSION} • Instant Download • No credit card required
-            </p>
-          )}
+          ) : null}
         </div>
 
         {/* Platform Selector */}

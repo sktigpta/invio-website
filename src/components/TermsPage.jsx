@@ -56,10 +56,10 @@ export function TermsPage({ onNavigate }) {
         <div className="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-6">
           <section>
             <h2 className="text-sm sm:text-base font-bold text-slate-900 mb-2">
-              1. 100% Free &amp; Open Software
+              1. Plans &amp; Open Software
             </h2>
             <p>
-              <strong>Invio by Timrio</strong> is provided as a 100% free desktop invoice generator, POS billing, and inventory tracking application. There are no mandatory subscription fees, paywalled features, watermark locks, or artificial caps on invoice volume, customers, or items.
+              <strong>Invio by Timrio</strong> is a desktop invoice generator, POS billing, and inventory tracking application offered under Free, Plus, and Pro plans. Your plan determines which features are available. There are no watermark locks on your business data, which always stays on your device.
             </p>
           </section>
 
