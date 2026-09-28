@@ -279,40 +279,38 @@ export function DownloadModal({ platform, onClose }) {
             </div>
 
             {/* Payment action: Razorpay Checkout (UPI, cards, netbanking, wallets) */}
-            <div className="flex justify-center my-3.5">
-              <div className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-4 text-center">
-                {creatingOrder ? (
-                  <div className="flex flex-col items-center justify-center text-slate-400 text-xs py-2" role="status" aria-live="polite">
-                    <span className="size-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mb-2"></span>
-                    <span>Preparing secure payment...</span>
-                  </div>
-                ) : order ? (
-                  <>
-                    <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                      CONTRIBUTION AMOUNT
-                    </p>
-                    <p className="text-2xl font-bold text-slate-900 mt-0.5">₹{order.amount}</p>
-                    <button
-                      type="button"
-                      onClick={handlePay}
-                      disabled={paying}
-                      className="mt-3 w-full rounded-lg bg-[#8646F4] hover:bg-[#7030db] disabled:opacity-60 disabled:cursor-wait px-4 py-2.5 text-sm font-semibold text-white transition-colors cursor-pointer"
-                    >
-                      {paying ? 'Waiting for payment...' : `Pay ₹${order.amount} securely`}
-                    </button>
-                    <p className="mt-2 text-[11px] text-slate-400">
-                      UPI, cards, netbanking &amp; wallets via Razorpay
-                    </p>
-                  </>
-                ) : (
-                  <p className="px-2 text-center text-xs text-amber-700" role="status">
-                    {orderError || 'Online payments are unavailable. You can still download Invio for free.'}
+            <div className="my-4 text-center">
+              {creatingOrder ? (
+                <div className="flex flex-col items-center justify-center text-slate-400 text-xs py-2" role="status" aria-live="polite">
+                  <span className="size-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mb-2"></span>
+                  <span>Preparing secure payment...</span>
+                </div>
+              ) : order ? (
+                <>
+                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                    CONTRIBUTION AMOUNT
                   </p>
-                )}
-                {payError ? (
-                  <p className="mt-2 text-xs font-medium text-rose-600" role="alert">{payError}</p>
-                ) : null}
-              </div>
+                  <p className="text-2xl font-bold text-slate-900 mt-0.5">₹{order.amount}</p>
+                  <button
+                    type="button"
+                    onClick={handlePay}
+                    disabled={paying}
+                    className="mt-3 w-full rounded-lg bg-[#8646F4] hover:bg-[#7030db] disabled:opacity-60 disabled:cursor-wait px-4 py-2.5 text-sm font-semibold text-white transition-colors cursor-pointer"
+                  >
+                    {paying ? 'Waiting for payment...' : `Pay ₹${order.amount} securely`}
+                  </button>
+                  <p className="mt-2.5 flex items-center justify-center text-center text-[11px] leading-relaxed text-slate-400">
+                    UPI, cards, netbanking &amp; wallets via Razorpay
+                  </p>
+                </>
+              ) : (
+                <p className="px-2 text-center text-xs text-amber-700" role="status">
+                  {orderError || 'Online payments are unavailable. You can still download Invio for free.'}
+                </p>
+              )}
+              {payError ? (
+                <p className="mt-2 text-center text-xs font-medium text-rose-600" role="alert">{payError}</p>
+              ) : null}
             </div>
 
             {/* Bottom Actions: Discreet Skip link (no bg, lighter) */}
