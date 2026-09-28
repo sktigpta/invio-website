@@ -2,7 +2,7 @@
   "name": "invio-website",
   "description": "Official product landing page and info website for Invio Desktop application by Timrio",
   "private": true,
-  "version": "1.0.36",
+  "version": "0.1.0",
   "homepage": "https://github.com/sktigpta/invio-website",
   "repository": {
     "type": "git",
