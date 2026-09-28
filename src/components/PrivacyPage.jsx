@@ -139,7 +139,8 @@ export function PrivacyPage({ onNavigate }) {
             </p>
             <ul className="list-disc list-inside space-y-1 mt-2 text-slate-600">
               <li>All calculator math is evaluated client-side inside your browser via JavaScript. None of the salary, expense, or tax numbers you type are submitted to or stored on our servers.</li>
-              <li>Our website may collect anonymous technical access logs (such as HTTP request headers, IP address, and browser user agent) strictly for server diagnostics, performance, and DDoS prevention.</li>
+              <li>Our hosting provider may process technical access logs, including IP address, request headers, and browser user agent, for service operation, diagnostics, and abuse prevention.</li>
+              <li>The website does not load Google Analytics or other third-party analytics trackers. Calculator inputs stay in your browser and are not sent to analytics services.</li>
             </ul>
           </section>
 

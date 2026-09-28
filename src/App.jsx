@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { detectDeviceOS, PLATFORM_DOWNLOADS } from './utils/osDetector';
-import { applySEO, trackAnalyticsEvent } from './utils/seoHelper';
+import { applySEO } from './utils/seoHelper';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { FeatureGrid } from './components/FeatureGrid';
@@ -210,10 +210,6 @@ export function App() {
       return;
     }
     setDownloadModalPlatform(target);
-    trackAnalyticsEvent('open_download_modal', {
-      platform: target?.id || 'unknown',
-      platform_name: target?.name || 'unknown',
-    });
   };
 
   const handleSelectOS = (osId) => {
