@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Not Found | Invio by Timrio</title>
+  <link rel="icon" type="image/png" href="/appLogo.png" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FZ30KFTK62"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-FZ30KFTK62');
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #ffffff;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .container {
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #8646f4;
+      margin-bottom: 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      max-width: 280px;
+    }
+    .link-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #8646f4;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .link-home:hover {
+      color: #7234de;
+    }
+    .icon {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.15s ease;
+    }
+    .link-home:hover .icon {
+      transform: translate(2px, -2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="/appLogo.png" alt="Invio Logo" class="logo" width="44" height="44" />
+    <span class="badge">404 ERROR</span>
+    <h1>Not Found!</h1>
+    <p>The page or tool you are looking for does not exist or has been moved.</p>
+    <a href="/" class="link-home">
+      <span>Go Home</span>
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
+      </svg>
+    </a>
+  </div>
+</body>
+</html>

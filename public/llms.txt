@@ -1,0 +1,45 @@
+# Invio by Timrio
+
+> 100% Free Offline Invoice Generator & GST Billing Software for Small Businesses, Retail Stores, and Freelancers.
+
+Invio is a desktop application built for high-speed offline retail billing, professional GST invoicing, 58mm/80mm thermal receipt printing with dynamic UPI payment QR codes, barcode scanning, and local inventory management.
+
+## Key Information
+- **Website**: https://invio.timrio.com/
+- **Pricing**: 100% Free (Zero monthly subscriptions, unlimited invoices)
+- **Data Architecture**: Offline-first (private local SQLite database with optional external PostgreSQL configuration)
+- **Supported Platforms**: macOS (Apple Silicon & Intel), Windows 10/11 (64-bit), Linux (AppImage & DEB)
+
+## Core Capabilities
+- **GST Invoicing**: Automatic split for intra-state (CGST + SGST 50/50) and inter-state (IGST 100%) transactions based on 15-character GSTIN state prefixes.
+- **Thermal Receipt Printing**: Formatted specifically for 58mm (2-inch) and 80mm (3-inch) ESC/POS thermal printers and standard A4/A5 formats.
+- **Dynamic UPI Payment QR**: Generates offline UPI QR codes directly on paper receipts so customers can scan & pay instantly using any UPI app (Google Pay, PhonePe, Paytm, BHIM).
+- **Barcode Scanner Support**: Hardware barcode scanning automatically adds items to active invoices in real-time.
+- **Inventory Management**: Real-time stock decrement on sales, automatic stock restoration on invoice deletions, and low-stock threshold alerts.
+- **Customer Directory & Credit**: Customer purchase tracking and ledger balance management.
+- **Business Expenses & Reports**: Expense categorization and financial analytics (Paid Revenue, Outstanding, Expenses, Net Profit).
+- **Email & WhatsApp Sharing**: Direct PDF invoice delivery via user-configured SMTP and 1-click WhatsApp messaging.
+
+## Download Endpoints
+- [Windows Installer (64-bit)](https://api.invio.timrio.com/api/download?platform=windows)
+- [macOS Installer (Apple Silicon & Intel)](https://api.invio.timrio.com/api/download?platform=mac)
+- [Linux Package (AppImage / DEB)](https://api.invio.timrio.com/api/download?platform=linux)
+- [Latest Release Metadata](https://api.invio.timrio.com/api/download/meta/latest)
+
+## Free Online Finance & Payroll Tools Suite
+- [India GST Calculator](https://invio.timrio.com/tools/gst-calculator): Instant intra/inter-state GST and reverse inclusive tax calculator.
+- [Income Tax Calculator (India)](https://invio.timrio.com/tools/income-tax-india): New vs Old Tax Regime comparison for FY 2025–26.
+- [UK VAT Calculator](https://invio.timrio.com/tools/vat-uk): Standard 20%, reduced 5%, and zero-rated VAT calculations.
+- [UAE VAT Calculator](https://invio.timrio.com/tools/vat-uae): 5% UAE Federal Tax Authority VAT breakdown.
+- [Free Payslip Generator](https://invio.timrio.com/tools/payslip-generator): Professional employee salary slip formatter.
+- [Paycheck Calculator](https://invio.timrio.com/tools/paycheck-calc): Gross to net take-home salary calculator.
+- [HRA Exemption Calculator](https://invio.timrio.com/tools/hra-exemption): Section 10(13A) House Rent Allowance tax savings.
+- [Gratuity Calculator](https://invio.timrio.com/tools/gratuity-calc): Payment of Gratuity Act (15 × salary × tenure / 26).
+- [Project Cost Estimate Calculator](https://invio.timrio.com/tools/project-estimate): Client quote, labor hours, and risk contingency estimator.
+
+## Optional & Related Links
+- [Full LLM Context Specification](https://invio.timrio.com/llms-full.txt)
+- [XML Sitemap](https://invio.timrio.com/sitemap.xml)
+- [Desktop App Repository](https://github.com/sktigpta/invio-desktop)
+- [Website Repository](https://github.com/sktigpta/invio-website)
+- [Server Repository](https://github.com/sktigpta/invio-server)

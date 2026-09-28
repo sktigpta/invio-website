@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!-- Main Application Landing Page -->
+  <url>
+    <loc>https://invio.timrio.com/</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Dedicated GST Calculator Landing Page -->
+  <url>
+    <loc>https://invio.timrio.com/gst-calculator</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Free Financial, Tax & Payroll Tools Hub -->
+  <url>
+    <loc>https://invio.timrio.com/tools</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- India GST Calculator Tool -->
+  <url>
+    <loc>https://invio.timrio.com/tools/gst-calculator</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- India Income Tax Calculator Tool (FY 2025-26) -->
+  <url>
+    <loc>https://invio.timrio.com/tools/income-tax-india</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- UK HMRC VAT Calculator Tool -->
+  <url>
+    <loc>https://invio.timrio.com/tools/vat-uk</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- UAE FTA VAT Calculator Tool -->
+  <url>
+    <loc>https://invio.timrio.com/tools/vat-uae</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Free Monthly Employee Salary Slip Generator -->
+  <url>
+    <loc>https://invio.timrio.com/tools/payslip-generator</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Take-Home Paycheck Calculator Tool -->
+  <url>
+    <loc>https://invio.timrio.com/tools/paycheck-calc</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- HRA Exemption Calculator Tool (Section 10(13A)) -->
+  <url>
+    <loc>https://invio.timrio.com/tools/hra-exemption</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Gratuity Calculator Tool (Payment of Gratuity Act) -->
+  <url>
+    <loc>https://invio.timrio.com/tools/gratuity-calc</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Project Cost & Freelance Quote Estimator -->
+  <url>
+    <loc>https://invio.timrio.com/tools/project-estimate</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://invio.timrio.com/privacy</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Terms of Service -->
+  <url>
+    <loc>https://invio.timrio.com/terms</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>

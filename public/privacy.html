@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Invio by Timrio</title>
+  <meta name="description" content="Privacy Policy for Invio by Timrio. 100% free offline invoice generator and billing software. Zero telemetry, no data collection, private local SQLite storage." />
+  <link rel="canonical" href="https://invio.timrio.com/privacy" />
+  <link rel="icon" type="image/png" href="/appLogo.png" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FZ30KFTK62"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-FZ30KFTK62');
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #ffffff;
+      color: #0f172a;
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    .wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #8646f4;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-bottom: 24px;
+    }
+    .back-link:hover {
+      color: #7234de;
+    }
+    .header {
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 18px;
+      margin-bottom: 28px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #8646f4;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      margin-bottom: 6px;
+      display: block;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .meta {
+      font-size: 13px;
+      color: #64748b;
+    }
+    section {
+      margin-bottom: 22px;
+    }
+    h2 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 13.5px;
+      color: #334155;
+      margin-bottom: 10px;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      font-size: 13.5px;
+      color: #475569;
+    }
+    li {
+      margin-bottom: 5px;
+    }
+    .contact-block {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
+      font-size: 13px;
+      color: #475569;
+    }
+    .contact-block p {
+      margin-bottom: 4px;
+    }
+    a {
+      color: #8646f4;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <a href="/" class="back-link">&larr; Back</a>
+    <div class="header">
+      <h1>Privacy Policy</h1>
+      <p class="meta">Invio by Timrio &nbsp;&bull;&nbsp; Effective Date: January 1, 2025 &nbsp;&bull;&nbsp; Last Updated: September 2026</p>
+    </div>
+
+    <section>
+      <h2>Privacy Summary (Offline-First Guarantee)</h2>
+      <p><strong>Invio does not collect, track, sell, or upload your invoices, customer details, product inventories, or sales revenue.</strong> Invio is engineered as a 100% offline desktop application. All database transactions remain stored privately on your computer’s local disk.</p>
+    </section>
+
+    <section>
+      <h2>1. Information We Do Not Collect</h2>
+      <p>Unlike cloud-based billing and POS software, Invio operates locally. We do not store, access, or intercept:</p>
+      <ul>
+        <li>Customer names, phone numbers, email addresses, and ledger credit balances.</li>
+        <li>Business GSTIN, tax ID numbers, PAN, or physical store addresses.</li>
+        <li>Product catalog items, wholesale cost prices, barcodes, and inventory counts.</li>
+        <li>Financial records, payment amounts, daily sales summaries, and expense journals.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. Local Device Storage &amp; SQLite Database</h2>
+      <p>All application data created in Invio is saved directly onto your device’s local filesystem within your user partition (SQLite database files).</p>
+      <p>You retain 100% full ownership of your data files. You can export your data at any time via CSV spreadsheets or use the built-in database backup utility to save snapshot files to an external flash drive or cloud storage drive of your choice.</p>
+    </section>
+
+    <section>
+      <h2>3. Telemetry, Analytics &amp; Zero Trackers</h2>
+      <p>The Invio desktop software contains:</p>
+      <ul>
+        <li><strong>Zero advertising trackers</strong> or third-party marketing SDKs.</li>
+        <li><strong>Zero behavioral tracking</strong> or user keystroke logging.</li>
+        <li><strong>Zero data selling</strong> or sharing with data brokers.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Invoicing, UPI QR Codes &amp; Thermal Printing</h2>
+      <p>When printing thermal receipts or generating dynamic UPI payment QR codes:</p>
+      <ul>
+        <li>Dynamic UPI QR codes are rendered offline using standard string encoding (<code>upi://pay?pa=...</code>). No third-party payment gateway or intermediary server is contacted during QR generation.</li>
+        <li>Thermal printer communication (58mm / 80mm ESC/POS) executes directly through local hardware drivers (USB, Bluetooth, or LAN) with no external server involvement.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Custom SMTP &amp; Email Credentials</h2>
+      <p>If you optionally configure your own custom SMTP mail settings (e.g., Gmail App Password, Outlook, or custom business domain SMTP) to send invoices via email:</p>
+      <ul>
+        <li>SMTP credentials are encrypted and stored solely on your local computer.</li>
+        <li>Emails are dispatched directly from your device to your configured mail server without routing through Invio or Timrio servers.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>6. Website Usage &amp; Web Calculators</h2>
+      <p>When visiting the Invio website (<code>https://invio.timrio.com</code>) or using the free online finance calculators (GST, Income Tax, VAT, Payslip Generator, HRA, Gratuity):</p>
+      <ul>
+        <li>All calculator math is evaluated client-side inside your browser via JavaScript. None of the salary, expense, or tax numbers you type are submitted to or stored on our servers.</li>
+        <li>Our website may collect anonymous technical access logs (such as HTTP request headers, IP address, and browser user agent) strictly for server diagnostics, performance, and DDoS prevention.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>7. Children’s Privacy (COPPA Compliance)</h2>
+      <p>Invio is a business invoicing tool and does not knowingly collect or solicit data from children under the age of 13.</p>
+    </section>
+
+    <section>
+      <h2>8. User Rights &amp; Data Deletion (GDPR &amp; CCPA)</h2>
+      <p>Because your data is stored locally on your machine, you have complete control:</p>
+      <ul>
+        <li><strong>Right of Access &amp; Portability:</strong> Export all records to CSV or backup files instantly.</li>
+        <li><strong>Right of Erasure:</strong> Uninstalling the software and deleting the application data directory permanently deletes all local records from your computer.</li>
+      </ul>
+    </section>
+
+    <section class="contact-block">
+      <h2>9. Contact Information</h2>
+      <p>If you have any questions or compliance inquiries regarding this Privacy Policy, please contact us:</p>
+      <p>Entity: <strong>Timrio</strong></p>
+      <p>Product: <strong>Invio (Free Offline Invoice Generator)</strong></p>
+      <p>Website: <a href="https://invio.timrio.com">https://invio.timrio.com</a></p>
+      <p>Email: <a href="mailto:support@timrio.com">support@timrio.com</a></p>
+    </section>
+  </div>
+</body>
+</html>

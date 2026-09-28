@@ -1,0 +1,335 @@
+import { useState, useEffect } from 'react';
+import { detectDeviceOS, PLATFORM_DOWNLOADS } from './utils/osDetector';
+import { applySEO, trackAnalyticsEvent } from './utils/seoHelper';
+import { Navbar } from './components/Navbar';
+import { Hero } from './components/Hero';
+import { FeatureGrid } from './components/FeatureGrid';
+import { SupportSection } from './components/SupportSection';
+import { Footer } from './components/Footer';
+import { DownloadModal } from './components/DownloadModal';
+import { LegalModal } from './components/LegalModal';
+import { NotFound } from './components/NotFound';
+import { PrivacyPage } from './components/PrivacyPage';
+import { TermsPage } from './components/TermsPage';
+import { FinanceToolsDashboard } from './components/FinanceToolsDashboard';
+import { CalculatorIcon } from './components/tools/ToolIcons';
+import { ALL_TOOLS } from './components/tools/toolsData';
+
+export function App() {
+  const [activeSection, setActiveSection] = useState('product');
+  const [activeToolId, setActiveToolId] = useState('gst-calculator');
+  const [activeOS, setActiveOS] = useState(() => detectDeviceOS());
+  const [downloadModalPlatform, setDownloadModalPlatform] = useState(null);
+  const [legalModalType, setLegalModalType] = useState(null);
+
+  useEffect(() => {
+    const scrollToTarget = (id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+    };
+
+    const handleHash = () => {
+      const pathname = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
+      const fullHash = window.location.hash.replace('#', '').toLowerCase();
+
+      // Check explicit 404 routes
+      if (pathname === '/404' || fullHash === '404' || fullHash === 'not-found') {
+        setActiveSection('404');
+        applySEO('404');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // Check standalone legal pages
+      if (pathname === '/privacy' || pathname === '/privacy-policy' || pathname === '/privacy.html' || fullHash === 'privacy') {
+        setActiveSection('privacy');
+        applySEO('privacy');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      if (pathname === '/terms' || pathname === '/terms-of-service' || pathname === '/terms.html' || fullHash === 'terms') {
+        setActiveSection('terms');
+        applySEO('terms');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // Check tools path routing
+      if (pathname.startsWith('/tools') || pathname === '/gst-calculator-online' || pathname === '/gst-calculator') {
+        setActiveSection('tools');
+        if (pathname === '/gst-calculator-online' || pathname === '/gst-calculator') {
+          setActiveToolId('gst-calculator');
+          applySEO('gst-calculator');
+        } else {
+          const allowed = ['gst-calculator','income-tax-india','vat-uk','vat-uae','payslip-generator','paycheck-calc','hra-exemption','gratuity-calc','project-estimate'];
+          const pathTool = pathname.startsWith('/tools/') ? pathname.slice(7).split('/')[0] : '';
+          if (pathTool && allowed.includes(pathTool)) {
+            setActiveToolId(pathTool);
+            applySEO(pathTool);
+          } else if (pathTool) {
+            setActiveSection('404'); applySEO('404'); return;
+          } else {
+            applySEO('tools');
+          }
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      if (pathname !== '/' && pathname !== '/index.html' && !pathname.startsWith('/favicons/') && !pathname.startsWith('/screenshots/') && pathname !== '/robots.txt' && pathname !== '/sitemap.xml') {
+        setActiveSection('404');
+        applySEO('404');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // Hash routing for landing page sections
+      if (fullHash === 'features') {
+        setActiveSection('features');
+        applySEO('features');
+        setTimeout(() => scrollToTarget('features'), 50);
+      } else if (fullHash.startsWith('tools/') || fullHash === 'tools' || fullHash === 'gst-calculator') {
+        setActiveSection('tools');
+        if (fullHash.startsWith('tools/')) {
+          const toolSlug = fullHash.slice('tools/'.length);
+          if (!ALL_TOOLS.some((tool) => tool.id === toolSlug)) {
+            setActiveSection('404');
+            applySEO('404');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+          }
+          setActiveToolId(toolSlug);
+          applySEO(toolSlug);
+        } else if (fullHash === 'gst-calculator') {
+          setActiveToolId('gst-calculator');
+          applySEO('gst-calculator');
+        } else {
+          applySEO('tools');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (fullHash === 'comparison') {
+        setActiveSection('comparison');
+        applySEO('comparison');
+        setTimeout(() => scrollToTarget('comparison'), 50);
+      } else if (fullHash === 'faq') {
+        setActiveSection('faq');
+        applySEO('faq');
+        setTimeout(() => scrollToTarget('faq'), 50);
+      } else if (fullHash === 'download' || fullHash === 'downloads') {
+        setActiveSection('product');
+        applySEO('home');
+        const detected = detectDeviceOS();
+        setDownloadModalPlatform(detected);
+      } else if (fullHash === 'product' || fullHash === '' || fullHash === 'home') {
+        setActiveSection('product');
+        applySEO('home');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Unknown hash
+        setActiveSection('404');
+        applySEO('404');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    window.addEventListener('popstate', handleHash);
+    return () => {
+      window.removeEventListener('hashchange', handleHash);
+      window.removeEventListener('popstate', handleHash);
+    };
+  }, []);
+
+  const handleNavigate = (sectionId) => {
+    setActiveSection(sectionId);
+
+    if (sectionId === 'product') {
+      window.history.pushState(null, '', '/');
+      applySEO('home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === 'privacy') {
+      window.history.pushState(null, '', '/privacy');
+      applySEO('privacy');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === 'terms') {
+      window.history.pushState(null, '', '/terms');
+      applySEO('terms');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === 'tools') {
+      window.history.pushState(null, '', '#tools');
+      applySEO('tools');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === '404') {
+      window.history.pushState(null, '', '#404');
+      applySEO('404');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === 'features') {
+      window.history.pushState(null, '', '#features');
+      applySEO('features');
+      const el = document.getElementById(sectionId);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+    } else if (sectionId === 'comparison') {
+      window.history.pushState(null, '', '#comparison');
+      applySEO('comparison');
+      const el = document.getElementById(sectionId);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+    } else if (sectionId === 'faq') {
+      window.history.pushState(null, '', '#faq');
+      applySEO('faq');
+      const el = document.getElementById(sectionId);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+    } else {
+      window.history.pushState(null, '', `#${sectionId}`);
+      applySEO(sectionId);
+      const el = document.getElementById(sectionId);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handleOpenDownloadModal = (platformToDownload) => {
+    const target = platformToDownload || activeOS;
+    if (target?.isMobileFallback) {
+      document.getElementById('platform-selector')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    setDownloadModalPlatform(target);
+    trackAnalyticsEvent('open_download_modal', {
+      platform: target?.id || 'unknown',
+      platform_name: target?.name || 'unknown',
+    });
+  };
+
+  const handleSelectOS = (osId) => {
+    if (PLATFORM_DOWNLOADS[osId]) {
+      setActiveOS(PLATFORM_DOWNLOADS[osId]);
+    }
+  };
+
+  return (
+    <div className="min-h-screen w-full m-0 p-0 flex flex-col justify-between bg-white text-[#0f172a] relative">
+
+      {/* Sticky Edge-to-Edge Navbar */}
+      <Navbar
+        currentPage={activeSection}
+        onNavigate={handleNavigate}
+        activeOS={activeOS}
+        onDirectDownload={handleOpenDownloadModal}
+      />
+
+      {/* Main Content */}
+      <main className="w-full flex-1">
+        {activeSection === '404' ? (
+          /* 404 Page Not Found */
+          <NotFound onNavigate={handleNavigate} />
+        ) : activeSection === 'privacy' ? (
+          /* Dedicated Standalone Privacy Policy Page */
+          <PrivacyPage onNavigate={handleNavigate} />
+        ) : activeSection === 'terms' ? (
+          /* Dedicated Standalone Terms of Service Page */
+          <TermsPage onNavigate={handleNavigate} />
+        ) : activeSection === 'tools' ? (
+          /* Dedicated Finance, Tax & Payroll Tools Hub */
+          <FinanceToolsDashboard
+            initialToolId={activeToolId}
+            onDirectDownload={() => handleOpenDownloadModal()}
+            onNavigate={handleNavigate}
+          />
+        ) : (
+          /* Landing Page */
+          <>
+            {/* 1. Hero Overview */}
+            <Hero
+              activeOS={activeOS}
+              onSelectOS={handleSelectOS}
+              onDirectDownload={handleOpenDownloadModal}
+            />
+
+            {/* 2. Core Capabilities Bento Grid */}
+            <FeatureGrid />
+
+            {/* 3. Free Tools Teaser Banner */}
+            <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+              <div className="bg-gradient-to-r from-purple-50 via-white to-purple-50/50 border border-purple-200/80 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
+                <div className="flex items-center gap-4">
+                  <div className="size-11 rounded-xl bg-[#8646F4] text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <CalculatorIcon className="size-5 text-white" />
+                  </div>
+                  <div>
+                    <strong className="block text-slate-900 text-sm sm:text-base font-bold font-heading">
+                      Free Finance, Tax &amp; Payroll Suite
+                    </strong>
+                    <span className="text-xs text-slate-600">
+                      India GST, Income Tax (FY 25–26), Payslip Generator, UK &amp; UAE VAT, HRA, and Gratuity tools.
+                    </span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleNavigate('tools')}
+                  className="py-3 px-6 bg-[#8646F4] hover:bg-[#7234de] text-white font-bold text-xs sm:text-sm rounded-xl transition-all whitespace-nowrap shadow-sm cursor-pointer"
+                >
+                  Explore Free Tools Suite →
+                </button>
+              </div>
+            </section>
+
+            {/* 4. Frequently Asked Questions */}
+            <SupportSection />
+          </>
+        )}
+      </main>
+
+      {/* Footer (Rendered on Homepage and Content views, not in the fixed full-height app dashboard) */}
+      {activeSection !== 'tools' && (
+        <Footer
+          onNavigate={handleNavigate}
+          onOpenTerms={() => setLegalModalType('terms')}
+          onOpenPrivacy={() => setLegalModalType('privacy')}
+          onDirectDownload={() => handleOpenDownloadModal()}
+        />
+      )}
+
+      {/* Direct Download Support & Install Modal */}
+      {downloadModalPlatform && (
+        <DownloadModal
+          platform={downloadModalPlatform}
+          onClose={() => setDownloadModalPlatform(null)}
+        />
+      )}
+
+      {/* Legal Modal (Terms of Service / Privacy Policy) */}
+      {legalModalType && (
+        <LegalModal
+          type={legalModalType}
+          onClose={() => {
+              setLegalModalType(null);
+            if (window.location.hash === '#terms' || window.location.hash === '#privacy') {
+              window.history.pushState(null, '', window.location.pathname + window.location.search);
+              const sec = window.location.pathname.includes('privacy') ? 'privacy' : window.location.pathname.includes('terms') ? 'terms' : 'home';
+              applySEO(sec);
+            }
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+export default App;

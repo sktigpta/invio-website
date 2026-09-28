@@ -1,0 +1,111 @@
+/**
+ * OS and Direct Download Utility for Invio
+ * Handles in-browser direct downloads without redirecting to external GitHub pages.
+ * Supports both local server binary streaming and direct GitHub release assets.
+ */
+
+export const APP_VERSION = import.meta.env?.VITE_APP_VERSION || '0.1.0';
+
+const ENV_API_URL = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL
+  : '';
+
+export const API_BASE_URL = ENV_API_URL
+  || (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:5000'
+    : 'https://api.invio.timrio.com');
+
+export const PLATFORM_DOWNLOADS = {
+  mac: {
+    id: 'mac',
+    name: 'macOS',
+    shortName: 'Mac',
+    badge: 'Apple Mac (All Models)',
+    extension: '.dmg',
+    filename: `Invio-${APP_VERSION}-mac-arm64.dmg`,
+    downloadEndpoint: `${API_BASE_URL}/api/download?platform=mac`,
+    archLabel: 'Mac Installer (.dmg)',
+    minRequirement: 'macOS 11.0 or later',
+    sizeEstimate: '119 MB',
+    installInstruction: 'Open the downloaded Invio file (.dmg) and drag the Invio icon into your Applications folder. Open Invio to start billing.',
+    securityTip: 'On first launch, if macOS asks for confirmation, simply click "Open" to start billing.',
+  },
+  windows: {
+    id: 'windows',
+    name: 'Windows',
+    shortName: 'Windows',
+    badge: 'Windows 10 / 11',
+    extension: '.exe',
+    filename: `Invio-${APP_VERSION}-win-x64.exe`,
+    downloadEndpoint: `${API_BASE_URL}/api/download?platform=windows`,
+    archLabel: 'Windows Setup (.exe)',
+    minRequirement: 'Windows 10 or Windows 11',
+    sizeEstimate: '99 MB',
+    installInstruction: `Double-click the downloaded setup file (Invio-${APP_VERSION}-win-x64.exe) and follow the quick 1-step installer`,
+    securityTip: 'If Windows shows "Windows protected your PC", click "More info" and then click "Run anyway".',
+  },
+  linux: {
+    id: 'linux',
+    name: 'Linux',
+    shortName: 'Linux',
+    badge: 'Ubuntu, Debian, Fedora & Linux',
+    extension: '.AppImage',
+    filename: `Invio-${APP_VERSION}-linux-x64.AppImage`,
+    downloadEndpoint: `${API_BASE_URL}/api/download?platform=linux`,
+    archLabel: 'Linux Package (.AppImage)',
+    minRequirement: 'Standard 64-bit Linux',
+    sizeEstimate: '124 MB',
+    installInstruction: 'Right-click the downloaded AppImage file > Properties > Permissions > Enable "Allow executing file as program", then double-click to launch.',
+    securityTip: 'Works completely standalone without extra setup.',
+  },
+};
+
+/**
+ * Detect client operating system accurately
+ */
+export function detectDeviceOS() {
+  if (typeof window === 'undefined') {
+    return PLATFORM_DOWNLOADS.mac;
+  }
+
+  const userAgent = (navigator.userAgent || navigator.vendor || window.opera || '').toLowerCase();
+  const platform = (navigator.platform || '').toLowerCase();
+
+  const isWindows = platform.includes('win') || userAgent.includes('windows') || userAgent.includes('win32') || userAgent.includes('win64');
+  if (isWindows) return PLATFORM_DOWNLOADS.windows;
+
+  const isMac = platform.startsWith('mac') || userAgent.includes('macintosh') || userAgent.includes('mac os x') || (platform === 'macintel' && navigator.maxTouchPoints > 1);
+  if (isMac) return PLATFORM_DOWNLOADS.mac;
+
+  const isLinux = (platform.includes('linux') || userAgent.includes('linux')) && !userAgent.includes('android');
+  if (isLinux) return PLATFORM_DOWNLOADS.linux;
+
+  if (userAgent.includes('android') || userAgent.includes('iphone') || userAgent.includes('ipad')) {
+    return { id: 'mobile', name: 'Mobile', shortName: 'Mobile', isMobileFallback: true, downloadEndpoint: '' };
+  }
+
+  return PLATFORM_DOWNLOADS.mac;
+}
+
+/**
+ * Trigger direct file download through the backend API.
+ * Uses window.open so cross-origin Content-Disposition/CORS can't silently fail
+ * (an <a download> is ignored cross-origin and target=_blank contradicts it).
+ */
+export function triggerDirectDownload(platformMeta) {
+  const target = platformMeta || PLATFORM_DOWNLOADS.mac;
+  if (target.isMobileFallback || target.id === 'mobile') return null;
+  const targetUrl = target.downloadEndpoint || `${API_BASE_URL}/api/download?platform=${encodeURIComponent(target.id || 'mac')}`;
+  try {
+    const a = document.createElement('a');
+    a.href = targetUrl;
+    a.rel = 'noopener noreferrer';
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } catch {
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+  }
+  return targetUrl;
+}
