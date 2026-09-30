@@ -1,5 +1,8 @@
 import { Button } from './Button';
 import { AppleIcon, WindowsIcon, LinuxIcon } from './Icons';
+import { onRadioGroupKeyDown, radioTabIndex } from '../utils/a11y';
+
+const OS_IDS = ['mac', 'windows', 'linux'];
 
 export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
   const getOsIcon = (id) => {
@@ -67,13 +70,13 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
         {/* Platform Selector */}
         <div id="platform-selector" className="mt-5 flex flex-col items-center gap-1.5 text-xs font-medium">
           <span className="text-slate-400 text-[11px] uppercase tracking-wider font-semibold">Available on:</span>
-          <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100/70 p-1.5 rounded-[18px] border border-slate-200/70 text-slate-600 max-w-full overflow-x-auto" role="radiogroup" aria-label="Select download platform">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100/70 p-1.5 rounded-[18px] border border-slate-200/70 text-slate-600 max-w-full overflow-x-auto" role="radiogroup" aria-label="Select download platform" onKeyDown={(e) => onRadioGroupKeyDown(e, OS_IDS, activeOS.id, onSelectOS)}>
             <button
               type="button"
               onClick={() => onSelectOS('mac')}
               role="radio"
               aria-checked={activeOS.id === 'mac'}
-              aria-pressed={activeOS.id === 'mac'}
+              tabIndex={radioTabIndex('mac', activeOS.id)}
               className={`px-3 py-1 rounded-[12px] cursor-pointer flex items-center gap-1.5 transition-all shrink-0 ${activeOS.id === 'mac' ? 'bg-white font-bold text-[#8646F4] shadow-sm' : 'hover:text-slate-900'}`}
             >
               <AppleIcon className="size-3.5" />
@@ -84,7 +87,7 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
               onClick={() => onSelectOS('windows')}
               role="radio"
               aria-checked={activeOS.id === 'windows'}
-              aria-pressed={activeOS.id === 'windows'}
+              tabIndex={radioTabIndex('windows', activeOS.id)}
               className={`px-3 py-1 rounded-[12px] cursor-pointer flex items-center gap-1.5 transition-all shrink-0 ${activeOS.id === 'windows' ? 'bg-white font-bold text-[#8646F4] shadow-sm' : 'hover:text-slate-900'}`}
             >
               <WindowsIcon className="size-3.5" />
@@ -95,7 +98,7 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
               onClick={() => onSelectOS('linux')}
               role="radio"
               aria-checked={activeOS.id === 'linux'}
-              aria-pressed={activeOS.id === 'linux'}
+              tabIndex={radioTabIndex('linux', activeOS.id)}
               className={`px-3 py-1 rounded-[12px] cursor-pointer flex items-center gap-1.5 transition-all shrink-0 ${activeOS.id === 'linux' ? 'bg-white font-bold text-[#8646F4] shadow-sm' : 'hover:text-slate-900'}`}
             >
               <LinuxIcon className="size-3.5" />

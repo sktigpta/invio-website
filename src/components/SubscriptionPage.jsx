@@ -6,6 +6,7 @@ import {
   loadRazorpayCheckout,
   openRazorpayCheckout,
 } from '../services/paymentService';
+import { onRadioGroupKeyDown, radioTabIndex } from '../utils/a11y';
 
 /**
  * Standalone billing page (`/subscription`). Plan pricing comes from the
@@ -210,6 +211,7 @@ export function SubscriptionPage({ onNavigate, onDirectDownload }) {
               className="inline-flex items-center gap-1 bg-slate-100 p-1 rounded-full border border-slate-200"
               role="radiogroup"
               aria-label="Billing period"
+              onKeyDown={(e) => onRadioGroupKeyDown(e, ['monthly', 'yearly'], validity, setValidity)}
             >
               {['monthly', 'yearly'].map((term) => (
                 <button
@@ -217,6 +219,7 @@ export function SubscriptionPage({ onNavigate, onDirectDownload }) {
                   type="button"
                   role="radio"
                   aria-checked={validity === term}
+                  tabIndex={radioTabIndex(term, validity)}
                   onClick={() => setValidity(term)}
                   className={`px-5 py-1.5 rounded-full text-sm font-semibold transition-all cursor-pointer ${
                     validity === term ? 'bg-white text-[#8646F4] shadow-sm' : 'text-slate-500 hover:text-slate-900'

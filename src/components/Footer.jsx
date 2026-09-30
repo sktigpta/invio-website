@@ -117,7 +117,7 @@ export function Footer({ onNavigate, onDirectDownload }) {
 
         {/* Bottom copyright */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-          <p>&copy; 2026 Invio by Timrio. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Invio by Timrio. All rights reserved.</p>
           <div className="flex items-center gap-3 text-[11px] text-slate-400">
             <a href="mailto:support@timrio.com" className="hover:text-white transition-colors">
               support@timrio.com

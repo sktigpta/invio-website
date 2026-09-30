@@ -79,6 +79,9 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
     setSelectedToolId(toolId);
     setMobileMenuOpen(false);
     window.history.pushState(null, '', `#tools/${encodeURIComponent(toolId)}`);
+    // pushState doesn't fire hashchange — notify the App router so the URL,
+    // SEO tags and back-button behavior stay in sync with the visible tool.
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
   const renderActiveToolPanel = () => {

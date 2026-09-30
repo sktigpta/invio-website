@@ -42,8 +42,13 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
     if (!mobileMenuOpen) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [mobileMenuOpen]);
 
@@ -151,6 +156,8 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               className="p-1.5 text-slate-800 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav"
             >
               {mobileMenuOpen ? (
                 <svg className="size-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -277,6 +284,8 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               className="p-2 text-slate-800 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav"
             >
               {mobileMenuOpen ? (
                 <svg className="size-6" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -294,7 +303,7 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
 
       {/* Mobile Drawer (matching Timrio mobile menu pattern) */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 top-[60px] bg-white z-[999] md:hidden overflow-y-auto border-t border-slate-100 flex flex-col h-[calc(100vh-60px)]">
+        <div id="mobile-nav" role="dialog" aria-modal="true" aria-label="Site navigation" className="fixed inset-0 top-[60px] bg-white z-[999] md:hidden overflow-y-auto border-t border-slate-100 flex flex-col h-[calc(100vh-60px)]">
           <nav className="flex flex-col p-6 gap-6 relative z-[1000]">
             <button
               type="button"

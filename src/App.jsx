@@ -7,7 +7,6 @@ import { FeatureGrid } from './components/FeatureGrid';
 import { SupportSection } from './components/SupportSection';
 import { Footer } from './components/Footer';
 import { DownloadModal } from './components/DownloadModal';
-import { LegalModal } from './components/LegalModal';
 import { NotFound } from './components/NotFound';
 import { PrivacyPage } from './components/PrivacyPage';
 import { TermsPage } from './components/TermsPage';
@@ -21,7 +20,6 @@ export function App() {
   const [activeToolId, setActiveToolId] = useState('gst-calculator');
   const [activeOS, setActiveOS] = useState(() => detectDeviceOS());
   const [downloadModalPlatform, setDownloadModalPlatform] = useState(null);
-  const [legalModalType, setLegalModalType] = useState(null);
 
   useEffect(() => {
     const scrollToTarget = (id) => {
@@ -315,8 +313,6 @@ export function App() {
       {activeSection !== 'tools' && (
         <Footer
           onNavigate={handleNavigate}
-          onOpenTerms={() => setLegalModalType('terms')}
-          onOpenPrivacy={() => setLegalModalType('privacy')}
           onDirectDownload={() => handleOpenDownloadModal()}
         />
       )}
@@ -326,21 +322,6 @@ export function App() {
         <DownloadModal
           platform={downloadModalPlatform}
           onClose={() => setDownloadModalPlatform(null)}
-        />
-      )}
-
-      {/* Legal Modal (Terms of Service / Privacy Policy) */}
-      {legalModalType && (
-        <LegalModal
-          type={legalModalType}
-          onClose={() => {
-              setLegalModalType(null);
-            if (window.location.hash === '#terms' || window.location.hash === '#privacy') {
-              window.history.pushState(null, '', window.location.pathname + window.location.search);
-              const sec = window.location.pathname.includes('privacy') ? 'privacy' : window.location.pathname.includes('terms') ? 'terms' : 'home';
-              applySEO(sec);
-            }
-          }}
         />
       )}
     </div>
