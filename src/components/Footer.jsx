@@ -12,7 +12,7 @@ export function Footer({ onNavigate, onDirectDownload }) {
               aria-label="Invio - Home"
             >
               <img
-                src="./appLogo.png"
+                src="/appLogo.png"
                 alt="Invio Logo"
                 className="size-8 object-contain transition-transform duration-200 group-hover:scale-105 shrink-0"
                 width="32"
@@ -71,6 +71,13 @@ export function Footer({ onNavigate, onDirectDownload }) {
               className="hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0"
             >
               FAQ
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('subscription')}
+              className="hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0"
+            >
+              Pricing
             </button>
             <a
               href="/privacy"

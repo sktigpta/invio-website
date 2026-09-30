@@ -3,7 +3,7 @@ import { useState } from 'react';
 const FAQS = [
   {
     q: 'Is Invio really free? Are there any hidden fees or subscriptions?',
-    a: 'Yes, 100%! Invio is completely free to download and use on your computer. You get full access to offline billing, GST calculations, thermal receipt printing, barcode scanning, stock tracking, and sales reports with zero subscriptions or invoice limits.'
+    a: 'The Free plan is 100% free forever: download the app and use core offline billing, GST calculations, A4 printing, inventory, customers, expenses and basic reports with no hidden fees. An optional Plus subscription unlocks thermal receipt printing, email & WhatsApp dispatch, POS display, backups and priority support — see the Pricing page for current plans.'
   },
   {
     q: 'Does Invio work without an internet connection?',

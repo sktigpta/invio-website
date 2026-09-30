@@ -29,19 +29,19 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
         {/* Key Highlights */}
         <div className="mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-semibold text-slate-700 max-w-3xl">
           <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200/80 px-3 py-1 rounded-full shadow-none">
-            <span className="text-emerald-500 font-bold text-sm">✓</span>
+            <span aria-hidden="true" className="text-emerald-500 font-bold text-sm">✓</span>
             <span>Works 100% Offline</span>
           </div>
           <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200/80 px-3 py-1 rounded-full shadow-none">
-            <span className="text-emerald-500 font-bold text-sm">✓</span>
+            <span aria-hidden="true" className="text-emerald-500 font-bold text-sm">✓</span>
             <span>Automated GST (CGST/SGST/IGST)</span>
           </div>
           <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200/80 px-3 py-1 rounded-full shadow-none">
-            <span className="text-emerald-500 font-bold text-sm">✓</span>
+            <span aria-hidden="true" className="text-emerald-500 font-bold text-sm">✓</span>
             <span>2&quot; &amp; 3&quot; Thermal Receipts</span>
           </div>
           <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200/80 px-3 py-1 rounded-full shadow-none">
-            <span className="text-emerald-500 font-bold text-sm">✓</span>
+            <span aria-hidden="true" className="text-emerald-500 font-bold text-sm">✓</span>
             <span>Barcode Scanner Ready</span>
           </div>
         </div>
@@ -67,10 +67,12 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
         {/* Platform Selector */}
         <div id="platform-selector" className="mt-5 flex flex-col items-center gap-1.5 text-xs font-medium">
           <span className="text-slate-400 text-[11px] uppercase tracking-wider font-semibold">Available on:</span>
-          <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100/70 p-1.5 rounded-[18px] border border-slate-200/70 text-slate-600 max-w-full overflow-x-auto">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100/70 p-1.5 rounded-[18px] border border-slate-200/70 text-slate-600 max-w-full overflow-x-auto" role="radiogroup" aria-label="Select download platform">
             <button
               type="button"
               onClick={() => onSelectOS('mac')}
+              role="radio"
+              aria-checked={activeOS.id === 'mac'}
               aria-pressed={activeOS.id === 'mac'}
               className={`px-3 py-1 rounded-[12px] cursor-pointer flex items-center gap-1.5 transition-all shrink-0 ${activeOS.id === 'mac' ? 'bg-white font-bold text-[#8646F4] shadow-sm' : 'hover:text-slate-900'}`}
             >
@@ -80,6 +82,8 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
             <button
               type="button"
               onClick={() => onSelectOS('windows')}
+              role="radio"
+              aria-checked={activeOS.id === 'windows'}
               aria-pressed={activeOS.id === 'windows'}
               className={`px-3 py-1 rounded-[12px] cursor-pointer flex items-center gap-1.5 transition-all shrink-0 ${activeOS.id === 'windows' ? 'bg-white font-bold text-[#8646F4] shadow-sm' : 'hover:text-slate-900'}`}
             >
@@ -89,6 +93,8 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
             <button
               type="button"
               onClick={() => onSelectOS('linux')}
+              role="radio"
+              aria-checked={activeOS.id === 'linux'}
               aria-pressed={activeOS.id === 'linux'}
               className={`px-3 py-1 rounded-[12px] cursor-pointer flex items-center gap-1.5 transition-all shrink-0 ${activeOS.id === 'linux' ? 'bg-white font-bold text-[#8646F4] shadow-sm' : 'hover:text-slate-900'}`}
             >
@@ -107,7 +113,7 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
           <div className="w-full squircle-window bg-slate-950 text-left border border-slate-800 shadow-2xl">
             {/* Window titlebar - 3 traffic light buttons + title */}
             <div className="flex items-center justify-between px-4 py-3 bg-slate-900/95 border-b border-slate-800">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2" aria-hidden="true">
                 <span className="size-2.5 rounded-full bg-[#ff5f56]" />
                 <span className="size-2.5 rounded-full bg-[#ffbd2e]" />
                 <span className="size-2.5 rounded-full bg-[#27c93f]" />
@@ -118,7 +124,7 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
 
             {/* Application Screenshot */}
             <img
-              src="./screenshots/dashboard.png"
+              src="/screenshots/dashboard.png"
               alt="Invio Desktop Application Billing Interface"
               className="w-full h-auto object-cover block"
               loading="eager"

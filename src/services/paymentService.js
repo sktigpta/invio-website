@@ -3,9 +3,10 @@ import { API_BASE_URL } from '../utils/osDetector';
 const RAZORPAY_CHECKOUT_SRC = 'https://checkout.razorpay.com/v1/checkout.js';
 
 /**
- * Razorpay-only support payment service for voluntary Invio contributions.
- * Backend endpoints: `/api/payment/create-order`, `/api/payment/verify`,
- * `/api/payment/order-status/:orderId`. There is no UPI-direct fallback —
+ * Razorpay payment service for Invio plan subscriptions.
+ * Backend endpoints: `/api/payment/create-subscription-order`,
+ * `/api/payment/verify`, `/api/payment/order-status/:orderId`,
+ * `/api/account/plans`. There is no UPI-direct fallback —
  * Razorpay Checkout itself supports UPI, cards, netbanking and wallets.
  */
 
@@ -17,42 +18,76 @@ function apiBase() {
   }
 }
 
-export async function createPaymentOrder(amount = 51) {
-  const sanitizedAmount = Math.max(21, Math.min(100000, Math.round(Number(amount) || 51)));
+/**
+ * Fetches public plan pricing from the backend catalog
+ * (`GET /api/account/plans`). This is the single source of truth for
+ * subscription prices — the pricing page never hardcodes amounts and falls
+ * back to bundled defaults only when the API is unreachable.
+ */
+export async function fetchSubscriptionPlans() {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 8000);
   try {
-    const response = await fetch(`${apiBase()}/api/payment/create-order`, {
+    const response = await fetch(`${apiBase()}/api/account/plans`, {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    const data = await response.json().catch(() => ({}));
+    if (response.ok && data && data.success && Array.isArray(data.plans)) {
+      return { success: true, plans: data.plans };
+    }
+    return { success: false, error: (data && data.error) || 'Could not load plans.' };
+  } catch {
+    return { success: false, error: 'Could not reach the server.' };
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+/**
+ * Creates a Razorpay order for a plan subscription. The chargeable amount is
+ * resolved server-side from the plan catalog — only `{ planId, validity }`
+ * (`monthly` | `yearly`) is sent, never an amount.
+ */
+export async function createSubscriptionOrder(planId, validity) {
+  const plan = String(planId || '').trim().toLowerCase();
+  const term = String(validity || '').trim().toLowerCase();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await fetch(`${apiBase()}/api/payment/create-subscription-order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: JSON.stringify({ amount: sanitizedAmount }),
+      body: JSON.stringify({ planId: plan, validity: term }),
       signal: controller.signal,
     });
     const data = await response.json().catch(() => ({}));
     if (response.ok && data && data.success && data.order_id && data.key_id) {
       return {
         success: true,
-        amount: sanitizedAmount,
-        amountPaise: data.amount || sanitizedAmount * 100,
+        amount: data.amount_rupees,
+        amountPaise: data.amount,
         currency: data.currency || 'INR',
         orderId: data.order_id,
         keyId: data.key_id,
+        plan: data.plan || plan,
+        validity: data.validity || term,
         source: 'razorpay',
       };
     }
     return {
       success: false,
-      amount: sanitizedAmount,
-      error: (data && data.error) || 'Online payments are unavailable right now. You can still download Invio.',
+      error: (data && data.error) || 'Could not start the subscription checkout. Please try again.',
+      code: data && data.code,
     };
   } catch {
     return {
       success: false,
-      amount: sanitizedAmount,
-      error: 'Could not reach the payment server. You can still download Invio.',
+      error: 'Could not reach the payment server. Check your connection and try again.',
     };
   } finally {
     clearTimeout(timeoutId);
@@ -145,7 +180,7 @@ export function loadRazorpayCheckout() {
  * `onSuccess` receives { orderId, paymentId, signature } from Checkout's
  * handler — the caller must still pass it to `verifyPayment`.
  */
-export function openRazorpayCheckout({ keyId, orderId, amountPaise, currency = 'INR', amountRupees, onSuccess, onDismiss, onError }) {
+export function openRazorpayCheckout({ keyId, orderId, amountPaise, currency = 'INR', amountRupees, description, onSuccess, onDismiss, onError }) {
   if (!window.Razorpay) {
     onError?.(new Error('Payment window could not be loaded. Check your connection and try again.'));
     return;
@@ -157,7 +192,7 @@ export function openRazorpayCheckout({ keyId, orderId, amountPaise, currency = '
       amount: amountPaise,
       currency,
       name: 'Invio',
-      description: `Support Invio development — ₹${amountRupees}`,
+      description: description || `Invio Plus subscription — ₹${amountRupees}`,
       theme: { color: '#8646F4' },
       handler(response) {
         onSuccess?.({
@@ -177,11 +212,4 @@ export function openRazorpayCheckout({ keyId, orderId, amountPaise, currency = '
   } catch (err) {
     onError?.(err instanceof Error ? err : new Error('Could not open the payment window.'));
   }
-}
-
-/**
- * Legacy support function for existing components
- */
-export async function fetchSupportQr(amount = 51) {
-  return createPaymentOrder(amount);
 }

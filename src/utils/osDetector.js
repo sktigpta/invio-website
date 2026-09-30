@@ -4,7 +4,7 @@
  * Supports both local server binary streaming and direct GitHub release assets.
  */
 
-export const APP_VERSION = import.meta.env.VITE_APP_VERSION;
+export const APP_VERSION = import.meta.env.VITE_APP_VERSION || '0.1.0';
 
 const ENV_API_URL = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL
@@ -74,23 +74,26 @@ export function detectDeviceOS() {
   const isWindows = platform.includes('win') || userAgent.includes('windows') || userAgent.includes('win32') || userAgent.includes('win64');
   if (isWindows) return PLATFORM_DOWNLOADS.windows;
 
-  const isMac = platform.startsWith('mac') || userAgent.includes('macintosh') || userAgent.includes('mac os x') || (platform === 'macintel' && navigator.maxTouchPoints > 1);
+  // iPadOS 13+ in desktop mode reports a "Macintosh" user agent. Detect touch-capable
+  // iPads first so they get the mobile fallback instead of the Mac installer.
+  const isIPad = userAgent.includes('ipad') || (userAgent.includes('macintosh') && navigator.maxTouchPoints > 1);
+  if (isIPad || userAgent.includes('android') || userAgent.includes('iphone')) {
+    return { id: 'mobile', name: 'Mobile', shortName: 'Mobile', isMobileFallback: true, downloadEndpoint: '' };
+  }
+
+  const isMac = platform.startsWith('mac') || userAgent.includes('macintosh') || userAgent.includes('mac os x');
   if (isMac) return PLATFORM_DOWNLOADS.mac;
 
   const isLinux = (platform.includes('linux') || userAgent.includes('linux')) && !userAgent.includes('android');
   if (isLinux) return PLATFORM_DOWNLOADS.linux;
-
-  if (userAgent.includes('android') || userAgent.includes('iphone') || userAgent.includes('ipad')) {
-    return { id: 'mobile', name: 'Mobile', shortName: 'Mobile', isMobileFallback: true, downloadEndpoint: '' };
-  }
 
   return PLATFORM_DOWNLOADS.mac;
 }
 
 /**
  * Trigger direct file download through the backend API.
- * Uses window.open so cross-origin Content-Disposition/CORS can't silently fail
- * (an <a download> is ignored cross-origin and target=_blank contradicts it).
+ * Opens the backend download URL in a new tab (cross-origin <a download> is
+ * ignored by browsers, so a plain anchor with target=_blank is used instead).
  */
 export function triggerDirectDownload(platformMeta) {
   const target = platformMeta || PLATFORM_DOWNLOADS.mac;

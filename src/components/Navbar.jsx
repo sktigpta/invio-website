@@ -10,7 +10,7 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
-      if (currentPage === 'tools' || currentPage === 'privacy' || currentPage === 'terms' || currentPage === '404') {
+      if (currentPage === 'tools' || currentPage === 'privacy' || currentPage === 'terms' || currentPage === 'subscription' || currentPage === '404') {
         setHidden(false);
         setScrolled(false);
         return;
@@ -84,7 +84,7 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               aria-label="Invio - Home"
             >
               <img
-                src="./appLogo.png"
+                src="/appLogo.png"
                 alt="Invio Logo"
                 className="size-8 object-contain transition-transform duration-200 group-hover:scale-105 shrink-0"
                 width="32"
@@ -176,7 +176,7 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               aria-label="Invio - Home"
             >
               <img
-                src="./appLogo.png"
+                src="/appLogo.png"
                 alt="Invio Logo"
                 className="size-8 object-contain transition-transform duration-200 group-hover:scale-105 shrink-0"
                 width="32"
@@ -235,6 +235,15 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
                 }`}
               >
                 Free Tools
+              </button>
+              <button
+                type="button"
+                onClick={() => handleNavClick('subscription')}
+                className={`text-[14px] font-medium transition-colors cursor-pointer bg-transparent border-0 p-0 ${
+                  currentPage === 'subscription' ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
+                }`}
+              >
+                Pricing
               </button>
               <button
                 type="button"
@@ -309,6 +318,13 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
                   className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
                 >
                   Free Tools
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNavClick('subscription')}
+                  className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
+                >
+                  Pricing
                 </button>
               </>
             )}

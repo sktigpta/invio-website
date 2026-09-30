@@ -151,6 +151,11 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
 
         {/* Tools Navigation List */}
         <div className="flex-1 overflow-y-auto p-2.5 flex flex-col gap-3">
+          {filteredCategories.length === 0 && (
+            <p role="status" className="text-xs text-slate-500 text-center px-4 py-8">
+              No tools found for “{searchQuery.trim()}”. Try a different search.
+            </p>
+          )}
           {filteredCategories.map((category) => (
             <div key={category.id}>
               <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1 px-2">

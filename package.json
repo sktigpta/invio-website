@@ -14,13 +14,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node -e \"const fs=require('fs'); if(fs.existsSync('dist')) fs.rmSync('dist', {recursive:true, force:true})\"",
+    "prebuild": "node -e \"import('fs').then((fs) => { if (fs.existsSync('dist')) fs.rmSync('dist', { recursive: true, force: true }); })\"",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "release:patch": "npm version patch --no-git-tag-version && git push origin main",
+    "release:minor": "npm version minor --no-git-tag-version && git push origin main",
+    "release:major": "npm version major --no-git-tag-version && git push origin main"
   },
   "dependencies": {
-    "qrcode": "^1.5.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

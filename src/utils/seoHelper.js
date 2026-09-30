@@ -45,6 +45,13 @@ export const SEO_CONFIGS = {
     url: 'https://invio.timrio.com/terms',
     canonical: 'https://invio.timrio.com/terms',
   },
+  subscription: {
+    title: 'Pricing — Invio Free vs Plus Subscription | Invio by Timrio',
+    description: 'Invio plans: Free forever for core offline billing, Plus for thermal printing, email & WhatsApp dispatch, POS display and backups. Secure Razorpay checkout with UPI, cards and netbanking.',
+    url: 'https://invio.timrio.com/subscription',
+    canonical: 'https://invio.timrio.com/subscription',
+    keywords: 'Invio pricing, Invio Plus subscription, billing software subscription India, buy Invio Plus',
+  },
   tools: {
     title: 'Free Financial, Tax & Payroll Calculators Suite | Invio by Timrio',
     description: 'Access Invio suite of 100% free online business tools: India GST calculator, FY 25-26 Income Tax calculator, UK and UAE VAT calculators, Payslip generator, HRA exemption, and Gratuity calculators.',

@@ -32,4 +32,6 @@ jobs:
 
       - name: Build website
         run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL || 'https://api.invio.timrio.com' }}
 

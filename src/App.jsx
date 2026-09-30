@@ -11,6 +11,7 @@ import { LegalModal } from './components/LegalModal';
 import { NotFound } from './components/NotFound';
 import { PrivacyPage } from './components/PrivacyPage';
 import { TermsPage } from './components/TermsPage';
+import { SubscriptionPage } from './components/SubscriptionPage';
 import { FinanceToolsDashboard } from './components/FinanceToolsDashboard';
 import { CalculatorIcon } from './components/tools/ToolIcons';
 import { ALL_TOOLS } from './components/tools/toolsData';
@@ -54,6 +55,14 @@ export function App() {
       if (pathname === '/terms' || pathname === '/terms-of-service' || pathname === '/terms.html' || fullHash === 'terms') {
         setActiveSection('terms');
         applySEO('terms');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // Standalone subscription / billing page
+      if (pathname === '/subscription' || pathname === '/pricing' || fullHash === 'subscription' || fullHash === 'pricing') {
+        setActiveSection('subscription');
+        applySEO('subscription');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
@@ -160,6 +169,10 @@ export function App() {
       window.history.pushState(null, '', '/terms');
       applySEO('terms');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === 'subscription') {
+      window.history.pushState(null, '', '/subscription');
+      applySEO('subscription');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (sectionId === 'tools') {
       window.history.pushState(null, '', '#tools');
       applySEO('tools');
@@ -240,6 +253,12 @@ export function App() {
         ) : activeSection === 'terms' ? (
           /* Dedicated Standalone Terms of Service Page */
           <TermsPage onNavigate={handleNavigate} />
+        ) : activeSection === 'subscription' ? (
+          /* Dedicated Subscription / Billing Page */
+          <SubscriptionPage
+            onNavigate={handleNavigate}
+            onDirectDownload={() => handleOpenDownloadModal()}
+          />
         ) : activeSection === 'tools' ? (
           /* Dedicated Finance, Tax & Payroll Tools Hub */
           <FinanceToolsDashboard
@@ -302,7 +321,7 @@ export function App() {
         />
       )}
 
-      {/* Direct Download Support & Install Modal */}
+      {/* Direct Download & Install Modal */}
       {downloadModalPlatform && (
         <DownloadModal
           platform={downloadModalPlatform}
