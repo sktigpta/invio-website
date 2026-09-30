@@ -95,10 +95,12 @@ export function FeatureGrid() {
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
-          {/* Left Side: Sticky Intro */}
-          <div className="lg:sticky lg:top-28 flex flex-col gap-4 sm:gap-6">
-            <div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          {/* Left Side: Sticky Intro (wrapper stretches full row height so the
+              inner panel can stick while the feature cards scroll past) */}
+          <div className="relative">
+            <div className="lg:sticky lg:top-28 flex flex-col gap-4 sm:gap-6">
+              <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#8646F4] bg-purple-100/70 border border-purple-200/80 px-3 py-1 rounded-full inline-block mb-3 sm:mb-4">
                 STORE CAPABILITIES
               </span>
@@ -115,6 +117,7 @@ export function FeatureGrid() {
                 <span>Download Invio for Free</span>
                 <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
               </a>
+            </div>
             </div>
           </div>
 
