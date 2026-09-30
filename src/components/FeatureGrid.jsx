@@ -105,10 +105,10 @@ export function FeatureGrid() {
                 STORE CAPABILITIES
               </span>
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-3 sm:mb-4 font-heading text-slate-900">
-                Offline First, <span className="text-[#8646F4]">Zero Fees,</span> and Total Privacy
+                Offline First, <span className="text-[#8646F4]">Free Forever,</span> and Total Privacy
               </h2>
               <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed mb-5">
-                Unlike traditional cloud tools that require costly recurring subscriptions and constant internet access, Invio delivers lightning-fast desktop billing with total local data privacy.
+                Unlike traditional cloud tools that need costly subscriptions and constant internet, Invio starts free forever with lightning-fast desktop billing and total local data privacy — step up to Plus only when you need thermal printing, email &amp; WhatsApp dispatch, POS display or backups.
               </p>
               <a
                 href="#product"

@@ -57,7 +57,7 @@ export function LegalModal({ type, onClose }) {
           {isTerms ? 'Terms of Service' : 'Privacy Policy'}
         </h2>
         <p className="text-xs text-slate-500 mb-5">
-          Invio by Timrio &bull; Last updated September 2026 &bull; 100% Free Offline Invoice Generator
+          Invio by Timrio &bull; Last updated September 2026 &bull; Free Offline Invoice Generator
         </p>
 
         <div className="text-xs sm:text-[13px] text-slate-600 space-y-4 max-h-[60vh] overflow-y-auto pr-3 leading-relaxed border-t border-slate-100 pt-4">
@@ -94,7 +94,7 @@ export function LegalModal({ type, onClose }) {
               <div>
                 <h3 className="font-bold text-slate-900 text-sm mb-1">5. Optional Cloud &amp; Email Services</h3>
                 <p>
-                  Direct email delivery through your own configured SMTP server (Gmail, Outlook, custom domain) is completely free with no usage limits. Optional cloud relay features include a monthly free allowance as defined in your account dashboard.
+                  Direct email delivery through your own configured SMTP server (Gmail, Outlook, custom domain) is available on Plus with no per-email charge from Invio. Optional cloud relay features include a monthly free allowance as defined in your account dashboard.
                 </p>
               </div>
 

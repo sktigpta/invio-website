@@ -1,12 +1,12 @@
 # Invio by Timrio
 
-> 100% Free Offline Invoice Generator & GST Billing Software for Small Businesses, Retail Stores, and Freelancers.
+> Free Offline Invoice Generator & GST Billing Software with a free forever core plan for Small Businesses, Retail Stores, and Freelancers.
 
 Invio is a desktop application built for high-speed offline retail billing, professional GST invoicing, 58mm/80mm thermal receipt printing with dynamic UPI payment QR codes, barcode scanning, and local inventory management.
 
 ## Key Information
 - **Website**: https://invio.timrio.com/
-- **Pricing**: 100% Free (Zero monthly subscriptions, unlimited invoices)
+- **Pricing**: Free forever core plan (Free); Plus subscription unlocks thermal printing, email & WhatsApp dispatch, POS display and backups
 - **Data Architecture**: Offline-first (private local SQLite database with optional external PostgreSQL configuration)
 - **Supported Platforms**: macOS (Apple Silicon & Intel), Windows 10/11 (64-bit), Linux (AppImage & DEB)
 

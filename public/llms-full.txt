@@ -1,6 +1,6 @@
 # Invio by Timrio — Full LLM Specification & Documentation
 
-> Complete technical, functional, and architectural documentation of Invio, the 100% free offline desktop invoicing and inventory system.
+> Complete technical, functional, and architectural documentation of Invio, the offline desktop invoicing and inventory system with a free forever core plan.
 
 ---
 
@@ -8,7 +8,7 @@
 Invio is a free, privacy-first desktop software for retail shops, traders, consultants, and small business owners. Unlike cloud SaaS invoicing services that require recurring monthly fees and internet connectivity, Invio runs 100% locally on the user's computer.
 
 ### Primary Values:
-- **Zero Cost**: Completely free with unlimited invoices, products, and customers.
+- **Zero Cost to Start**: Free forever core plan for offline billing, GST invoicing, inventory, customers and basic reports.
 - **True Offline Capability**: Works without an internet connection.
 - **Hardware Integration**: Compatible with thermal receipt printers (58mm/80mm), cash drawers, and USB/Bluetooth barcode scanners.
 - **Privacy & Ownership**: All data stays stored on the user's local disk in SQLite or their self-hosted PostgreSQL database.
@@ -50,7 +50,7 @@ Invio is a free, privacy-first desktop software for retail shops, traders, consu
 ## 4. Frequently Asked Questions (FAQ)
 
 ### Is Invio really free?
-Yes. Invio is 100% free with no trial limits, invoice caps, or recurring subscription fees.
+Yes. The Free plan covers core offline billing free forever. An optional Plus subscription unlocks thermal receipt printing, email & WhatsApp dispatch, POS display, backups and priority support.
 
 ### Does Invio require an internet connection?
 No. All billing, printing, stock tracking, and receipt generation work offline. Internet is only required if you choose to email invoices via SMTP or check for app updates.

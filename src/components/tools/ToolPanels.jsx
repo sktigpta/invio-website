@@ -17,7 +17,7 @@ export function SlipPrintHeader({ title, refPrefix = 'INV', subtitle = '' }) {
     <div className="hidden print:block pb-2 mb-2 text-center font-mono">
       {/* Centered Business Header */}
       <div className="text-base font-black tracking-widest uppercase text-slate-900 leading-tight">INVIO</div>
-      <div className="text-[9px] text-slate-600 font-medium tracking-wide">100% Free Offline Invoicing &amp; Billing</div>
+      <div className="text-[9px] text-slate-600 font-medium tracking-wide">Free Offline Invoicing &amp; Billing</div>
       
       {/* Title */}
       <div className="text-[11px] font-black uppercase tracking-wider text-slate-900 mt-2 py-1 px-2 border-y border-dashed border-slate-900 inline-block w-full">

@@ -14,7 +14,7 @@ export const SEO_CONFIGS = {
   },
   features: {
     title: 'Features — Offline Invoicing, Thermal POS & Stock Tracking | Invio',
-    description: 'Explore Invio core features: GST billing with automated tax splits, 58mm/80mm thermal receipt printing with UPI QR codes, barcode scanner checkout, local SQLite data privacy, and zero recurring fees.',
+    description: 'Explore Invio core features: GST billing with automated tax splits, 58mm/80mm thermal receipt printing with UPI QR codes, barcode scanner checkout, local SQLite data privacy, and a free forever core plan.',
     url: 'https://invio.timrio.com/#features',
     canonical: 'https://invio.timrio.com/',
     keywords: 'invoice software features, thermal receipt printing, barcode scanner billing, offline SQLite billing, GST invoice maker',
