@@ -99,16 +99,36 @@ export function triggerDirectDownload(platformMeta) {
   const target = platformMeta || PLATFORM_DOWNLOADS.mac;
   if (target.isMobileFallback || target.id === 'mobile') return null;
   const targetUrl = target.downloadEndpoint || `${API_BASE_URL}/api/download?platform=${encodeURIComponent(target.id || 'mac')}`;
+
   try {
-    const a = document.createElement('a');
-    a.href = targetUrl;
-    a.rel = 'noopener noreferrer';
-    a.target = '_blank';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    // Silent background iframe download trigger - keeps the user seamlessly on the Invio webpage
+    let iframe = document.getElementById('invio-silent-downloader');
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.id = 'invio-silent-downloader';
+      iframe.style.position = 'fixed';
+      iframe.style.top = '-9999px';
+      iframe.style.left = '-9999px';
+      iframe.style.width = '1px';
+      iframe.style.height = '1px';
+      iframe.style.opacity = '0';
+      iframe.style.pointerEvents = 'none';
+      iframe.style.border = 'none';
+      iframe.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(iframe);
+    }
+    iframe.src = targetUrl;
   } catch {
-    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+    try {
+      const a = document.createElement('a');
+      a.href = targetUrl;
+      a.setAttribute('download', target.filename || 'Invio-installer');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch {
+      window.location.assign(targetUrl);
+    }
   }
   return targetUrl;
 }
