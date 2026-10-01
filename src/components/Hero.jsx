@@ -69,7 +69,7 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
 
         {/* Platform Selector */}
         <div id="platform-selector" className="mt-5 flex flex-col items-center gap-1.5 text-xs font-medium">
-          <span className="text-slate-400 text-[11px] uppercase tracking-wider font-semibold">Available on:</span>
+          <span className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">Available on:</span>
           <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100/70 p-1.5 rounded-[18px] border border-slate-200/70 text-slate-600 max-w-full overflow-x-auto" role="radiogroup" aria-label="Select download platform" onKeyDown={(e) => onRadioGroupKeyDown(e, OS_IDS, activeOS.id, onSelectOS)}>
             <button
               type="button"
@@ -129,6 +129,8 @@ export function Hero({ activeOS, onSelectOS, onDirectDownload }) {
             <img
               src="/screenshots/dashboard.png"
               alt="Invio Desktop Application Billing Interface"
+              width="1200"
+              height="750"
               className="w-full h-auto object-cover block"
               loading="eager"
               onError={(e) => {

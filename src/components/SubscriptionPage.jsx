@@ -30,7 +30,7 @@ const PLAN_BLURBS = {
 
 const PLAN_FEATURES = {
   free: [
-    'Unlimited core invoices (100/month cloud sync)',
+    'Unlimited offline invoices & billing',
     'A4 invoice printing',
     'Inventory, customers & expenses',
     'Basic sales reports',
