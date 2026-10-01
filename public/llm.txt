@@ -1,4 +1,4 @@
-# Invio by Timrio
+# Invio
 
 > Free Offline Invoice Generator & GST Billing Software with a free forever core plan for Small Businesses, Retail Stores, and Freelancers.
 

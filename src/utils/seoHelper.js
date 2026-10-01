@@ -6,21 +6,21 @@
 
 export const SEO_CONFIGS = {
   home: {
-    title: 'Invio by Timrio — Invoice Generator & GST Billing Software',
-    description: 'Invio is an offline invoice generator and billing software for shops and small businesses. Create GST invoices in seconds, print thermal receipts with UPI QR codes, scan barcodes, and track stock.',
+    title: 'Invio — Free Invoice Generator & GST Billing Software',
+    description: 'Invio is a free offline invoice generator and billing software for retail shops and small businesses. Create GST invoices in seconds, print thermal receipts with UPI QR codes, scan barcodes, and track stock.',
     url: 'https://invio.timrio.com/',
     canonical: 'https://invio.timrio.com/',
-    keywords: 'free invoice generator, invoice generator, free billing software, GST invoice generator, GST invoice maker, free invoicing software, offline invoice software, free receipt generator, thermal receipt printer software, barcode scanner billing, invoice maker for Mac, free invoice app for Windows, retail billing software, store billing app, UPI QR invoice generator, Invio, Timrio',
+    keywords: 'Invio, free invoice generator, invoice generator, free billing software, GST invoice generator, GST invoice maker, free invoicing software, offline invoice software, free receipt generator, thermal receipt printer software, barcode scanner billing, invoice maker for Mac, free invoice app for Windows, retail billing software, store billing app, UPI QR invoice generator, Timrio',
   },
   features: {
     title: 'Features — Offline Invoicing, Thermal POS & Stock Tracking | Invio',
     description: 'Explore Invio core features: GST billing with automated tax splits, 58mm/80mm thermal receipt printing with UPI QR codes, barcode scanner checkout, local SQLite data privacy, and a free forever core plan.',
     url: 'https://invio.timrio.com/#features',
     canonical: 'https://invio.timrio.com/',
-    keywords: 'invoice software features, thermal receipt printing, barcode scanner billing, offline SQLite billing, GST invoice maker',
+    keywords: 'Invio features, invoice software features, thermal receipt printing, barcode scanner billing, offline SQLite billing, GST invoice maker',
   },
   comparison: {
-    title: 'Invio vs Vyapar, myBillBook & Zoho — Offline Comparison',
+    title: 'Invio vs Vyapar, myBillBook & Zoho — Offline Comparison | Invio',
     description: 'Compare Invio with Vyapar, myBillBook, and Zoho. See why Invio’s offline-first architecture is the best choice for small retail stores and freelancers.',
     url: 'https://invio.timrio.com/#comparison',
     canonical: 'https://invio.timrio.com/',
@@ -34,30 +34,30 @@ export const SEO_CONFIGS = {
     keywords: 'Invio FAQ, GST billing questions, thermal printer setup, UPI QR invoice generator questions',
   },
   privacy: {
-    title: 'Privacy Policy — Invio by Timrio (100% Offline Data Privacy)',
-    description: 'Privacy Policy for Invio by Timrio. Offline invoice generator and billing software. Zero telemetry, no data collection, private local SQLite storage.',
+    title: 'Privacy Policy — Invio (100% Offline Data Privacy)',
+    description: 'Privacy Policy for Invio. Offline invoice generator and billing software. Zero telemetry, no data collection, private local SQLite storage.',
     url: 'https://invio.timrio.com/privacy',
     canonical: 'https://invio.timrio.com/privacy',
   },
   terms: {
-    title: 'Terms of Service — Invio by Timrio',
-    description: 'Terms of Service for Invio by Timrio. Offline invoice generator and billing software. License terms, plans, permitted use, and data ownership.',
+    title: 'Terms of Service — Invio',
+    description: 'Terms of Service for Invio. Offline invoice generator and billing software. License terms, plans, permitted use, and data ownership.',
     url: 'https://invio.timrio.com/terms',
     canonical: 'https://invio.timrio.com/terms',
   },
   subscription: {
-    title: 'Pricing — Invio Free vs Plus Subscription | Invio by Timrio',
+    title: 'Pricing — Free vs Plus Plans | Invio',
     description: 'Invio plans: Free forever for core offline billing, Plus for thermal printing, email & WhatsApp dispatch, POS display and backups. Secure Razorpay checkout with UPI, cards and netbanking.',
     url: 'https://invio.timrio.com/subscription',
     canonical: 'https://invio.timrio.com/subscription',
-    keywords: 'Invio pricing, Invio Plus subscription, billing software subscription India, buy Invio Plus',
+    keywords: 'Invio pricing, Invio Plus subscription, billing software subscription India, buy Invio Plus, Invio plans',
   },
   tools: {
-    title: 'Free Financial, Tax & Payroll Calculators Suite | Invio by Timrio',
+    title: 'Free Financial, Tax & Payroll Calculators Suite | Invio',
     description: 'Access Invio suite of 100% free online business tools: India GST calculator, FY 25-26 Income Tax calculator, UK and UAE VAT calculators, Payslip generator, HRA exemption, and Gratuity calculators.',
     url: 'https://invio.timrio.com/tools',
     canonical: 'https://invio.timrio.com/tools',
-    keywords: 'free finance tools, tax calculator, GST calculator, payslip maker, VAT calculator UK, UAE VAT calculator, HRA calculator, gratuity calculator',
+    keywords: 'Invio tools, free finance tools, tax calculator, GST calculator, payslip maker, VAT calculator UK, UAE VAT calculator, HRA calculator, gratuity calculator',
   },
   'gst-calculator': {
     title: 'Free GST Calculator Online India — Intra (CGST+SGST) & Inter (IGST) | Invio',
@@ -123,10 +123,10 @@ export const SEO_CONFIGS = {
     keywords: 'project cost estimator, freelance quote calculator, client quote generator, hourly billing estimator, budget planner',
   },
   '404': {
-    title: '404 - Page Not Found | Invio by Timrio',
-    description: 'The page or tool you are looking for does not exist on Invio by Timrio.',
+    title: '404 - Page Not Found | Invio',
+    description: 'The page or tool you are looking for does not exist on Invio.',
     url: 'https://invio.timrio.com/404',
-    canonical: 'https://invio.timrio.com/404',
+    canonical: null,
   },
 };
 
@@ -136,6 +136,7 @@ export const SEO_CONFIGS = {
  * @param {object} [customOverrides] - Any property overrides
  */
 export function applySEO(pageKeyOrConfig, customOverrides = {}) {
+  const is404 = pageKeyOrConfig === '404' || (typeof pageKeyOrConfig === 'object' && pageKeyOrConfig?.title?.includes('404'));
   const baseConfig =
     typeof pageKeyOrConfig === 'string'
       ? SEO_CONFIGS[pageKeyOrConfig] || SEO_CONFIGS.home
@@ -162,11 +163,17 @@ export function applySEO(pageKeyOrConfig, customOverrides = {}) {
     }
   };
 
-  // 2. Standard Search Meta
+  // 2. Standard Search Meta & Robots directive
   setMeta('meta[name="title"]', 'name', 'title', config.title);
   setMeta('meta[name="description"]', 'name', 'description', config.description);
   if (config.keywords) {
     setMeta('meta[name="keywords"]', 'name', 'keywords', config.keywords);
+  }
+
+  if (is404) {
+    setMeta('meta[name="robots"]', 'name', 'robots', 'noindex, nofollow');
+  } else {
+    setMeta('meta[name="robots"]', 'name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
   }
 
   // 3. Open Graph (Facebook, WhatsApp, LinkedIn)
@@ -190,15 +197,18 @@ export function applySEO(pageKeyOrConfig, customOverrides = {}) {
   );
 
   // 5. Canonical Link Element
-  const canonicalUrl = config.canonical || config.url;
-  if (canonicalUrl && typeof document !== 'undefined') {
+  const canonicalUrl = config.canonical;
+  if (typeof document !== 'undefined') {
     let canonicalEl = document.querySelector('link[rel="canonical"]');
-    if (!canonicalEl) {
-      canonicalEl = document.createElement('link');
-      canonicalEl.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonicalEl);
+    if (canonicalUrl) {
+      if (!canonicalEl) {
+        canonicalEl = document.createElement('link');
+        canonicalEl.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalEl);
+      }
+      canonicalEl.setAttribute('href', canonicalUrl);
+    } else if (canonicalEl && is404) {
+      canonicalEl.remove();
     }
-    canonicalEl.setAttribute('href', canonicalUrl);
   }
-
 }

@@ -1,4 +1,4 @@
-# Invio by Timrio — Full LLM Specification & Documentation
+# Invio — Full Specification & Architecture Documentation
 
 > Complete technical, functional, and architectural documentation of Invio, the offline desktop invoicing and inventory system with a free forever core plan.
 

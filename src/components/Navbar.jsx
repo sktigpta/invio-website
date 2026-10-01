@@ -301,9 +301,9 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
         </div>
       )}
 
-      {/* Mobile Drawer (matching Timrio mobile menu pattern) */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div id="mobile-nav" role="dialog" aria-modal="true" aria-label="Site navigation" className="fixed inset-0 top-[60px] bg-white z-[999] md:hidden overflow-y-auto border-t border-slate-100 flex flex-col h-[calc(100vh-60px)]">
+        <div id="mobile-nav" role="dialog" aria-modal="true" aria-label="Site navigation" className="fixed inset-0 top-16 bg-white z-[999] md:hidden overflow-y-auto border-t border-slate-100 flex flex-col h-[calc(100dvh-64px)]">
           <nav className="flex flex-col p-6 gap-6 relative z-[1000]">
             <button
               type="button"
@@ -312,31 +312,27 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
             >
               Home
             </button>
-            {!isToolsPage && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('features')}
-                  className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
-                >
-                  Features
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('tools')}
-                  className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
-                >
-                  Free Tools
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('subscription')}
-                  className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
-                >
-                  Pricing
-                </button>
-              </>
-            )}
+            <button
+              type="button"
+              onClick={() => handleNavClick('features')}
+              className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
+            >
+              Features
+            </button>
+            <button
+              type="button"
+              onClick={() => handleNavClick('tools')}
+              className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
+            >
+              Free Tools
+            </button>
+            <button
+              type="button"
+              onClick={() => handleNavClick('subscription')}
+              className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
+            >
+              Pricing
+            </button>
             <button
               type="button"
               onClick={() => handleNavClick('faq')}

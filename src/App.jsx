@@ -180,45 +180,42 @@ export function App() {
       window.history.pushState(null, '', '/404');
       applySEO('404');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (sectionId === 'features') {
-      window.history.pushState(null, '', '#features');
-      applySEO('features');
-      const el = document.getElementById(sectionId);
-      if (el) {
-        const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
-        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-      }
-    } else if (sectionId === 'comparison') {
-      window.history.pushState(null, '', '#comparison');
-      applySEO('comparison');
-      const el = document.getElementById(sectionId);
-      if (el) {
-        const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
-        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-      }
-    } else if (sectionId === 'faq') {
-      window.history.pushState(null, '', '#faq');
-      applySEO('faq');
-      const el = document.getElementById(sectionId);
-      if (el) {
-        const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
-        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-      }
-    } else {
-      window.history.pushState(null, '', `#${sectionId}`);
+    } else if (sectionId === 'features' || sectionId === 'faq') {
+      setActiveSection('product');
+      window.history.pushState(null, '', `/#${sectionId}`);
       applySEO(sectionId);
-      const el = document.getElementById(sectionId);
-      if (el) {
-        const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
-        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-      }
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      }, 60);
+    } else {
+      setActiveSection('product');
+      window.history.pushState(null, '', `/#${sectionId}`);
+      applySEO(sectionId);
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      }, 60);
     }
   };
 
   const handleOpenDownloadModal = (platformToDownload) => {
     const target = platformToDownload || activeOS;
     if (target?.isMobileFallback) {
-      document.getElementById('platform-selector')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (activeSection !== 'product') {
+        setActiveSection('product');
+        window.history.pushState(null, '', '/');
+        applySEO('home');
+      }
+      setTimeout(() => {
+        document.getElementById('platform-selector')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 60);
       return;
     }
     setDownloadModalPlatform(target);
