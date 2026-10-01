@@ -92,12 +92,10 @@ export function IndiaGstTool() {
 
   const copyBreakdown = async () => {
     const text = `GST Invoice Breakdown:\nBase Amount: ${formatINR(results.base)}\nGST (${rate}%): ${formatINR(results.tax)}\nTotal Invoice: ${formatINR(results.gross)}`;
-    try {
-      await navigator.clipboard.writeText(text);
+    const success = await copyText(text);
+    if (success) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* clipboard write failed */
     }
   };
 
@@ -355,12 +353,6 @@ export function IncomeTaxIndiaTool() {
     if (taxable > 1000000) tax += (taxable - 1000000) * 0.3;
     if (taxable > 500000) tax += (Math.min(taxable, 1000000) - 500000) * 0.2;
     if (taxable > 250000) tax += (Math.min(taxable, 500000) - 250000) * 0.05;
-
-    // Section 87A Marginal Relief: tax cannot exceed income exceeding ₹5,00,000
-    const excessIncome = taxable - 500000;
-    if (tax > excessIncome) {
-      tax = excessIncome;
-    }
 
     return tax * 1.04;
   }, [parsedIncome, parsedDeductions]);

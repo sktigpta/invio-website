@@ -78,10 +78,8 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
   const handleSelectTool = (toolId) => {
     setSelectedToolId(toolId);
     setMobileMenuOpen(false);
-    window.history.pushState(null, '', `#tools/${encodeURIComponent(toolId)}`);
-    // pushState doesn't fire hashchange — notify the App router so the URL,
-    // SEO tags and back-button behavior stay in sync with the visible tool.
-    window.dispatchEvent(new HashChangeEvent('hashchange'));
+    window.history.pushState(null, '', `/tools/${encodeURIComponent(toolId)}`);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const renderActiveToolPanel = () => {
@@ -227,8 +225,8 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
         </div>
       </aside>
 
-      {/* Center + Right Workspace Area (Exact full height from top to bottom) */}
-      <main className="flex-1 h-full overflow-hidden bg-[#f8fafc] pt-12 lg:pt-0 print:pt-0 print:overflow-visible print:block print:w-full print:h-auto print:bg-white">
+      {/* Center + Right Workspace Area (Scrollable on mobile, fixed full height on desktop) */}
+      <main className="flex-1 h-full overflow-y-auto lg:overflow-hidden bg-[#f8fafc] pt-12 lg:pt-0 print:pt-0 print:overflow-visible print:block print:w-full print:h-auto print:bg-white">
         {renderActiveToolPanel()}
       </main>
     </div>

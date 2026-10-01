@@ -42,7 +42,7 @@ export function App() {
         return;
       }
 
-      // Check standalone legal pages
+      // Check standalone legal pages (pathname or hash)
       if (pathname === '/privacy' || pathname === '/privacy-policy' || pathname === '/privacy.html' || fullHash === 'privacy') {
         setActiveSection('privacy');
         applySEO('privacy');
@@ -87,6 +87,7 @@ export function App() {
         return;
       }
 
+      // Reject any unrecognised pathnames (not root or known static assets)
       if (pathname !== '/' && pathname !== '/index.html' && !pathname.startsWith('/favicons/') && !pathname.startsWith('/screenshots/') && pathname !== '/robots.txt' && pathname !== '/sitemap.xml') {
         setActiveSection('404');
         applySEO('404');
@@ -136,7 +137,7 @@ export function App() {
         applySEO('home');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        // Unknown hash
+        // Unknown hash — treat as 404
         setActiveSection('404');
         applySEO('404');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -172,11 +173,11 @@ export function App() {
       applySEO('subscription');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (sectionId === 'tools') {
-      window.history.pushState(null, '', '#tools');
+      window.history.pushState(null, '', '/tools');
       applySEO('tools');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (sectionId === '404') {
-      window.history.pushState(null, '', '#404');
+      window.history.pushState(null, '', '/404');
       applySEO('404');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (sectionId === 'features') {
