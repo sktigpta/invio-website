@@ -95,29 +95,28 @@ export function FeatureGrid() {
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-          {/* Left Side: Sticky Intro (wrapper stretches full row height so the
-              inner panel can stick while the feature cards scroll past) */}
-          <div className="relative">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-stretch">
+          {/* Left Side: Sticky Intro (stays pinned as feature cards scroll past) */}
+          <div className="relative h-full">
             <div className="lg:sticky lg:top-28 flex flex-col gap-4 sm:gap-6">
               <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#8646F4] bg-purple-100/70 border border-purple-200/80 px-3 py-1 rounded-full inline-block mb-3 sm:mb-4">
-                STORE CAPABILITIES
-              </span>
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-3 sm:mb-4 font-heading text-slate-900">
-                Offline First, <span className="text-[#8646F4]">Free Forever,</span> and Total Privacy
-              </h2>
-              <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed mb-5">
-                Unlike traditional cloud tools that need costly subscriptions and constant internet, Invio starts free forever with lightning-fast desktop billing and total local data privacy — step up to Plus only when you need thermal printing, email &amp; WhatsApp dispatch, POS display or backups.
-              </p>
-              <a
-                href="#product"
-                className="inline-flex items-center gap-2 text-[#8646F4] font-semibold text-sm hover:underline group"
-              >
-                <span>Download Invio for Free</span>
-                <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
-              </a>
-            </div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#8646F4] bg-purple-100/70 border border-purple-200/80 px-3 py-1 rounded-full inline-block mb-3 sm:mb-4">
+                  STORE CAPABILITIES
+                </span>
+                <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-3 sm:mb-4 font-heading text-slate-900">
+                  Offline First, <span className="text-[#8646F4]">Free Forever,</span> and Total Privacy
+                </h2>
+                <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed mb-5">
+                  Unlike traditional cloud tools that need costly subscriptions and constant internet, Invio starts free forever with lightning-fast desktop billing and total local data privacy — step up to Plus only when you need thermal printing, email &amp; WhatsApp dispatch, POS display or backups.
+                </p>
+                <a
+                  href="#product"
+                  className="inline-flex items-center gap-2 text-[#8646F4] font-semibold text-sm hover:underline group"
+                >
+                  <span>Download Invio for Free</span>
+                  <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+                </a>
+              </div>
             </div>
           </div>
 
