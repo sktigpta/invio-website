@@ -6,15 +6,39 @@
   <!-- Main Application Landing Page -->
   <url>
     <loc>https://invio.timrio.com/</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+
+  <!-- Desktop App Subscription & Pricing Page -->
+  <url>
+    <loc>https://invio.timrio.com/subscription</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Features Documentation & Manual -->
+  <url>
+    <loc>https://invio.timrio.com/docs/features</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Settings & Database Configuration Documentation -->
+  <url>
+    <loc>https://invio.timrio.com/docs/settings</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
   <!-- Free Financial, Tax & Payroll Tools Hub -->
   <url>
     <loc>https://invio.timrio.com/tools</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -22,7 +46,7 @@
   <!-- India GST Calculator Tool -->
   <url>
     <loc>https://invio.timrio.com/tools/gst-calculator</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -30,7 +54,7 @@
   <!-- India Income Tax Calculator Tool (FY 2025-26) -->
   <url>
     <loc>https://invio.timrio.com/tools/income-tax-india</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -38,7 +62,7 @@
   <!-- UK HMRC VAT Calculator Tool -->
   <url>
     <loc>https://invio.timrio.com/tools/vat-uk</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -46,7 +70,7 @@
   <!-- UAE FTA VAT Calculator Tool -->
   <url>
     <loc>https://invio.timrio.com/tools/vat-uae</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -54,7 +78,7 @@
   <!-- Free Monthly Employee Salary Slip Generator -->
   <url>
     <loc>https://invio.timrio.com/tools/payslip-generator</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -62,7 +86,7 @@
   <!-- Take-Home Paycheck Calculator Tool -->
   <url>
     <loc>https://invio.timrio.com/tools/paycheck-calc</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -70,7 +94,7 @@
   <!-- HRA Exemption Calculator Tool (Section 10(13A)) -->
   <url>
     <loc>https://invio.timrio.com/tools/hra-exemption</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -78,7 +102,7 @@
   <!-- Gratuity Calculator Tool (Payment of Gratuity Act) -->
   <url>
     <loc>https://invio.timrio.com/tools/gratuity-calc</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -86,15 +110,15 @@
   <!-- Project Cost & Freelance Quote Estimator -->
   <url>
     <loc>https://invio.timrio.com/tools/project-estimate</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
-  <!-- Privacy Policy -->
+  <!-- Offline Privacy Policy Guarantee -->
   <url>
     <loc>https://invio.timrio.com/privacy</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -102,16 +126,8 @@
   <!-- Terms of Service -->
   <url>
     <loc>https://invio.timrio.com/terms</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url>
-
-  <!-- Subscription / Pricing -->
-  <url>
-    <loc>https://invio.timrio.com/subscription</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
 </urlset>
