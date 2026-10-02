@@ -60,6 +60,13 @@ export function Footer({ onNavigate, onDirectDownload }) {
             </button>
             <button
               type="button"
+              onClick={() => onNavigate('docs')}
+              className="hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0"
+            >
+              Documentation
+            </button>
+            <button
+              type="button"
               onClick={() => onNavigate('tools')}
               className="hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0"
             >

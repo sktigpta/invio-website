@@ -11,12 +11,14 @@ import { NotFound } from './components/NotFound';
 import { PrivacyPage } from './components/PrivacyPage';
 import { TermsPage } from './components/TermsPage';
 import { SubscriptionPage } from './components/SubscriptionPage';
+import { DocsPage } from './components/DocsPage';
 import { FinanceToolsDashboard } from './components/FinanceToolsDashboard';
 import { CalculatorIcon } from './components/tools/ToolIcons';
 import { ALL_TOOLS } from './components/tools/toolsData';
 
 export function App() {
   const [activeSection, setActiveSection] = useState('product');
+  const [docsTab, setDocsTab] = useState('features');
   const [activeToolId, setActiveToolId] = useState('gst-calculator');
   const [activeOS, setActiveOS] = useState(() => detectDeviceOS());
   const [downloadModalPlatform, setDownloadModalPlatform] = useState(null);
@@ -61,6 +63,31 @@ export function App() {
       if (pathname === '/subscription' || pathname === '/pricing' || fullHash === 'subscription' || fullHash === 'pricing') {
         setActiveSection('subscription');
         applySEO('subscription');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // Documentation & User Manual pages
+      if (
+        pathname === '/docs' ||
+        pathname === '/docs/features' ||
+        pathname === '/docs/settings' ||
+        pathname === '/docs/features-and-settings' ||
+        fullHash === 'docs' ||
+        fullHash === 'docs/features' ||
+        fullHash === 'docs/settings'
+      ) {
+        setActiveSection('docs');
+        if (pathname === '/docs/settings' || fullHash === 'docs/settings') {
+          setDocsTab('settings');
+          applySEO('docs-settings');
+        } else if (pathname === '/docs/features' || fullHash === 'docs/features') {
+          setDocsTab('features');
+          applySEO('docs-features');
+        } else {
+          setDocsTab('features');
+          applySEO('docs');
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
@@ -172,6 +199,18 @@ export function App() {
       window.history.pushState(null, '', '/subscription');
       applySEO('subscription');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === 'docs' || sectionId === 'docs-features') {
+      setActiveSection('docs');
+      setDocsTab('features');
+      window.history.pushState(null, '', '/docs/features');
+      applySEO('docs-features');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === 'docs-settings') {
+      setActiveSection('docs');
+      setDocsTab('settings');
+      window.history.pushState(null, '', '/docs/settings');
+      applySEO('docs-settings');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (sectionId === 'tools') {
       window.history.pushState(null, '', '/tools');
       applySEO('tools');
@@ -252,6 +291,13 @@ export function App() {
         ) : activeSection === 'subscription' ? (
           /* Dedicated Subscription / Billing Page */
           <SubscriptionPage
+            onNavigate={handleNavigate}
+            onDirectDownload={() => handleOpenDownloadModal()}
+          />
+        ) : activeSection === 'docs' ? (
+          /* Dedicated Features & Settings Documentation Manual */
+          <DocsPage
+            initialTab={docsTab}
             onNavigate={handleNavigate}
             onDirectDownload={() => handleOpenDownloadModal()}
           />

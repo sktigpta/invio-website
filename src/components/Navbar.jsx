@@ -131,6 +131,13 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               </button>
               <button
                 type="button"
+                onClick={() => handleNavClick('docs')}
+                className="text-[13px] font-medium text-slate-600 hover:text-slate-900 transition-colors cursor-pointer bg-transparent border-0 p-0"
+              >
+                Docs
+              </button>
+              <button
+                type="button"
                 onClick={() => handleNavClick('faq')}
                 className="text-[13px] font-medium text-slate-600 hover:text-slate-900 transition-colors cursor-pointer bg-transparent border-0 p-0"
               >
@@ -236,6 +243,15 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               </button>
               <button
                 type="button"
+                onClick={() => handleNavClick('docs')}
+                className={`text-[14px] font-medium transition-colors cursor-pointer bg-transparent border-0 p-0 ${
+                  currentPage === 'docs' ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
+                }`}
+              >
+                Docs
+              </button>
+              <button
+                type="button"
                 onClick={() => handleNavClick('tools')}
                 className={`text-[14px] font-medium transition-colors cursor-pointer bg-transparent border-0 p-0 ${
                   currentPage === 'tools' ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
@@ -318,6 +334,13 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
             >
               Features
+            </button>
+            <button
+              type="button"
+              onClick={() => handleNavClick('docs')}
+              className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
+            >
+              Docs &amp; Settings
             </button>
             <button
               type="button"

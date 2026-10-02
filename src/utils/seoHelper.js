@@ -52,6 +52,27 @@ export const SEO_CONFIGS = {
     canonical: 'https://invio.timrio.com/subscription',
     keywords: 'Invio pricing, Invio Plus subscription, billing software subscription India, buy Invio Plus, Invio plans',
   },
+  docs: {
+    title: 'Features & Settings Documentation — User Manual | Invio',
+    description: 'Detailed documentation for Invio features and all 5 settings sections: Business Profile, Invoice & POS Display, Payments & Bank, Email Notifications, and SQLite / PostgreSQL Database Backups.',
+    url: 'https://invio.timrio.com/docs',
+    canonical: 'https://invio.timrio.com/docs',
+    keywords: 'Invio docs, Invio documentation, GST billing settings, thermal receipt setup, UPI QR invoice configuration, SQLite backup billing software',
+  },
+  'docs-features': {
+    title: 'Features Documentation — Offline GST Billing & POS | Invio',
+    description: 'Explore full technical features of Invio: offline SQLite architecture, GST tax engine, thermal POS printing, secondary customer display, inventory tracking, and barcode scanner checkout.',
+    url: 'https://invio.timrio.com/docs/features',
+    canonical: 'https://invio.timrio.com/docs/features',
+    keywords: 'Invio features docs, thermal POS billing guide, GST invoice generator features, customer screen setup',
+  },
+  'docs-settings': {
+    title: 'Settings Reference Guide — Business, Printing & Database | Invio',
+    description: 'Complete guide to all 5 Invio settings sections: Store identity, POS thermal format, UPI payment VPA, Google OAuth email, and Local SQLite backup export & restore.',
+    url: 'https://invio.timrio.com/docs/settings',
+    canonical: 'https://invio.timrio.com/docs/settings',
+    keywords: 'Invio settings, invoice printer settings, POS display monitor setup, Google OAuth invoice email, SQLite database backup',
+  },
   tools: {
     title: 'Free Financial, Tax & Payroll Calculators Suite | Invio',
     description: 'Access Invio suite of 100% free online business tools: India GST calculator, FY 25-26 Income Tax calculator, UK and UAE VAT calculators, Payslip generator, HRA exemption, and Gratuity calculators.',
