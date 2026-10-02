@@ -1,4 +1,3 @@
-import { AppleIcon, WindowsIcon, LinuxIcon } from './Icons';
 import { ALL_TOOLS } from './tools/toolsData';
 
 export function Footer({ onNavigate, onDirectDownload }) {
@@ -53,25 +52,8 @@ export function Footer({ onNavigate, onDirectDownload }) {
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
               Offline-First Desktop Invoicing &amp; Inventory Suite. Fast thermal slips, GST/IGST calculations, UPI QR codes, stock control, and local SQLite data privacy for Windows, macOS, and Linux.
             </p>
-
-            {/* System Status & Download Badges */}
-            <div className="flex flex-wrap items-center gap-3 pt-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-[11px] font-medium text-slate-300">
-                <span className="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Offline SQLite Engine</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => (onDirectDownload ? onDirectDownload() : onNavigate('product'))}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#8646F4]/20 hover:bg-[#8646F4]/30 border border-[#8646F4]/40 text-[11px] font-semibold text-[#c084fc] transition-colors cursor-pointer"
-              >
-                <AppleIcon className="size-3" />
-                <WindowsIcon className="size-3" />
-                <LinuxIcon className="size-3" />
-                <span>Download Apps</span>
-              </button>
-            </div>
           </div>
+
 
           {/* Column 2: Product & App Features Site Map */}
           <div className="flex flex-col gap-3">
