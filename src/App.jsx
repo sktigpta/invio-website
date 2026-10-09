@@ -12,6 +12,7 @@ import { PrivacyPage } from './components/PrivacyPage';
 import { TermsPage } from './components/TermsPage';
 import { SubscriptionPage } from './components/SubscriptionPage';
 import { DocsPage } from './components/DocsPage';
+import { VersionPage } from './components/VersionPage';
 import { FinanceToolsDashboard } from './components/FinanceToolsDashboard';
 import { CalculatorIcon } from './components/tools/ToolIcons';
 import { ALL_TOOLS } from './components/tools/toolsData';
@@ -63,6 +64,22 @@ export function App() {
       if (pathname === '/subscription' || pathname === '/pricing' || fullHash === 'subscription' || fullHash === 'pricing') {
         setActiveSection('subscription');
         applySEO('subscription');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // Standalone version / release notes / changelog page
+      if (
+        pathname === '/version' ||
+        pathname === '/versions' ||
+        pathname === '/changelog' ||
+        pathname === '/releases' ||
+        fullHash === 'version' ||
+        fullHash === 'changelog' ||
+        fullHash === 'releases'
+      ) {
+        setActiveSection('version');
+        applySEO('version');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
@@ -199,6 +216,11 @@ export function App() {
       window.history.pushState(null, '', '/subscription');
       applySEO('subscription');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === 'version' || sectionId === 'changelog') {
+      setActiveSection('version');
+      window.history.pushState(null, '', '/version');
+      applySEO('version');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (sectionId === 'docs' || sectionId === 'docs-features') {
       setActiveSection('docs');
       setDocsTab('features');
@@ -293,6 +315,13 @@ export function App() {
           <SubscriptionPage
             onNavigate={handleNavigate}
             onDirectDownload={() => handleOpenDownloadModal()}
+          />
+        ) : activeSection === 'version' ? (
+          /* Dedicated Version & Release Notes Page */
+          <VersionPage
+            onNavigate={handleNavigate}
+            onDirectDownload={handleOpenDownloadModal}
+            activeOS={activeOS}
           />
         ) : activeSection === 'docs' ? (
           /* Dedicated Features & Settings Documentation Manual */

@@ -52,6 +52,20 @@ export const SEO_CONFIGS = {
     canonical: 'https://invio.timrio.com/subscription',
     keywords: 'Invio pricing, Invio Plus subscription, billing software subscription India, buy Invio Plus, Invio plans',
   },
+  version: {
+    title: 'Version 1 Release Notes & Feature Changelog | Invio',
+    description: 'Explore Invio release notes and comprehensive feature breakdown for Version 1 (v1.0.1): 100% offline billing, GST calculations, thermal POS printing, barcode scanning, UPI QR codes, and dual-screen POS.',
+    url: 'https://invio.timrio.com/version',
+    canonical: 'https://invio.timrio.com/version',
+    keywords: 'Invio version, Invio release notes, Invio changelog, offline billing software features, GST invoice generator features, thermal receipt printing, Invio v1.0.1',
+  },
+  changelog: {
+    title: 'Version 1 Release Notes & Feature Changelog | Invio',
+    description: 'Explore Invio release notes and comprehensive feature breakdown for Version 1 (v1.0.1): 100% offline billing, GST calculations, thermal POS printing, barcode scanning, UPI QR codes, and dual-screen POS.',
+    url: 'https://invio.timrio.com/version',
+    canonical: 'https://invio.timrio.com/version',
+    keywords: 'Invio version, Invio release notes, Invio changelog, offline billing software features, GST invoice generator features, thermal receipt printing, Invio v1.0.1',
+  },
   docs: {
     title: 'Features & Settings Documentation — User Manual | Invio',
     description: 'Detailed documentation for Invio features and all 5 settings sections: Business Profile, Invoice & POS Display, Payments & Bank, Email Notifications, and SQLite / PostgreSQL Database Backups.',

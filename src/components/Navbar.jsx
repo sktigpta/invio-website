@@ -10,7 +10,7 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
-      if (currentPage === 'tools' || currentPage === 'privacy' || currentPage === 'terms' || currentPage === 'subscription' || currentPage === '404') {
+      if (currentPage === 'tools' || currentPage === 'privacy' || currentPage === 'terms' || currentPage === 'subscription' || currentPage === '404' || currentPage === 'version') {
         setHidden(false);
         setScrolled(false);
         return;

@@ -19,6 +19,14 @@
     <priority>0.95</priority>
   </url>
 
+  <!-- Product Version & Release Notes (Changelog) -->
+  <url>
+    <loc>https://invio.timrio.com/version</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
   <!-- Features Documentation & Manual -->
   <url>
     <loc>https://invio.timrio.com/docs/features</loc>
