@@ -115,6 +115,15 @@ export function Footer({ onNavigate, onDirectDownload }) {
                   Plans &amp; Pricing
                 </button>
               </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onDirectDownload?.()}
+                  className="hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 text-left text-slate-300 font-medium"
+                >
+                  Download for Desktop
+                </button>
+              </li>
             </ul>
           </div>
 

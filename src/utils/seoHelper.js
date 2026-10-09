@@ -232,4 +232,16 @@ export function applySEO(pageKeyOrConfig, customOverrides = {}) {
       canonicalEl.remove();
     }
   }
+
+  // 6. Trigger Google Analytics page_view when gtag is configured
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    try {
+      window.gtag('event', 'page_view', {
+        page_title: config.title,
+        page_location: config.url || window.location.href,
+      });
+    } catch {
+      // Analytics failures should never crash application rendering
+    }
+  }
 }

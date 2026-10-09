@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs'
+import process from 'node:process'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
@@ -30,7 +31,11 @@ export default defineConfig({
     port: 7495,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: process.env.VITE_BACKEND_PORT
+          ? `http://localhost:${process.env.VITE_BACKEND_PORT}`
+          : process.env.PORT
+            ? `http://localhost:${process.env.PORT}`
+            : 'http://localhost:3000',
         changeOrigin: true,
       },
     },
