@@ -12,6 +12,7 @@ import {
   loadRazorpayCheckout,
   openRazorpayCheckout,
 } from '../services/paymentService';
+import { CloseIcon, ReceiptIcon, CheckIcon } from '../components/Icons';
 
 // Default static fallback values if backend is unreachable or booting
 const DEFAULT_PLANS_STATE = {
@@ -143,6 +144,27 @@ export function PricingPage() {
 
     loadPlans();
   }, [isAutoCheckout, paramPlan]);
+
+  useEffect(() => {
+    if (!checkoutModalPlan) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setCheckoutModalPlan(null);
+        setEmailInputError('');
+        setPayError('');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [checkoutModalPlan]);
 
   const handleOpenCheckoutModal = (planId) => {
     setPayError('');
@@ -537,12 +559,22 @@ export function PricingPage() {
       {/* Checkout Modal — Collect & Associate Customer Account Email */}
       {checkoutModalPlan && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto animate-fadeIn"
           role="dialog"
           aria-modal="true"
           aria-labelledby="checkout-modal-title"
+          onMouseDown={(e) => {
+            if (e.target === e.currentTarget) {
+              setCheckoutModalPlan(null);
+              setEmailInputError('');
+              setPayError('');
+            }
+          }}
         >
-          <div className="relative w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200/90 my-8">
+          <div
+            className="bg-white rounded-squircle max-w-md w-full p-6 sm:p-7 border border-slate-200/90 shadow-2xl relative text-slate-900 my-auto animate-fadeIn"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
             {/* Close button */}
             <button
               type="button"
@@ -551,53 +583,53 @@ export function PricingPage() {
                 setEmailInputError('');
                 setPayError('');
               }}
-              className="absolute top-5 right-5 text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
-              aria-label="Close checkout modal"
+              className="absolute top-4 right-4 size-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-colors cursor-pointer z-10"
+              aria-label="Close dialog"
             >
-              ✕
+              <CloseIcon className="size-4" />
             </button>
 
-            {/* Header */}
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-[#7C3AED] px-2.5 py-0.5 rounded-full">
-                Instant License Setup
-              </span>
-              <span className="text-xs text-slate-500 font-medium">
-                Razorpay 256-Bit SSL
-              </span>
+            {/* Top Icon Badge */}
+            <div className="size-14 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center mx-auto mb-3 shadow-2xs">
+              <ReceiptIcon className="size-7" />
             </div>
 
-            <h2 id="checkout-modal-title" className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+            <h3 id="checkout-modal-title" className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight text-center">
               Order Invio Plus
-            </h2>
-            <p className="text-xs text-slate-600 mt-1 mb-5">
+            </h3>
+            <p className="text-xs text-slate-500 mt-1 font-normal text-center max-w-xs mx-auto">
               Enter your email to link your license so all commercial features activate in your Invio desktop app.
             </p>
 
             {/* Order Summary Box */}
-            <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 mb-5">
-              <div className="flex items-center justify-between mb-1.5">
-                <span className="text-sm font-bold text-slate-900">
-                  Invio Plus ({billingCycle === 'yearly' ? '1 Year License' : '1 Month Access'})
-                </span>
-                <span className="text-lg font-extrabold text-[#7C3AED]">
+            <div className="mt-4 mb-4 p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs sm:text-sm font-bold text-slate-900">
+                    Invio Plus ({billingCycle === 'yearly' ? '1 Year License' : '1 Month Access'})
+                  </span>
+                  {billingCycle === 'yearly' && (
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-purple-100 text-[#7C3AED]">
+                      Save 40%+
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-slate-500 mt-0.5">
+                  Thermal receipts, dynamic UPI QR & dual-screen POS
+                </p>
+              </div>
+              <div className="text-right pl-3 shrink-0">
+                <span className="text-base sm:text-lg font-extrabold text-[#7C3AED]">
                   ₹{billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly}
                 </span>
               </div>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
-                Includes ESC/POS thermal printing, dynamic UPI QR payments, dual-screen POS projection, and WhatsApp invoices.
-              </p>
             </div>
 
             {/* Email Association Field */}
-            <div className="mb-4">
-              <label htmlFor="checkout-email-input" className="block text-xs font-bold text-slate-800 mb-1">
-                Your Account Email Address <span className="text-rose-500">*</span>
+            <div className="mb-3.5">
+              <label htmlFor="checkout-email-input" className="block text-xs font-semibold text-slate-700 mb-1">
+                Account Email Address <span className="text-rose-500">*</span>
               </label>
-              <p className="text-[11px] text-slate-500 mb-2 leading-relaxed">
-                Use the email address you sign in with on Invio Desktop (or intend to use). Your license will link to this address.
-              </p>
-
               <input
                 id="checkout-email-input"
                 type="email"
@@ -608,7 +640,7 @@ export function PricingPage() {
                   setEmailInputError('');
                 }}
                 placeholder="yourname@shop.com"
-                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none transition-all ${
+                className={`w-full px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm outline-none transition-all ${
                   emailInputError
                     ? 'border-rose-400 bg-rose-50/30 text-rose-900 focus:ring-2 focus:ring-rose-200'
                     : 'border-slate-300 bg-white text-slate-900 focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100'
@@ -616,22 +648,23 @@ export function PricingPage() {
               />
 
               {isFromDesktop && !emailInputError && (
-                <p className="text-[11px] text-emerald-600 font-medium mt-1.5 flex items-center gap-1">
-                  <span>✓</span> Linked from your Invio desktop app
+                <p className="text-[11px] text-emerald-600 font-medium mt-1 flex items-center gap-1">
+                  <CheckIcon className="size-3" />
+                  <span>Linked from your Invio desktop app</span>
                 </p>
               )}
 
               {emailInputError && (
-                <p className="text-[11px] text-rose-600 font-medium mt-1.5">
+                <p className="text-[11px] text-rose-600 font-medium mt-1">
                   {emailInputError}
                 </p>
               )}
             </div>
 
             {/* Optional Phone Field */}
-            <div className="mb-6">
+            <div className="mb-4">
               <label htmlFor="checkout-phone-input" className="block text-xs font-semibold text-slate-700 mb-1">
-                Phone Number <span className="text-slate-400 font-normal">(Optional — for SMS/WhatsApp receipt)</span>
+                Phone Number <span className="text-slate-400 font-normal text-[11px]">(Optional — for WhatsApp/SMS receipt)</span>
               </label>
               <input
                 id="checkout-phone-input"
@@ -640,24 +673,24 @@ export function PricingPage() {
                 value={checkoutPhone}
                 onChange={(e) => setCheckoutPhone(e.target.value)}
                 placeholder="9876543210"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
               />
             </div>
 
             {/* Error Notice */}
             {payError && (
-              <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 leading-snug">
+              <div className="mb-3.5 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 leading-snug">
                 {payError}
               </div>
             )}
 
             {/* Actions */}
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               <button
                 type="button"
                 disabled={payingPlan === checkoutModalPlan}
                 onClick={() => handleStartPayment(checkoutModalPlan)}
-                className="w-full py-3 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-bold text-xs uppercase tracking-wider text-center transition-all shadow-xs hover:shadow-sm cursor-pointer flex items-center justify-center gap-2"
+                className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm text-center transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2"
               >
                 {payingPlan === checkoutModalPlan ? (
                   <>
@@ -666,7 +699,7 @@ export function PricingPage() {
                   </>
                 ) : (
                   <span>
-                    Proceed to Payment • ₹{billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly}
+                    Proceed to Payment — ₹{billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly}
                   </span>
                 )}
               </button>
@@ -678,19 +711,20 @@ export function PricingPage() {
                   setEmailInputError('');
                   setPayError('');
                 }}
-                className="w-full py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer text-center"
+                className="w-full py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer text-center"
               >
                 Cancel
               </button>
             </div>
 
-            <div className="mt-5 pt-4 border-t border-slate-100 text-center">
-              <p className="text-[10px] text-slate-400 flex items-center justify-center gap-2">
+            {/* Security Footer */}
+            <div className="mt-4 pt-3.5 border-t border-slate-100 text-center">
+              <p className="text-[11px] text-slate-400 font-medium flex items-center justify-center gap-2">
                 <span>🔒 256-Bit SSL</span>
                 <span>•</span>
-                <span>UPI, Cards, Netbanking</span>
+                <span>Razorpay Verified</span>
                 <span>•</span>
-                <span>Instant License Activation</span>
+                <span>Instant Activation</span>
               </p>
             </div>
           </div>
