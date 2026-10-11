@@ -6,8 +6,16 @@
   <!-- Main Application Landing Page -->
   <url>
     <loc>https://invio.timrio.com/</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Dedicated Product Information Landing Page -->
+  <url>
+    <loc>https://invio.timrio.com/product</loc>
+    <lastmod>2026-10-11</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 

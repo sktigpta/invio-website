@@ -6,6 +6,8 @@ Invio is a desktop application built for high-speed offline retail billing, prof
 
 ## Key Information
 - **Website**: https://invio.timrio.com/
+- **Product Information Page**: https://invio.timrio.com/product
+- **Google Merchant Center Feed**: https://invio.timrio.com/feeds/google-merchant.tsv
 - **Pricing**: Free forever core plan (Free); Plus subscription unlocks thermal printing, email & WhatsApp dispatch, POS display and backups
 - **Data Architecture**: Offline-first (private local SQLite database with optional external PostgreSQL configuration)
 - **Supported Platforms**: macOS (Apple Silicon & Intel), Windows 10/11 (64-bit), Linux (AppImage & DEB)

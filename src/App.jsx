@@ -13,6 +13,7 @@ import { TermsPage } from './components/TermsPage';
 import { SubscriptionPage } from './components/SubscriptionPage';
 import { DocsPage } from './components/DocsPage';
 import { VersionPage } from './components/VersionPage';
+import { ProductPage } from './components/ProductPage';
 import { FinanceToolsDashboard } from './components/FinanceToolsDashboard';
 import { CalculatorIcon } from './components/tools/ToolIcons';
 import { ALL_TOOLS } from './components/tools/toolsData';
@@ -56,6 +57,20 @@ export function App() {
       if (pathname === '/terms' || pathname === '/terms-of-service' || pathname === '/terms.html' || fullHash === 'terms') {
         setActiveSection('terms');
         applySEO('terms');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // Standalone dedicated product landing page (for direct visits and Google Merchant Center)
+      if (
+        pathname === '/product' ||
+        pathname === '/product/' ||
+        pathname === '/product-overview' ||
+        fullHash === 'product-overview' ||
+        fullHash === 'product-details'
+      ) {
+        setActiveSection('product-page');
+        applySEO('product');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
@@ -132,7 +147,15 @@ export function App() {
       }
 
       // Reject any unrecognised pathnames (not root or known static assets)
-      if (pathname !== '/' && pathname !== '/index.html' && !pathname.startsWith('/favicons/') && !pathname.startsWith('/screenshots/') && pathname !== '/robots.txt' && pathname !== '/sitemap.xml') {
+      if (
+        pathname !== '/' &&
+        pathname !== '/index.html' &&
+        !pathname.startsWith('/favicons/') &&
+        !pathname.startsWith('/screenshots/') &&
+        !pathname.startsWith('/feeds/') &&
+        pathname !== '/robots.txt' &&
+        pathname !== '/sitemap.xml'
+      ) {
         setActiveSection('404');
         applySEO('404');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -200,7 +223,13 @@ export function App() {
   const handleNavigate = (sectionId) => {
     setActiveSection(sectionId);
 
-    if (sectionId === 'product') {
+    if (sectionId === 'product-page' || sectionId === 'product-details' || sectionId === 'product-overview') {
+      setActiveSection('product-page');
+      window.history.pushState(null, '', '/product');
+      applySEO('product');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionId === 'product' || sectionId === 'product-home' || sectionId === 'home') {
+      setActiveSection('product');
       window.history.pushState(null, '', '/');
       applySEO('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -307,6 +336,14 @@ export function App() {
         ) : activeSection === 'privacy' ? (
           /* Dedicated Standalone Privacy Policy Page */
           <PrivacyPage onNavigate={handleNavigate} />
+        ) : activeSection === 'product-page' ? (
+          /* Dedicated Standalone Product Page (for Google Merchant Center and direct visitors) */
+          <ProductPage
+            onNavigate={handleNavigate}
+            onDirectDownload={handleOpenDownloadModal}
+            activeOS={activeOS}
+            onSelectOS={handleSelectOS}
+          />
         ) : activeSection === 'terms' ? (
           /* Dedicated Standalone Terms of Service Page */
           <TermsPage onNavigate={handleNavigate} />

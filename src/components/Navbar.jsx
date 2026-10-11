@@ -10,7 +10,7 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
-      if (currentPage === 'tools' || currentPage === 'privacy' || currentPage === 'terms' || currentPage === 'subscription' || currentPage === '404' || currentPage === 'version') {
+      if (currentPage === 'tools' || currentPage === 'privacy' || currentPage === 'terms' || currentPage === 'subscription' || currentPage === '404' || currentPage === 'version' || currentPage === 'product-page') {
         setHidden(false);
         setScrolled(false);
         return;
@@ -234,6 +234,15 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               </button>
               <button
                 type="button"
+                onClick={() => handleNavClick('product-page')}
+                className={`text-[14px] font-medium transition-colors cursor-pointer bg-transparent border-0 p-0 ${
+                  currentPage === 'product-page' ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
+                }`}
+              >
+                Product
+              </button>
+              <button
+                type="button"
                 onClick={() => handleNavClick('features')}
                 className={`text-[14px] font-medium transition-colors cursor-pointer bg-transparent border-0 p-0 ${
                   currentPage === 'features' ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
@@ -327,6 +336,13 @@ export function Navbar({ currentPage, onNavigate, activeOS, onDirectDownload }) 
               className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
             >
               Home
+            </button>
+            <button
+              type="button"
+              onClick={() => handleNavClick('product-page')}
+              className="text-left text-xl font-medium text-slate-900 hover:text-[#8646F4] transition-colors"
+            >
+              Product Details
             </button>
             <button
               type="button"

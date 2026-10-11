@@ -12,6 +12,13 @@ export const SEO_CONFIGS = {
     canonical: 'https://invio.timrio.com/',
     keywords: 'Invio, free invoice generator, invoice generator, free billing software, GST invoice generator, GST invoice maker, free invoicing software, offline invoice software, free receipt generator, thermal receipt printer software, barcode scanner billing, invoice maker for Mac, free invoice app for Windows, retail billing software, store billing app, UPI QR invoice generator, Timrio',
   },
+  product: {
+    title: 'Invio Desktop Invoicing Software — Free Offline Billing & GST | Timrio',
+    description: 'Invio Desktop Invoicing Software by Timrio: Free offline billing and inventory management for Windows and macOS. Automated GST calculations, thermal receipts, barcode scanner checkout, and 100% local SQLite storage.',
+    url: 'https://invio.timrio.com/product',
+    canonical: 'https://invio.timrio.com/product',
+    keywords: 'Invio Desktop Invoicing Software, free billing software Windows, invoice software Mac, offline GST invoicing, thermal receipt printer software, Timrio Invio, desktop invoice app',
+  },
   features: {
     title: 'Features — Offline Invoicing, Thermal POS & Stock Tracking | Invio',
     description: 'Explore Invio core features: GST billing with automated tax splits, 58mm/80mm thermal receipt printing with UPI QR codes, barcode scanner checkout, local SQLite data privacy, and a free forever core plan.',

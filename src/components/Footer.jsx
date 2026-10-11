@@ -64,10 +64,19 @@ export function Footer({ onNavigate, onDirectDownload }) {
               <li>
                 <button
                   type="button"
+                  onClick={() => onNavigate('product-page')}
+                  className="hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-medium text-slate-200"
+                >
+                  Product Details &amp; Specs
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
                   onClick={() => onNavigate('product')}
                   className="hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                 >
-                  Product Overview
+                  Home Overview
                 </button>
               </li>
               <li>
