@@ -51,7 +51,7 @@ export function Hero() {
       />
 
       {/* Hero Foreground Content */}
-      <div className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div className="relative z-20 w-full max-w-[1200px] mx-auto px-6 sm:px-8 py-16 sm:py-24">
         <div className="max-w-2xl text-center flex flex-col items-center">
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-slate-900 leading-[1.12] mb-5">

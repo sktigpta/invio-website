@@ -152,7 +152,6 @@ export function PricingPage() {
       badge="Simple, Transparent Pricing"
       title="Invio Pricing Plans"
       subtitle="Honest pricing designed for shops and small businesses. Use the core desktop billing application free forever, or upgrade to Plus or Pro for advanced POS hardware and team management."
-      className="max-w-6xl"
     >
       {/* Monthly / Yearly Billing Toggle */}
       <div className="flex items-center justify-center mt-6 mb-8">

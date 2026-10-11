@@ -19,7 +19,7 @@ export function FeaturesPage() {
           aria-hidden="true"
         />
 
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-8 text-center relative z-10">
           <span className="block text-[#7C3AED] font-bold tracking-widest uppercase text-xs sm:text-sm mb-4">
             Product Capabilities &amp; Architecture
           </span>
@@ -52,7 +52,7 @@ export function FeaturesPage() {
                 isAlternateBg ? 'bg-slate-50/70' : 'bg-white'
               }`}
             >
-              <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+              <div className="container mx-auto px-6 sm:px-8 max-w-[1200px]">
                 <div
                   className={`flex flex-col ${
                     isReversed ? 'md:flex-row-reverse' : 'md:flex-row'

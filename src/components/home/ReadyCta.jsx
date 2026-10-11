@@ -13,7 +13,7 @@ export function ReadyCta() {
 
   return (
     <section className="w-full pt-12 pb-0 mb-0">
-      <div className="w-[90%] max-w-6xl mx-auto rounded-t-3xl rounded-b-none bg-slate-900 text-white p-8 sm:p-12 pb-10 sm:pb-12 text-center flex flex-col items-center justify-center relative overflow-hidden shadow-lg mb-0 border-b-0">
+      <div className="w-[90%] max-w-[1200px] mx-auto rounded-t-3xl rounded-b-none bg-slate-900 text-white p-8 sm:p-12 pb-10 sm:pb-12 text-center flex flex-col items-center justify-center relative overflow-hidden shadow-lg mb-0 border-b-0">
         {/* Subtle violet ambient glow */}
         <div
           className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#7C3AED]/25 rounded-full blur-3xl pointer-events-none"

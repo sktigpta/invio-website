@@ -1,6 +1,6 @@
 export function PageContainer({ title, subtitle, badge, children, className = '' }) {
   return (
-    <main className={`max-w-4xl w-full mx-auto px-4 sm:px-6 pt-4 pb-12 sm:pt-6 sm:pb-16 text-slate-900 bg-transparent ${className}`}>
+    <main className={`max-w-[1200px] w-full mx-auto px-6 sm:px-8 pt-4 pb-12 sm:pt-6 sm:pb-16 text-slate-900 bg-transparent ${className}`}>
       {title && (
         <header className="mb-6">
           {badge && (

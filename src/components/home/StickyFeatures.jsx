@@ -7,7 +7,7 @@ export function StickyFeatures() {
   return (
     <section
       id="features"
-      className="w-full bg-gradient-to-br from-[#fbf9fe] via-white to-purple-50/25 py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-y border-slate-200 relative scroll-mt-24"
+      className="w-full bg-gradient-to-br from-[#fbf9fe] via-white to-purple-50/25 py-16 sm:py-24 px-6 sm:px-8 border-y border-slate-200 relative scroll-mt-24"
     >
       {/* Decorative ambient blurred orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
@@ -15,7 +15,7 @@ export function StickyFeatures() {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-400/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3" />
       </div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-[1200px] mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-stretch">
           {/* Left Side: Sticky Intro (stays pinned as feature cards scroll past smoothly) */}
           <div className="relative h-full">
