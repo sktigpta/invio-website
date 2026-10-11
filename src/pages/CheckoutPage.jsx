@@ -21,7 +21,6 @@ import {
   GoogleIcon,
   EyeIcon,
   EyeOffIcon,
-  ShieldCheckIcon,
 } from '../components/Icons';
 import { FEATURES_DATA } from '../data/featuresData';
 
@@ -328,58 +327,27 @@ export function CheckoutPage() {
   // 2. Full Width, Two-Section Layout
   return (
     <div className="w-full min-h-[calc(100vh-64px)] flex flex-col lg:flex-row bg-white">
-      {/* Left Section: Feature Image (Random) */}
-      <div className="w-full lg:w-1/2 bg-slate-50 border-r border-slate-200/80 p-8 sm:p-12 lg:p-16 flex flex-col justify-between relative overflow-hidden">
-        {/* Soft Ambient Glow */}
-        <div
-          className="absolute -top-24 -left-24 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl pointer-events-none"
-          aria-hidden="true"
+      {/* Left Section: Image (Full height, auto width) */}
+      <div className="w-full lg:w-1/2 bg-slate-900 lg:h-[calc(100vh-64px)] min-h-[350px] flex items-center justify-center overflow-hidden relative group">
+        <img
+          src={activeFeature.imageUrl}
+          alt={activeFeature.imageAlt}
+          className="h-full w-auto max-w-none object-cover"
+          loading="eager"
         />
-
-        {/* Top Feature Meta */}
-        <div className="relative z-10 mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-[#7C3AED] text-xs font-semibold mb-3 border border-purple-200/80">
-            <span>{activeFeature.category}</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
-            {activeFeature.title}
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-lg">
-            {activeFeature.tagline}
-          </p>
-        </div>
-
-        {/* Feature Image Frame */}
-        <div className="relative z-10 my-auto py-4">
-          <div className="rounded-2xl overflow-hidden border border-slate-200/90 shadow-lg bg-white">
-            <img
-              src={activeFeature.imageUrl}
-              alt={activeFeature.imageAlt}
-              className="w-full h-auto object-cover object-top"
-              loading="eager"
-            />
-          </div>
-        </div>
-
-        {/* Bottom Feature Footer */}
-        <div className="relative z-10 pt-4 flex items-center justify-between text-xs text-slate-500 font-medium border-t border-slate-200/60 mt-6">
-          <div className="flex items-center gap-1.5 text-emerald-600 font-semibold">
-            <ShieldCheckIcon className="size-4" />
-            <span>100% Offline Local SQLite Privacy</span>
-          </div>
-          <button
-            type="button"
-            onClick={handleNextFeature}
-            className="text-[11px] font-semibold text-slate-500 hover:text-[#7C3AED] transition-colors cursor-pointer"
-            title="See another feature image"
-          >
-            Shuffle Image →
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleNextFeature}
+          className="absolute bottom-4 left-4 bg-black/60 hover:bg-black/80 text-white backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer border border-white/20 shadow-md opacity-80 hover:opacity-100 flex items-center gap-1.5"
+          title="See another feature image"
+        >
+          <span>Shuffle Image</span>
+          <span aria-hidden="true">→</span>
+        </button>
       </div>
 
       {/* Right Section: Form (Sign In Default / Sign Up) */}
-      <div className="w-full lg:w-1/2 bg-white p-8 sm:p-12 lg:p-16 flex items-center justify-center">
+      <div className="w-full lg:w-1/2 bg-white p-8 sm:p-12 lg:p-16 flex items-center justify-center lg:h-[calc(100vh-64px)] lg:overflow-y-auto">
         <div className="w-full max-w-md mx-auto my-auto">
           {currentUser ? (
             /* State: Already Signed In */
