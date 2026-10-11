@@ -395,60 +395,62 @@ export function CheckoutPage() {
               /* State: Already Has Active Membership (Plus, Pro, etc.) */
               <div>
                 <div className="mb-6">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold mb-3 shadow-2xs">
-                    <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>Active Membership</span>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-[#7C3AED] text-xs font-semibold mb-3">
+                    <span>✨ Active License Found</span>
                   </div>
                   <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                    You already have Invio {membershipInfo.plan}!
+                    You're on Invio {membershipInfo.plan}
                   </h2>
                   <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                    Your account is already active with full access to Invio {membershipInfo.plan} features. You don't need to purchase this license again.
+                    Your account has full access. You don't need to purchase this license again to use Invio {membershipInfo.plan}.
                   </p>
                 </div>
 
-                {/* Account Details Card */}
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 mb-5 space-y-3">
-                  <div className="flex items-center gap-3.5">
-                    <div className="size-11 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center font-bold text-base shadow-2xs">
-                      {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-slate-900 truncate">
-                        {currentUser.businessName || 'Your Business Account'}
-                      </h4>
-                      <p className="text-xs text-slate-500 font-medium truncate">
-                        {currentUser.email}
-                      </p>
+                {/* Account & License Details Card */}
+                <div className="rounded-2xl border border-slate-200/90 bg-linear-to-b from-slate-50/70 to-white p-4 sm:p-5 shadow-xs mb-6">
+                  {/* Account Header */}
+                  <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-slate-200/70">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="size-9 rounded-full bg-purple-100 text-[#7C3AED] font-bold text-sm flex items-center justify-center shrink-0 ring-2 ring-white">
+                        {(currentUser.businessName || currentUser.email || 'U').charAt(0).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="text-sm font-semibold text-slate-900 truncate">
+                          {currentUser.businessName || 'Business Account'}
+                        </h4>
+                        <p className="text-xs text-slate-500 truncate">
+                          {currentUser.email}
+                        </p>
+                      </div>
                     </div>
                     <button
                       type="button"
                       onClick={handleSwitchAccount}
-                      className="text-xs font-semibold text-slate-500 hover:text-slate-800 underline cursor-pointer shrink-0"
+                      className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-2xs transition-colors shrink-0 cursor-pointer"
                     >
                       Switch
                     </button>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-200/70 grid grid-cols-2 gap-2 text-xs">
-                    <div>
-                      <span className="text-slate-400 block text-[11px]">Active Plan</span>
-                      <span className="font-bold text-slate-900">Invio {membershipInfo.plan}</span>
-                    </div>
-                    <div>
-                      <span className="text-slate-400 block text-[11px]">License Status</span>
-                      <span className="font-semibold text-emerald-600 flex items-center gap-1">
-                        <span className="size-1.5 rounded-full bg-emerald-500" />
-                        Active & Unlocked
+                  {/* Plan & Validity Row */}
+                  <div className="pt-3.5 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        Invio {membershipInfo.plan}
+                      </span>
+                      <span className="text-xs font-medium text-slate-500">
+                        Active License
                       </span>
                     </div>
+
                     {membershipInfo.expiresAt && (
-                      <div className="col-span-2 pt-1">
-                        <span className="text-slate-400 block text-[11px]">Valid Until</span>
-                        <span className="font-medium text-slate-700">
+                      <div className="text-right">
+                        <span className="text-[11px] text-slate-400 block">Valid until</span>
+                        <span className="text-xs font-semibold text-slate-700">
                           {new Date(membershipInfo.expiresAt).toLocaleDateString(undefined, {
                             year: 'numeric',
-                            month: 'long',
+                            month: 'short',
                             day: 'numeric',
                           })}
                         </span>
@@ -498,22 +500,24 @@ export function CheckoutPage() {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200/90 mb-5">
-                  <div className="size-11 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center font-bold text-base shadow-2xs">
-                    {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-bold text-slate-900 truncate">
-                      {currentUser.businessName || 'Your Business Account'}
-                    </h4>
-                    <p className="text-xs text-slate-500 font-medium truncate">
-                      {currentUser.email}
-                    </p>
+                <div className="flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-linear-to-b from-slate-50/70 to-white border border-slate-200/90 shadow-2xs mb-5">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="size-9 rounded-full bg-purple-100 text-[#7C3AED] font-bold text-sm flex items-center justify-center shrink-0 ring-2 ring-white">
+                      {(currentUser.businessName || currentUser.email || 'U').charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-sm font-semibold text-slate-900 truncate">
+                        {currentUser.businessName || 'Business Account'}
+                      </h4>
+                      <p className="text-xs text-slate-500 truncate">
+                        {currentUser.email}
+                      </p>
+                    </div>
                   </div>
                   <button
                     type="button"
                     onClick={handleSwitchAccount}
-                    className="text-xs font-semibold text-slate-500 hover:text-slate-800 underline cursor-pointer shrink-0"
+                    className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-2xs transition-colors shrink-0 cursor-pointer"
                   >
                     Switch
                   </button>
