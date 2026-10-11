@@ -203,65 +203,6 @@ export function PricingPage() {
         </div>
       </div>
 
-      {/* Payment Success Notification */}
-      {success && (
-        <div className="my-6 p-6 rounded-squircle bg-emerald-50 border border-emerald-200 text-slate-800 shadow-2xs">
-          <div className="flex items-start gap-3.5">
-            <div className="size-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">
-              ✓
-            </div>
-            <div className="flex-1">
-              <h3 className="text-base font-bold text-slate-900 mb-1">
-                Payment Verified — Welcome to Invio Plus!
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed mb-2">
-                Your payment of <strong>₹{success.amount}</strong> for Invio Plus ({success.validity}) is confirmed.
-                {success.email && (
-                  <> License linked to: <strong className="text-slate-900 bg-emerald-100/70 px-2 py-0.5 rounded font-mono">{success.email}</strong>.</>
-                )}
-                {' '}Razorpay Payment ID: <code className="font-mono bg-emerald-100 px-1.5 py-0.5 rounded text-emerald-800 font-semibold">{success.paymentId}</code>.
-              </p>
-              <div className="text-xs text-slate-600 leading-relaxed mb-4 bg-white/70 p-3 rounded-lg border border-emerald-100 space-y-1">
-                <p className="font-bold text-slate-800">Quick steps to start using Invio Plus:</p>
-                <p>1. Open the Invio desktop application on your PC or Mac.</p>
-                <p>2. Open <strong>Settings &gt; Account</strong> and sign in with <strong>{success.email || 'your account email'}</strong>.</p>
-                <p>3. Your Plus features (thermal receipts, dynamic UPI QR, dual-screen POS display) will unlock immediately!</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => openDownloadModal()}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full text-xs font-semibold transition-colors shadow-2xs cursor-pointer"
-                >
-                  Download Invio Desktop
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSuccess(null)}
-                  className="px-3 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
-                >
-                  Dismiss
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Payment Error Alert */}
-      {payError && (
-        <div className="my-6 p-4 rounded-squircle-sm bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center justify-between gap-3 shadow-2xs">
-          <span>{payError}</span>
-          <button
-            type="button"
-            onClick={() => setPayError('')}
-            className="font-bold text-rose-500 hover:text-rose-700 px-2 py-1 cursor-pointer"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
       {/* 3-Column Pricing Grid (Free, Plus, Pro) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-8 items-stretch">
         {/* 1. Free Plan */}
