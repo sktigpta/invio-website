@@ -1,73 +1,8 @@
 import { Link } from 'react-router-dom';
-import {
-  CalculatorIcon,
-  PrinterIcon,
-  BarcodeIcon,
-  ZapIcon,
-  MailIcon,
-  TrendingUpIcon,
-  SparklesIcon,
-  ReceiptIcon,
-  ShieldCheckIcon,
-} from '../Icons';
+import { FEATURES_DATA } from '../../data/featuresData';
 
 export function StickyFeatures() {
-  const features = [
-    {
-      title: 'Fast GST & Regular Invoicing',
-      category: 'Billing & Invoicing',
-      description: 'Create clean bills in seconds. Automatically calculates CGST & SGST for local sales or IGST for other states, adds discounts, and writes totals in words.',
-      icon: CalculatorIcon,
-    },
-    {
-      title: 'Thermal Receipts & UPI QR Code',
-      category: 'Counter Checkout',
-      description: 'Print store receipts on standard thermal printers with your shop logo, address, and dynamic UPI QR code for customers to scan and pay with GPay, PhonePe, or Paytm.',
-      icon: PrinterIcon,
-    },
-    {
-      title: 'Barcode Scanner Fast Billing',
-      category: 'Quick Counter',
-      description: 'Plug in any barcode scanner gun. Scan items directly into customer bills in real time without typing product names or searching prices.',
-      icon: BarcodeIcon,
-    },
-    {
-      title: 'Stock & Inventory Tracker',
-      category: 'Stock Control',
-      description: 'Stock quantities automatically reduce when you sell and update when you restock. Get helpful warning alerts before fast-moving items run out.',
-      icon: TrendingUpIcon,
-    },
-    {
-      title: 'Works 100% Offline & Privately',
-      category: '100% Offline',
-      description: 'Keep billing customers even when your shop internet or WiFi is down. All customer bills and sales records stay safely and privately on your computer.',
-      icon: ZapIcon,
-    },
-    {
-      title: 'Send Bills on WhatsApp & Email',
-      category: 'Customer Sharing',
-      description: 'Send neat PDF invoices directly to your customer’s WhatsApp number or email inbox in one click. Saves paper and keeps customers happy.',
-      icon: MailIcon,
-    },
-    {
-      title: 'Customer Directory & Credit (Udhar) Diary',
-      category: 'Customer Ledger',
-      description: 'Save customer phone numbers and addresses. Easily record pending dues (udhar), partial payments, and see customer balance history anytime.',
-      icon: ReceiptIcon,
-    },
-    {
-      title: 'Daily Sales & Profit Reports',
-      category: 'Business Reports',
-      description: 'Check daily and monthly sales, cash collections, pending dues, and shop expenses at a glance. Export simple spreadsheet reports for your tax filings.',
-      icon: SparklesIcon,
-    },
-    {
-      title: 'One-Click Data Backup & Safety',
-      category: 'Safe & Secure',
-      description: 'Save a complete backup of your shop data to a pen drive or computer folder with one click. Safely restore your bills, stock, and customers anytime.',
-      icon: ShieldCheckIcon,
-    },
-  ];
+  const features = FEATURES_DATA;
 
   return (
     <section
