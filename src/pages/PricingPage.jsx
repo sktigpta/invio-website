@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { DownloadCta } from '../components/DownloadCta';
+import { FaqAccordion } from '../components/FaqAccordion';
 import { API_BASE_URL } from '../utils/osDetector';
 
 // Default static fallback values if backend is unreachable or booting
@@ -52,9 +53,10 @@ const DEFAULT_PLANS_STATE = {
     description: 'For multi-store retailers, wholesalers, and growing enterprises requiring advanced analytics, audit trails, and multi-user team access.',
     priceMonthly: 499,
     priceYearly: 4999,
-    badge: 'Enterprise',
-    ctaText: 'Get Invio Pro',
-    ctaLink: '/download',
+    badge: 'Coming Soon',
+    ctaText: 'Coming Soon',
+    ctaLink: '#',
+    isComingSoon: true,
     features: [
       'Everything in Invio Plus Plan',
       'Multi-user cashier & manager permission roles',
@@ -288,12 +290,12 @@ export function PricingPage() {
           </Link>
         </div>
 
-        {/* 3. Pro Plan (Enterprise) */}
-        <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between shadow-2xs hover:shadow-xs transition-shadow">
+        {/* 3. Pro Plan (Enterprise -> Coming Soon) */}
+        <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between shadow-2xs hover:shadow-xs transition-shadow relative overflow-hidden">
           <div>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-xl font-bold text-slate-900">{plansData.pro.name}</h2>
-              <span className="text-[11px] font-bold uppercase tracking-wider bg-slate-900 text-white px-2.5 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-purple-50 text-[#7C3AED] border border-purple-200/80 px-2.5 py-0.5 rounded-full">
                 {plansData.pro.badge}
               </span>
             </div>
@@ -328,28 +330,28 @@ export function PricingPage() {
             </ul>
           </div>
 
-          <Link
-            to={plansData.pro.ctaLink}
-            className="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-semibold text-xs text-center transition-colors shadow-2xs select-none block"
+          <button
+            type="button"
+            disabled
+            className="w-full py-2.5 px-4 bg-slate-100 text-slate-400 cursor-not-allowed rounded-full font-semibold text-xs text-center transition-colors select-none block"
           >
-            {plansData.pro.ctaText}
-          </Link>
+            Coming Soon
+          </button>
         </div>
       </div>
 
-      {/* Pricing FAQs */}
+      {/* Pricing FAQs - Single Column Accordion Stack matching FAQ page */}
       <section className="my-12">
         <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight mb-4">
           Frequently Asked Questions About Pricing
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {pricingFaqs.map((faq, idx) => (
-            <div key={idx} className="p-5 rounded-squircle-sm border border-slate-200/90 bg-white">
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1.5">{faq.q}</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">{faq.a}</p>
-            </div>
-          ))}
-        </div>
+        <FaqAccordion
+          items={pricingFaqs.map((faq, idx) => ({
+            id: `pricing-faq-${idx}`,
+            question: faq.q,
+            answer: faq.a,
+          }))}
+        />
       </section>
 
       <DownloadCta
