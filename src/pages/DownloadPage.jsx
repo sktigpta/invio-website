@@ -340,62 +340,165 @@ export function DownloadPage() {
           <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">
             Key Changes &amp; Improvements in this Release:
           </h3>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs text-slate-700">
+          <div className="space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
             {(releaseInfo?.highlights || [
-              'Dual-Screen POS Customer Display monitor projection',
-              'ESC/POS thermal paper printing (58mm and 80mm)',
-              'Dynamic UPI payment QR codes on counter slips',
-              'Automated GST tax calculations (CGST/SGST/IGST)',
-              'Hardware barcode gun auto-scanning & incrementing',
-              '100% offline SQLite local database privacy',
+              'Dual-Screen POS Customer Display: Secondary monitor projection showing live cart items and instant UPI payment QR.',
+              'ESC/POS Thermal Paper Printing: Full compatibility with 58mm (2-inch) and 80mm (3-inch) thermal slip printers.',
+              'Full-Page A4 & A5 PDF Tax Invoicing: High-resolution vector PDF printing with GST breakdown, logo branding, and bank details.',
+              'Dynamic UPI Payment QR Codes: Automated generation of merchant UPI QR codes with exact bill amounts.',
+              'Automated GST Tax Engine: Instant CGST, SGST, and IGST tax splits across all standard tax slabs.',
+              'Hardware Barcode Gun Integration: Real-time HID scanning with automatic quantity incrementation.',
+              '100% Offline Local SQLite Privacy: All invoices, customers, and stock remain on your computer.',
+              'Verified Release Binaries: Signed and checksummed packages distributed via GitHub Actions CI pipeline.',
             ]).map((item, idx) => (
-              <li key={idx} className="flex items-start gap-2 bg-slate-50/70 p-2.5 rounded-lg border border-slate-100">
-                <span className="text-[#7C3AED] font-bold shrink-0 mt-0.5">✓</span>
-                <span className="leading-snug">{item}</span>
-              </li>
+              <p key={idx} className="flex items-start gap-2">
+                <span className="text-[#7C3AED] font-bold shrink-0 mt-0.5 select-none">✓</span>
+                <span>{item}</span>
+              </p>
             ))}
-          </ul>
+          </div>
         </div>
 
-        {/* Real GitHub Release Assets Table */}
+        {/* Real GitHub Release Assets Markdown-Style Table */}
         <div className="pt-6 border-t border-slate-100">
-          <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">
-            Compiled Assets Attached to this Release:
-          </h3>
-          <div className="divide-y divide-slate-100 border border-slate-200/80 rounded-squircle-sm overflow-hidden bg-slate-50/40">
-            {(releaseInfo?.assets || [
-              { name: 'Invio-1.0.1-win-x64.exe', size: '113.9 MB', arch: 'Windows x64', platform: 'windows' },
-              { name: 'Invio-1.0.1-win-x64-portable.exe', size: '113.8 MB', arch: 'Windows Portable', platform: 'windows' },
-              { name: 'Invio-1.0.1-mac-arm64.dmg', size: '133.3 MB', arch: 'macOS Apple Silicon', platform: 'mac' },
-              { name: 'Invio-1.0.1-mac-x64.dmg', size: '139.6 MB', arch: 'macOS Intel', platform: 'mac' },
-              { name: 'Invio-1.0.1-linux-x86_64.AppImage', size: '130.1 MB', arch: 'Linux AppImage', platform: 'linux' },
-              { name: 'Invio-1.0.1-linux-amd64.deb', size: '102.3 MB', arch: 'Linux Debian / Ubuntu', platform: 'linux' },
-            ]).map((asset, idx) => (
-              <div
-                key={idx}
-                className="p-3 sm:px-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-white transition-colors"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="font-mono text-xs font-semibold text-slate-800">
-                    {asset.name}
-                  </span>
-                  <span className="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-medium">
-                    {asset.arch}
-                  </span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-xs font-mono text-slate-500">{asset.size}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleDownload(PLATFORM_DOWNLOADS[asset.platform] || detectedOS)}
-                    className="text-xs font-semibold text-[#7C3AED] hover:underline flex items-center gap-1 cursor-pointer"
-                  >
-                    <span>Download</span>
-                    <DownloadIcon className="size-3" />
-                  </button>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
+            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+              Compiled Assets Attached to this Release:
+            </h3>
+            <span className="text-[11px] font-mono text-slate-400">
+              Verified release artifacts • GitHub Actions CI
+            </span>
+          </div>
+
+          <div className="overflow-x-auto border border-slate-200/90 rounded-squircle-sm bg-white">
+            <table className="w-full text-left font-mono text-[11px] sm:text-xs border-collapse">
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-200 text-slate-700">
+                  <th className="px-3.5 py-2 font-semibold">Asset File</th>
+                  <th className="px-3.5 py-2 font-semibold">Platform / Arch</th>
+                  <th className="px-3.5 py-2 font-semibold">Format</th>
+                  <th className="px-3.5 py-2 font-semibold">Size</th>
+                  <th className="px-3.5 py-2 font-semibold text-right">Download</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 text-slate-600">
+                {(releaseInfo?.assets || [
+                  { name: 'Invio-1.0.1-win-x64.exe', size: '113.9 MB', arch: 'Windows x64', type: 'Installer (.exe)', platform: 'windows' },
+                  { name: 'Invio-1.0.1-win-x64-portable.exe', size: '113.8 MB', arch: 'Windows Portable', type: 'Portable (.exe)', platform: 'windows' },
+                  { name: 'Invio-1.0.1-mac-arm64.dmg', size: '133.3 MB', arch: 'Apple Silicon', type: 'Disk Image (.dmg)', platform: 'mac' },
+                  { name: 'Invio-1.0.1-mac-x64.dmg', size: '139.6 MB', arch: 'macOS Intel', type: 'Disk Image (.dmg)', platform: 'mac' },
+                  { name: 'Invio-1.0.1-linux-x86_64.AppImage', size: '130.1 MB', arch: 'Linux x86_64', type: 'AppImage', platform: 'linux' },
+                  { name: 'Invio-1.0.1-linux-amd64.deb', size: '102.3 MB', arch: 'Debian / Ubuntu', type: 'Debian (.deb)', platform: 'linux' },
+                ]).map((asset, idx) => (
+                  <tr key={idx} className="hover:bg-purple-50/20 transition-colors">
+                    <td className="px-3.5 py-2 text-slate-900 font-semibold whitespace-nowrap">
+                      {asset.name}
+                    </td>
+                    <td className="px-3.5 py-2 whitespace-nowrap">
+                      <span className="bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-medium">
+                        {asset.arch}
+                      </span>
+                    </td>
+                    <td className="px-3.5 py-2 text-slate-500 whitespace-nowrap">
+                      {asset.type || 'Binary Package'}
+                    </td>
+                    <td className="px-3.5 py-2 text-slate-500 whitespace-nowrap">
+                      {asset.size}
+                    </td>
+                    <td className="px-3.5 py-2 text-right whitespace-nowrap">
+                      <button
+                        type="button"
+                        onClick={() => handleDownload(PLATFORM_DOWNLOADS[asset.platform] || detectedOS)}
+                        className="inline-flex items-center gap-1 font-semibold text-[#7C3AED] hover:underline cursor-pointer"
+                      >
+                        <span>Download</span>
+                        <DownloadIcon className="size-3" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Supported Invoice & Printing Specifications Markdown Table */}
+        <div className="mt-6 pt-6 border-t border-slate-100">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
+            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+              Supported Invoice Paper &amp; Print Specifications:
+            </h3>
+            <span className="text-[11px] font-mono text-slate-400">
+              Native A4 vector rendering • Hardware ESC/POS integration
+            </span>
+          </div>
+
+          <div className="overflow-x-auto border border-slate-200/90 rounded-squircle-sm bg-white">
+            <table className="w-full text-left font-mono text-[11px] sm:text-xs border-collapse">
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-200 text-slate-700">
+                  <th className="px-3.5 py-2 font-semibold">Format</th>
+                  <th className="px-3.5 py-2 font-semibold">Paper Dimensions</th>
+                  <th className="px-3.5 py-2 font-semibold">Hardware Type</th>
+                  <th className="px-3.5 py-2 font-semibold">Typical Use Case</th>
+                  <th className="px-3.5 py-2 font-semibold text-right">Output Mode</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 text-slate-600">
+                <tr className="hover:bg-purple-50/20 transition-colors">
+                  <td className="px-3.5 py-2 text-slate-900 font-semibold whitespace-nowrap">
+                    A4 Full Page
+                  </td>
+                  <td className="px-3.5 py-2 whitespace-nowrap">210 × 297 mm</td>
+                  <td className="px-3.5 py-2 whitespace-nowrap">Laser / Inkjet / PDF</td>
+                  <td className="px-3.5 py-2 text-slate-500 whitespace-nowrap">
+                    B2B Tax Invoices, GST Filings, Detailed Quotations
+                  </td>
+                  <td className="px-3.5 py-2 text-right font-semibold text-emerald-700 whitespace-nowrap">
+                    Vector PDF &amp; Print
+                  </td>
+                </tr>
+                <tr className="hover:bg-purple-50/20 transition-colors">
+                  <td className="px-3.5 py-2 text-slate-900 font-semibold whitespace-nowrap">
+                    A5 Half Page
+                  </td>
+                  <td className="px-3.5 py-2 whitespace-nowrap">148 × 210 mm</td>
+                  <td className="px-3.5 py-2 whitespace-nowrap">Laser, Inkjet, Dot-Matrix</td>
+                  <td className="px-3.5 py-2 text-slate-500 whitespace-nowrap">
+                    Wholesale bills, Delivery challans, Compact memos
+                  </td>
+                  <td className="px-3.5 py-2 text-right font-semibold text-emerald-700 whitespace-nowrap">
+                    Vector PDF &amp; Print
+                  </td>
+                </tr>
+                <tr className="hover:bg-purple-50/20 transition-colors">
+                  <td className="px-3.5 py-2 text-slate-900 font-semibold whitespace-nowrap">
+                    80mm Thermal Slip
+                  </td>
+                  <td className="px-3.5 py-2 whitespace-nowrap">80 mm roll (3-inch)</td>
+                  <td className="px-3.5 py-2 whitespace-nowrap">ESC/POS Thermal Receipt Printers</td>
+                  <td className="px-3.5 py-2 text-slate-500 whitespace-nowrap">
+                    Supermarkets, Grocery counters, Dine-in POS receipts
+                  </td>
+                  <td className="px-3.5 py-2 text-right font-semibold text-purple-700 whitespace-nowrap">
+                    Direct ESC/POS Raw Print
+                  </td>
+                </tr>
+                <tr className="hover:bg-purple-50/20 transition-colors">
+                  <td className="px-3.5 py-2 text-slate-900 font-semibold whitespace-nowrap">
+                    58mm Thermal Slip
+                  </td>
+                  <td className="px-3.5 py-2 whitespace-nowrap">58 mm roll (2-inch)</td>
+                  <td className="px-3.5 py-2 whitespace-nowrap">Bluetooth / USB Mini Thermal</td>
+                  <td className="px-3.5 py-2 text-slate-500 whitespace-nowrap">
+                    Small kiosks, Mobile vans, Quick billing counters
+                  </td>
+                  <td className="px-3.5 py-2 text-right font-semibold text-purple-700 whitespace-nowrap">
+                    Direct ESC/POS Raw Print
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>

@@ -19,6 +19,7 @@ export const RELEASES_DATA = [
     highlights: [
       'Dual-Screen POS Customer Display: Secondary monitor projection showing live cart items and instant UPI payment QR.',
       'ESC/POS Thermal Paper Printing: Full compatibility with 58mm (2-inch) and 80mm (3-inch) thermal slip printers.',
+      'Full-Page A4 & A5 PDF Tax Invoicing: High-resolution vector PDF printing with GST breakdown, logo branding, and bank details.',
       'Dynamic UPI Payment QR Codes: Automated generation of merchant UPI QR codes with exact bill amounts.',
       'Automated GST Tax Engine: Instant CGST, SGST, and IGST tax splits across all standard tax slabs.',
       'Hardware Barcode Gun Integration: Real-time HID scanning with automatic quantity incrementation.',
