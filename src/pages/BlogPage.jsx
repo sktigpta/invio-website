@@ -53,7 +53,7 @@ export function BlogPage() {
     >
       <div className="space-y-4 my-8">
         {articles.map((art, idx) => (
-          <article key={idx} className="p-5 rounded-2xl border border-slate-200/90 bg-white hover:border-purple-200 transition-colors">
+          <article key={idx} className="p-5 rounded-squircle border border-slate-200/90 bg-white hover:border-purple-200 transition-colors">
             <div className="flex items-center gap-2.5 text-xs text-slate-500 mb-2">
               <span className="font-semibold text-[#7C3AED] bg-purple-50 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider">
                 {art.tag}

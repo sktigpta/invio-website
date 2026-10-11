@@ -22,7 +22,7 @@ export default defineConfig({
           ? `http://localhost:${process.env.VITE_BACKEND_PORT}`
           : process.env.PORT
             ? `http://localhost:${process.env.PORT}`
-            : 'http://localhost:3000',
+            : 'http://localhost:5000',
         changeOrigin: true,
       },
     },

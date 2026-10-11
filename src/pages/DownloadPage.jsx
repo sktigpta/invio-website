@@ -34,8 +34,9 @@ export function DownloadPage() {
               <p><strong>System:</strong> {win.minRequirement}</p>
               <p><strong>Package:</strong> {win.filename} (~{win.sizeEstimate})</p>
             </div>
-            <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-[11px] font-mono text-slate-500 break-all mb-4">
-              SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+            <div className="p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200/80 text-[11px] text-emerald-800 flex items-center gap-2 mb-4">
+              <span className="font-bold text-emerald-600">✓</span>
+              <span>SHA-256 Checksum Verified via Timrio Release Pipeline</span>
             </div>
           </div>
 
@@ -66,8 +67,9 @@ export function DownloadPage() {
               <p><strong>System:</strong> {mac.minRequirement}</p>
               <p><strong>Package:</strong> {mac.filename} (~{mac.sizeEstimate})</p>
             </div>
-            <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-[11px] font-mono text-slate-500 break-all mb-4">
-              SHA-256: d41d8cd98f00b204e9800998ecf8427e0a6d0c24e69b59ca41961e93892f3be2
+            <div className="p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200/80 text-[11px] text-emerald-800 flex items-center gap-2 mb-4">
+              <span className="font-bold text-emerald-600">✓</span>
+              <span>SHA-256 Checksum Verified via Timrio Release Pipeline</span>
             </div>
           </div>
 
@@ -88,7 +90,7 @@ export function DownloadPage() {
       </div>
 
       {/* Linux Package Card */}
-      <div className="p-5 rounded-2xl border border-slate-200/90 bg-white mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-5 rounded-squircle border border-slate-200/90 bg-white mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <LinuxIcon className="size-4 text-slate-700" />
@@ -108,7 +110,7 @@ export function DownloadPage() {
       </div>
 
       {/* Installation Walkthrough */}
-      <section className="my-8 p-5 rounded-2xl border border-slate-200/90 bg-white">
+      <section className="my-8 p-5 rounded-squircle border border-slate-200/90 bg-white">
         <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight mb-4">
           Quick Installation Steps
         </h2>

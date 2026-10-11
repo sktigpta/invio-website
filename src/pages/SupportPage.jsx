@@ -36,7 +36,7 @@ export function SupportPage() {
       subtitle="Need assistance installing Invio, connecting hardware, or managing your local database? We are here to help."
     >
       {/* Contact Support Box */}
-      <div className="my-6 p-5 rounded-2xl border border-slate-200/90 bg-white">
+      <div className="my-6 p-5 rounded-squircle border border-slate-200/90 bg-white">
         <div className="flex items-start gap-3">
           <div className="p-2 rounded-lg bg-purple-50 text-[#7C3AED] shrink-0 mt-0.5">
             <MailIcon className="size-5" />
@@ -75,7 +75,7 @@ export function SupportPage() {
       </section>
 
       {/* Documentation Links */}
-      <div className="my-8 p-5 rounded-2xl border border-slate-200/90 bg-white">
+      <div className="my-8 p-5 rounded-squircle border border-slate-200/90 bg-white">
         <h2 className="text-sm font-bold text-slate-900 mb-3">Helpful Documentation</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
           <Link to="/docs/installation" className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">

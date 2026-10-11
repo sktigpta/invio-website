@@ -17,7 +17,7 @@ export function DownloadCta({
   };
 
   return (
-    <section className={`my-6 p-5 sm:p-6 border border-slate-200/90 rounded-2xl bg-white shadow-2xs ${className}`}>
+    <section className={`my-6 p-5 sm:p-6 border border-slate-200/90 rounded-squircle bg-white shadow-2xs ${className}`}>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight mb-1">

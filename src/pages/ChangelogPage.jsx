@@ -18,7 +18,7 @@ export function ChangelogPage() {
     >
       <div className="space-y-4 my-8">
         {/* Version 1.0.2 */}
-        <div className="p-5 rounded-2xl border-2 border-[#7C3AED]/40 bg-white">
+        <div className="p-5 rounded-squircle border-2 border-[#7C3AED]/40 bg-white">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-bold text-slate-900">Version 1.0.2</h2>
@@ -43,7 +43,7 @@ export function ChangelogPage() {
         </div>
 
         {/* Version 1.0.1 */}
-        <div className="p-5 rounded-2xl border border-slate-200/90 bg-white">
+        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <h2 className="text-base font-bold text-slate-900">Version 1.0.1</h2>
             <span className="text-xs text-slate-500">August 2026</span>
@@ -57,7 +57,7 @@ export function ChangelogPage() {
         </div>
 
         {/* Version 1.0.0 */}
-        <div className="p-5 rounded-2xl border border-slate-200/90 bg-white">
+        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <h2 className="text-base font-bold text-slate-900">Version 1.0.0</h2>
             <span className="text-xs text-slate-500">July 2026</span>

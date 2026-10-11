@@ -90,17 +90,15 @@ export function FeaturesPage() {
                           loading="lazy"
                         />
                       ) : (
-                        <div className="text-center p-8 select-none flex flex-col items-center justify-center">
-                          <div className="size-16 rounded-squircle-sm bg-white/80 border border-slate-200/90 shadow-2xs flex items-center justify-center mb-3 text-slate-400 group-hover:text-[#7C3AED] group-hover:border-purple-200 transition-colors">
-                            <svg className="size-8 stroke-[1.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                            </svg>
+                        <div className="w-full h-full p-8 flex flex-col items-center justify-center text-center select-none bg-gradient-to-br from-purple-50/50 via-white to-slate-50">
+                          <div className="size-16 rounded-squircle bg-white border border-slate-200/90 shadow-2xs flex items-center justify-center mb-4 text-[#7C3AED] group-hover:scale-110 transition-transform duration-300">
+                            {feature.icon ? <feature.icon className="size-8" /> : null}
                           </div>
-                          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-                            {feature.title} Preview
+                          <span className="text-xs font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-100/70 px-3 py-1 rounded-full mb-2">
+                            {feature.category}
                           </span>
-                          <span className="text-[11px] text-slate-400">
-                            Screenshot Placeholder
+                          <span className="text-sm font-bold text-slate-800 max-w-xs leading-snug">
+                            {feature.tagline}
                           </span>
                         </div>
                       )}

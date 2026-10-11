@@ -18,7 +18,7 @@ export function InstallationGuidePage() {
     >
       <div className="space-y-5 my-8">
         {/* Windows Section */}
-        <section className="p-5 rounded-2xl border border-slate-200/90 bg-white">
+        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
           <div className="flex items-center gap-2 mb-3">
             <WindowsIcon className="size-5 text-[#0078D7]" />
             <h2 className="text-base sm:text-lg font-bold text-slate-900">1. Installing on Windows (10 &amp; 11)</h2>
@@ -40,7 +40,7 @@ export function InstallationGuidePage() {
         </section>
 
         {/* macOS Section */}
-        <section className="p-5 rounded-2xl border border-slate-200/90 bg-white">
+        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
           <div className="flex items-center gap-2 mb-3">
             <AppleIcon className="size-5 text-slate-800" />
             <h2 className="text-base sm:text-lg font-bold text-slate-900">2. Installing on macOS (Apple Silicon &amp; Intel)</h2>
@@ -62,7 +62,7 @@ export function InstallationGuidePage() {
         </section>
 
         {/* First-Run Configuration */}
-        <section className="p-5 rounded-2xl border border-slate-200/90 bg-white">
+        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
           <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3">3. First-Run Setup &amp; Configuration</h2>
           <div className="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
             <p>
@@ -81,7 +81,7 @@ export function InstallationGuidePage() {
         </section>
 
         {/* Database Storage Location */}
-        <section className="p-5 rounded-2xl border border-slate-200/90 bg-white">
+        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
           <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-2">4. Database Storage Location</h2>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
             Invio stores your local SQLite database entirely on your local machine:

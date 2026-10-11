@@ -18,7 +18,7 @@ export function SystemRequirementsPage() {
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-8">
         {/* Windows Card */}
-        <div className="p-5 rounded-2xl border border-slate-200/90 bg-white">
+        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
           <div className="flex items-center gap-2 mb-3">
             <WindowsIcon className="size-5 text-[#0078D7]" />
             <h2 className="text-base sm:text-lg font-bold text-slate-900">Windows PC</h2>
@@ -36,7 +36,7 @@ export function SystemRequirementsPage() {
         </div>
 
         {/* macOS Card */}
-        <div className="p-5 rounded-2xl border border-slate-200/90 bg-white">
+        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
           <div className="flex items-center gap-2 mb-3">
             <AppleIcon className="size-5 text-slate-800" />
             <h2 className="text-base sm:text-lg font-bold text-slate-900">Apple Mac</h2>
@@ -55,7 +55,7 @@ export function SystemRequirementsPage() {
       </div>
 
       {/* Hardware & Peripherals */}
-      <section className="my-8 p-5 rounded-2xl border border-slate-200/90 bg-white">
+      <section className="my-8 p-5 rounded-squircle border border-slate-200/90 bg-white">
         <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3">Hardware &amp; Peripheral Compatibility</h2>
         <div className="space-y-3 text-xs text-slate-600 leading-relaxed">
           <p>

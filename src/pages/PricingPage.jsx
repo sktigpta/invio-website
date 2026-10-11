@@ -4,7 +4,13 @@ import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { DownloadCta } from '../components/DownloadCta';
 import { FaqAccordion } from '../components/FaqAccordion';
-import { API_BASE_URL } from '../utils/osDetector';
+import {
+  fetchSubscriptionPlans,
+  createSubscriptionOrder,
+  verifyPayment,
+  loadRazorpayCheckout,
+  openRazorpayCheckout,
+} from '../services/paymentService';
 
 // Default static fallback values if backend is unreachable or booting
 const DEFAULT_PLANS_STATE = {
@@ -73,52 +79,97 @@ const DEFAULT_PLANS_STATE = {
 export function PricingPage() {
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'yearly'
   const [plansData, setPlansData] = useState(DEFAULT_PLANS_STATE);
-  const [loading, setLoading] = useState(true);
+  const [payingPlan, setPayingPlan] = useState(null);
+  const [payError, setPayError] = useState('');
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     applySEO('pricing');
     window.scrollTo(0, 0);
 
     // Fetch dynamic plan catalog and live prices from backend API (/api/account/plans)
-    const fetchPlans = async () => {
+    const loadPlans = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/account/plans`, {
-          headers: { 'Accept': 'application/json' },
-          signal: AbortSignal.timeout(4000),
-        });
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.plans)) {
-            setPlansData((prev) => {
-              const updated = { ...prev };
-              json.plans.forEach((p) => {
-                const planKey = String(p.id).toLowerCase();
-                if (updated[planKey]) {
-                  const mPrice = p.prices?.monthly;
-                  const yPrice = p.prices?.yearly;
-                  updated[planKey] = {
-                    ...updated[planKey],
-                    name: p.name || updated[planKey].name,
-                    description: p.description || updated[planKey].description,
-                    priceMonthly: typeof mPrice === 'number' ? mPrice : updated[planKey].priceMonthly,
-                    priceYearly: typeof yPrice === 'number' ? yPrice : updated[planKey].priceYearly,
-                  };
-                }
-              });
-              return updated;
+        const res = await fetchSubscriptionPlans();
+        if (res.success && Array.isArray(res.plans)) {
+          setPlansData((prev) => {
+            const updated = { ...prev };
+            res.plans.forEach((p) => {
+              const planKey = String(p.id).toLowerCase();
+              if (updated[planKey]) {
+                const mPrice = p.prices?.monthly;
+                const yPrice = p.prices?.yearly;
+                updated[planKey] = {
+                  ...updated[planKey],
+                  name: p.name || updated[planKey].name,
+                  description: p.description || updated[planKey].description,
+                  priceMonthly: typeof mPrice === 'number' ? mPrice : updated[planKey].priceMonthly,
+                  priceYearly: typeof yPrice === 'number' ? yPrice : updated[planKey].priceYearly,
+                };
+              }
             });
-          }
+            return updated;
+          });
         }
       } catch (err) {
-        // Fallback to pre-configured defaults seamlessly if offline
         console.debug('[Pricing] Using standard catalog pricing defaults:', err);
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchPlans();
+    loadPlans();
   }, []);
+
+  const handleCheckout = async (planId) => {
+    if (payingPlan || success) return;
+    setPayingPlan(planId);
+    setPayError('');
+    try {
+      const order = await createSubscriptionOrder(planId, billingCycle);
+      if (!order.success) {
+        setPayError(order.error || 'Could not start checkout. Please try again.');
+        setPayingPlan(null);
+        return;
+      }
+      const scriptOk = await loadRazorpayCheckout();
+      if (!scriptOk) {
+        setPayError('Payment window could not be loaded. Please check your internet connection and try again.');
+        setPayingPlan(null);
+        return;
+      }
+      openRazorpayCheckout({
+        keyId: order.keyId,
+        orderId: order.orderId,
+        amountPaise: order.amountPaise,
+        currency: order.currency,
+        amountRupees: order.amount,
+        description: `Invio Plus — ${billingCycle === 'yearly' ? 'Yearly' : 'Monthly'} Subscription`,
+        onSuccess: async ({ orderId, paymentId, signature }) => {
+          const result = await verifyPayment({ orderId, paymentId, signature });
+          setPayingPlan(null);
+          if (result.success) {
+            setSuccess({
+              plan: 'plus',
+              validity: billingCycle,
+              amount: order.amount,
+              orderId,
+              paymentId,
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            setPayError('Payment signature could not be verified by server. If money was deducted, it will be refunded automatically.');
+          }
+        },
+        onDismiss: () => setPayingPlan(null),
+        onError: (err) => {
+          setPayingPlan(null);
+          setPayError(err?.message || 'Payment failed. No money was deducted.');
+        },
+      });
+    } catch {
+      setPayingPlan(null);
+      setPayError('An unexpected error occurred while starting checkout.');
+    }
+  };
 
   const pricingFaqs = [
     {
@@ -193,6 +244,58 @@ export function PricingPage() {
           </button>
         </div>
       </div>
+
+      {/* Payment Success Notification */}
+      {success && (
+        <div className="my-6 p-6 rounded-squircle bg-emerald-50 border border-emerald-200 text-slate-800 shadow-2xs">
+          <div className="flex items-start gap-3.5">
+            <div className="size-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">
+              ✓
+            </div>
+            <div className="flex-1">
+              <h3 className="text-base font-bold text-slate-900 mb-1">
+                Payment Verified — Welcome to Invio Plus!
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed mb-2">
+                Your payment of <strong>₹{success.amount}</strong> for Invio Plus ({success.validity}) is confirmed.
+                Razorpay Payment ID: <code className="font-mono bg-emerald-100 px-1.5 py-0.5 rounded text-emerald-800 font-semibold">{success.paymentId}</code>.
+              </p>
+              <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                To link Invio Plus, launch the Invio desktop application on your PC, open <strong>Settings &gt; Account</strong>, and enter your account email. If you need any assistance, reach out directly to <a href="mailto:support@timrio.com" className="text-[#7C3AED] font-semibold underline">support@timrio.com</a>.
+              </p>
+              <div className="flex items-center gap-3">
+                <Link
+                  to="/download"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full text-xs font-semibold transition-colors shadow-2xs"
+                >
+                  Download Invio Desktop
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setSuccess(null)}
+                  className="px-3 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Payment Error Alert */}
+      {payError && (
+        <div className="my-6 p-4 rounded-squircle-sm bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center justify-between gap-3 shadow-2xs">
+          <span>{payError}</span>
+          <button
+            type="button"
+            onClick={() => setPayError('')}
+            className="font-bold text-rose-500 hover:text-rose-700 px-2 py-1 cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* 3-Column Pricing Grid (Free, Plus, Pro) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-8 items-stretch">
@@ -281,12 +384,21 @@ export function PricingPage() {
             </ul>
           </div>
 
-          <Link
-            to={plansData.plus.ctaLink}
-            className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-xs select-none block"
+          <button
+            type="button"
+            disabled={payingPlan === 'plus'}
+            onClick={() => handleCheckout('plus')}
+            className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs text-center transition-colors shadow-xs select-none cursor-pointer flex items-center justify-center gap-2"
           >
-            {plansData.plus.ctaText}
-          </Link>
+            {payingPlan === 'plus' ? (
+              <>
+                <span className="size-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span>Opening Checkout...</span>
+              </>
+            ) : (
+              <span>{plansData.plus.ctaText}</span>
+            )}
+          </button>
         </div>
 
         {/* 3. Pro Plan (Enterprise -> Coming Soon) */}
