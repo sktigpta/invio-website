@@ -116,16 +116,16 @@ export function StickyFeatures() {
                 return (
                   <div
                     key={feature.title}
-                    className="group relative p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden cursor-default h-full shadow-xs"
+                    className="group relative p-6 rounded-2xl bg-white border border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-200 flex flex-col justify-start h-[220px] overflow-hidden cursor-default shadow-xs"
                   >
                     <div className="relative z-10 flex flex-col h-full">
-                      <div className="size-11 sm:size-12 rounded-2xl bg-purple-50 flex items-center justify-center mb-4 text-[#7C3AED] group-hover:bg-[#7C3AED] group-hover:text-white transition-colors duration-200">
-                        <Icon className="size-5 sm:size-6 text-[#7C3AED] group-hover:text-white transition-colors duration-200" />
+                      <div className="size-11 rounded-2xl bg-purple-50 flex items-center justify-center mb-3.5 text-[#7C3AED] group-hover:bg-[#7C3AED] group-hover:text-white transition-colors duration-200 shrink-0">
+                        <Icon className="size-5 text-[#7C3AED] group-hover:text-white transition-colors duration-200" />
                       </div>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight mb-2">
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight mb-2 line-clamp-1">
                         {feature.title}
                       </h3>
-                      <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-normal flex-1">
+                      <p className="text-xs text-slate-600 leading-relaxed font-normal line-clamp-4">
                         {feature.description}
                       </p>
                     </div>
