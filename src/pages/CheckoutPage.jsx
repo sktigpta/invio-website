@@ -326,19 +326,19 @@ export function CheckoutPage() {
 
   // 2. Full Width, Two-Section Layout
   return (
-    <div className="w-full min-h-[calc(100vh-64px)] flex flex-col lg:flex-row bg-white">
-      {/* Left Section: Image (Full height, auto width) */}
-      <div className="w-full lg:w-1/2 bg-slate-900 lg:h-[calc(100vh-64px)] min-h-[350px] flex items-center justify-center overflow-hidden relative group">
+    <div className="w-full min-h-[calc(100vh-64px)] lg:h-[calc(100vh-64px)] flex flex-col lg:flex-row bg-white lg:overflow-hidden">
+      {/* Left Section: Image (Full width & height, pinned) */}
+      <div className="w-full lg:w-1/2 bg-slate-950 lg:h-full min-h-[350px] flex items-center justify-center overflow-hidden relative group shrink-0">
         <img
           src={activeFeature.imageUrl}
           alt={activeFeature.imageAlt}
-          className="h-full w-auto max-w-none object-cover"
+          className="w-full h-full object-cover object-top"
           loading="eager"
         />
         <button
           type="button"
           onClick={handleNextFeature}
-          className="absolute bottom-4 left-4 bg-black/60 hover:bg-black/80 text-white backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer border border-white/20 shadow-md opacity-80 hover:opacity-100 flex items-center gap-1.5"
+          className="absolute bottom-4 left-4 bg-black/60 hover:bg-black/80 text-white backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer border border-white/20 shadow-md opacity-80 hover:opacity-100 flex items-center gap-1.5 select-none"
           title="See another feature image"
         >
           <span>Shuffle Image</span>
@@ -346,9 +346,9 @@ export function CheckoutPage() {
         </button>
       </div>
 
-      {/* Right Section: Form (Sign In Default / Sign Up) */}
-      <div className="w-full lg:w-1/2 bg-white p-8 sm:p-12 lg:p-16 flex items-center justify-center lg:h-[calc(100vh-64px)] lg:overflow-y-auto">
-        <div className="w-full max-w-md mx-auto my-auto">
+      {/* Right Section: Form with independent smooth overflow scroll */}
+      <div className="w-full lg:w-1/2 bg-white p-6 sm:p-10 lg:p-14 lg:h-full lg:overflow-y-auto flex flex-col">
+        <div className="w-full max-w-md mx-auto my-auto py-6 sm:py-8">
           {currentUser ? (
             /* State: Already Signed In */
             <div>
