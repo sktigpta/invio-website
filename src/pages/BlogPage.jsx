@@ -55,7 +55,7 @@ export function BlogPage() {
         {articles.map((art, idx) => (
           <article key={idx} className="p-5 rounded-2xl border border-slate-200/90 bg-white hover:border-purple-200 transition-colors">
             <div className="flex items-center gap-2.5 text-xs text-slate-500 mb-2">
-              <span className="font-semibold text-[#8646F4] bg-purple-50 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider">
+              <span className="font-semibold text-[#7C3AED] bg-purple-50 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider">
                 {art.tag}
               </span>
               <span>•</span>
@@ -69,7 +69,7 @@ export function BlogPage() {
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
               {art.summary}
             </p>
-            <span className="text-xs font-semibold text-[#8646F4] inline-flex items-center gap-1">
+            <span className="text-xs font-semibold text-[#7C3AED] inline-flex items-center gap-1">
               Read complete guide →
             </span>
           </article>

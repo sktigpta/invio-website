@@ -3,7 +3,6 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 
 import { HomePage } from './pages/HomePage';
-import { ProductPage } from './pages/ProductPage';
 import { FeaturesPage } from './pages/FeaturesPage';
 import { PricingPage } from './pages/PricingPage';
 import { DownloadPage } from './pages/DownloadPage';
@@ -34,10 +33,10 @@ export function App() {
         <Routes>
           {/* Main Brand & Conversion Routes */}
           <Route path="/" element={<HomePage />} />
-          <Route path="/products/invio" element={<ProductPage />} />
-          <Route path="/product" element={<Navigate to="/products/invio" replace />} />
-          <Route path="/product-overview" element={<Navigate to="/products/invio" replace />} />
           <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/products/invio" element={<Navigate to="/features" replace />} />
+          <Route path="/product" element={<Navigate to="/features" replace />} />
+          <Route path="/product-overview" element={<Navigate to="/features" replace />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/subscription" element={<Navigate to="/pricing" replace />} />
           <Route path="/download" element={<DownloadPage />} />

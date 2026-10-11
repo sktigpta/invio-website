@@ -32,13 +32,13 @@ export function FaqPage() {
         <div className="flex items-center gap-3 shrink-0">
           <a
             href="mailto:support@timrio.com"
-            className="h-9 px-4 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-sm"
+            className="h-9 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-sm"
           >
             Email support@timrio.com
           </a>
           <Link
             to="/support"
-            className="text-xs font-semibold text-[#8646F4] hover:underline"
+            className="text-xs font-semibold text-[#7C3AED] hover:underline"
           >
             Help Center →
           </Link>

@@ -30,7 +30,7 @@ export function SystemRequirementsPage() {
             <p><strong>Disk Storage:</strong> 350 MB available disk space for application and local SQLite database.</p>
             <p><strong>Display Resolution:</strong> 1024 × 768 minimum (1920 × 1080 recommended).</p>
           </div>
-          <Link to="/download" className="text-xs font-semibold text-[#8646F4] hover:underline">
+          <Link to="/download" className="text-xs font-semibold text-[#7C3AED] hover:underline">
             Download for Windows (.exe) →
           </Link>
         </div>
@@ -48,7 +48,7 @@ export function SystemRequirementsPage() {
             <p><strong>Disk Storage:</strong> 400 MB available disk space for installation and invoice data.</p>
             <p><strong>Display Resolution:</strong> Any Retina or standard display.</p>
           </div>
-          <Link to="/download" className="text-xs font-semibold text-[#8646F4] hover:underline">
+          <Link to="/download" className="text-xs font-semibold text-[#7C3AED] hover:underline">
             Download for macOS (.dmg) →
           </Link>
         </div>

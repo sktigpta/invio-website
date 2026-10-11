@@ -38,7 +38,7 @@ export function SupportPage() {
       {/* Contact Support Box */}
       <div className="my-6 p-5 rounded-2xl border border-slate-200/90 bg-white">
         <div className="flex items-start gap-3">
-          <div className="p-2 rounded-lg bg-purple-50 text-[#8646F4] shrink-0 mt-0.5">
+          <div className="p-2 rounded-lg bg-purple-50 text-[#7C3AED] shrink-0 mt-0.5">
             <MailIcon className="size-5" />
           </div>
           <div className="flex-1">
@@ -49,7 +49,7 @@ export function SupportPage() {
             <div className="flex flex-wrap items-center gap-3">
               <a
                 href="mailto:support@timrio.com"
-                className="h-9 px-4 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-sm"
+                className="h-9 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-sm"
               >
                 support@timrio.com
               </a>

@@ -25,7 +25,7 @@ export function InstallationGuidePage() {
           </div>
           <ol className="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed list-decimal pl-4">
             <li>
-              Download the latest Windows installer (<code>Invio-Setup-1.0.2.exe</code>) from our <Link to="/download" className="text-[#8646F4] underline">Download page</Link>.
+              Download the latest Windows installer (<code>Invio-Setup-1.0.2.exe</code>) from our <Link to="/download" className="text-[#7C3AED] underline">Download page</Link>.
             </li>
             <li>
               Open your Downloads folder and double-click the setup file.
@@ -47,7 +47,7 @@ export function InstallationGuidePage() {
           </div>
           <ol className="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed list-decimal pl-4">
             <li>
-              Download the macOS disk image (<code>Invio-1.0.2.dmg</code>) from our <Link to="/download" className="text-[#8646F4] underline">Download page</Link>.
+              Download the macOS disk image (<code>Invio-1.0.2.dmg</code>) from our <Link to="/download" className="text-[#7C3AED] underline">Download page</Link>.
             </li>
             <li>
               Double-click the downloaded <code>.dmg</code> file to mount it.
@@ -94,10 +94,10 @@ export function InstallationGuidePage() {
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-        <Link to="/system-requirements" className="font-semibold text-[#8646F4] hover:underline">
+        <Link to="/system-requirements" className="font-semibold text-[#7C3AED] hover:underline">
           ← Check system requirements
         </Link>
-        <Link to="/download" className="font-semibold text-[#8646F4] hover:underline">
+        <Link to="/download" className="font-semibold text-[#7C3AED] hover:underline">
           Go to download page →
         </Link>
       </div>

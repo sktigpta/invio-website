@@ -43,7 +43,7 @@ export function DownloadPage() {
             <button
               type="button"
               onClick={() => triggerDirectDownload(win)}
-              className="w-full py-2.5 px-4 bg-[#8646F4] hover:bg-[#7234de] text-white rounded-full font-semibold text-xs text-center cursor-pointer transition-colors shadow-sm mb-2.5 flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center cursor-pointer transition-colors shadow-sm mb-2.5 flex items-center justify-center gap-2"
             >
               <WindowsIcon className="size-4" />
               <span>Download for Windows (.exe)</span>
@@ -75,7 +75,7 @@ export function DownloadPage() {
             <button
               type="button"
               onClick={() => triggerDirectDownload(mac)}
-              className="w-full py-2.5 px-4 bg-[#8646F4] hover:bg-[#7234de] text-white rounded-full font-semibold text-xs text-center cursor-pointer transition-colors shadow-sm mb-2.5 flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center cursor-pointer transition-colors shadow-sm mb-2.5 flex items-center justify-center gap-2"
             >
               <AppleIcon className="size-4" />
               <span>Download for macOS (.dmg)</span>
@@ -134,10 +134,10 @@ export function DownloadPage() {
         </div>
 
         <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <Link to="/docs/installation" className="font-semibold text-[#8646F4] hover:underline">
+          <Link to="/docs/installation" className="font-semibold text-[#7C3AED] hover:underline">
             Read comprehensive setup walkthrough →
           </Link>
-          <Link to="/changelog" className="font-semibold text-[#8646F4] hover:underline">
+          <Link to="/changelog" className="font-semibold text-[#7C3AED] hover:underline">
             View version 1.0.2 release notes →
           </Link>
         </div>

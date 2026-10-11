@@ -17,7 +17,7 @@ export function NotFoundPage() {
       className="text-center"
     >
       <div className="py-8">
-        <p className="text-5xl font-black text-[#8646F4] mb-4">404</p>
+        <p className="text-5xl font-black text-[#7C3AED] mb-4">404</p>
         <p className="text-xs text-slate-600 mb-6 max-w-sm mx-auto">
           Use the quick links below to navigate back to the main areas of the Invio desktop website.
         </p>
@@ -25,7 +25,7 @@ export function NotFoundPage() {
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/"
-            className="h-9 px-5 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-sm"
+            className="h-9 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-sm"
           >
             Return to Home
           </Link>

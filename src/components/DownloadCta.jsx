@@ -32,7 +32,7 @@ export function DownloadCta({
           <button
             type="button"
             onClick={() => triggerDirectDownload(activeOS)}
-            className="h-10 px-5 bg-[#8646F4] hover:bg-[#7234de] active:scale-95 text-white text-xs font-semibold rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+            className="h-10 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-semibold rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm hover:shadow-purple-200"
           >
             {getOsIcon(activeOS.id)}
             <span>Download for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
@@ -41,7 +41,7 @@ export function DownloadCta({
           {showAllLinks && (
             <Link
               to="/download"
-              className="text-xs font-semibold text-[#8646F4] hover:underline"
+              className="text-xs font-semibold text-[#7C3AED] hover:underline"
             >
               All platforms →
             </Link>

@@ -4,7 +4,7 @@ export function PageContainer({ title, subtitle, badge, children, className = ''
       {title && (
         <header className="mb-6">
           {badge && (
-            <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200 mb-2">
+            <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-purple-50 text-[#7C3AED] border border-purple-200/80 mb-2">
               {badge}
             </span>
           )}

@@ -18,11 +18,11 @@ export function ChangelogPage() {
     >
       <div className="space-y-4 my-8">
         {/* Version 1.0.2 */}
-        <div className="p-5 rounded-2xl border-2 border-[#8646F4]/40 bg-white">
+        <div className="p-5 rounded-2xl border-2 border-[#7C3AED]/40 bg-white">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-bold text-slate-900">Version 1.0.2</h2>
-              <span className="text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-[#8646F4] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-[#7C3AED] px-2 py-0.5 rounded-full">
                 Latest Release
               </span>
             </div>
@@ -30,14 +30,14 @@ export function ChangelogPage() {
           </div>
           <p className="text-xs font-semibold text-slate-700 mb-3">POS Customer Display, Dynamic UPI QR &amp; Calculation Hardening</p>
           <ul className="space-y-1.5 text-xs text-slate-600 leading-relaxed mb-4">
-            <li className="flex items-start gap-1.5"><span className="text-[#8646F4] font-bold">•</span><span>Added dual-screen customer POS display monitor support.</span></li>
-            <li className="flex items-start gap-1.5"><span className="text-[#8646F4] font-bold">•</span><span>Added dynamic UPI payment QR codes directly on ESC/POS thermal paper receipts.</span></li>
-            <li className="flex items-start gap-1.5"><span className="text-[#8646F4] font-bold">•</span><span>Configured INR commercial product feeds compliant with Google Merchant Center specifications.</span></li>
-            <li className="flex items-start gap-1.5"><span className="text-[#8646F4] font-bold">•</span><span>Hardened calculation engine: non-negative net floor in payslips, 5-yr tenure notice on gratuity, Section 87A marginal relief.</span></li>
-            <li className="flex items-start gap-1.5"><span className="text-[#8646F4] font-bold">•</span><span>Optimized SQLite transaction handling and query caching in desktop-app.</span></li>
-            <li className="flex items-start gap-1.5"><span className="text-[#8646F4] font-bold">•</span><span>Improved direct download streaming endpoints for Windows and macOS.</span></li>
+            <li className="flex items-start gap-1.5"><span className="text-[#7C3AED] font-bold">•</span><span>Added dual-screen customer POS display monitor support.</span></li>
+            <li className="flex items-start gap-1.5"><span className="text-[#7C3AED] font-bold">•</span><span>Added dynamic UPI payment QR codes directly on ESC/POS thermal paper receipts.</span></li>
+            <li className="flex items-start gap-1.5"><span className="text-[#7C3AED] font-bold">•</span><span>Configured INR commercial product feeds compliant with Google Merchant Center specifications.</span></li>
+            <li className="flex items-start gap-1.5"><span className="text-[#7C3AED] font-bold">•</span><span>Hardened calculation engine: non-negative net floor in payslips, 5-yr tenure notice on gratuity, Section 87A marginal relief.</span></li>
+            <li className="flex items-start gap-1.5"><span className="text-[#7C3AED] font-bold">•</span><span>Optimized SQLite transaction handling and query caching in desktop-app.</span></li>
+            <li className="flex items-start gap-1.5"><span className="text-[#7C3AED] font-bold">•</span><span>Improved direct download streaming endpoints for Windows and macOS.</span></li>
           </ul>
-          <Link to="/download" className="text-xs font-semibold text-[#8646F4] hover:underline">
+          <Link to="/download" className="text-xs font-semibold text-[#7C3AED] hover:underline">
             Download Version 1.0.2 →
           </Link>
         </div>

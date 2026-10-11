@@ -107,7 +107,7 @@ export function IndiaGstTool() {
         <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-tight">India GST Calculator</h1>
-            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
               GSTIN
             </span>
           </div>
@@ -129,7 +129,7 @@ export function IndiaGstTool() {
                     type="button"
                     onClick={() => setRate(s)}
                     className={`py-2 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
-                      rate === s ? 'bg-[#8646F4] text-white border-[#8646F4]' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
+                      rate === s ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     {s}%
@@ -146,7 +146,7 @@ export function IndiaGstTool() {
                   type="button"
                   onClick={() => setMode('exclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'exclusive' ? 'bg-white text-[#8646F4] shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    mode === 'exclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   + Exclusive (Add GST on Base)
@@ -155,7 +155,7 @@ export function IndiaGstTool() {
                   type="button"
                   onClick={() => setMode('inclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'inclusive' ? 'bg-white text-[#8646F4] shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    mode === 'inclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   − Inclusive (Extract GST from MRP)
@@ -175,7 +175,7 @@ export function IndiaGstTool() {
                 placeholder="Enter amount (e.g. 10000)"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4] transition-all"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all"
               />
             </div>
 
@@ -187,7 +187,7 @@ export function IndiaGstTool() {
                   type="button"
                   onClick={() => setSupply('intra')}
                   className={`p-2.5 rounded-lg border text-left text-xs transition-all cursor-pointer ${
-                    supply === 'intra' ? 'border-[#8646F4] bg-purple-50 text-[#8646F4] font-semibold' : 'border-slate-200 bg-slate-50/50 text-slate-600 hover:bg-slate-100'
+                    supply === 'intra' ? 'border-[#7C3AED] bg-purple-50 text-[#7C3AED] font-semibold' : 'border-slate-200 bg-slate-50/50 text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   <span className="block font-bold text-xs">Intra-State</span>
@@ -197,7 +197,7 @@ export function IndiaGstTool() {
                   type="button"
                   onClick={() => setSupply('inter')}
                   className={`p-2.5 rounded-lg border text-left text-xs transition-all cursor-pointer ${
-                    supply === 'inter' ? 'border-[#8646F4] bg-purple-50 text-[#8646F4] font-semibold' : 'border-slate-200 bg-slate-50/50 text-slate-600 hover:bg-slate-100'
+                    supply === 'inter' ? 'border-[#7C3AED] bg-purple-50 text-[#7C3AED] font-semibold' : 'border-slate-200 bg-slate-50/50 text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   <span className="block font-bold text-xs">Inter-State</span>
@@ -207,7 +207,7 @@ export function IndiaGstTool() {
                   type="button"
                   onClick={() => setSupply('utgst')}
                   className={`p-2.5 rounded-lg border text-left text-xs transition-all cursor-pointer ${
-                    supply === 'utgst' ? 'border-[#8646F4] bg-purple-50 text-[#8646F4] font-semibold' : 'border-slate-200 bg-slate-50/50 text-slate-600 hover:bg-slate-100'
+                    supply === 'utgst' ? 'border-[#7C3AED] bg-purple-50 text-[#7C3AED] font-semibold' : 'border-slate-200 bg-slate-50/50 text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   <span className="block font-bold text-xs">Union Territory</span>
@@ -278,7 +278,7 @@ export function IndiaGstTool() {
             <div className="p-4 bg-[#F5F3FF] border border-[#DDD6FE] rounded-xl flex items-center justify-between mb-3 print:bg-transparent print:border-y-2 print:border-x-0 print:border-slate-900 print:rounded-none print:p-2 print:my-2 print:shadow-none">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900 print:text-slate-900 block font-mono">Gross Total</span>
-                <span className="text-2xl font-black text-[#8646F4] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatINR(results.gross)}</span>
+                <span className="text-2xl font-black text-[#7C3AED] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatINR(results.gross)}</span>
               </div>
             </div>
 
@@ -296,7 +296,7 @@ export function IndiaGstTool() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="py-2.5 px-3 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <PrinterIcon />
                 <span>Print Slip</span>
@@ -377,7 +377,7 @@ export function IncomeTaxIndiaTool() {
         <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-tight">Income Tax Calculator</h1>
-            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
               FY {assessmentYear}
             </span>
           </div>
@@ -397,7 +397,7 @@ export function IncomeTaxIndiaTool() {
                   type="button"
                   onClick={() => setAssessmentYear('2025-26')}
                   className={`py-2 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
-                    assessmentYear === '2025-26' ? 'bg-[#8646F4] text-white border-[#8646F4]' : 'bg-slate-50 text-slate-700 border-slate-200'
+                    assessmentYear === '2025-26' ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-slate-50 text-slate-700 border-slate-200'
                   }`}
                 >
                   FY 2025–26 (Latest Budget Slabs)
@@ -406,7 +406,7 @@ export function IncomeTaxIndiaTool() {
                   type="button"
                   onClick={() => setAssessmentYear('2024-25')}
                   className={`py-2 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
-                    assessmentYear === '2024-25' ? 'bg-[#8646F4] text-white border-[#8646F4]' : 'bg-slate-50 text-slate-700 border-slate-200'
+                    assessmentYear === '2024-25' ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-slate-50 text-slate-700 border-slate-200'
                   }`}
                 >
                   FY 2024–25 (Previous FY)
@@ -423,7 +423,7 @@ export function IncomeTaxIndiaTool() {
                 placeholder="Enter gross CTC (e.g. 1200000)"
                 value={income}
                 onChange={(e) => setIncome(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
 
@@ -437,7 +437,7 @@ export function IncomeTaxIndiaTool() {
                 placeholder="Enter total deductions (e.g. 150000)"
                 value={deductions}
                 onChange={(e) => setDeductions(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
               <span className="text-[11px] text-slate-400 block mt-1">Includes ₹1.5L Sec 80C + Medical Insurance + HRA exemption.</span>
             </div>
@@ -485,7 +485,7 @@ export function IncomeTaxIndiaTool() {
             <div className="p-4 bg-[#F5F3FF] border border-[#DDD6FE] rounded-xl mb-3 print:bg-transparent print:border-y-2 print:border-x-0 print:border-slate-900 print:rounded-none print:p-2 print:my-2 print:shadow-none flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900 print:text-slate-900 block font-mono">Lowest Tax Payable</span>
-                <span className="text-2xl font-black text-[#8646F4] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatINR(bestTax)}</span>
+                <span className="text-2xl font-black text-[#7C3AED] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatINR(bestTax)}</span>
               </div>
             </div>
 
@@ -503,7 +503,7 @@ export function IncomeTaxIndiaTool() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="py-2.5 px-3 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <PrinterIcon />
                 <span>Print Slip</span>
@@ -558,7 +558,7 @@ export function UkVatTool() {
         <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-tight">UK VAT Calculator</h1>
-            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
               HMRC UK
             </span>
           </div>
@@ -584,7 +584,7 @@ export function UkVatTool() {
                     type="button"
                     onClick={() => setRate(s.r)}
                     className={`py-2 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
-                      rate === s.r ? 'bg-[#8646F4] text-white border-[#8646F4]' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
+                      rate === s.r ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     {s.l}
@@ -601,7 +601,7 @@ export function UkVatTool() {
                   type="button"
                   onClick={() => setMode('exclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'exclusive' ? 'bg-white text-[#8646F4] shadow-xs' : 'text-slate-600'
+                    mode === 'exclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600'
                   }`}
                 >
                   + Add VAT (Net to Gross)
@@ -610,7 +610,7 @@ export function UkVatTool() {
                   type="button"
                   onClick={() => setMode('inclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'inclusive' ? 'bg-white text-[#8646F4] shadow-xs' : 'text-slate-600'
+                    mode === 'inclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600'
                   }`}
                 >
                   − Extract VAT (Gross to Net)
@@ -629,7 +629,7 @@ export function UkVatTool() {
                 placeholder="Enter amount (e.g. 1000)"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
           </div>
@@ -663,7 +663,7 @@ export function UkVatTool() {
             <div className="p-4 bg-[#F5F3FF] border border-[#DDD6FE] rounded-xl mb-3 print:bg-transparent print:border-y-2 print:border-x-0 print:border-slate-900 print:rounded-none print:p-2 print:my-2 print:shadow-none flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900 print:text-slate-900 block font-mono">Total Payable (£)</span>
-                <span className="text-2xl font-black text-[#8646F4] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatGBP(results.gross)}</span>
+                <span className="text-2xl font-black text-[#7C3AED] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatGBP(results.gross)}</span>
               </div>
             </div>
 
@@ -681,7 +681,7 @@ export function UkVatTool() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="py-2.5 px-3 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <PrinterIcon />
                 <span>Print Slip</span>
@@ -734,7 +734,7 @@ export function UaeVatTool() {
         <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-tight">UAE VAT Calculator</h1>
-            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
               UAE FTA 5%
             </span>
           </div>
@@ -749,7 +749,7 @@ export function UaeVatTool() {
             {/* Step 1: VAT Rate Slab */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. UAE Federal Tax Authority Rate</label>
-              <div className="p-2.5 rounded-lg bg-purple-50 text-[#8646F4] font-bold text-xs border border-purple-200">
+              <div className="p-2.5 rounded-lg bg-purple-50 text-[#7C3AED] font-bold text-xs border border-purple-200">
                 Standard Rate: 5.0% VAT (Federal Decree-Law No. 8)
               </div>
             </div>
@@ -762,7 +762,7 @@ export function UaeVatTool() {
                   type="button"
                   onClick={() => setMode('exclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'exclusive' ? 'bg-white text-[#8646F4] shadow-xs' : 'text-slate-600'
+                    mode === 'exclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600'
                   }`}
                 >
                   + Add 5% VAT
@@ -771,7 +771,7 @@ export function UaeVatTool() {
                   type="button"
                   onClick={() => setMode('inclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'inclusive' ? 'bg-white text-[#8646F4] shadow-xs' : 'text-slate-600'
+                    mode === 'inclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600'
                   }`}
                 >
                   − Extract 5% VAT
@@ -790,7 +790,7 @@ export function UaeVatTool() {
                 placeholder="Enter amount (e.g. 5000)"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
           </div>
@@ -824,7 +824,7 @@ export function UaeVatTool() {
             <div className="p-4 bg-[#F5F3FF] border border-[#DDD6FE] rounded-xl mb-3 print:bg-transparent print:border-y-2 print:border-x-0 print:border-slate-900 print:rounded-none print:p-2 print:my-2 print:shadow-none flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900 print:text-slate-900 block font-mono">Total in AED</span>
-                <span className="text-2xl font-black text-[#8646F4] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatAED(results.gross)}</span>
+                <span className="text-2xl font-black text-[#7C3AED] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatAED(results.gross)}</span>
               </div>
             </div>
 
@@ -842,7 +842,7 @@ export function UaeVatTool() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="py-2.5 px-3 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <PrinterIcon />
                 <span>Print Slip</span>
@@ -896,7 +896,7 @@ export function PayslipGeneratorTool() {
         <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-tight">Free Payslip Generator</h1>
-            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
               Salary Slip
             </span>
           </div>
@@ -917,7 +917,7 @@ export function PayslipGeneratorTool() {
                   placeholder="e.g. Rahul Sharma"
                   value={empName}
                   onChange={(e) => setEmpName(e.target.value)}
-                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#8646F4]"
+                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
                 />
               </div>
               <div>
@@ -927,7 +927,7 @@ export function PayslipGeneratorTool() {
                   placeholder="e.g. EMP-1042"
                   value={empId}
                   onChange={(e) => setEmpId(e.target.value)}
-                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#8646F4]"
+                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
                 />
               </div>
               <div>
@@ -937,7 +937,7 @@ export function PayslipGeneratorTool() {
                   placeholder="e.g. October 2026"
                   value={month}
                   onChange={(e) => setMonth(e.target.value)}
-                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#8646F4]"
+                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
                 />
               </div>
             </div>
@@ -1077,7 +1077,7 @@ export function PayslipGeneratorTool() {
           <div className="pt-4 mt-auto">
             <div className="p-3.5 bg-purple-50 print:bg-transparent rounded-xl print:rounded-none border border-purple-100 print:border-y-2 print:border-x-0 print:border-slate-900 flex justify-between items-center mb-3 print:p-2 print:my-2">
               <span className="font-semibold text-purple-900 print:text-slate-900 font-mono">Net Take-Home:</span>
-              <strong className="text-xl font-bold text-[#8646F4] print:text-slate-900 font-heading print:font-mono print:text-base">{formatINR(netPay)}</strong>
+              <strong className="text-xl font-bold text-[#7C3AED] print:text-slate-900 font-heading print:font-mono print:text-base">{formatINR(netPay)}</strong>
             </div>
 
             <SlipPrintFooter />
@@ -1094,7 +1094,7 @@ export function PayslipGeneratorTool() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="py-2.5 px-3 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <PrinterIcon />
                 <span>Print Slip</span>
@@ -1137,7 +1137,7 @@ export function PaycheckTool() {
         <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-tight">Take-Home Paycheck Calculator</h1>
-            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
               Salary
             </span>
           </div>
@@ -1159,7 +1159,7 @@ export function PaycheckTool() {
                     type="button"
                     onClick={() => setTaxRate(t)}
                     className={`py-2 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
-                      taxRate === t ? 'bg-[#8646F4] text-white border-[#8646F4]' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
+                      taxRate === t ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     {t}%
@@ -1177,7 +1177,7 @@ export function PaycheckTool() {
                 placeholder="Enter gross paycheck (e.g. 5000)"
                 value={grossSalary}
                 onChange={(e) => setGrossSalary(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
 
@@ -1190,7 +1190,7 @@ export function PaycheckTool() {
                 placeholder="Enter benefits/deductions (e.g. 350)"
                 value={deductions}
                 onChange={(e) => setDeductions(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
           </div>
@@ -1230,7 +1230,7 @@ export function PaycheckTool() {
             <div className="p-4 bg-[#F5F3FF] border border-[#DDD6FE] rounded-xl mb-3 print:bg-transparent print:border-y-2 print:border-x-0 print:border-slate-900 print:rounded-none print:p-2 print:my-2 print:shadow-none flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900 print:text-slate-900 block font-mono">Net Take-Home Pay</span>
-                <span className="text-2xl font-black text-[#8646F4] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatUSD(netTakeHome)}</span>
+                <span className="text-2xl font-black text-[#7C3AED] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatUSD(netTakeHome)}</span>
               </div>
             </div>
 
@@ -1248,7 +1248,7 @@ export function PaycheckTool() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="py-2.5 px-3 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <PrinterIcon />
                 <span>Print Slip</span>
@@ -1298,7 +1298,7 @@ export function HraExemptionTool() {
         <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-tight">HRA Exemption Calculator</h1>
-            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
               Sec 10(13A)
             </span>
           </div>
@@ -1318,7 +1318,7 @@ export function HraExemptionTool() {
                   type="button"
                   onClick={() => setIsMetro(true)}
                   className={`py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
-                    isMetro ? 'bg-[#8646F4] text-white border-[#8646F4]' : 'bg-slate-50 text-slate-700 border-slate-200'
+                    isMetro ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-slate-50 text-slate-700 border-slate-200'
                   }`}
                 >
                   Metro City (50% Basic)
@@ -1327,7 +1327,7 @@ export function HraExemptionTool() {
                   type="button"
                   onClick={() => setIsMetro(false)}
                   className={`py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
-                    !isMetro ? 'bg-[#8646F4] text-white border-[#8646F4]' : 'bg-slate-50 text-slate-700 border-slate-200'
+                    !isMetro ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-slate-50 text-slate-700 border-slate-200'
                   }`}
                 >
                   Non-Metro City (40% Basic)
@@ -1344,7 +1344,7 @@ export function HraExemptionTool() {
                 placeholder="Enter annual basic (e.g. 500000)"
                 value={basicSalary}
                 onChange={(e) => setBasicSalary(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
 
@@ -1357,7 +1357,7 @@ export function HraExemptionTool() {
                 placeholder="Enter HRA received (e.g. 200000)"
                 value={hraReceived}
                 onChange={(e) => setHraReceived(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
 
@@ -1370,7 +1370,7 @@ export function HraExemptionTool() {
                 placeholder="Enter annual rent paid (e.g. 240000)"
                 value={rentPaid}
                 onChange={(e) => setRentPaid(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
           </div>
@@ -1432,7 +1432,7 @@ export function HraExemptionTool() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="py-2.5 px-3 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <PrinterIcon />
                 <span>Print Slip</span>
@@ -1475,7 +1475,7 @@ export function GratuityTool() {
         <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-tight">Gratuity Calculator</h1>
-            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
               Gratuity Act
             </span>
           </div>
@@ -1490,7 +1490,7 @@ export function GratuityTool() {
             {/* Step 1: Formula Standard */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. Statutory Gratuity Formula</label>
-              <div className="p-2.5 rounded-lg bg-purple-50 text-[#8646F4] font-bold text-xs border border-purple-200">
+              <div className="p-2.5 rounded-lg bg-purple-50 text-[#7C3AED] font-bold text-xs border border-purple-200">
                 15 × (Monthly Basic + DA) × Completed Years / 26 Working Days
               </div>
             </div>
@@ -1504,7 +1504,7 @@ export function GratuityTool() {
                 placeholder="Enter monthly basic + DA (e.g. 50000)"
                 value={lastSalary}
                 onChange={(e) => setLastSalary(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
 
@@ -1518,7 +1518,7 @@ export function GratuityTool() {
                 placeholder="Enter years of service (e.g. 5)"
                 value={tenure}
                 onChange={(e) => setTenure(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
               <span className="text-[11px] text-slate-400 block mt-1">Requires minimum 5 continuous years of employment for statutory claim.</span>
             </div>
@@ -1559,7 +1559,7 @@ export function GratuityTool() {
             <div className="p-4 bg-[#F5F3FF] border border-[#DDD6FE] rounded-xl mb-3 print:bg-transparent print:border-y-2 print:border-x-0 print:border-slate-900 print:rounded-none print:p-2 print:my-2 print:shadow-none flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900 print:text-slate-900 block font-mono">Total Gratuity Payout</span>
-                <span className="text-2xl font-black text-[#8646F4] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatINR(gratuityPayout)}</span>
+                <span className="text-2xl font-black text-[#7C3AED] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatINR(gratuityPayout)}</span>
               </div>
             </div>
 
@@ -1577,7 +1577,7 @@ export function GratuityTool() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="py-2.5 px-3 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <PrinterIcon />
                 <span>Print Slip</span>
@@ -1624,7 +1624,7 @@ export function ProjectEstimateTool() {
         <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-tight">Project Cost Estimator</h1>
-            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#8646F4] border border-purple-200">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
               Agency &amp; Freelance
             </span>
           </div>
@@ -1646,7 +1646,7 @@ export function ProjectEstimateTool() {
                     type="button"
                     onClick={() => setContingency(c)}
                     className={`py-2 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
-                      contingency === c ? 'bg-[#8646F4] text-white border-[#8646F4]' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
+                      contingency === c ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     {c}%
@@ -1665,7 +1665,7 @@ export function ProjectEstimateTool() {
                   placeholder="e.g. 100"
                   value={hours}
                   onChange={(e) => setHours(e.target.value)}
-                  className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                  className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
                 />
               </div>
               <div>
@@ -1676,7 +1676,7 @@ export function ProjectEstimateTool() {
                   placeholder="e.g. 50"
                   value={hourlyRate}
                   onChange={(e) => setHourlyRate(e.target.value)}
-                  className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                  className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
                 />
               </div>
             </div>
@@ -1690,7 +1690,7 @@ export function ProjectEstimateTool() {
                 placeholder="e.g. 500"
                 value={fixedExpenses}
                 onChange={(e) => setFixedExpenses(e.target.value)}
-                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#8646F4] focus:ring-1 focus:ring-[#8646F4]"
+                className="w-full h-10 px-3.5 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-sm font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED]"
               />
             </div>
           </div>
@@ -1730,7 +1730,7 @@ export function ProjectEstimateTool() {
             <div className="p-4 bg-[#F5F3FF] border border-[#DDD6FE] rounded-xl mb-3 print:bg-transparent print:border-y-2 print:border-x-0 print:border-slate-900 print:rounded-none print:p-2 print:my-2 print:shadow-none flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900 print:text-slate-900 block font-mono">Recommended Quote</span>
-                <span className="text-2xl font-black text-[#8646F4] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatUSD(totalEstimate)}</span>
+                <span className="text-2xl font-black text-[#7C3AED] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{formatUSD(totalEstimate)}</span>
               </div>
             </div>
 
@@ -1748,7 +1748,7 @@ export function ProjectEstimateTool() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="py-2.5 px-3 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <PrinterIcon />
                 <span>Print Slip</span>

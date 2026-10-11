@@ -179,19 +179,19 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
                       aria-current={isSelected ? 'page' : undefined}
                       className={`w-full text-left px-2.5 py-2 rounded-lg transition-all flex items-center justify-between group cursor-pointer ${
                         isSelected
-                          ? 'bg-[#EDE9FE] text-[#8646F4] font-bold shadow-2xs'
+                          ? 'bg-purple-100/70 text-[#7C3AED] font-bold shadow-2xs'
                           : 'hover:bg-slate-100/80 text-slate-700 font-medium'
                       }`}
                     >
-                      <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                      <div className="flex items-center gap-2.5 min-w-0 pr-2 flex-1">
                         <IconComponent
-                          className={`size-4 shrink-0 transition-colors ${isSelected ? 'text-[#8646F4]' : 'text-slate-400 group-hover:text-slate-600'}`}
+                          className={`size-4 shrink-0 transition-colors ${isSelected ? 'text-[#7C3AED]' : 'text-slate-400 group-hover:text-slate-600'}`}
                         />
-                        <div className="flex flex-col min-w-0">
+                        <div className="flex flex-col min-w-0 flex-1">
                           <span className="text-xs truncate leading-snug">
                             {tool.name}
                           </span>
-                          <span className={`text-[10px] truncate ${isSelected ? 'text-purple-600 font-semibold' : 'text-slate-400'}`}>
+                          <span className={`text-[10px] truncate ${isSelected ? 'text-[#7C3AED] font-semibold' : 'text-slate-400'}`}>
                             {tool.region}
                           </span>
                         </div>
@@ -200,7 +200,7 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
                       {tool.badge && (
                         <span
                           className={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0 ${
-                            isSelected ? 'bg-[#8646F4] text-white' : 'bg-purple-100 text-[#8646F4]'
+                            isSelected ? 'bg-[#7C3AED] text-white' : 'bg-purple-100 text-[#7C3AED]'
                           }`}
                         >
                           {tool.badge}
@@ -221,7 +221,7 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
             <button
               type="button"
               onClick={() => onDirectDownload?.()}
-              className="text-[#8646F4] hover:underline font-bold text-[11px] cursor-pointer"
+              className="text-[#7C3AED] hover:underline font-bold text-[11px] cursor-pointer"
             >
               Download →
             </button>

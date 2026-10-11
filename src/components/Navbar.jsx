@@ -24,9 +24,9 @@ export function Navbar() {
       }
 
       const current = window.scrollY;
-      setScrolled(current > 50);
+      setScrolled(current > 40);
 
-      if (current > lastScrollY && current > 150) {
+      if (current > lastScrollY && current > 120) {
         setHidden(true);
         setMobileMenuOpen(false);
       } else {
@@ -79,19 +79,32 @@ export function Navbar() {
     return location.pathname.startsWith(path);
   };
 
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Features', path: '/features' },
+    { name: 'Pricing', path: '/pricing' },
+    { name: 'FAQ', path: '/faq' },
+    { name: 'Free Tools', path: '/tools' },
+  ];
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 h-16 z-50 transition-all duration-300 flex items-center ${
+      className={`fixed top-0 left-0 right-0 h-16 z-50 transition-transform duration-300 ease-out flex items-center ${
         hidden && !isToolsPage ? '-translate-y-full' : 'translate-y-0'
       } ${
         isToolsPage
-          ? 'bg-white border-b border-slate-200'
+          ? 'bg-white border-b border-slate-200 shadow-2xs'
           : scrolled
-          ? 'bg-white/95 backdrop-blur-md border-b border-black/[0.08] shadow-xs'
-          : 'bg-white/90 backdrop-blur-sm border-b border-black/[0.05]'
+          ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs'
+          : 'bg-white/90 backdrop-blur-sm border-b border-slate-100'
       }`}
     >
-      <div className="w-full max-w-[1200px] mx-auto h-full flex items-center justify-between px-6 sm:px-8">
+      {/* Container: 100% width on Tools page, max-w-[1200px] on all other pages */}
+      <div
+        className={`w-full h-full flex items-center justify-between ${
+          isToolsPage ? 'px-4 sm:px-6' : 'max-w-[1200px] mx-auto px-6 sm:px-8'
+        }`}
+      >
         {/* Brand Logo & Name */}
         <div className="flex items-center gap-2.5 z-50">
           <Link
@@ -110,7 +123,7 @@ export function Navbar() {
           <div className="flex flex-col justify-center leading-none select-none">
             <Link
               to="/"
-              className="font-extrabold text-[16px] tracking-tight text-slate-900 leading-none text-left hover:text-[#8646F4] transition-colors"
+              className="font-extrabold text-[16px] tracking-tight text-slate-900 leading-none text-left hover:text-[#7C3AED] transition-colors"
             >
               Invio
             </Link>
@@ -118,76 +131,39 @@ export function Navbar() {
               href="https://timrio.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[10.5px] text-slate-500 hover:text-[#8646F4] font-medium tracking-wide leading-none mt-1 inline-flex items-center gap-0.5 transition-colors group/timrio"
+              className="text-[10px] text-slate-500 hover:text-[#7C3AED] font-medium tracking-wide leading-none mt-1 inline-flex items-center gap-0.5 transition-colors group/timrio"
               title="Visit Timrio"
             >
               <span>by Timrio</span>
-              <svg className="size-2.5 text-slate-400 group-hover/timrio:text-[#8646F4] transition-colors" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <svg className="size-2 text-slate-400 group-hover/timrio:text-[#7C3AED] transition-colors" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
             </a>
           </div>
         </div>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-8">
-          <nav className="flex items-center gap-6">
-            <Link
-              to="/"
-              className={`text-[14px] font-medium transition-colors ${
-                isActive('/') ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
-              }`}
-            >
-              Home
-            </Link>
-            <Link
-              to="/products/invio"
-              className={`text-[14px] font-medium transition-colors ${
-                isActive('/products') ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
-              }`}
-            >
-              Product
-            </Link>
-            <Link
-              to="/features"
-              className={`text-[14px] font-medium transition-colors ${
-                isActive('/features') ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
-              }`}
-            >
-              Features
-            </Link>
-            <Link
-              to="/docs/installation"
-              className={`text-[14px] font-medium transition-colors ${
-                isActive('/docs') ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
-              }`}
-            >
-              Docs
-            </Link>
-            <Link
-              to="/tools"
-              className={`text-[14px] font-medium transition-colors ${
-                isActive('/tools') ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
-              }`}
-            >
-              Free Tools
-            </Link>
-            <Link
-              to="/pricing"
-              className={`text-[14px] font-medium transition-colors ${
-                isActive('/pricing') ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
-              }`}
-            >
-              Pricing
-            </Link>
-            <Link
-              to="/faq"
-              className={`text-[14px] font-medium transition-colors ${
-                isActive('/faq') ? 'text-slate-900 font-semibold' : 'text-[#64748b] hover:text-[#0f172a]'
-              }`}
-            >
-              FAQ
-            </Link>
+        {/* Desktop Navigation Links: Home, Features, Pricing, FAQ, Free Tools */}
+        <div className="hidden md:flex items-center gap-7">
+          <nav className="flex items-center gap-6" aria-label="Main Navigation">
+            {navLinks.map((link) => {
+              const active = isActive(link.path);
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`text-[13.5px] font-medium transition-colors relative py-1 ${
+                    active
+                      ? 'text-[#7C3AED] font-semibold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  {link.name}
+                  {active && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#7C3AED] rounded-full animate-fadeIn" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Download CTA Button */}
@@ -195,7 +171,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={handleDownload}
-              className="h-[38px] px-5 rounded-full bg-[#8646F4] hover:bg-[#7336e0] active:scale-95 text-white text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-none"
+              className="h-[36px] px-4.5 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-semibold flex items-center gap-2 transition-all duration-150 cursor-pointer shadow-sm hover:shadow-purple-200"
               title={activeOS.isMobileFallback ? 'View downloads for Windows and Mac' : `Download for ${activeOS.name}`}
             >
               {getOsIcon(activeOS.id)}
@@ -215,11 +191,11 @@ export function Navbar() {
             aria-controls="mobile-nav"
           >
             {mobileMenuOpen ? (
-              <svg className="size-6" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+              <svg className="size-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <svg className="size-6" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+              <svg className="size-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
             )}
@@ -229,43 +205,36 @@ export function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div id="mobile-nav" role="dialog" aria-modal="true" aria-label="Site navigation" className="fixed inset-0 top-16 bg-white z-[999] md:hidden overflow-y-auto border-t border-slate-100 flex flex-col h-[calc(100dvh-64px)]">
-          <nav className="flex flex-col p-6 gap-5">
-            <Link to="/" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              Home
-            </Link>
-            <Link to="/products/invio" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              Product Overview
-            </Link>
-            <Link to="/features" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              Features
-            </Link>
-            <Link to="/docs/installation" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              Installation Guide
-            </Link>
-            <Link to="/tools" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              Free Tools
-            </Link>
-            <Link to="/pricing" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              Pricing
-            </Link>
-            <Link to="/changelog" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              Changelog
-            </Link>
-            <Link to="/system-requirements" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              System Requirements
-            </Link>
-            <Link to="/faq" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              FAQ
-            </Link>
-            <Link to="/support" className="text-left text-lg font-medium text-slate-900 hover:text-[#8646F4]">
-              Support
-            </Link>
+        <div
+          id="mobile-nav"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
+          className="fixed inset-0 top-16 bg-white z-[999] md:hidden overflow-y-auto border-t border-slate-100 flex flex-col h-[calc(100dvh-64px)] animate-fadeIn"
+        >
+          <nav className="flex flex-col p-6 gap-4" aria-label="Mobile Navigation">
+            {navLinks.map((link) => {
+              const active = isActive(link.path);
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`text-left text-base font-medium transition-colors py-2 px-3 rounded-lg ${
+                    active
+                      ? 'bg-purple-50 text-[#7C3AED] font-bold'
+                      : 'text-slate-800 hover:bg-slate-50'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+
             <div className="mt-4 pt-4 border-t border-slate-100">
               <button
                 type="button"
                 onClick={handleDownload}
-                className="w-full py-3 bg-[#8646F4] text-white rounded-full font-semibold text-sm hover:bg-[#7336e0] transition-colors flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-[#7C3AED] text-white rounded-full font-semibold text-xs hover:bg-[#6D28D9] active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
                 {getOsIcon(activeOS.id)}
                 <span>Download for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>

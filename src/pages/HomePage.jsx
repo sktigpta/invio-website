@@ -14,32 +14,32 @@ export function HomePage() {
 
   const featureCards = [
     {
-      icon: <ReceiptIcon className="size-5 text-[#8646F4]" />,
+      icon: <ReceiptIcon className="size-5 text-[#7C3AED]" />,
       title: 'Free Invoice Generator App',
       description: 'Create unlimited professional tax invoices, estimates, and bills without watermarks, trial lockouts, or monthly subscription fees.'
     },
     {
-      icon: <ShieldCheckIcon className="size-5 text-[#8646F4]" />,
+      icon: <ShieldCheckIcon className="size-5 text-[#7C3AED]" />,
       title: '100% Private Local SQLite',
       description: 'Zero cloud latency and zero vendor lock-in. Your invoices, customer directory, and financial data reside completely on your computer.'
     },
     {
-      icon: <PrinterIcon className="size-5 text-[#8646F4]" />,
+      icon: <PrinterIcon className="size-5 text-[#7C3AED]" />,
       title: 'Thermal POS & Dynamic UPI QR',
       description: 'Print high-speed 58mm and 80mm ESC/POS receipts with auto-generated UPI QR codes for instant smartphone scan-and-pay counter checkout.'
     },
     {
-      icon: <BarcodeIcon className="size-5 text-[#8646F4]" />,
+      icon: <BarcodeIcon className="size-5 text-[#7C3AED]" />,
       title: 'Barcode Scanner Rapid Billing',
       description: 'Plug in any standard USB or Bluetooth barcode scanner. Scan items to populate bills instantly with real-time inventory decrement.'
     },
     {
-      icon: <ZapIcon className="size-5 text-[#8646F4]" />,
+      icon: <ZapIcon className="size-5 text-[#7C3AED]" />,
       title: 'Automated GST Tax Engine',
       description: 'Smart tax engine automatically determines intra-state (CGST + SGST) or inter-state (IGST) splits based on 15-digit GSTIN identifiers.'
     },
     {
-      icon: <SparklesIcon className="size-5 text-[#8646F4]" />,
+      icon: <SparklesIcon className="size-5 text-[#7C3AED]" />,
       title: 'Customer Ledger & Sharing',
       description: 'Track customer balances, payment histories, and credit ledgers with 1-click WhatsApp messaging and automated PDF email dispatch.'
     }
@@ -150,7 +150,7 @@ export function HomePage() {
               <ul className="space-y-1.5 text-xs text-slate-600">
                 {uc.points.map((pt, pIdx) => (
                   <li key={pIdx} className="flex items-start gap-1.5">
-                    <span className="text-[#8646F4] font-bold">✓</span>
+                    <span className="text-[#7C3AED] font-bold">✓</span>
                     <span>{pt}</span>
                   </li>
                 ))}
@@ -184,7 +184,7 @@ export function HomePage() {
         </div>
         <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
           <span className="text-slate-500">Supports Windows 10/11 &amp; macOS 11.0+ (Apple Silicon &amp; Intel)</span>
-          <Link to="/system-requirements" className="font-semibold text-[#8646F4] hover:underline">
+          <Link to="/system-requirements" className="font-semibold text-[#7C3AED] hover:underline">
             Check system requirements →
           </Link>
         </div>
@@ -201,7 +201,7 @@ export function HomePage() {
               Clear answers about offline billing, security, and setup.
             </p>
           </div>
-          <Link to="/faq" className="text-xs font-semibold text-[#8646F4] hover:underline shrink-0">
+          <Link to="/faq" className="text-xs font-semibold text-[#7C3AED] hover:underline shrink-0">
             View all FAQs →
           </Link>
         </div>
@@ -212,7 +212,7 @@ export function HomePage() {
       {/* Free Finance Calculators Suite Banner */}
       <section className="my-8 p-5 rounded-2xl border border-purple-200/80 bg-purple-50/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-purple-100 text-[#8646F4] mb-1.5">
+          <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-purple-100 text-[#7C3AED] mb-1.5">
             Free Web Tools
           </span>
           <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-1">
@@ -224,7 +224,7 @@ export function HomePage() {
         </div>
         <Link
           to="/tools"
-          className="h-9 px-4 bg-white border border-purple-200 text-[#8646F4] hover:bg-purple-50 text-xs font-semibold rounded-full flex items-center justify-center shrink-0 transition-colors shadow-2xs"
+          className="h-9 px-4 bg-white border border-purple-200 text-[#7C3AED] hover:bg-purple-50 text-xs font-semibold rounded-full flex items-center justify-center shrink-0 transition-colors shadow-2xs"
         >
           Explore Free Tools →
         </Link>

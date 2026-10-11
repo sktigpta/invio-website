@@ -56,27 +56,27 @@ export function PricingPage() {
 
             <ul className="space-y-2.5 text-xs text-slate-700 mb-8">
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span><strong>Unlimited invoices</strong>, quotations, and estimates</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span><strong>Unlimited customer directory</strong> and inventory items</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span>Automated GST tax engine (CGST, SGST, IGST splits)</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span>Standard A4 and A5 PDF invoice generation and printing</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span>100% private local SQLite database on your computer</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span>One-click backup export and restore</span>
               </li>
             </ul>
@@ -91,15 +91,15 @@ export function PricingPage() {
         </div>
 
         {/* Plus Plan */}
-        <div className="p-6 rounded-2xl border-2 border-[#8646F4] bg-white relative flex flex-col justify-between shadow-xs">
+        <div className="p-6 rounded-2xl border-2 border-[#7C3AED] bg-white relative flex flex-col justify-between shadow-xs">
           <div>
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-xl font-bold text-slate-900">Invio Plus</h2>
-              <span className="text-[11px] font-bold uppercase tracking-wider bg-purple-100 text-[#8646F4] px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold uppercase tracking-wider bg-purple-100 text-[#7C3AED] px-2.5 py-0.5 rounded-full">
                 Commercial Retail
               </span>
             </div>
-            <p className="text-2xl font-black text-[#8646F4] mb-2">
+            <p className="text-2xl font-black text-[#7C3AED] mb-2">
               ₹499 <span className="text-xs font-normal text-slate-500">/ month or ₹4,999 / year</span>
             </p>
             <p className="text-xs text-slate-600 mb-6 leading-relaxed">
@@ -108,31 +108,31 @@ export function PricingPage() {
 
             <ul className="space-y-2.5 text-xs text-slate-700 mb-8">
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span><strong>Everything in Free Core Plan</strong></span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span><strong>58mm &amp; 80mm ESC/POS</strong> thermal receipt printing</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span><strong>Dynamic UPI QR codes</strong> printed on paper receipts</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span><strong>Dual-screen customer display</strong> live bill projection</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span>Barcode scanner high-speed rapid checkout engine</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span>Automated Gmail &amp; SMTP email invoice dispatch</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#8646F4] font-bold">✓</span>
+                <span className="text-[#7C3AED] font-bold">✓</span>
                 <span>Priority email and remote configuration assistance</span>
               </li>
             </ul>
@@ -140,7 +140,7 @@ export function PricingPage() {
 
           <Link
             to="/download"
-            className="w-full py-2.5 px-4 bg-[#8646F4] hover:bg-[#7234de] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-sm"
+            className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-sm"
           >
             Get Invio Plus
           </Link>
