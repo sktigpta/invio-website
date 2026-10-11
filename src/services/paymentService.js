@@ -97,7 +97,18 @@ export async function createSubscriptionOrder(planId, validity) {
  * Asks the backend to verify the Razorpay Checkout signature server-side.
  * Client-reported success is never trusted on its own.
  */
-export async function verifyPayment({ orderId, paymentId, signature, email, planId, validity }) {
+export async function verifyPayment({
+  orderId,
+  paymentId,
+  signature,
+  email,
+  planId,
+  validity,
+  businessName,
+  firstName,
+  lastName,
+  password,
+}) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 8000);
   try {
@@ -114,6 +125,10 @@ export async function verifyPayment({ orderId, paymentId, signature, email, plan
         email: email || undefined,
         planId: planId || undefined,
         validity: validity || undefined,
+        businessName: businessName || undefined,
+        firstName: firstName || undefined,
+        lastName: lastName || undefined,
+        password: password || undefined,
       }),
       signal: controller.signal,
     });

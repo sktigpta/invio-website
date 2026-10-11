@@ -9,6 +9,7 @@ import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
 import { FeaturesPage } from './pages/FeaturesPage';
 import { PricingPage } from './pages/PricingPage';
+import { CheckoutPage } from './pages/CheckoutPage';
 import { DownloadPage } from './pages/DownloadPage';
 
 // Secondary pages loaded on demand (reduces initial bundle size)
@@ -54,7 +55,7 @@ export function App() {
               <Route path="/product" element={<Navigate to="/features" replace />} />
               <Route path="/product-overview" element={<Navigate to="/features" replace />} />
               <Route path="/pricing" element={<PricingPage />} />
-              <Route path="/checkout" element={<PricingPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/subscription" element={<Navigate to="/pricing" replace />} />
               <Route path="/download" element={<DownloadPage />} />
               <Route path="/changelog" element={<ChangelogPage />} />

@@ -1,18 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { DownloadCta } from '../components/DownloadCta';
 import { FaqAccordion } from '../components/FaqAccordion';
 import { useDownloadModal } from '../context/DownloadModalContext';
-import {
-  fetchSubscriptionPlans,
-  createSubscriptionOrder,
-  verifyPayment,
-  loadRazorpayCheckout,
-  openRazorpayCheckout,
-} from '../services/paymentService';
-import { CloseIcon, ReceiptIcon, CheckIcon } from '../components/Icons';
+import { fetchSubscriptionPlans } from '../services/paymentService';
 
 // Default static fallback values if backend is unreachable or booting
 const DEFAULT_PLANS_STATE = {
@@ -81,36 +74,27 @@ const DEFAULT_PLANS_STATE = {
 export function PricingPage() {
   const { openDownloadModal } = useDownloadModal();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   // Read query parameters passed from desktop or marketing links
   const paramEmail = searchParams.get('email') || '';
   const paramCycle = searchParams.get('cycle') || '';
   const paramPlan = searchParams.get('plan') || '';
-  const paramPhone = searchParams.get('phone') || '';
   const isAutoCheckout = searchParams.get('checkout') === '1' || searchParams.get('checkout') === 'true' || searchParams.get('action') === 'buy';
 
   const [billingCycle, setBillingCycle] = useState(
     paramCycle === 'monthly' ? 'monthly' : 'yearly'
   );
   const [plansData, setPlansData] = useState(DEFAULT_PLANS_STATE);
-  const [payingPlan, setPayingPlan] = useState(null);
-  const [payError, setPayError] = useState('');
-  const [success, setSuccess] = useState(null);
-
-  // Checkout Email Modal State
-  const [checkoutModalPlan, setCheckoutModalPlan] = useState(null);
-  const [checkoutEmail, setCheckoutEmail] = useState(paramEmail);
-  const [checkoutPhone, setCheckoutPhone] = useState(paramPhone);
-  const [emailInputError, setEmailInputError] = useState('');
-  const isFromDesktop = Boolean(paramEmail || searchParams.get('source') === 'desktop');
 
   useEffect(() => {
     applySEO('pricing');
     window.scrollTo(0, 0);
 
-    // If query params specified auto-checkout or plus plan, open checkout modal
+    // If query params specified auto-checkout or plus plan, redirect to dedicated /checkout page
     if (isAutoCheckout || (paramPlan && paramPlan.toLowerCase() === 'plus')) {
-      setCheckoutModalPlan('plus');
+      navigate(`/checkout?plan=plus&cycle=${paramCycle || 'yearly'}${paramEmail ? `&email=${encodeURIComponent(paramEmail)}` : ''}`, { replace: true });
+      return;
     }
 
     // Fetch dynamic plan catalog and live prices from backend API (/api/account/plans)
@@ -143,111 +127,7 @@ export function PricingPage() {
     };
 
     loadPlans();
-  }, [isAutoCheckout, paramPlan]);
-
-  useEffect(() => {
-    if (!checkoutModalPlan) return;
-
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        setCheckoutModalPlan(null);
-        setEmailInputError('');
-        setPayError('');
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [checkoutModalPlan]);
-
-  const handleOpenCheckoutModal = (planId) => {
-    setPayError('');
-    setEmailInputError('');
-    setCheckoutModalPlan(planId);
-  };
-
-  const handleStartPayment = async (planId) => {
-    const trimmedEmail = checkoutEmail.trim().toLowerCase();
-    if (!trimmedEmail) {
-      setEmailInputError('Please enter your account email address to link your license.');
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(trimmedEmail)) {
-      setEmailInputError('Please enter a valid email address (e.g. yourname@shop.com).');
-      return;
-    }
-
-    setEmailInputError('');
-    if (payingPlan || success) return;
-    setPayingPlan(planId);
-    setPayError('');
-
-    try {
-      const order = await createSubscriptionOrder(planId, billingCycle);
-      if (!order.success) {
-        setPayError(order.error || 'Could not start checkout. Please try again.');
-        setPayingPlan(null);
-        return;
-      }
-      const scriptOk = await loadRazorpayCheckout();
-      if (!scriptOk) {
-        setPayError('Payment window could not be loaded. Please check your internet connection and try again.');
-        setPayingPlan(null);
-        return;
-      }
-
-      openRazorpayCheckout({
-        keyId: order.keyId,
-        orderId: order.orderId,
-        amountPaise: order.amountPaise,
-        currency: order.currency,
-        amountRupees: order.amount,
-        customerEmail: trimmedEmail,
-        customerPhone: checkoutPhone.trim() || undefined,
-        description: `Invio Plus — ${billingCycle === 'yearly' ? 'Yearly' : 'Monthly'} Subscription`,
-        onSuccess: async ({ orderId, paymentId, signature }) => {
-          const result = await verifyPayment({
-            orderId,
-            paymentId,
-            signature,
-            planId,
-            validity: billingCycle,
-            email: trimmedEmail,
-          });
-          setPayingPlan(null);
-          setCheckoutModalPlan(null);
-          if (result.success) {
-            setSuccess({
-              plan: 'plus',
-              validity: billingCycle,
-              amount: order.amount,
-              orderId,
-              paymentId,
-              email: trimmedEmail,
-              activated: result.data?.activated,
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          } else {
-            setPayError('Payment signature could not be verified by server. If money was deducted, it will be refunded automatically.');
-          }
-        },
-        onDismiss: () => setPayingPlan(null),
-        onError: (err) => {
-          setPayingPlan(null);
-          setPayError(err?.message || 'Payment failed. No money was deducted.');
-        },
-      });
-    } catch {
-      setPayingPlan(null);
-      setPayError('An unexpected error occurred while starting checkout.');
-    }
-  };
+  }, [isAutoCheckout, paramPlan, paramCycle, paramEmail, navigate]);
 
   const pricingFaqs = [
     {
@@ -470,21 +350,12 @@ export function PricingPage() {
             </ul>
           </div>
 
-          <button
-            type="button"
-            disabled={payingPlan === 'plus'}
-            onClick={() => handleOpenCheckoutModal('plus')}
-            className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs text-center transition-colors shadow-xs select-none cursor-pointer flex items-center justify-center gap-2"
+          <Link
+            to={`/checkout?plan=plus&cycle=${billingCycle}${paramEmail ? `&email=${encodeURIComponent(paramEmail)}` : ''}`}
+            className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-xs select-none cursor-pointer flex items-center justify-center gap-2"
           >
-            {payingPlan === 'plus' ? (
-              <>
-                <span className="size-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>Opening Checkout...</span>
-              </>
-            ) : (
-              <span>{plansData.plus.ctaText}</span>
-            )}
-          </button>
+            <span>{plansData.plus.ctaText}</span>
+          </Link>
         </div>
 
         {/* 3. Pro Plan (Enterprise -> Coming Soon) */}
@@ -555,181 +426,6 @@ export function PricingPage() {
         title="Start Billing for Free Today"
         subtitle="No credit card required. Install Invio on your PC or Mac and create your first invoice in minutes."
       />
-
-      {/* Checkout Modal — Collect & Associate Customer Account Email */}
-      {checkoutModalPlan && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto animate-fadeIn"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="checkout-modal-title"
-          onMouseDown={(e) => {
-            if (e.target === e.currentTarget) {
-              setCheckoutModalPlan(null);
-              setEmailInputError('');
-              setPayError('');
-            }
-          }}
-        >
-          <div
-            className="bg-white rounded-squircle max-w-md w-full p-6 sm:p-7 border border-slate-200/90 shadow-2xl relative text-slate-900 my-auto animate-fadeIn"
-            onMouseDown={(e) => e.stopPropagation()}
-          >
-            {/* Close button */}
-            <button
-              type="button"
-              onClick={() => {
-                setCheckoutModalPlan(null);
-                setEmailInputError('');
-                setPayError('');
-              }}
-              className="absolute top-4 right-4 size-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-colors cursor-pointer z-10"
-              aria-label="Close dialog"
-            >
-              <CloseIcon className="size-4" />
-            </button>
-
-            {/* Top Icon Badge */}
-            <div className="size-14 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center mx-auto mb-3 shadow-2xs">
-              <ReceiptIcon className="size-7" />
-            </div>
-
-            <h3 id="checkout-modal-title" className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight text-center">
-              Order Invio Plus
-            </h3>
-            <p className="text-xs text-slate-500 mt-1 font-normal text-center max-w-xs mx-auto">
-              Enter your email to link your license so all commercial features activate in your Invio desktop app.
-            </p>
-
-            {/* Order Summary Box */}
-            <div className="mt-4 mb-4 p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs sm:text-sm font-bold text-slate-900">
-                    Invio Plus ({billingCycle === 'yearly' ? '1 Year License' : '1 Month Access'})
-                  </span>
-                  {billingCycle === 'yearly' && (
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-purple-100 text-[#7C3AED]">
-                      Save 40%+
-                    </span>
-                  )}
-                </div>
-                <p className="text-[11px] text-slate-500 mt-0.5">
-                  Thermal receipts, dynamic UPI QR & dual-screen POS
-                </p>
-              </div>
-              <div className="text-right pl-3 shrink-0">
-                <span className="text-base sm:text-lg font-extrabold text-[#7C3AED]">
-                  ₹{billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly}
-                </span>
-              </div>
-            </div>
-
-            {/* Email Association Field */}
-            <div className="mb-3.5">
-              <label htmlFor="checkout-email-input" className="block text-xs font-semibold text-slate-700 mb-1">
-                Account Email Address <span className="text-rose-500">*</span>
-              </label>
-              <input
-                id="checkout-email-input"
-                type="email"
-                autoComplete="email"
-                value={checkoutEmail}
-                onChange={(e) => {
-                  setCheckoutEmail(e.target.value);
-                  setEmailInputError('');
-                }}
-                placeholder="yourname@shop.com"
-                className={`w-full px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm outline-none transition-all ${
-                  emailInputError
-                    ? 'border-rose-400 bg-rose-50/30 text-rose-900 focus:ring-2 focus:ring-rose-200'
-                    : 'border-slate-300 bg-white text-slate-900 focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100'
-                }`}
-              />
-
-              {isFromDesktop && !emailInputError && (
-                <p className="text-[11px] text-emerald-600 font-medium mt-1 flex items-center gap-1">
-                  <CheckIcon className="size-3" />
-                  <span>Linked from your Invio desktop app</span>
-                </p>
-              )}
-
-              {emailInputError && (
-                <p className="text-[11px] text-rose-600 font-medium mt-1">
-                  {emailInputError}
-                </p>
-              )}
-            </div>
-
-            {/* Optional Phone Field */}
-            <div className="mb-4">
-              <label htmlFor="checkout-phone-input" className="block text-xs font-semibold text-slate-700 mb-1">
-                Phone Number <span className="text-slate-400 font-normal text-[11px]">(Optional — for WhatsApp/SMS receipt)</span>
-              </label>
-              <input
-                id="checkout-phone-input"
-                type="tel"
-                autoComplete="tel"
-                value={checkoutPhone}
-                onChange={(e) => setCheckoutPhone(e.target.value)}
-                placeholder="9876543210"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
-              />
-            </div>
-
-            {/* Error Notice */}
-            {payError && (
-              <div className="mb-3.5 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 leading-snug">
-                {payError}
-              </div>
-            )}
-
-            {/* Actions */}
-            <div className="space-y-2">
-              <button
-                type="button"
-                disabled={payingPlan === checkoutModalPlan}
-                onClick={() => handleStartPayment(checkoutModalPlan)}
-                className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm text-center transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2"
-              >
-                {payingPlan === checkoutModalPlan ? (
-                  <>
-                    <span className="size-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Opening Secure Payment...</span>
-                  </>
-                ) : (
-                  <span>
-                    Proceed to Payment — ₹{billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly}
-                  </span>
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setCheckoutModalPlan(null);
-                  setEmailInputError('');
-                  setPayError('');
-                }}
-                className="w-full py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer text-center"
-              >
-                Cancel
-              </button>
-            </div>
-
-            {/* Security Footer */}
-            <div className="mt-4 pt-3.5 border-t border-slate-100 text-center">
-              <p className="text-[11px] text-slate-400 font-medium flex items-center justify-center gap-2">
-                <span>🔒 256-Bit SSL</span>
-                <span>•</span>
-                <span>Razorpay Verified</span>
-                <span>•</span>
-                <span>Instant Activation</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
     </PageContainer>
   );
 }
