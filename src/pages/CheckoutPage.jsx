@@ -68,6 +68,7 @@ export function CheckoutPage() {
   const [payError, setPayError] = useState('');
   const [successData, setSuccessData] = useState(null);
   const [membershipInfo, setMembershipInfo] = useState(null);
+  const [checkingMembership, setCheckingMembership] = useState(() => Boolean(getStoredUser()));
   const [allowReorder, setAllowReorder] = useState(false);
 
   const checkMembership = async (user, token) => {
@@ -123,11 +124,16 @@ export function CheckoutPage() {
 
     // If an account is already stored, check its active membership status
     if (currentUser) {
-      checkMembership(currentUser).then((mem) => {
-        if (mem?.hasMembership) {
-          setMembershipInfo(mem);
-        }
-      });
+      setCheckingMembership(true);
+      checkMembership(currentUser)
+        .then((mem) => {
+          if (mem?.hasMembership) {
+            setMembershipInfo(mem);
+          }
+        })
+        .finally(() => {
+          setCheckingMembership(false);
+        });
     }
   }, []);
 
@@ -215,9 +221,11 @@ export function CheckoutPage() {
         setCurrentUser(user);
         if (user.email) setEmail(user.email);
         if (user.businessName) setBusinessName(user.businessName);
-
-        const mem = await checkMembership(user, token);
         setAuthLoading(false);
+
+        setCheckingMembership(true);
+        const mem = await checkMembership(user, token);
+        setCheckingMembership(false);
 
         if (mem?.hasMembership) {
           setMembershipInfo(mem);
@@ -301,8 +309,10 @@ export function CheckoutPage() {
       }
 
       setCurrentUser(logRes.user);
-      const mem = await checkMembership(logRes.user, logRes.token);
       setAuthLoading(false);
+      setCheckingMembership(true);
+      const mem = await checkMembership(logRes.user, logRes.token);
+      setCheckingMembership(false);
 
       if (mem?.hasMembership) {
         setMembershipInfo(mem);
@@ -320,6 +330,7 @@ export function CheckoutPage() {
     clearStoredAuth();
     setCurrentUser(null);
     setMembershipInfo(null);
+    setCheckingMembership(false);
     setAllowReorder(false);
     setPassword('');
     setPayError('');
@@ -391,49 +402,50 @@ export function CheckoutPage() {
       <div className="w-full lg:w-[40%] bg-white p-6 sm:p-8 lg:p-12 lg:h-full lg:overflow-y-auto flex flex-col">
         <div className="w-full max-w-md mx-auto my-auto py-6 sm:py-8">
           {currentUser ? (
-            membershipInfo?.hasMembership && !allowReorder ? (
-              /* State: Already Has Active Membership (Plus, Pro, etc.) */
-              <div>
-                <div className="mb-6">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-[#7C3AED] text-xs font-semibold mb-3">
-                    <span>✨ Active License Found</span>
+            <div>
+              {/* Header - clean, no badge */}
+              <div className="mb-6">
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                  {membershipInfo?.hasMembership && !allowReorder
+                    ? `You're on Invio ${membershipInfo.plan}`
+                    : 'Ready for Checkout'}
+                </h2>
+                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                  {membershipInfo?.hasMembership && !allowReorder
+                    ? `Your account has full access. You don't need to purchase this license again to use Invio ${membershipInfo.plan}.`
+                    : 'Complete payment to instantly link Invio Plus to your account.'}
+                </p>
+              </div>
+
+              {/* Account Details Card */}
+              <div className="rounded-2xl border border-slate-200/90 bg-linear-to-b from-slate-50/70 to-white p-4 sm:p-5 shadow-xs mb-5">
+                {/* Account Header */}
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="size-9 rounded-full bg-purple-100 text-[#7C3AED] font-bold text-sm flex items-center justify-center shrink-0 ring-2 ring-white">
+                      {(currentUser.businessName || currentUser.email || 'U').charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-sm font-semibold text-slate-900 truncate">
+                        {currentUser.businessName || 'Business Account'}
+                      </h4>
+                      <p className="text-xs text-slate-500 truncate">
+                        {currentUser.email}
+                      </p>
+                    </div>
                   </div>
-                  <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                    You're on Invio {membershipInfo.plan}
-                  </h2>
-                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                    Your account has full access. You don't need to purchase this license again to use Invio {membershipInfo.plan}.
-                  </p>
+                  <button
+                    type="button"
+                    onClick={handleSwitchAccount}
+                    className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-2xs transition-colors shrink-0 cursor-pointer"
+                  >
+                    Switch
+                  </button>
                 </div>
 
-                {/* Account & License Details Card */}
-                <div className="rounded-2xl border border-slate-200/90 bg-linear-to-b from-slate-50/70 to-white p-4 sm:p-5 shadow-xs mb-6">
-                  {/* Account Header */}
-                  <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-slate-200/70">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="size-9 rounded-full bg-purple-100 text-[#7C3AED] font-bold text-sm flex items-center justify-center shrink-0 ring-2 ring-white">
-                        {(currentUser.businessName || currentUser.email || 'U').charAt(0).toUpperCase()}
-                      </div>
-                      <div className="min-w-0">
-                        <h4 className="text-sm font-semibold text-slate-900 truncate">
-                          {currentUser.businessName || 'Business Account'}
-                        </h4>
-                        <p className="text-xs text-slate-500 truncate">
-                          {currentUser.email}
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleSwitchAccount}
-                      className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-2xs transition-colors shrink-0 cursor-pointer"
-                    >
-                      Switch
-                    </button>
-                  </div>
-
-                  {/* Plan & Validity Row */}
-                  <div className="pt-3.5 flex items-center justify-between gap-3">
+                {/* Plan & Validity Row: shown when active membership is verified */}
+                {membershipInfo?.hasMembership && !allowReorder && (
+                  <div className="pt-3.5 mt-3.5 border-t border-slate-200/70 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                         <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -457,78 +469,58 @@ export function CheckoutPage() {
                       </div>
                     )}
                   </div>
-                </div>
-
-                {/* Next Steps / Actions */}
-                <div className="space-y-2.5">
-                  <Link
-                    to="/download"
-                    className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2 text-center cursor-pointer"
-                  >
-                    Download Desktop App
-                  </Link>
-
-                  <button
-                    type="button"
-                    onClick={handleSwitchAccount}
-                    className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full font-semibold text-xs sm:text-sm transition-colors text-center cursor-pointer"
-                  >
-                    Sign In with Another Account
-                  </button>
-                </div>
-
-                {/* Optional extend action */}
-                <div className="mt-5 pt-3 border-t border-slate-100 text-center">
-                  <button
-                    type="button"
-                    onClick={() => setAllowReorder(true)}
-                    className="text-[11px] text-slate-400 hover:text-slate-700 underline cursor-pointer"
-                  >
-                    Need to renew or extend your license anyway? Proceed to checkout
-                  </button>
-                </div>
-              </div>
-            ) : (
-              /* State: Ready for Checkout (Free tier or user wants to extend) */
-              <div>
-                <div className="mb-6">
-                  <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                    Ready for Checkout
-                  </h2>
-                  <p className="text-xs text-slate-500 mt-1">
-                    Complete payment to instantly link Invio Plus to your account.
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-linear-to-b from-slate-50/70 to-white border border-slate-200/90 shadow-2xs mb-5">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="size-9 rounded-full bg-purple-100 text-[#7C3AED] font-bold text-sm flex items-center justify-center shrink-0 ring-2 ring-white">
-                      {(currentUser.businessName || currentUser.email || 'U').charAt(0).toUpperCase()}
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-sm font-semibold text-slate-900 truncate">
-                        {currentUser.businessName || 'Business Account'}
-                      </h4>
-                      <p className="text-xs text-slate-500 truncate">
-                        {currentUser.email}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleSwitchAccount}
-                    className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-2xs transition-colors shrink-0 cursor-pointer"
-                  >
-                    Switch
-                  </button>
-                </div>
-
-                {payError && (
-                  <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
-                    {payError}
-                  </div>
                 )}
+              </div>
 
+              {payError && (
+                <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
+                  {payError}
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              {checkingMembership ? (
+                /* Loading while checking license status */
+                <button
+                  type="button"
+                  disabled
+                  className="w-full py-3 px-5 bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs cursor-wait"
+                >
+                  <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Checking license status...</span>
+                </button>
+              ) : membershipInfo?.hasMembership && !allowReorder ? (
+                /* Once loaded and has membership: Remove pay button, show download button */
+                <div>
+                  <div className="space-y-2.5">
+                    <Link
+                      to="/download"
+                      className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2 text-center cursor-pointer"
+                    >
+                      Download Desktop App
+                    </Link>
+
+                    <button
+                      type="button"
+                      onClick={handleSwitchAccount}
+                      className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full font-semibold text-xs sm:text-sm transition-colors text-center cursor-pointer"
+                    >
+                      Sign In with Another Account
+                    </button>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-slate-100 text-center">
+                    <button
+                      type="button"
+                      onClick={() => setAllowReorder(true)}
+                      className="text-[11px] text-slate-400 hover:text-slate-700 underline cursor-pointer"
+                    >
+                      Need to renew or extend your license anyway? Proceed to checkout
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* Once loaded and no membership: Show Pay button */
                 <button
                   type="button"
                   disabled={paying}
@@ -546,8 +538,8 @@ export function CheckoutPage() {
                     </span>
                   )}
                 </button>
-              </div>
-            )
+              )}
+            </div>
           ) : (
             /* State: Not Signed In (Sign In by DEFAULT, Sign Up secondary) */
             <div>
