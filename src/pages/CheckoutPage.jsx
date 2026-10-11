@@ -87,10 +87,6 @@ export function CheckoutPage() {
       .catch(() => {});
   }, []);
 
-  const handleNextFeature = () => {
-    setFeatureIndex((prev) => (prev + 1) % FEATURES_DATA.length);
-  };
-
   const executePayment = async (user) => {
     if (paying || successData) return;
     setPaying(true);
@@ -335,15 +331,6 @@ export function CheckoutPage() {
           className="w-full h-full object-cover object-top"
           loading="eager"
         />
-        <button
-          type="button"
-          onClick={handleNextFeature}
-          className="absolute bottom-4 left-4 bg-black/60 hover:bg-black/80 text-white backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer border border-white/20 shadow-md opacity-80 hover:opacity-100 flex items-center gap-1.5 select-none"
-          title="See another feature image"
-        >
-          <span>Shuffle Image</span>
-          <span aria-hidden="true">→</span>
-        </button>
       </div>
 
       {/* Right Section: Form (40% width with independent smooth overflow scroll) */}
