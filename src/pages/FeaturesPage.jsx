@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
-import { PageContainer } from '../components/PageContainer';
 import { FEATURES_DATA } from '../data/featuresData';
 import { FeatureIllustration } from '../components/FeatureIllustration';
 
@@ -12,84 +11,137 @@ export function FeaturesPage() {
   }, []);
 
   return (
-    <PageContainer
-      badge="Product Capabilities"
-      title="Invio Desktop Features & Capabilities"
-      subtitle="Complete retail and wholesale billing capabilities without external cloud dependencies. Everything you need to manage customers, print thermal receipts, scan barcodes, and stay tax-compliant."
-    >
-      {/* Alternating Feature Showcase Rows: Image-Content, Content-Image, Image-Content */}
-      <section className="space-y-12 sm:space-y-16 my-8">
-        {FEATURES_DATA.map((feature, idx) => {
-          const Icon = feature.icon;
-          const isReversed = idx % 2 === 1;
+    <div className="w-full bg-white text-slate-900 overflow-hidden">
+      {/* 1. Full-Page Hero Header (Timrio Style) */}
+      <section className="relative w-full min-h-[50vh] sm:min-h-[60vh] flex flex-col items-center justify-center overflow-hidden py-16 sm:py-24 bg-gradient-to-b from-purple-50/40 via-white to-white">
+        {/* Soft Ambient Radial Violet Glow */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#7C3AED]/10 rounded-full blur-[120px] pointer-events-none"
+          aria-hidden="true"
+        />
 
-          return (
-            <div
-              key={feature.id}
-              className={`flex flex-col ${
-                isReversed ? 'lg:flex-row-reverse' : 'lg:flex-row'
-              } items-center gap-8 lg:gap-12`}
-            >
-              {/* Visual Side (Illustration / Image) */}
-              <div className="w-full lg:w-1/2">
-                <FeatureIllustration type={feature.imageType} title={feature.title} />
-              </div>
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <span className="block text-[#7C3AED] font-bold tracking-widest uppercase text-xs sm:text-sm mb-4">
+            Product Capabilities &amp; Architecture
+          </span>
 
-              {/* Content Side */}
-              <div className="w-full lg:w-1/2 flex flex-col items-start">
-                <div className="flex items-center gap-2 mb-2.5">
-                  <div className="size-8 rounded-lg bg-purple-50 text-[#7C3AED] flex items-center justify-center shrink-0">
-                    <Icon className="size-4" />
-                  </div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#7C3AED]">
-                    {feature.category}
-                  </span>
-                </div>
+          <h1 className="mb-6 text-center text-slate-900">
+            <span className="block text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.05]">
+              Manage exactly
+            </span>
+            <span className="block text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-[#7C3AED] to-slate-900 mt-1">
+              how you work.
+            </span>
+          </h1>
 
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mb-2.5 leading-snug">
-                  {feature.title}
-                </h2>
-
-                <p className="text-xs sm:text-sm text-slate-500 font-medium mb-3">
-                  {feature.tagline}
-                </p>
-
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                  {feature.description}
-                </p>
-
-                <ul className="space-y-2 text-xs sm:text-sm text-slate-700 w-full mb-2">
-                  {feature.bullets?.map((bullet, bulletIdx) => (
-                    <li key={bulletIdx} className="flex items-start gap-2">
-                      <span className="text-emerald-500 font-bold shrink-0 mt-0.5">✓</span>
-                      <span className="leading-snug">{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          );
-        })}
-      </section>
-
-      {/* Clean Bottom CTA Banner */}
-      <div className="mt-12 p-6 sm:p-8 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md">
-        <div className="text-center sm:text-left">
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-1.5">
-            Ready to experience fast offline billing?
-          </h3>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
-            Download Invio v1.0.2 for your desktop. No credit card required, 100% private local SQLite database, and free forever for core invoicing.
+          <p className="text-base sm:text-xl text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
+            A comprehensive offline desktop billing engine designed for retail stores, supermarkets, pharmacies, and traders who demand speed, reliability, and 100% data privacy.
           </p>
         </div>
-        <Link
-          to="/download"
-          className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center transition-colors shadow-xs shrink-0 select-none"
-        >
-          Download Free Now →
-        </Link>
+      </section>
+
+      {/* 2. Full-Page Alternating Feature Showcase Sections (Timrio Style) */}
+      <div className="w-full">
+        {FEATURES_DATA.map((feature, idx) => {
+          const isReversed = idx % 2 === 1;
+          const isAlternateBg = isReversed;
+
+          return (
+            <section
+              key={feature.id}
+              className={`w-full py-16 sm:py-24 ${
+                isAlternateBg ? 'bg-slate-50/70' : 'bg-white'
+              }`}
+            >
+              <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                <div
+                  className={`flex flex-col ${
+                    isReversed ? 'md:flex-row-reverse' : 'md:flex-row'
+                  } items-center gap-12 lg:gap-16`}
+                >
+                  {/* Content Column */}
+                  <div className="flex-1 space-y-6">
+                    <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-100/70 px-3 py-1 rounded-full">
+                      {feature.category}
+                    </span>
+
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                      {feature.title}
+                    </h2>
+
+                    <p className="text-lg sm:text-xl text-slate-600 font-light leading-relaxed max-w-xl">
+                      {feature.description}
+                    </p>
+
+                    {/* Feature Bullet Points */}
+                    <ul className="space-y-3.5 pt-2 mb-6">
+                      {feature.bullets?.map((bullet, bulletIdx) => (
+                        <li key={bulletIdx} className="flex items-start gap-3 text-slate-700 text-sm sm:text-base">
+                          <span className="size-2 rounded-full bg-[#7C3AED] mt-2 shrink-0" />
+                          <span className="leading-relaxed">{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Action link */}
+                    <div className="pt-2">
+                      <Link
+                        to="/download"
+                        className="inline-flex items-center gap-2 text-[#7C3AED] font-semibold text-base sm:text-lg hover:underline transition-all group"
+                      >
+                        <span>Download Free for Desktop</span>
+                        <span className="transition-transform group-hover:translate-x-1" aria-hidden="true">
+                          →
+                        </span>
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Visual Illustration / Mockup Column (Timrio Aspect Ratio Container) */}
+                  <div className="flex-1 w-full group origin-center">
+                    <div className="w-full aspect-[4/3] rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 border border-slate-200/90 flex items-center justify-center relative overflow-hidden transition-all duration-500 shadow-sm group-hover:shadow-md">
+                      <div className="w-full h-full p-4 sm:p-6 flex items-center justify-center">
+                        <FeatureIllustration type={feature.imageType} title={feature.title} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          );
+        })}
       </div>
-    </PageContainer>
+
+      {/* 3. Bottom CTA Section (Timrio Style) */}
+      <section className="w-full bg-slate-50 text-center py-20 sm:py-28 relative overflow-hidden">
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#7C3AED]/10 rounded-full blur-[120px] pointer-events-none"
+          aria-hidden="true"
+        />
+        <div className="container mx-auto px-4 relative z-10 max-w-4xl">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+            Ready to upgrade your shop&rsquo;s billing?
+          </h2>
+          <p className="text-base sm:text-lg text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Download Invio for free. No credit card required, zero setup hurdles, and operates 100% offline on your desktop computer.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to="/download"
+              className="h-12 px-8 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-sm font-semibold flex items-center justify-center transition-colors shadow-md select-none"
+            >
+              Download Free for Desktop →
+            </Link>
+            <Link
+              to="/pricing"
+              className="h-12 px-8 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-900 text-sm font-semibold flex items-center justify-center transition-colors shadow-xs select-none"
+            >
+              View Free &amp; Plus Plans
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
 
