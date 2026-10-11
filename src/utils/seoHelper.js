@@ -18,7 +18,7 @@ export const PAGE_METADATA = {
   product: {
     title: 'Invio Desktop Invoicing App – Free Billing & GST Software for PC & Mac',
     description: 'Invio desktop invoice generator app: Fast retail checkout, thermal receipts, automated GST calculations, barcode scanner support, and private local SQLite storage with zero cloud dependencies.',
-    canonical: `${BASE_URL}/products/invio`,
+    canonical: `${BASE_URL}/features`,
     keywords: 'Invio product, offline invoice software, desktop billing app, retail POS software, GST invoice software, Timrio Invio, invoice maker for Mac, free invoice app for Windows',
     schemaType: 'SoftwareApplication',
   },

@@ -47,6 +47,8 @@ export function App() {
 
           {/* Documentation & Support Routes */}
           <Route path="/docs/installation" element={<InstallationGuidePage />} />
+          <Route path="/docs/features" element={<Navigate to="/features" replace />} />
+          <Route path="/docs/settings" element={<Navigate to="/docs/installation" replace />} />
           <Route path="/docs" element={<Navigate to="/docs/installation" replace />} />
           <Route path="/support" element={<SupportPage />} />
           <Route path="/faq" element={<FaqPage />} />
