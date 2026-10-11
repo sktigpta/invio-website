@@ -18,6 +18,8 @@ export const FEATURES_DATA = [
     tagline: 'Effortless automated GST tax splits and professional invoices in seconds',
     description: 'Create clean bills in seconds. Automatically calculates CGST & SGST for local sales or IGST for other states, adds discounts, and writes totals in words.',
     icon: CalculatorIcon,
+    imageUrl: '/features/gst-invoicing-billing-software.webp',
+    imageAlt: 'Fast GST and regular invoicing software interface showing tax splits and itemized bill generation',
     bullets: [
       'Automatic state code detection from 15-digit GSTIN numbers',
       'Supports CGST, SGST, IGST, and UTGST across standard slabs (0%, 3%, 5%, 12%, 18%, 28%)',
@@ -33,6 +35,8 @@ export const FEATURES_DATA = [
     tagline: 'Instant paper checkout with scan-and-pay UPI QR codes',
     description: 'Print store receipts on standard thermal printers with your shop logo, address, and dynamic UPI QR code for customers to scan and pay with GPay, PhonePe, or Paytm.',
     icon: PrinterIcon,
+    imageUrl: '/features/thermal-receipt-printing-upi-qr.webp',
+    imageAlt: 'Thermal receipt printing on 58mm and 80mm rolls with dynamic UPI payment QR code',
     bullets: [
       'Direct ESC/POS hardware printing for 58mm (2-inch) and 80mm (3-inch) rolls',
       'Dynamic UPI QR code generated on each slip for exact bill amounts',
@@ -48,6 +52,8 @@ export const FEATURES_DATA = [
     tagline: 'Lightning-fast counter checkout with instant barcode gun scanning',
     description: 'Plug in any barcode scanner gun. Scan items directly into customer bills in real time without typing product names or searching prices.',
     icon: BarcodeIcon,
+    imageUrl: '/features/barcode-scanner-pos-billing.webp',
+    imageAlt: 'High-speed barcode scanner billing and instant product catalog checkout',
     bullets: [
       'Compatible with all USB, 2.4GHz wireless, and Bluetooth barcode guns (HID keyboard mode)',
       'Sub-millisecond product lookup directly from the local SQLite catalog',
@@ -63,6 +69,8 @@ export const FEATURES_DATA = [
     tagline: 'Real-time stock decrement, low-inventory alerts, and easy catalog management',
     description: 'Stock quantities automatically reduce when you sell and update when you restock. Get helpful warning alerts before fast-moving items run out.',
     icon: TrendingUpIcon,
+    imageUrl: '/features/inventory-management-stock-tracking.webp',
+    imageAlt: 'Real-time inventory control, stock decrementing, and low-inventory warning alerts',
     bullets: [
       'Instant stock decrement as invoices are printed or saved',
       'Automatic stock restoration if an invoice is canceled, edited, or returned',
@@ -78,6 +86,8 @@ export const FEATURES_DATA = [
     tagline: 'Zero cloud latency, zero server downtime, and 100% private local SQLite storage',
     description: 'Keep billing customers even when your shop internet or WiFi is down. All customer bills and sales records stay safely and privately on your computer.',
     icon: ZapIcon,
+    imageUrl: '/features/offline-sqlite-database-privacy.webp',
+    imageAlt: '100% offline desktop invoicing with local private SQLite database storage',
     bullets: [
       'Operates completely standalone without any internet connection',
       'High-performance embedded SQLite 3 database stores records locally',
@@ -93,6 +103,8 @@ export const FEATURES_DATA = [
     tagline: 'Instant paperless billing directly to customer phones and inboxes',
     description: 'Send neat PDF invoices directly to your customer’s WhatsApp number or email inbox in one click. Saves paper and keeps customers happy.',
     icon: MailIcon,
+    imageUrl: '/features/whatsapp-email-invoice-sharing.webp',
+    imageAlt: 'One-click invoice dispatch via WhatsApp Web and automated SMTP email delivery',
     bullets: [
       'One-click WhatsApp Web / App trigger with pre-filled greeting and invoice link',
       'Automated SMTP email delivery with generated PDF attachments',
@@ -108,6 +120,8 @@ export const FEATURES_DATA = [
     tagline: 'Maintain customer contacts, credit ledger (khata), and payment history',
     description: 'Save customer phone numbers and addresses. Easily record pending dues (udhar), partial payments, and see customer balance history anytime.',
     icon: ReceiptIcon,
+    imageUrl: '/features/customer-directory-credit-ledger.webp',
+    imageAlt: 'Customer directory and credit udhar ledger with balance tracking and transaction history',
     bullets: [
       'Detailed profiles with contact numbers, billing addresses, and tax identifiers',
       'Dedicated Udhar / Credit ledger tracking pending receivables per client',
@@ -123,6 +137,8 @@ export const FEATURES_DATA = [
     tagline: 'Clear financial insights, tax summaries, and daily cash collections',
     description: 'Check daily and monthly sales, cash collections, pending dues, and shop expenses at a glance. Export simple spreadsheet reports for your tax filings.',
     icon: SparklesIcon,
+    imageUrl: '/features/sales-profit-business-reports.webp',
+    imageAlt: 'Daily sales, profit margin analytics, and GSTR-1 tax compliance summary reports',
     bullets: [
       'Daily counter collection summary broken down by Cash, UPI, and Card',
       'GSTR-1 compatible sales reports ready for your CA or tax accountant',
@@ -138,6 +154,8 @@ export const FEATURES_DATA = [
     tagline: 'Safeguard your entire shop database with effortless 1-click backups',
     description: 'Save a complete backup of your shop data to a pen drive or computer folder with one click. Safely restore your bills, stock, and customers anytime.',
     icon: ShieldCheckIcon,
+    imageUrl: '/features/offline-backup-restore-security.webp',
+    imageAlt: 'One-click local SQLite database backup and recovery to USB or external drive',
     bullets: [
       '1-click export of complete SQLite database to USB flash drive or local disk',
       'Seamless database restoration when changing or upgrading store computers',

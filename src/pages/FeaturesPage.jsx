@@ -79,14 +79,13 @@ export function FeaturesPage() {
                     </ul>
                   </div>
 
-                  {/* Image Container Column - Clean image / placeholder for your custom screenshots */}
                   <div className="flex-1 w-full flex items-center justify-center">
-                    <div className="w-full aspect-[4/3] rounded-squircle-lg bg-gradient-to-br from-slate-100 to-slate-200/80 border border-slate-200 flex items-center justify-center relative overflow-hidden transition-all duration-300 shadow-xs hover:shadow-md group">
+                    <div className="w-full aspect-[16/10] sm:aspect-[3/2] rounded-squircle bg-white border border-slate-200/90 flex items-center justify-center relative overflow-hidden transition-all duration-300 shadow-xs hover:shadow-md group">
                       {feature.imageUrl ? (
                         <img
                           src={feature.imageUrl}
-                          alt={feature.title}
-                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                          alt={feature.imageAlt || `${feature.title} - Invio desktop invoicing`}
+                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
                           loading="lazy"
                         />
                       ) : (
