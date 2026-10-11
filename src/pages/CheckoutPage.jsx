@@ -4,7 +4,6 @@ import { PageContainer } from '../components/PageContainer';
 import { applySEO } from '../utils/seoHelper';
 import {
   getStoredUser,
-  getStoredToken,
   setStoredAuth,
   clearStoredAuth,
   loginUser,
@@ -24,7 +23,10 @@ import {
   GoogleIcon,
   EyeIcon,
   EyeOffIcon,
+  SparklesIcon,
+  ShieldCheckIcon,
 } from '../components/Icons';
+import { FEATURES_DATA } from '../data/featuresData';
 
 const DEFAULT_PLUS_PRICE = {
   monthly: 149,
@@ -44,9 +46,15 @@ export function CheckoutPage() {
   );
   const [prices, setPrices] = useState(DEFAULT_PLUS_PRICE);
 
-  // Auth state
+  // Random feature from FEATURES_DATA for left-side showcase
+  const [featureIndex, setFeatureIndex] = useState(() => {
+    return Math.floor(Math.random() * FEATURES_DATA.length);
+  });
+  const activeFeature = FEATURES_DATA[featureIndex] || FEATURES_DATA[0];
+
+  // Auth state — Default tab is 'login' (Sign In)
   const [currentUser, setCurrentUser] = useState(() => getStoredUser());
-  const [authTab, setAuthTab] = useState('register'); // 'register' | 'login'
+  const [authTab, setAuthTab] = useState('login'); // 'login' (default) | 'register'
 
   // Form fields
   const [firstName, setFirstName] = useState('');
@@ -67,7 +75,7 @@ export function CheckoutPage() {
     applySEO('pricing');
     window.scrollTo(0, 0);
 
-    // Fetch dynamic plan catalog
+    // Fetch dynamic plan catalog from backend
     fetchSubscriptionPlans()
       .then((res) => {
         if (res.success && Array.isArray(res.plans)) {
@@ -83,113 +91,19 @@ export function CheckoutPage() {
       .catch(() => {});
   }, []);
 
-  const handleGoogleAuth = () => {
-    setAuthError('');
-    setAuthLoading(true);
-    triggerGoogleSignIn({
-      businessName: businessName.trim() || undefined,
-      onSuccess: (user, token) => {
-        setAuthLoading(false);
-        setCurrentUser(user);
-        if (user.email) setEmail(user.email);
-        if (user.businessName) setBusinessName(user.businessName);
-      },
-      onError: (err) => {
-        setAuthLoading(false);
-        setAuthError(err || 'Google sign-in could not be completed.');
-      },
-    });
+  const handleNextFeature = () => {
+    setFeatureIndex((prev) => (prev + 1) % FEATURES_DATA.length);
   };
 
-  const handleEmailAuthSubmit = async (e) => {
-    e.preventDefault();
-    setAuthError('');
-
-    const cleanEmail = email.trim().toLowerCase();
-    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(cleanEmail)) {
-      setAuthError('Please enter a valid email address (e.g. yourname@shop.com).');
-      return;
-    }
-
-    if (!password || password.length < 6) {
-      setAuthError('Password must be at least 6 characters.');
-      return;
-    }
-
-    if (authTab === 'register') {
-      const cleanFirst = firstName.trim();
-      const cleanLast = lastName.trim();
-      const cleanBiz = businessName.trim();
-
-      if (!cleanFirst) {
-        setAuthError('Please enter your first name.');
-        return;
-      }
-      if (!cleanLast) {
-        setAuthError('Please enter your last name.');
-        return;
-      }
-      if (!cleanBiz) {
-        setAuthError('Please enter your shop or business name.');
-        return;
-      }
-
-      setAuthLoading(true);
-      const regRes = await registerUser({
-        email: cleanEmail,
-        password,
-        businessName: cleanBiz,
-      });
-
-      if (!regRes.success) {
-        // If email is already registered, suggest logging in
-        if (regRes.error && regRes.error.toLowerCase().includes('already registered')) {
-          setAuthError('This email is already registered. Please switch to Sign In.');
-          setAuthTab('login');
-          setAuthLoading(false);
-          return;
-        }
-        setAuthError(regRes.error || 'Registration failed. Please check your details.');
-        setAuthLoading(false);
-        return;
-      }
-
-      // If user requires email verification before standard login,
-      // in the checkout flow they can proceed directly to checkout payment
-      // which automatically marks the account as verified upon successful payment!
-      const userObj = {
-        email: cleanEmail,
-        businessName: cleanBiz,
-        firstName: cleanFirst,
-        lastName: cleanLast,
-      };
-      setStoredAuth(null, userObj);
-      setCurrentUser(userObj);
-      setAuthLoading(false);
-    } else {
-      // Login flow
-      setAuthLoading(true);
-      const logRes = await loginUser(cleanEmail, password);
-      setAuthLoading(false);
-
-      if (!logRes.success) {
-        setAuthError(logRes.error || 'Invalid email or password.');
-        return;
-      }
-
-      setCurrentUser(logRes.user);
-    }
-  };
-
-  const handleStartPayment = async () => {
+  const executePayment = async (user) => {
     if (paying || successData) return;
     setPaying(true);
     setPayError('');
 
-    const targetEmail = (currentUser?.email || email).trim().toLowerCase();
-    const effectiveBiz = currentUser?.businessName || businessName.trim();
-    const effectiveFirst = currentUser?.firstName || firstName.trim();
-    const effectiveLast = currentUser?.lastName || lastName.trim();
+    const targetEmail = (user?.email || email).trim().toLowerCase();
+    const effectiveBiz = user?.businessName || businessName.trim();
+    const effectiveFirst = user?.firstName || firstName.trim();
+    const effectiveLast = user?.lastName || lastName.trim();
 
     try {
       const order = await createSubscriptionOrder('plus', billingCycle);
@@ -258,6 +172,107 @@ export function CheckoutPage() {
     }
   };
 
+  const handleGoogleAuth = () => {
+    setAuthError('');
+    setAuthLoading(true);
+    triggerGoogleSignIn({
+      businessName: businessName.trim() || undefined,
+      onSuccess: (user) => {
+        setAuthLoading(false);
+        setCurrentUser(user);
+        if (user.email) setEmail(user.email);
+        if (user.businessName) setBusinessName(user.businessName);
+        executePayment(user);
+      },
+      onError: (err) => {
+        setAuthLoading(false);
+        setAuthError(err || 'Google sign-in could not be completed.');
+      },
+    });
+  };
+
+  const handleEmailAuthSubmit = async (e) => {
+    e.preventDefault();
+    setAuthError('');
+
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(cleanEmail)) {
+      setAuthError('Please enter a valid email address (e.g. yourname@shop.com).');
+      return;
+    }
+
+    if (!password || password.length < 6) {
+      setAuthError('Password must be at least 6 characters.');
+      return;
+    }
+
+    if (authTab === 'register') {
+      const cleanFirst = firstName.trim();
+      const cleanLast = lastName.trim();
+      const cleanBiz = businessName.trim();
+
+      if (!cleanFirst) {
+        setAuthError('Please enter your first name.');
+        return;
+      }
+      if (!cleanLast) {
+        setAuthError('Please enter your last name.');
+        return;
+      }
+      if (!cleanBiz) {
+        setAuthError('Please enter your shop or business name.');
+        return;
+      }
+
+      setAuthLoading(true);
+      const regRes = await registerUser({
+        email: cleanEmail,
+        password,
+        businessName: cleanBiz,
+      });
+
+      if (!regRes.success) {
+        if (regRes.error && regRes.error.toLowerCase().includes('already registered')) {
+          setAuthError('This email is already registered. Please sign in below.');
+          setAuthTab('login');
+          setAuthLoading(false);
+          return;
+        }
+        setAuthError(regRes.error || 'Registration failed. Please check your details.');
+        setAuthLoading(false);
+        return;
+      }
+
+      const userObj = {
+        email: cleanEmail,
+        businessName: cleanBiz,
+        firstName: cleanFirst,
+        lastName: cleanLast,
+      };
+      setStoredAuth(null, userObj);
+      setCurrentUser(userObj);
+      setAuthLoading(false);
+      executePayment(userObj);
+    } else {
+      // Login flow
+      setAuthLoading(true);
+      const logRes = await loginUser(cleanEmail, password);
+      setAuthLoading(false);
+
+      if (!logRes.success) {
+        setAuthError(logRes.error || 'Invalid email or password.');
+        return;
+      }
+
+      setCurrentUser(logRes.user);
+      executePayment(logRes.user);
+    }
+  };
+
+  const handleStartPayment = () => {
+    executePayment(currentUser);
+  };
+
   const handleSwitchAccount = () => {
     clearStoredAuth();
     setCurrentUser(null);
@@ -296,7 +311,7 @@ export function CheckoutPage() {
             <ol className="text-xs text-slate-700 space-y-1.5 list-decimal list-inside leading-relaxed">
               <li>Open the Invio desktop application on your PC or Mac.</li>
               <li>Sign in with your email: <strong className="text-slate-900 font-mono">{successData.email}</strong>.</li>
-              <li>Thermal printing, dynamic UPI QR receipts, and dual POS will unlock automatically!</li>
+              <li>Thermal printing, dynamic UPI QR receipts, and dual POS display unlock automatically!</li>
             </ol>
           </div>
 
@@ -321,17 +336,129 @@ export function CheckoutPage() {
 
   return (
     <PageContainer
-      badge="Simple & Secure"
+      badge="Simple &amp; Secure"
       title="Complete Your Order"
-      subtitle="Sign in or create your account, then complete payment to instantly unlock Invio Plus on your desktop app."
+      subtitle="Sign in or create your account to unlock Invio Plus on your desktop application."
     >
-      <div className="max-w-4xl mx-auto my-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Auth / Account Step (7 Cols) */}
-        <div className="lg:col-span-7 bg-white rounded-squircle p-6 sm:p-8 border border-slate-200/90 shadow-xl">
+      <div className="max-w-6xl mx-auto my-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column: Feature Spotlight Image & Plan Summary (6 Cols) */}
+        <div className="lg:col-span-6 space-y-6">
+          {/* Feature Showcase Card */}
+          <div className="bg-white rounded-squircle p-6 sm:p-7 border border-slate-200/90 shadow-xl relative overflow-hidden">
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200/80 text-[#7C3AED] text-xs font-semibold">
+                <SparklesIcon className="size-3.5 text-[#7C3AED]" />
+                <span>Feature Spotlight • {activeFeature.category}</span>
+              </div>
+              <button
+                type="button"
+                onClick={handleNextFeature}
+                className="text-[11px] font-semibold text-slate-500 hover:text-[#7C3AED] transition-colors cursor-pointer flex items-center gap-1"
+                title="View another feature"
+              >
+                <span>Next Feature</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight mb-1">
+              {activeFeature.title}
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed mb-4 font-normal">
+              {activeFeature.tagline}
+            </p>
+
+            {/* Random Feature WebP Screenshot */}
+            <div className="relative rounded-2xl overflow-hidden border border-slate-200/80 bg-slate-100 shadow-xs aspect-video mb-4 group">
+              <img
+                src={activeFeature.imageUrl}
+                alt={activeFeature.imageAlt}
+                className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+                loading="eager"
+              />
+              <div className="absolute top-2.5 right-2.5 bg-white/95 backdrop-blur-sm px-2.5 py-0.5 rounded-full text-[10px] font-bold text-[#7C3AED] shadow-2xs border border-purple-100">
+                Included in Plus
+              </div>
+            </div>
+
+            {/* Feature Bullets */}
+            <ul className="space-y-2 text-xs text-slate-600 mb-2">
+              {activeFeature.bullets.slice(0, 3).map((bullet, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <CheckIcon className="size-3.5 text-[#7C3AED] shrink-0 mt-0.5" />
+                  <span className="leading-snug">{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Plan Summary Card */}
+          <div className="bg-white rounded-squircle p-6 sm:p-7 border border-slate-200/90 shadow-xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="size-10 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center shadow-2xs">
+                  <ReceiptIcon className="size-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900">Invio Plus Plan</h4>
+                  <p className="text-[11px] text-slate-500">Commercial Counter POS License</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-xl font-extrabold text-[#7C3AED]">₹{currentPrice}</span>
+                <span className="text-[11px] text-slate-500 ml-1">
+                  {billingCycle === 'yearly' ? '/ year' : '/ mo'}
+                </span>
+              </div>
+            </div>
+
+            {/* Billing Cycle Picker */}
+            <div className="p-1 rounded-full bg-slate-100 border border-slate-200 flex text-center">
+              <button
+                type="button"
+                onClick={() => setBillingCycle('yearly')}
+                className={`flex-1 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                  billingCycle === 'yearly'
+                    ? 'bg-[#7C3AED] text-white shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>Yearly Billing</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                  billingCycle === 'yearly' ? 'bg-white/20 text-white' : 'bg-purple-100 text-[#7C3AED]'
+                }`}>
+                  Save 40%+
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setBillingCycle('monthly')}
+                className={`flex-1 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  billingCycle === 'monthly'
+                    ? 'bg-white text-[#7C3AED] shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Monthly Billing
+              </button>
+            </div>
+
+            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+              <div className="flex items-center gap-1.5 text-emerald-600 font-semibold">
+                <ShieldCheckIcon className="size-4" />
+                <span>100% Offline Local Privacy</span>
+              </div>
+              <span>No Cloud Egress Fees</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Form (Sign In Default, Sign Up, or Confirmed Payment) (6 Cols) */}
+        <div className="lg:col-span-6 bg-white rounded-squircle p-6 sm:p-8 border border-slate-200/90 shadow-xl">
           {currentUser ? (
             /* State: Already Signed In */
             <div>
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3.5 mb-5">
                 <div className="size-12 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center font-bold text-base shadow-2xs">
                   {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
                 </div>
@@ -348,7 +475,7 @@ export function CheckoutPage() {
               <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <CheckIcon className="size-4 text-emerald-600 shrink-0" />
-                  <span>Account confirmed. Ready for instant license linkage.</span>
+                  <span>Account confirmed. Ready for instant license activation.</span>
                 </div>
                 <button
                   type="button"
@@ -384,39 +511,49 @@ export function CheckoutPage() {
               </button>
             </div>
           ) : (
-            /* State: Not Signed In (Tabs for Sign Up & Sign In + Google Auth) */
+            /* State: Not Signed In (Sign In by DEFAULT, Sign Up secondary) */
             <div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-5">
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAuthTab('register');
-                      setAuthError('');
-                    }}
-                    className={`text-xs sm:text-sm font-bold pb-1 cursor-pointer transition-colors relative ${
-                      authTab === 'register'
-                        ? 'text-[#7C3AED] border-b-2 border-[#7C3AED]'
-                        : 'text-slate-500 hover:text-slate-900'
-                    }`}
-                  >
-                    1. Create Account
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAuthTab('login');
-                      setAuthError('');
-                    }}
-                    className={`text-xs sm:text-sm font-bold pb-1 cursor-pointer transition-colors relative ${
-                      authTab === 'login'
-                        ? 'text-[#7C3AED] border-b-2 border-[#7C3AED]'
-                        : 'text-slate-500 hover:text-slate-900'
-                    }`}
-                  >
-                    Existing User (Sign In)
-                  </button>
-                </div>
+              <div className="mb-5">
+                <h3 className="text-lg font-bold text-slate-900 tracking-tight">
+                  {authTab === 'login' ? 'Sign In to Your Account' : 'Create Your Business Account'}
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {authTab === 'login'
+                    ? 'Enter your credentials to link your Invio Plus license.'
+                    : 'Enter your basic shop details to register and activate your license.'}
+                </p>
+              </div>
+
+              {/* Two-Tab Switcher: Sign In (Default) vs Sign Up */}
+              <div className="flex p-1 rounded-full bg-slate-100 border border-slate-200/80 mb-5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAuthTab('login');
+                    setAuthError('');
+                  }}
+                  className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                    authTab === 'login'
+                      ? 'bg-white text-[#7C3AED] shadow-2xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Sign In
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAuthTab('register');
+                    setAuthError('');
+                  }}
+                  className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                    authTab === 'register'
+                      ? 'bg-white text-[#7C3AED] shadow-2xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Sign Up
+                </button>
               </div>
 
               {/* Google One-Click Auth */}
@@ -435,12 +572,12 @@ export function CheckoutPage() {
                   <div className="w-full border-t border-slate-200" />
                 </div>
                 <span className="relative bg-white px-3 text-[11px] font-medium text-slate-400">
-                  Or continue with email
+                  Or with email and password
                 </span>
               </div>
 
-              {/* Email Form */}
-              <form onSubmit={handleEmailAuthSubmit} className="space-y-3">
+              {/* Form */}
+              <form onSubmit={handleEmailAuthSubmit} className="space-y-3.5">
                 {authTab === 'register' && (
                   <>
                     <div className="grid grid-cols-2 gap-3">
@@ -453,7 +590,7 @@ export function CheckoutPage() {
                           required
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
-                          placeholder="John"
+                          placeholder="Rahul"
                           className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
                         />
                       </div>
@@ -466,7 +603,7 @@ export function CheckoutPage() {
                           required
                           value={lastName}
                           onChange={(e) => setLastName(e.target.value)}
-                          placeholder="Doe"
+                          placeholder="Sharma"
                           className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
                         />
                       </div>
@@ -481,7 +618,7 @@ export function CheckoutPage() {
                         required
                         value={businessName}
                         onChange={(e) => setBusinessName(e.target.value)}
-                        placeholder="Apex Supermarket"
+                        placeholder="Sharma Kirana &amp; General Store"
                         className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
                       />
                     </div>
@@ -498,7 +635,7 @@ export function CheckoutPage() {
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="yourname@shop.com"
+                    placeholder="sharma.store@example.com"
                     className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
                   />
                   {isFromDesktop && (
@@ -520,7 +657,7 @@ export function CheckoutPage() {
                       autoComplete={authTab === 'register' ? 'new-password' : 'current-password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Min. 6 characters"
+                      placeholder="Enter your password (min. 6 characters)"
                       className="w-full px-3 py-2 pr-10 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
                     />
                     <button
@@ -552,99 +689,48 @@ export function CheckoutPage() {
                     </>
                   ) : (
                     <span>
-                      {authTab === 'register'
-                        ? 'Create Account & Continue'
-                        : 'Sign In & Continue'}
+                      {authTab === 'login'
+                        ? 'Sign In & Proceed to Payment'
+                        : 'Create Account & Proceed to Payment'}
                     </span>
                   )}
                 </button>
+
+                {/* Footer Switch Prompt */}
+                <div className="pt-2 text-center text-xs text-slate-500">
+                  {authTab === 'login' ? (
+                    <span>
+                      Don't have an account yet?{' '}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAuthTab('register');
+                          setAuthError('');
+                        }}
+                        className="text-[#7C3AED] font-semibold hover:underline cursor-pointer"
+                      >
+                        Sign Up
+                      </button>
+                    </span>
+                  ) : (
+                    <span>
+                      Already have an account?{' '}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAuthTab('login');
+                          setAuthError('');
+                        }}
+                        className="text-[#7C3AED] font-semibold hover:underline cursor-pointer"
+                      >
+                        Sign In
+                      </button>
+                    </span>
+                  )}
+                </div>
               </form>
             </div>
           )}
-        </div>
-
-        {/* Right Column: Order Summary (5 Cols) */}
-        <div className="lg:col-span-5 bg-white rounded-squircle p-6 sm:p-7 border border-slate-200/90 shadow-xl space-y-5">
-          <div className="flex items-center gap-3">
-            <div className="size-11 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center shadow-2xs">
-              <ReceiptIcon className="size-5" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-slate-900">Invio Plus Plan</h3>
-              <p className="text-xs text-slate-500">Commercial Counter POS License</p>
-            </div>
-          </div>
-
-          {/* Billing Cycle Picker */}
-          <div className="p-1 rounded-full bg-slate-100 border border-slate-200 flex text-center">
-            <button
-              type="button"
-              onClick={() => setBillingCycle('yearly')}
-              className={`flex-1 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                billingCycle === 'yearly'
-                  ? 'bg-[#7C3AED] text-white shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <span>Yearly</span>
-              <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                billingCycle === 'yearly' ? 'bg-white/20 text-white' : 'bg-purple-100 text-[#7C3AED]'
-              }`}>
-                Save 40%+
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setBillingCycle('monthly')}
-              className={`flex-1 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                billingCycle === 'monthly'
-                  ? 'bg-white text-[#7C3AED] shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Monthly
-            </button>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-bold text-slate-700">Subtotal</span>
-              <span className="text-base font-extrabold text-[#7C3AED]">
-                ₹{currentPrice}
-              </span>
-            </div>
-            <div className="text-[11px] text-slate-500">
-              {billingCycle === 'yearly' ? 'Billed annually (₹83/mo equivalent)' : 'Billed monthly'}
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-xs font-bold text-slate-900 mb-2.5">
-              Included Commercial POS Features:
-            </h4>
-            <ul className="space-y-2 text-xs text-slate-600">
-              <li className="flex items-start gap-2">
-                <CheckIcon className="size-3.5 text-[#7C3AED] shrink-0 mt-0.5" />
-                <span>58mm & 80mm ESC/POS thermal receipt printing</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckIcon className="size-3.5 text-[#7C3AED] shrink-0 mt-0.5" />
-                <span>Dynamic UPI QR code printed on counter slips</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckIcon className="size-3.5 text-[#7C3AED] shrink-0 mt-0.5" />
-                <span>Dual-screen customer display POS projection</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckIcon className="size-3.5 text-[#7C3AED] shrink-0 mt-0.5" />
-                <span>Rapid item barcode scanner auto-increment</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckIcon className="size-3.5 text-[#7C3AED] shrink-0 mt-0.5" />
-                <span>Multi-counter local networked database support</span>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </PageContainer>
