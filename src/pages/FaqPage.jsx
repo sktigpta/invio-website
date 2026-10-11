@@ -22,17 +22,17 @@ export function FaqPage() {
         <FaqAccordion items={FAQ_ITEMS} />
       </div>
 
-      <div className="my-8 p-5 rounded-2xl border border-slate-200/90 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="my-8 p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
         <div>
-          <h2 className="text-sm font-bold text-slate-900 mb-1">Still have questions?</h2>
-          <p className="text-xs text-slate-600">
-            Our support engineering team is available to assist with setup, data migrations, and custom queries.
+          <h2 className="text-sm sm:text-base font-bold text-slate-900 mb-1">Still have questions?</h2>
+          <p className="text-xs text-slate-600 max-w-lg leading-relaxed">
+            Our support engineering team is available to assist with hardware configuration, thermal printer setup, data migrations, and custom billing rules.
           </p>
         </div>
         <div className="flex items-center gap-3 shrink-0">
           <a
             href="mailto:support@timrio.com"
-            className="h-9 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-sm"
+            className="h-9 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-2xs select-none"
           >
             Email support@timrio.com
           </a>
