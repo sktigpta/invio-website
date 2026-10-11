@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { AppleIcon, WindowsIcon, LinuxIcon } from '../Icons';
 import { detectDeviceOS, PLATFORM_DOWNLOADS, triggerDirectDownload } from '../../utils/osDetector';
 
@@ -45,12 +44,6 @@ export function Hero() {
       {/* Hero Foreground Content */}
       <div className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="max-w-2xl">
-          {/* Version / Category Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50/90 border border-purple-200/80 text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] mb-4 shadow-2xs">
-            <span className="size-1.5 rounded-full bg-[#7C3AED] animate-pulse" />
-            <span>Fast • Offline • Desktop v1.0.2</span>
-          </div>
-
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-slate-900 leading-[1.12] mb-5">
             Create &amp; Send Customer Invoices in Seconds
@@ -128,13 +121,6 @@ export function Hero() {
               {getOsIcon(selectedOSId)}
               <span>Download for {currentOS.name} ({currentOS.extension})</span>
             </button>
-
-            <Link
-              to="/download"
-              className="h-12 px-6 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-full transition-colors flex items-center gap-2 shadow-2xs"
-            >
-              <span>All Downloads &amp; Checksums →</span>
-            </Link>
           </div>
 
           {/* Key Feature Badges */}

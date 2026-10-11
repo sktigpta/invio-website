@@ -122,9 +122,6 @@ export function StickyFeatures() {
                       <div className="size-11 sm:size-12 rounded-2xl bg-purple-50 flex items-center justify-center mb-4 text-[#7C3AED] group-hover:bg-[#7C3AED] group-hover:text-white transition-colors duration-200">
                         <Icon className="size-5 sm:size-6 text-[#7C3AED] group-hover:text-white transition-colors duration-200" />
                       </div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-50 border border-purple-100/80 px-2.5 py-0.5 rounded-[8px] inline-block mb-2 self-start">
-                        {feature.category}
-                      </span>
                       <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight mb-2">
                         {feature.title}
                       </h3>

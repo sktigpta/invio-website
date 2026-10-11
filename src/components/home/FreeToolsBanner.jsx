@@ -3,24 +3,25 @@ import { CalculatorIcon } from '../Icons';
 
 export function FreeToolsBanner() {
   return (
-    <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="bg-gradient-to-r from-purple-50/80 via-white to-purple-50/40 border border-purple-200/80 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
+    <section className="w-full bg-gradient-to-r from-purple-50/90 via-white to-purple-50/60 border-y border-slate-200/90 py-6 sm:py-8 my-0">
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
         <div className="flex items-center gap-4">
-          <div className="size-12 rounded-2xl bg-[#7C3AED] text-white flex items-center justify-center shrink-0 shadow-xs">
-            <CalculatorIcon className="size-6 text-white" />
+          <div className="size-11 sm:size-12 rounded-2xl bg-[#7C3AED] text-white flex items-center justify-center shrink-0 shadow-xs">
+            <CalculatorIcon className="size-5 sm:size-6 text-white" />
           </div>
           <div>
-            <strong className="block text-slate-900 text-base sm:text-lg font-bold">
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
               Free Online Finance, Tax &amp; Payroll Suite
-            </strong>
-            <span className="text-xs sm:text-sm text-slate-600 leading-relaxed block mt-0.5">
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
               Instant in-browser calculations: India GST, Income Tax (FY 2025–26), UK &amp; UAE VAT, Payslip generator, HRA, and Gratuity.
-            </span>
+            </p>
           </div>
         </div>
+
         <Link
           to="/tools"
-          className="h-11 px-6 bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold text-xs sm:text-sm rounded-full transition-all whitespace-nowrap shadow-sm hover:shadow-purple-200/80 flex items-center justify-center shrink-0 cursor-pointer"
+          className="h-10 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold text-xs sm:text-sm rounded-full transition-all shadow-xs flex items-center justify-center shrink-0 whitespace-nowrap self-start md:self-center cursor-pointer"
         >
           Explore Free Tools Suite →
         </Link>
