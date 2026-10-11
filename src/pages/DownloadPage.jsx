@@ -23,7 +23,7 @@ export function DownloadPage() {
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-8">
         {/* Windows Card */}
-        <div className="p-6 rounded-2xl border border-slate-200/90 bg-white flex flex-col justify-between">
+        <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-3">
               <WindowsIcon className="size-5 text-[#0078D7]" />
@@ -55,7 +55,7 @@ export function DownloadPage() {
         </div>
 
         {/* macOS Card */}
-        <div className="p-6 rounded-2xl border border-slate-200/90 bg-white flex flex-col justify-between">
+        <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-3">
               <AppleIcon className="size-5 text-slate-800" />

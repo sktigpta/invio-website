@@ -41,7 +41,7 @@ export function PricingPage() {
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-8">
         {/* Free Plan */}
-        <div className="p-6 rounded-2xl border border-slate-200/90 bg-white flex flex-col justify-between">
+        <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-xl font-bold text-slate-900">Free Core Plan</h2>
@@ -91,7 +91,7 @@ export function PricingPage() {
         </div>
 
         {/* Plus Plan */}
-        <div className="p-6 rounded-2xl border-2 border-[#7C3AED] bg-white relative flex flex-col justify-between shadow-xs">
+        <div className="p-6 rounded-squircle border-2 border-[#7C3AED] bg-white relative flex flex-col justify-between shadow-xs">
           <div>
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-xl font-bold text-slate-900">Invio Plus</h2>

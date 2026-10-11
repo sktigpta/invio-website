@@ -37,6 +37,22 @@ html {
   }
 }
 
+/* Squircle / iOS-style continuous curve cards */
+@layer utilities {
+  .rounded-squircle {
+    border-radius: 28px;
+    corner-smoothing: 60%;
+  }
+  .rounded-squircle-sm {
+    border-radius: 20px;
+    corner-smoothing: 60%;
+  }
+  .rounded-squircle-lg {
+    border-radius: 36px;
+    corner-smoothing: 60%;
+  }
+}
+
 /* Smooth custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;

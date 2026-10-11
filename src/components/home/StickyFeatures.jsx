@@ -51,10 +51,10 @@ export function StickyFeatures() {
                 return (
                   <div
                     key={feature.title}
-                    className="group relative p-6 rounded-2xl bg-white/90 backdrop-blur-xs border border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-900/5 transition-all duration-300 flex flex-col justify-start h-[220px] overflow-hidden cursor-default shadow-xs"
+                    className="group relative p-6 rounded-squircle bg-white/95 backdrop-blur-xs border border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-900/5 transition-all duration-300 flex flex-col justify-start h-[220px] overflow-hidden cursor-default shadow-xs"
                   >
                     <div className="relative z-10 flex flex-col h-full">
-                      <div className="size-11 rounded-2xl bg-purple-50 flex items-center justify-center mb-3.5 text-[#7C3AED] group-hover:bg-[#7C3AED] group-hover:text-white group-hover:scale-105 transition-all duration-200 shrink-0">
+                      <div className="size-11 rounded-squircle-sm bg-purple-50 flex items-center justify-center mb-3.5 text-[#7C3AED] group-hover:bg-[#7C3AED] group-hover:text-white group-hover:scale-105 transition-all duration-200 shrink-0">
                         <Icon className="size-5 text-[#7C3AED] group-hover:text-white transition-colors duration-200" />
                       </div>
                       <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight mb-2 line-clamp-1 group-hover:text-[#7C3AED] transition-colors">
