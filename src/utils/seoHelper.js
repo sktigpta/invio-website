@@ -30,10 +30,10 @@ export const PAGE_METADATA = {
     schemaType: 'SoftwareApplication',
   },
   pricing: {
-    title: 'Pricing – Free Forever Core Plan & Plus Commercial License | Invio',
-    description: 'Transparent pricing for Invio: Free forever for core desktop billing with no invoice limits, and affordable Plus license for advanced thermal printing, secondary POS display, and email dispatches.',
+    title: 'Pricing – Free Core, Plus POS & Pro Enterprise Plans | Invio',
+    description: 'Transparent pricing for Invio: Free Core forever for offline desktop billing, Plus plan for thermal receipts and UPI QR, and Pro Enterprise for multi-user cashier roles and audit analytics.',
     canonical: `${BASE_URL}/pricing`,
-    keywords: 'Invio pricing, free billing software, desktop invoice price, Invio Plus license, invoice app plans',
+    keywords: 'Invio pricing, free billing software, desktop invoice price, Invio Plus license, Invio Pro plan, enterprise invoice software, retail POS plans',
     schemaType: 'WebPage',
   },
   download: {
