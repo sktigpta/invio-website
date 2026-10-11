@@ -54,74 +54,65 @@ export function Hero() {
             Create professional invoices in a few clicks. 60+ templates or customize your own. Easily add logo, rates, and photos. Let clients pay online. Automatically send receipts.
           </p>
 
-          {/* Platform Selector Buttons (macOS, Windows, Linux) in Column Layout */}
-          <div className="flex flex-col items-start gap-2 mb-6">
-            <span className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
-              Available on:
-            </span>
-            <div
-              className="flex flex-col gap-1.5 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/80 text-slate-600 w-full sm:w-64"
-              role="radiogroup"
-              aria-label="Select desktop operating system"
-            >
-              <button
-                type="button"
-                onClick={() => setSelectedOSId('mac')}
-                role="radio"
-                aria-checked={selectedOSId === 'mac'}
-                className={`px-3.5 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-3 text-xs transition-all w-full ${
-                  selectedOSId === 'mac'
-                    ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                    : 'hover:text-slate-900 hover:bg-white/60'
-                }`}
+          {/* Platform Selector & Download Controls */}
+          <div className="flex flex-col items-start gap-4 mb-6">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
+                Available on:
+              </span>
+              <div
+                className="inline-flex items-center gap-1 bg-slate-100/90 p-1 rounded-full border border-slate-200/80 text-slate-600"
+                role="radiogroup"
+                aria-label="Select desktop operating system"
               >
-                <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setSelectedOSId('mac')}
+                  role="radio"
+                  aria-checked={selectedOSId === 'mac'}
+                  className={`px-3 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                    selectedOSId === 'mac'
+                      ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
+                      : 'hover:text-slate-900'
+                  }`}
+                >
                   <AppleIcon className="size-3.5" />
                   <span>macOS</span>
-                </div>
-                {selectedOSId === 'mac' && <span className="size-1.5 rounded-full bg-[#7C3AED]" />}
-              </button>
+                </button>
 
-              <button
-                type="button"
-                onClick={() => setSelectedOSId('windows')}
-                role="radio"
-                aria-checked={selectedOSId === 'windows'}
-                className={`px-3.5 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-3 text-xs transition-all w-full ${
-                  selectedOSId === 'windows'
-                    ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                    : 'hover:text-slate-900 hover:bg-white/60'
-                }`}
-              >
-                <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setSelectedOSId('windows')}
+                  role="radio"
+                  aria-checked={selectedOSId === 'windows'}
+                  className={`px-3 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                    selectedOSId === 'windows'
+                      ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
+                      : 'hover:text-slate-900'
+                  }`}
+                >
                   <WindowsIcon className="size-3.5" />
                   <span>Windows</span>
-                </div>
-                {selectedOSId === 'windows' && <span className="size-1.5 rounded-full bg-[#7C3AED]" />}
-              </button>
+                </button>
 
-              <button
-                type="button"
-                onClick={() => setSelectedOSId('linux')}
-                role="radio"
-                aria-checked={selectedOSId === 'linux'}
-                className={`px-3.5 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-3 text-xs transition-all w-full ${
-                  selectedOSId === 'linux'
-                    ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                    : 'hover:text-slate-900 hover:bg-white/60'
-                }`}
-              >
-                <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setSelectedOSId('linux')}
+                  role="radio"
+                  aria-checked={selectedOSId === 'linux'}
+                  className={`px-3 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                    selectedOSId === 'linux'
+                      ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
+                      : 'hover:text-slate-900'
+                  }`}
+                >
                   <LinuxIcon className="size-3.5" />
                   <span>Linux</span>
-                </div>
-                {selectedOSId === 'linux' && <span className="size-1.5 rounded-full bg-[#7C3AED]" />}
-              </button>
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Download CTA Controls */}
-          <div className="flex flex-wrap items-center gap-3 mb-6">
+            {/* Download Button */}
             <button
               type="button"
               onClick={handleDownload}
