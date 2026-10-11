@@ -1,49 +1,25 @@
 /**
  * Invio Product Metadata & Single Source of Truth
  * Powers website copy, JSON-LD Schema.org structured data,
- * and the Google Merchant Center product feed.
+ * and the Google Merchant Center multi-product feed.
  */
 
-export const PRODUCT_METADATA = {
-  // Feed-level commercial product identifier & pricing (compliant with Google Merchant Center price > 0 rule)
-  id: 'invio-desktop-plus',
-  name: 'Invio Plus — Desktop Invoicing Software',
-  shortName: 'Invio Plus',
+export const SHARED_PRODUCT_SPECS = {
   brand: 'Timrio',
   publisherUrl: 'https://timrio.com',
-  canonicalUrl: 'https://invio.timrio.com/subscription',
-  productLandingUrl: 'https://invio.timrio.com/product',
   homeUrl: 'https://invio.timrio.com/',
+  productLandingUrl: 'https://invio.timrio.com/product',
   feedUrl: 'https://invio.timrio.com/feeds/google-merchant.tsv',
-
-  // Google Merchant Center compliant description (plain text, max 5000 chars)
-  description:
-    'Invio Plus by Timrio is a privacy-first desktop invoicing and inventory management software for Windows and macOS. Features automated GST calculations (CGST, SGST, IGST), 58mm and 80mm thermal receipt printing with dynamic UPI payment QR codes, barcode scanner checkout, WhatsApp and email invoice dispatch, customer POS display, and 100% offline local SQLite storage.',
-
-  fullDescription:
-    'Invio Plus Desktop Invoicing Software is designed specifically for retail shops, freelancers, and small businesses who need fast, reliable billing without relying on an internet connection. Includes automated GST intra-state and inter-state tax splits, thermal receipt printing, dual-screen POS customer display, barcode scanner support, and local SQLite data storage.',
-
-  // Legally compliant commercial pricing (matches https://invio.timrio.com/subscription)
-  price: '999.00',
-  currency: 'INR',
-  priceString: '999.00 INR',
-  pricingModel: 'Annual License',
-  pricingSummary: '₹999 / year (or ₹149 / month) for Invio Plus with thermal printing, WhatsApp & email delivery, and priority support. A free forever core plan is also available.',
-  availability: 'in_stock',
-  condition: 'new',
-  identifierExists: 'no', // Custom proprietary software without universal GTIN / barcode
-
   category: 'BusinessApplication',
   applicationSubCategory: 'Invoicing & Inventory Management',
   googleProductCategory: 'Software > Computer Software > Business & Productivity Software',
   productType: 'Software > Invoicing Software > Desktop Billing App',
-
+  condition: 'new',
+  identifierExists: 'no',
   imageLink: 'https://invio.timrio.com/screenshots/dashboard.png',
   logoLink: 'https://invio.timrio.com/appLogo.png',
   ogImageLink: 'https://invio.timrio.com/og-image.jpg',
-
   targetAudience: 'Freelancers, retail shopkeepers, small businesses, and independent professionals.',
-
   supportedPlatforms: ['Windows', 'macOS', 'Linux'],
 
   systemRequirements: {
@@ -133,4 +109,97 @@ export const PRODUCT_METADATA = {
     privacyUrl: 'https://invio.timrio.com/privacy',
     termsUrl: 'https://invio.timrio.com/terms',
   },
+};
+
+/**
+ * Three distinct commercial tiers / plans for Google Merchant Center & Website:
+ * 1. invio-desktop-free (Free Core Plan, ₹0 / free forever)
+ * 2. invio-desktop-plus-monthly (Invio Plus Monthly, ₹149 / month)
+ * 3. invio-desktop-plus-yearly (Invio Plus Yearly, ₹999 / year)
+ */
+export const PRODUCT_TIERS = [
+  {
+    id: 'invio-desktop-free',
+    name: 'Invio — Free Desktop Invoicing Software',
+    shortName: 'Invio Free',
+    planType: 'free',
+    planPeriod: 'lifetime',
+    price: '0.00',
+    currency: 'INR',
+    priceString: '0.00 INR',
+    pricingDisplay: 'Free Forever',
+    availability: 'in_stock',
+    canonicalUrl: 'https://invio.timrio.com/product',
+    description:
+      'Invio by Timrio is a 100% free offline desktop invoicing software for Windows, macOS, and Linux. Unlimited offline bills, automated GST tax calculation (CGST/SGST/IGST), A4 PDF printing, barcode scanner checkout, customer credit ledger, and local SQLite data privacy.',
+    features: [
+      'Unlimited offline invoices & billing',
+      'A4 & A5 invoice printing and PDF exports',
+      'Automated GST tax calculation (CGST, SGST, IGST)',
+      'Product catalog with barcode scanner support',
+      'Customer directory & credit (udhar) ledger',
+      '100% offline local SQLite database',
+    ],
+  },
+  {
+    id: 'invio-desktop-plus-monthly',
+    name: 'Invio Plus Monthly — Desktop Invoicing Software',
+    shortName: 'Invio Plus Monthly',
+    planType: 'plus',
+    planPeriod: 'monthly',
+    price: '149.00',
+    currency: 'INR',
+    priceString: '149.00 INR',
+    pricingDisplay: '₹149 / month',
+    availability: 'in_stock',
+    canonicalUrl: 'https://invio.timrio.com/subscription?plan=monthly',
+    description:
+      'Invio Plus Monthly Subscription by Timrio for Windows and macOS. Includes everything in Free plus 58mm/80mm thermal receipt printing, dynamic UPI payment QR codes, WhatsApp bill sharing, Gmail/SMTP invoice dispatch, dual-screen POS customer display, and automated backups.',
+    features: [
+      'Everything in Free Core plan',
+      '58mm & 80mm thermal receipt roll printing',
+      'Dynamic UPI payment QR codes on bills',
+      'Automated email invoices (Gmail / SMTP)',
+      'WhatsApp Web 1-click invoice sharing',
+      'Dual-screen POS counter customer display',
+      '1-click SQLite & PostgreSQL backup & restore',
+      'Priority customer support',
+    ],
+  },
+  {
+    id: 'invio-desktop-plus-yearly',
+    name: 'Invio Plus Yearly — Desktop Invoicing Software',
+    shortName: 'Invio Plus Yearly',
+    planType: 'plus',
+    planPeriod: 'yearly',
+    price: '999.00',
+    currency: 'INR',
+    priceString: '999.00 INR',
+    pricingDisplay: '₹999 / year',
+    availability: 'in_stock',
+    canonicalUrl: 'https://invio.timrio.com/subscription',
+    description:
+      'Invio Plus Annual License by Timrio for Windows and macOS. Best value plan (save 44%). Full access to 58mm/80mm thermal printing, dynamic UPI QR codes, WhatsApp & email delivery, dual-screen POS customer display, local database backups, and dedicated priority support.',
+    features: [
+      'Everything in Free Core plan',
+      '58mm & 80mm thermal receipt roll printing',
+      'Dynamic UPI payment QR codes on bills',
+      'Automated email invoices (Gmail / SMTP)',
+      'WhatsApp Web 1-click invoice sharing',
+      'Dual-screen POS counter customer display',
+      '1-click SQLite & PostgreSQL backup & restore',
+      'Priority customer support & 44% annual savings',
+    ],
+  },
+];
+
+// Default export preserving backward-compatibility with existing consumers
+export const PRODUCT_METADATA = {
+  ...SHARED_PRODUCT_SPECS,
+  // Primary default product (Plus Yearly)
+  ...PRODUCT_TIERS[2],
+  // Legacy alias IDs
+  legacyId: 'invio-desktop-plus',
+  // Expose all tiers
+  tiers: PRODUCT_TIERS,
 };

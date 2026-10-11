@@ -74,12 +74,32 @@
             "operatingSystem": "macOS 11.0+, Windows 10/11 (64-bit), Linux (Ubuntu/Debian/Fedora)",
             "applicationCategory": "BusinessApplication",
             "applicationSubCategory": "Invoice Generator & Invoicing Management",
-            "offers": {
-              "@type": "Offer",
-              "price": "0",
-              "priceCurrency": "USD",
-              "availability": "https://schema.org/InStock"
-            },
+            "offers": [
+              {
+                "@type": "Offer",
+                "name": "Invio Free Core Plan",
+                "price": "0",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://invio.timrio.com/product"
+              },
+              {
+                "@type": "Offer",
+                "name": "Invio Plus Monthly",
+                "price": "149",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://invio.timrio.com/subscription?plan=monthly"
+              },
+              {
+                "@type": "Offer",
+                "name": "Invio Plus Yearly",
+                "price": "999",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://invio.timrio.com/subscription"
+              }
+            ],
             "description": "Free offline desktop invoice generator and billing software by Timrio. Create GST invoices, print 58mm/80mm thermal receipts with dynamic UPI QR codes, scan barcodes, and track inventory with 100% local SQLite storage.",
             "softwareVersion": "__INVIO_APP_VERSION__",
             "fileSize": "119MB",
