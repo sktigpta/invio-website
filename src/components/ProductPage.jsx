@@ -372,25 +372,25 @@ export function ProductPage({ onNavigate, onDirectDownload, activeOS, onSelectOS
 
         {/* Pricing Transparency Section */}
         <section aria-labelledby="pricing-heading" className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs mb-10">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#8646F4] block mb-1">
                 Transparent Pricing
               </span>
               <h2 id="pricing-heading" className="text-2xl font-bold text-slate-900 font-heading">
-                Free Forever Core Plan
+                Free Forever Core Plan &amp; Invio Plus
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-2 max-w-2xl leading-relaxed">
-                Invio is free to download and use for all standard offline billing, GST calculations, product management, and customer records. No credit card is required. Optional Plus upgrades are available for advanced thermal receipt printing and cloud backups.
+                Invio Core is 100% free forever for offline billing, GST calculations, product inventory, and customer credit ledgers. For businesses requiring 58mm/80mm thermal receipt printing, automated WhatsApp &amp; email delivery, POS secondary display, and automated database backups, <strong>Invio Plus</strong> is available at <strong>₹999 / year</strong> (or ₹149 / month).
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <button
                 type="button"
                 onClick={() => onNavigate('subscription')}
-                className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-xl transition-colors cursor-pointer"
+                className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer"
               >
-                View Plans &amp; Pricing →
+                Get Invio Plus (₹999/yr) →
               </button>
               <button
                 type="button"

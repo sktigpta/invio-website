@@ -5,30 +5,33 @@
  */
 
 export const PRODUCT_METADATA = {
-  id: 'invio-desktop-free',
-  name: 'Invio Desktop Invoicing Software',
-  shortName: 'Invio',
+  // Feed-level commercial product identifier & pricing (compliant with Google Merchant Center price > 0 rule)
+  id: 'invio-desktop-plus',
+  name: 'Invio Plus — Desktop Invoicing Software',
+  shortName: 'Invio Plus',
   brand: 'Timrio',
   publisherUrl: 'https://timrio.com',
-  canonicalUrl: 'https://invio.timrio.com/product',
+  canonicalUrl: 'https://invio.timrio.com/subscription',
+  productLandingUrl: 'https://invio.timrio.com/product',
   homeUrl: 'https://invio.timrio.com/',
   feedUrl: 'https://invio.timrio.com/feeds/google-merchant.tsv',
-  
-  // Clean plain-text description for Google Merchant Center (max 5000 chars, no HTML tags)
-  description:
-    'Invio Desktop Invoicing Software by Timrio is a free, privacy-first offline billing and inventory management application for Windows and macOS. Create GST and standard invoices in seconds, print 58mm and 80mm thermal receipts with dynamic UPI payment QR codes, scan barcodes for quick checkout, track inventory with low-stock alerts, and manage customer credit ledgers. Business records are stored 100% locally on your computer in SQLite with zero cloud dependency and zero telemetry.',
-  
-  fullDescription:
-    'Invio Desktop Invoicing Software is designed specifically for retail shops, freelancers, and small businesses who need fast, reliable billing without relying on an internet connection. Featuring automated GST intra-state and inter-state tax splits, thermal receipt printing, dual-screen POS customer display, barcode scanner support, and local SQLite data storage.',
 
-  price: '0.00',
-  currency: 'USD',
-  priceString: '0.00 USD',
-  pricingModel: 'Free Download',
-  pricingSummary: '100% free downloadable desktop software with a free forever core plan for local invoicing and stock management.',
+  // Google Merchant Center compliant description (plain text, max 5000 chars)
+  description:
+    'Invio Plus by Timrio is a privacy-first desktop invoicing and inventory management software for Windows and macOS. Features automated GST calculations (CGST, SGST, IGST), 58mm and 80mm thermal receipt printing with dynamic UPI payment QR codes, barcode scanner checkout, WhatsApp and email invoice dispatch, customer POS display, and 100% offline local SQLite storage.',
+
+  fullDescription:
+    'Invio Plus Desktop Invoicing Software is designed specifically for retail shops, freelancers, and small businesses who need fast, reliable billing without relying on an internet connection. Includes automated GST intra-state and inter-state tax splits, thermal receipt printing, dual-screen POS customer display, barcode scanner support, and local SQLite data storage.',
+
+  // Legally compliant commercial pricing (matches https://invio.timrio.com/subscription)
+  price: '999.00',
+  currency: 'INR',
+  priceString: '999.00 INR',
+  pricingModel: 'Annual License',
+  pricingSummary: '₹999 / year (or ₹149 / month) for Invio Plus with thermal printing, WhatsApp & email delivery, and priority support. A free forever core plan is also available.',
   availability: 'in_stock',
   condition: 'new',
-  identifierExists: 'no', // Custom software product without universal GTIN / UPC / EAN
+  identifierExists: 'no', // Custom proprietary software without universal GTIN / barcode
 
   category: 'BusinessApplication',
   applicationSubCategory: 'Invoicing & Inventory Management',
