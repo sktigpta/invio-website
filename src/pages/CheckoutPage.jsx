@@ -3,8 +3,10 @@ import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import {
   getStoredUser,
+  getStoredToken,
   setStoredAuth,
   clearStoredAuth,
+  fetchAccountContext,
   loginUser,
   registerUser,
   triggerGoogleSignIn,
@@ -65,6 +67,40 @@ export function CheckoutPage() {
   const [paying, setPaying] = useState(false);
   const [payError, setPayError] = useState('');
   const [successData, setSuccessData] = useState(null);
+  const [membershipInfo, setMembershipInfo] = useState(null);
+  const [allowReorder, setAllowReorder] = useState(false);
+
+  const checkMembership = async (user, token) => {
+    if (!user) return null;
+    let plan = (user.plan || '').toLowerCase();
+    let status = 'active';
+    let expiresAt = null;
+
+    try {
+      const ctx = await fetchAccountContext(token || getStoredToken());
+      if (ctx && ctx.subscription) {
+        plan = (ctx.subscription.plan || plan).toLowerCase();
+        status = (ctx.subscription.status || status).toLowerCase();
+        expiresAt = ctx.subscription.expiresAt || null;
+      }
+    } catch {
+      // Fall back to user.plan
+    }
+
+    const isPaid = plan === 'plus' || plan === 'pro';
+    const isActive = status === 'active' || status === 'trialing';
+    const isNotExpired = !expiresAt || new Date(expiresAt).getTime() > Date.now();
+
+    if (isPaid && isActive && isNotExpired) {
+      return {
+        hasMembership: true,
+        plan: plan === 'pro' ? 'Pro' : 'Plus',
+        status,
+        expiresAt,
+      };
+    }
+    return null;
+  };
 
   useEffect(() => {
     applySEO('pricing');
@@ -84,6 +120,15 @@ export function CheckoutPage() {
         }
       })
       .catch(() => {});
+
+    // If an account is already stored, check its active membership status
+    if (currentUser) {
+      checkMembership(currentUser).then((mem) => {
+        if (mem?.hasMembership) {
+          setMembershipInfo(mem);
+        }
+      });
+    }
   }, []);
 
   const executePayment = async (user) => {
@@ -166,12 +211,19 @@ export function CheckoutPage() {
     setAuthLoading(true);
     triggerGoogleSignIn({
       businessName: businessName.trim() || undefined,
-      onSuccess: (user) => {
-        setAuthLoading(false);
+      onSuccess: async (user, token) => {
         setCurrentUser(user);
         if (user.email) setEmail(user.email);
         if (user.businessName) setBusinessName(user.businessName);
-        executePayment(user);
+
+        const mem = await checkMembership(user, token);
+        setAuthLoading(false);
+
+        if (mem?.hasMembership) {
+          setMembershipInfo(mem);
+        } else {
+          executePayment(user);
+        }
       },
       onError: (err) => {
         setAuthLoading(false);
@@ -241,15 +293,22 @@ export function CheckoutPage() {
       // Login flow
       setAuthLoading(true);
       const logRes = await loginUser(cleanEmail, password);
-      setAuthLoading(false);
 
       if (!logRes.success) {
+        setAuthLoading(false);
         setAuthError(logRes.error || 'Invalid email or password.');
         return;
       }
 
       setCurrentUser(logRes.user);
-      executePayment(logRes.user);
+      const mem = await checkMembership(logRes.user, logRes.token);
+      setAuthLoading(false);
+
+      if (mem?.hasMembership) {
+        setMembershipInfo(mem);
+      } else {
+        executePayment(logRes.user);
+      }
     }
   };
 
@@ -260,9 +319,12 @@ export function CheckoutPage() {
   const handleSwitchAccount = () => {
     clearStoredAuth();
     setCurrentUser(null);
+    setMembershipInfo(null);
+    setAllowReorder(false);
     setPassword('');
     setPayError('');
     setAuthError('');
+    setAuthTab('login');
   };
 
   const currentPrice = billingCycle === 'yearly' ? prices.yearly : prices.monthly;
@@ -329,62 +391,159 @@ export function CheckoutPage() {
       <div className="w-full lg:w-[40%] bg-white p-6 sm:p-8 lg:p-12 lg:h-full lg:overflow-y-auto flex flex-col">
         <div className="w-full max-w-md mx-auto my-auto py-6 sm:py-8">
           {currentUser ? (
-            /* State: Already Signed In */
-            <div>
-              <div className="mb-6">
-                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                  Ready for Checkout
-                </h2>
-                <p className="text-xs text-slate-500 mt-1">
-                  Complete payment to instantly link Invio Plus to your account.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200/90 mb-5">
-                <div className="size-11 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center font-bold text-base shadow-2xs">
-                  {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-bold text-slate-900 truncate">
-                    {currentUser.businessName || 'Your Business Account'}
-                  </h4>
-                  <p className="text-xs text-slate-500 font-medium truncate">
-                    {currentUser.email}
+            membershipInfo?.hasMembership && !allowReorder ? (
+              /* State: Already Has Active Membership (Plus, Pro, etc.) */
+              <div>
+                <div className="mb-6">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold mb-3 shadow-2xs">
+                    <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>Active Membership</span>
+                  </div>
+                  <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                    You already have Invio {membershipInfo.plan}!
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                    Your account is already active with full access to Invio {membershipInfo.plan} features. You don't need to purchase this license again.
                   </p>
                 </div>
+
+                {/* Account Details Card */}
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 mb-5 space-y-3">
+                  <div className="flex items-center gap-3.5">
+                    <div className="size-11 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center font-bold text-base shadow-2xs">
+                      {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-sm font-bold text-slate-900 truncate">
+                        {currentUser.businessName || 'Your Business Account'}
+                      </h4>
+                      <p className="text-xs text-slate-500 font-medium truncate">
+                        {currentUser.email}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleSwitchAccount}
+                      className="text-xs font-semibold text-slate-500 hover:text-slate-800 underline cursor-pointer shrink-0"
+                    >
+                      Switch
+                    </button>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-200/70 grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <span className="text-slate-400 block text-[11px]">Active Plan</span>
+                      <span className="font-bold text-slate-900">Invio {membershipInfo.plan}</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[11px]">License Status</span>
+                      <span className="font-semibold text-emerald-600 flex items-center gap-1">
+                        <span className="size-1.5 rounded-full bg-emerald-500" />
+                        Active & Unlocked
+                      </span>
+                    </div>
+                    {membershipInfo.expiresAt && (
+                      <div className="col-span-2 pt-1">
+                        <span className="text-slate-400 block text-[11px]">Valid Until</span>
+                        <span className="font-medium text-slate-700">
+                          {new Date(membershipInfo.expiresAt).toLocaleDateString(undefined, {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Next Steps / Actions */}
+                <div className="space-y-2.5">
+                  <Link
+                    to="/download"
+                    className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2 text-center cursor-pointer"
+                  >
+                    Download Desktop App
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={handleSwitchAccount}
+                    className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full font-semibold text-xs sm:text-sm transition-colors text-center cursor-pointer"
+                  >
+                    Sign In with Another Account
+                  </button>
+                </div>
+
+                {/* Optional extend action */}
+                <div className="mt-5 pt-3 border-t border-slate-100 text-center">
+                  <button
+                    type="button"
+                    onClick={() => setAllowReorder(true)}
+                    className="text-[11px] text-slate-400 hover:text-slate-700 underline cursor-pointer"
+                  >
+                    Need to renew or extend your license anyway? Proceed to checkout
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* State: Ready for Checkout (Free tier or user wants to extend) */
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                    Ready for Checkout
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Complete payment to instantly link Invio Plus to your account.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200/90 mb-5">
+                  <div className="size-11 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center font-bold text-base shadow-2xs">
+                    {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-sm font-bold text-slate-900 truncate">
+                      {currentUser.businessName || 'Your Business Account'}
+                    </h4>
+                    <p className="text-xs text-slate-500 font-medium truncate">
+                      {currentUser.email}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSwitchAccount}
+                    className="text-xs font-semibold text-slate-500 hover:text-slate-800 underline cursor-pointer shrink-0"
+                  >
+                    Switch
+                  </button>
+                </div>
+
+                {payError && (
+                  <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
+                    {payError}
+                  </div>
+                )}
+
                 <button
                   type="button"
-                  onClick={handleSwitchAccount}
-                  className="text-xs font-semibold text-slate-500 hover:text-slate-800 underline cursor-pointer shrink-0"
+                  disabled={paying}
+                  onClick={handleStartPayment}
+                  className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2"
                 >
-                  Switch
+                  {paying ? (
+                    <>
+                      <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Opening Payment Gateway...</span>
+                    </>
+                  ) : (
+                    <span>
+                      Pay ₹{currentPrice}
+                    </span>
+                  )}
                 </button>
               </div>
-
-              {payError && (
-                <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
-                  {payError}
-                </div>
-              )}
-
-              <button
-                type="button"
-                disabled={paying}
-                onClick={handleStartPayment}
-                className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2"
-              >
-                {paying ? (
-                  <>
-                    <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Opening Payment Gateway...</span>
-                  </>
-                ) : (
-                  <span>
-                    Pay ₹{currentPrice}
-                  </span>
-                )}
-              </button>
-            </div>
+            )
           ) : (
             /* State: Not Signed In (Sign In by DEFAULT, Sign Up secondary) */
             <div>

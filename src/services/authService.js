@@ -46,6 +46,28 @@ export function clearStoredAuth() {
   }
 }
 
+export async function fetchAccountContext(token) {
+  const authToken = token || getStoredToken();
+  if (!authToken) return null;
+  try {
+    const res = await fetch(`${apiBase()}/api/account/context`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        Accept: 'application/json',
+      },
+    });
+    if (!res.ok) return null;
+    const data = await res.json().catch(() => null);
+    if (data && data.success) {
+      return data;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export async function loginUser(email, password) {
   try {
     const res = await fetch(`${apiBase()}/api/auth/login`, {
