@@ -109,13 +109,13 @@ export function Navbar() {
         <div className="flex items-center gap-2.5 z-50">
           <Link
             to="/"
-            className="cursor-pointer bg-transparent border-0 p-0 group select-none flex items-center"
+            className="cursor-pointer bg-transparent border-0 p-0 select-none flex items-center"
             aria-label="Invio - Home"
           >
             <img
               src="/appLogo.png"
               alt="Invio Logo"
-              className="size-8 object-contain transition-transform duration-200 group-hover:scale-105 shrink-0"
+              className="size-8 object-contain shrink-0"
               width="32"
               height="32"
             />
@@ -131,11 +131,11 @@ export function Navbar() {
               href="https://timrio.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[10px] text-slate-500 hover:text-[#7C3AED] font-medium tracking-wide leading-none mt-1 inline-flex items-center gap-0.5 transition-colors group/timrio"
+              className="text-[10px] text-slate-500 hover:text-[#7C3AED] font-medium tracking-wide leading-none mt-1 inline-flex items-center gap-0.5 transition-colors"
               title="Visit Timrio"
             >
               <span>by Timrio</span>
-              <svg className="size-2 text-slate-400 group-hover/timrio:text-[#7C3AED] transition-colors" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <svg className="size-2 text-slate-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
             </a>
@@ -171,10 +171,10 @@ export function Navbar() {
             <button
               type="button"
               onClick={handleDownload}
-              className="h-[36px] px-4.5 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-semibold flex items-center gap-2 transition-all duration-150 cursor-pointer shadow-sm hover:shadow-purple-200"
+              className="h-9 px-4 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold flex items-center gap-2 transition-colors duration-150 cursor-pointer shadow-xs select-none"
               title={activeOS.isMobileFallback ? 'View downloads for Windows and Mac' : `Download for ${activeOS.name}`}
             >
-              {getOsIcon(activeOS.id)}
+              {getOsIcon(activeOS.id, "size-3.5 shrink-0 pointer-events-none")}
               <span>Download</span>
             </button>
           </div>
@@ -236,7 +236,7 @@ export function Navbar() {
                 onClick={handleDownload}
                 className="w-full py-2.5 bg-[#7C3AED] text-white rounded-full font-semibold text-xs hover:bg-[#6D28D9] active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
-                {getOsIcon(activeOS.id)}
+                {getOsIcon(activeOS.id, "size-3.5 shrink-0 pointer-events-none")}
                 <span>Download for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
               </button>
             </div>
