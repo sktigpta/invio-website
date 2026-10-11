@@ -42,89 +42,91 @@ export function Hero() {
       />
 
       {/* Hero Foreground Content */}
-      <div className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 flex flex-col items-center">
-        <div className="max-w-3xl text-center flex flex-col items-center">
+      <div className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <div className="max-w-2xl text-left">
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-slate-900 leading-[1.12] mb-5">
             Create &amp; Send Customer Invoices in Seconds
           </h1>
 
           {/* Subtitle */}
-          <p className="text-sm sm:text-base lg:text-[17px] text-slate-600 font-normal leading-relaxed mb-8 max-w-xl text-center">
+          <p className="text-sm sm:text-base lg:text-[17px] text-slate-600 font-normal leading-relaxed mb-8 max-w-xl">
             Create professional invoices in a few clicks. 60+ templates or customize your own. Easily add logo, rates, and photos. Let clients pay online. Automatically send receipts.
           </p>
 
-          {/* Platform Selector & Download Controls */}
-          <div className="inline-flex flex-col items-center gap-3 mb-6">
-            <span className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
-              Available on:
-            </span>
+          {/* Platform Selector & Download Controls (Centered relative to each other) */}
+          <div className="flex flex-col items-start mb-6">
+            <div className="inline-flex flex-col items-center gap-3">
+              <span className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
+                Available on:
+              </span>
 
-            {/* Platform Selector Buttons in a Row */}
-            <div
-              className="inline-flex items-center gap-1 bg-slate-100/90 p-1 rounded-full border border-slate-200/80 text-slate-600 shadow-2xs"
-              role="radiogroup"
-              aria-label="Select desktop operating system"
-            >
+              {/* Platform Selector Buttons in a Row */}
+              <div
+                className="inline-flex items-center gap-1 bg-slate-100/90 p-1 rounded-full border border-slate-200/80 text-slate-600 shadow-2xs"
+                role="radiogroup"
+                aria-label="Select desktop operating system"
+              >
+                <button
+                  type="button"
+                  onClick={() => setSelectedOSId('mac')}
+                  role="radio"
+                  aria-checked={selectedOSId === 'mac'}
+                  className={`px-3.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                    selectedOSId === 'mac'
+                      ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
+                      : 'hover:text-slate-900'
+                  }`}
+                >
+                  <AppleIcon className="size-3.5" />
+                  <span>macOS</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedOSId('windows')}
+                  role="radio"
+                  aria-checked={selectedOSId === 'windows'}
+                  className={`px-3.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                    selectedOSId === 'windows'
+                      ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
+                      : 'hover:text-slate-900'
+                  }`}
+                >
+                  <WindowsIcon className="size-3.5" />
+                  <span>Windows</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedOSId('linux')}
+                  role="radio"
+                  aria-checked={selectedOSId === 'linux'}
+                  className={`px-3.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                    selectedOSId === 'linux'
+                      ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
+                      : 'hover:text-slate-900'
+                  }`}
+                >
+                  <LinuxIcon className="size-3.5" />
+                  <span>Linux</span>
+                </button>
+              </div>
+
+              {/* Download CTA Button */}
               <button
                 type="button"
-                onClick={() => setSelectedOSId('mac')}
-                role="radio"
-                aria-checked={selectedOSId === 'mac'}
-                className={`px-3.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
-                  selectedOSId === 'mac'
-                    ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                    : 'hover:text-slate-900'
-                }`}
+                onClick={handleDownload}
+                className="h-12 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer mt-1"
               >
-                <AppleIcon className="size-3.5" />
-                <span>macOS</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setSelectedOSId('windows')}
-                role="radio"
-                aria-checked={selectedOSId === 'windows'}
-                className={`px-3.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
-                  selectedOSId === 'windows'
-                    ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                    : 'hover:text-slate-900'
-                }`}
-              >
-                <WindowsIcon className="size-3.5" />
-                <span>Windows</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setSelectedOSId('linux')}
-                role="radio"
-                aria-checked={selectedOSId === 'linux'}
-                className={`px-3.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
-                  selectedOSId === 'linux'
-                    ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                    : 'hover:text-slate-900'
-                }`}
-              >
-                <LinuxIcon className="size-3.5" />
-                <span>Linux</span>
+                {getOsIcon(selectedOSId)}
+                <span>Download for {currentOS.name} ({currentOS.extension})</span>
               </button>
             </div>
-
-            {/* Download CTA Button */}
-            <button
-              type="button"
-              onClick={handleDownload}
-              className="h-12 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer mt-1"
-            >
-              {getOsIcon(selectedOSId)}
-              <span>Download for {currentOS.name} ({currentOS.extension})</span>
-            </button>
           </div>
 
           {/* Key Feature Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-slate-700 pt-3 border-t border-slate-200/70 w-full max-w-2xl">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-slate-700 pt-3 border-t border-slate-100">
             <div className="flex items-center gap-1.5">
               <span className="text-emerald-500 font-bold">✓</span>
               <span>Works 100% Offline</span>
