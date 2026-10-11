@@ -61,7 +61,15 @@ export function SubscriptionPage({ onNavigate, onDirectDownload }) {
   const [plans, setPlans] = useState([]);
   const [plansFromApi, setPlansFromApi] = useState(false);
   const [loadingPlans, setLoadingPlans] = useState(true);
-  const [validity, setValidity] = useState('yearly');
+  const [validity, setValidity] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('plan') === 'monthly' || params.get('billing') === 'monthly') {
+        return 'monthly';
+      }
+    }
+    return 'yearly';
+  });
   const [payingPlan, setPayingPlan] = useState(null);
   const [payError, setPayError] = useState('');
   const [success, setSuccess] = useState(null);

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PRODUCT_METADATA } from '../src/data/productMetadata.js';
+import { PRODUCT_TIERS, SHARED_PRODUCT_SPECS } from '../src/data/productMetadata.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,28 +44,32 @@ const HEADERS = [
   'google_product_category',
 ];
 
-const rowValues = [
-  PRODUCT_METADATA.id,
-  PRODUCT_METADATA.name,
-  PRODUCT_METADATA.description,
-  PRODUCT_METADATA.canonicalUrl,
-  PRODUCT_METADATA.imageLink,
-  PRODUCT_METADATA.availability,
-  PRODUCT_METADATA.priceString,
-  PRODUCT_METADATA.brand,
-  PRODUCT_METADATA.condition,
-  PRODUCT_METADATA.identifierExists,
-  PRODUCT_METADATA.productType,
-  PRODUCT_METADATA.googleProductCategory,
-];
+const lines = [HEADERS.join('\t')];
 
-const headerLine = HEADERS.join('\t');
-const dataLine = rowValues.map(sanitizeTsvValue).join('\t');
-const tsvContent = `${headerLine}\n${dataLine}\n`;
+for (const tier of PRODUCT_TIERS) {
+  const rowValues = [
+    tier.id,
+    tier.name,
+    tier.description,
+    tier.canonicalUrl,
+    SHARED_PRODUCT_SPECS.imageLink,
+    tier.availability,
+    tier.priceString,
+    SHARED_PRODUCT_SPECS.brand,
+    SHARED_PRODUCT_SPECS.condition,
+    SHARED_PRODUCT_SPECS.identifierExists,
+    SHARED_PRODUCT_SPECS.productType,
+    SHARED_PRODUCT_SPECS.googleProductCategory,
+  ];
 
+  lines.push(rowValues.map(sanitizeTsvValue).join('\t'));
+}
+
+const tsvContent = lines.join('\n') + '\n';
 fs.writeFileSync(feedFilePath, tsvContent, 'utf-8');
 
-console.log(`[Google Merchant Feed] Generated successfully at: ${feedFilePath}`);
-console.log(`[Google Merchant Feed] Entry ID: ${PRODUCT_METADATA.id}`);
-console.log(`[Google Merchant Feed] Canonical Link: ${PRODUCT_METADATA.canonicalUrl}`);
-console.log(`[Google Merchant Feed] Price: ${PRODUCT_METADATA.priceString}`);
+console.log(`[Google Merchant Feed] Generated multi-product feed successfully at: ${feedFilePath}`);
+console.log(`[Google Merchant Feed] Total products included: ${PRODUCT_TIERS.length}`);
+for (const tier of PRODUCT_TIERS) {
+  console.log(`  - [${tier.id}] ${tier.name} -> ${tier.priceString} (${tier.canonicalUrl})`);
+}

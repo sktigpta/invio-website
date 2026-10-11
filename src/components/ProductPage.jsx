@@ -370,34 +370,163 @@ export function ProductPage({ onNavigate, onDirectDownload, activeOS, onSelectOS
           </div>
         </section>
 
-        {/* Pricing Transparency Section */}
+        {/* Pricing Transparency Section: Free, Monthly, and Yearly */}
         <section aria-labelledby="pricing-heading" className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs mb-10">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#8646F4] block mb-1">
-                Transparent Pricing
-              </span>
-              <h2 id="pricing-heading" className="text-2xl font-bold text-slate-900 font-heading">
-                Free Forever Core Plan &amp; Invio Plus
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-600 mt-2 max-w-2xl leading-relaxed">
-                Invio Core is 100% free forever for offline billing, GST calculations, product inventory, and customer credit ledgers. For businesses requiring 58mm/80mm thermal receipt printing, automated WhatsApp &amp; email delivery, POS secondary display, and automated database backups, <strong>Invio Plus</strong> is available at <strong>₹999 / year</strong> (or ₹149 / month).
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <button
-                type="button"
-                onClick={() => onNavigate('subscription')}
-                className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer"
-              >
-                Get Invio Plus (₹999/yr) →
-              </button>
+          <div className="mb-6">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8646F4] block mb-1">
+              Transparent Pricing
+            </span>
+            <h2 id="pricing-heading" className="text-2xl font-bold text-slate-900 font-heading">
+              Choose the Plan That Fits Your Shop
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
+              Start with our 100% Free Forever Core plan or upgrade to Invio Plus for thermal printing, automated email &amp; WhatsApp delivery, POS customer display, and automated backups.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+            {/* 1. Free Core Plan */}
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-base font-bold text-slate-900">Invio Free</h3>
+                  <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                    Free Forever
+                  </span>
+                </div>
+                <div className="mt-2 mb-3">
+                  <span className="text-3xl font-extrabold text-slate-900">₹0</span>
+                  <span className="text-xs text-slate-500 ml-1">/ forever</span>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                  Full offline desktop billing, GST invoices, A4 PDF exports, barcode scanner checkout, and local SQLite data privacy.
+                </p>
+                <ul className="space-y-2 text-xs text-slate-700 mb-6">
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Unlimited offline invoices &amp; billing</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>Automated CGST/SGST/IGST tax engine</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>A4 &amp; A5 print and PDF exports</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>100% offline local SQLite database</span>
+                  </li>
+                </ul>
+              </div>
               <button
                 type="button"
                 onClick={() => onDirectDownload(currentPlatformMeta)}
-                className="px-5 py-2.5 bg-[#8646F4] hover:bg-[#7234de] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                className="w-full py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 hover:bg-white transition-all cursor-pointer shadow-2xs"
               >
-                Download Free App
+                Download Free
+              </button>
+            </div>
+
+            {/* 2. Invio Plus Monthly */}
+            <div className="rounded-2xl border border-purple-200 bg-purple-50/30 p-5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-base font-bold text-slate-900">Invio Plus Monthly</h3>
+                  <span className="text-[11px] font-semibold text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full border border-purple-200">
+                    Monthly
+                  </span>
+                </div>
+                <div className="mt-2 mb-3">
+                  <span className="text-3xl font-extrabold text-slate-900">₹149</span>
+                  <span className="text-xs text-slate-500 ml-1">/ month</span>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                  Ideal for seasonal shops and flexibility. Unlock thermal POS printing, WhatsApp sharing, and POS display.
+                </p>
+                <ul className="space-y-2 text-xs text-slate-700 mb-6">
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 font-bold">✓</span>
+                    <span>Everything in Free Core</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 font-bold">✓</span>
+                    <span>58mm &amp; 80mm thermal receipt printing</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 font-bold">✓</span>
+                    <span>Dynamic UPI payment QR codes on bills</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 font-bold">✓</span>
+                    <span>WhatsApp bill sharing &amp; POS display</span>
+                  </li>
+                </ul>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  window.history.pushState(null, '', '/subscription?plan=monthly');
+                  onNavigate('subscription');
+                }}
+                className="w-full py-2.5 rounded-xl border border-purple-300 bg-white text-xs font-bold text-[#8646F4] hover:bg-purple-50 transition-all cursor-pointer shadow-2xs"
+              >
+                Get Monthly (₹149/mo)
+              </button>
+            </div>
+
+            {/* 3. Invio Plus Yearly (Best Value) */}
+            <div className="relative rounded-2xl border-2 border-[#8646F4] bg-white p-5 flex flex-col justify-between shadow-sm">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#8646F4] text-white text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">
+                Save 44% • Best Value
+              </span>
+              <div>
+                <div className="flex items-center justify-between mb-2 mt-1">
+                  <h3 className="text-base font-bold text-slate-900">Invio Plus Yearly</h3>
+                  <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                    Annual License
+                  </span>
+                </div>
+                <div className="mt-2 mb-3">
+                  <span className="text-3xl font-extrabold text-slate-900">₹999</span>
+                  <span className="text-xs text-slate-500 ml-1">/ year (₹83/mo)</span>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                  Full commercial license with priority support, automated backups, and complete POS capabilities.
+                </p>
+                <ul className="space-y-2 text-xs text-slate-700 mb-6">
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 font-bold">✓</span>
+                    <span>Everything in Free Core + Plus Monthly</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 font-bold">✓</span>
+                    <span>58mm &amp; 80mm thermal receipt printing</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 font-bold">✓</span>
+                    <span>Email invoices (Google OAuth / SMTP)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 font-bold">✓</span>
+                    <span>1-click SQLite &amp; PostgreSQL backups</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 font-bold">✓</span>
+                    <span>Priority dedicated developer support</span>
+                  </li>
+                </ul>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  window.history.pushState(null, '', '/subscription');
+                  onNavigate('subscription');
+                }}
+                className="w-full py-2.5 rounded-xl bg-[#8646F4] hover:bg-[#7234de] text-xs font-bold text-white transition-all cursor-pointer shadow-xs"
+              >
+                Get Plus Yearly (₹999/yr)
               </button>
             </div>
           </div>
