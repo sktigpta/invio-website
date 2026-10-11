@@ -39,6 +39,7 @@ function PageFallback() {
 export function App() {
   const location = useLocation();
   const isToolsPage = location.pathname.startsWith('/tools');
+  const isCheckoutPage = location.pathname.startsWith('/checkout');
 
   return (
     <DownloadModalProvider>
@@ -93,7 +94,7 @@ export function App() {
           </Suspense>
         </div>
 
-        {!isToolsPage && <Footer />}
+        {!isToolsPage && !isCheckoutPage && <Footer />}
 
         {/* Global Multi-Platform Download Modal */}
         <DownloadModal />

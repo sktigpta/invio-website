@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { PageContainer } from '../components/PageContainer';
 import { applySEO } from '../utils/seoHelper';
 import {
   getStoredUser,
@@ -19,11 +18,9 @@ import {
 } from '../services/paymentService';
 import {
   CheckIcon,
-  ReceiptIcon,
   GoogleIcon,
   EyeIcon,
   EyeOffIcon,
-  SparklesIcon,
   ShieldCheckIcon,
 } from '../components/Icons';
 import { FEATURES_DATA } from '../data/featuresData';
@@ -46,7 +43,7 @@ export function CheckoutPage() {
   );
   const [prices, setPrices] = useState(DEFAULT_PLUS_PRICE);
 
-  // Random feature from FEATURES_DATA for left-side showcase
+  // Random feature from FEATURES_DATA for left-side image section
   const [featureIndex, setFeatureIndex] = useState(() => {
     return Math.floor(Math.random() * FEATURES_DATA.length);
   });
@@ -286,33 +283,27 @@ export function CheckoutPage() {
   // 1. Success State View
   if (successData) {
     return (
-      <PageContainer
-        badge="Payment Successful"
-        title="Welcome to Invio Plus!"
-        subtitle="Your commercial license has been activated and linked to your account."
-      >
-        <div className="max-w-xl mx-auto my-8 p-6 sm:p-8 bg-white rounded-squircle border border-emerald-200 shadow-xl text-center">
+      <div className="w-full min-h-[calc(100vh-64px)] flex items-center justify-center p-6 bg-[#f8fafc]">
+        <div className="max-w-md w-full p-8 bg-white rounded-squircle border border-emerald-200 shadow-xl text-center">
           <div className="size-16 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto mb-4">
             <CheckIcon className="size-8" />
           </div>
 
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mb-2">
-            License Successfully Activated
+            Payment Confirmed
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
             Payment of <strong className="text-slate-900">₹{successData.amount}</strong> confirmed for Invio Plus ({successData.validity}).
             Payment ID: <span className="font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-800 text-xs font-semibold">{successData.paymentId}</span>.
           </p>
 
-          <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-100 text-left mb-6 space-y-2">
-            <h4 className="text-xs font-bold text-[#7C3AED] uppercase tracking-wider">
-              How to access your Plus features:
-            </h4>
-            <ol className="text-xs text-slate-700 space-y-1.5 list-decimal list-inside leading-relaxed">
-              <li>Open the Invio desktop application on your PC or Mac.</li>
-              <li>Sign in with your email: <strong className="text-slate-900 font-mono">{successData.email}</strong>.</li>
-              <li>Thermal printing, dynamic UPI QR receipts, and dual POS display unlock automatically!</li>
-            </ol>
+          <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-100 text-left mb-6 space-y-1.5 text-xs text-slate-700">
+            <p className="font-bold text-[#7C3AED] uppercase tracking-wider text-[11px]">
+              How to access your Plus license:
+            </p>
+            <p>1. Open the Invio desktop application.</p>
+            <p>2. Sign in with <strong className="text-slate-900 font-mono">{successData.email}</strong>.</p>
+            <p>3. Your Plus features unlock automatically!</p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -320,7 +311,7 @@ export function CheckoutPage() {
               to="/download"
               className="w-full sm:w-auto py-2.5 px-6 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-2xs text-center cursor-pointer"
             >
-              Download Invio Desktop
+              Download Desktop App
             </Link>
             <Link
               to="/"
@@ -330,160 +321,126 @@ export function CheckoutPage() {
             </Link>
           </div>
         </div>
-      </PageContainer>
+      </div>
     );
   }
 
+  // 2. Full Width, Two-Section Layout
   return (
-    <PageContainer
-      badge="Simple &amp; Secure"
-      title="Complete Your Order"
-      subtitle="Sign in or create your account to unlock Invio Plus on your desktop application."
-    >
-      <div className="max-w-6xl mx-auto my-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Feature Spotlight Image & Plan Summary (6 Cols) */}
-        <div className="lg:col-span-6 space-y-6">
-          {/* Feature Showcase Card */}
-          <div className="bg-white rounded-squircle p-6 sm:p-7 border border-slate-200/90 shadow-xl relative overflow-hidden">
-            <div className="flex items-center justify-between gap-2 mb-3">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200/80 text-[#7C3AED] text-xs font-semibold">
-                <SparklesIcon className="size-3.5 text-[#7C3AED]" />
-                <span>Feature Spotlight • {activeFeature.category}</span>
-              </div>
-              <button
-                type="button"
-                onClick={handleNextFeature}
-                className="text-[11px] font-semibold text-slate-500 hover:text-[#7C3AED] transition-colors cursor-pointer flex items-center gap-1"
-                title="View another feature"
-              >
-                <span>Next Feature</span>
-                <span aria-hidden="true">→</span>
-              </button>
-            </div>
+    <div className="w-full min-h-[calc(100vh-64px)] flex flex-col lg:flex-row bg-white">
+      {/* Left Section: Feature Image (Random) */}
+      <div className="w-full lg:w-1/2 bg-slate-50 border-r border-slate-200/80 p-8 sm:p-12 lg:p-16 flex flex-col justify-between relative overflow-hidden">
+        {/* Soft Ambient Glow */}
+        <div
+          className="absolute -top-24 -left-24 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl pointer-events-none"
+          aria-hidden="true"
+        />
 
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight mb-1">
-              {activeFeature.title}
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed mb-4 font-normal">
-              {activeFeature.tagline}
-            </p>
-
-            {/* Random Feature WebP Screenshot */}
-            <div className="relative rounded-2xl overflow-hidden border border-slate-200/80 bg-slate-100 shadow-xs aspect-video mb-4 group">
-              <img
-                src={activeFeature.imageUrl}
-                alt={activeFeature.imageAlt}
-                className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
-                loading="eager"
-              />
-              <div className="absolute top-2.5 right-2.5 bg-white/95 backdrop-blur-sm px-2.5 py-0.5 rounded-full text-[10px] font-bold text-[#7C3AED] shadow-2xs border border-purple-100">
-                Included in Plus
-              </div>
-            </div>
-
-            {/* Feature Bullets */}
-            <ul className="space-y-2 text-xs text-slate-600 mb-2">
-              {activeFeature.bullets.slice(0, 3).map((bullet, idx) => (
-                <li key={idx} className="flex items-start gap-2">
-                  <CheckIcon className="size-3.5 text-[#7C3AED] shrink-0 mt-0.5" />
-                  <span className="leading-snug">{bullet}</span>
-                </li>
-              ))}
-            </ul>
+        {/* Top Feature Meta */}
+        <div className="relative z-10 mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-[#7C3AED] text-xs font-semibold mb-3 border border-purple-200/80">
+            <span>{activeFeature.category}</span>
           </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+            {activeFeature.title}
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-lg">
+            {activeFeature.tagline}
+          </p>
+        </div>
 
-          {/* Plan Summary Card */}
-          <div className="bg-white rounded-squircle p-6 sm:p-7 border border-slate-200/90 shadow-xl space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="size-10 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center shadow-2xs">
-                  <ReceiptIcon className="size-5" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-slate-900">Invio Plus Plan</h4>
-                  <p className="text-[11px] text-slate-500">Commercial Counter POS License</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <span className="text-xl font-extrabold text-[#7C3AED]">₹{currentPrice}</span>
-                <span className="text-[11px] text-slate-500 ml-1">
-                  {billingCycle === 'yearly' ? '/ year' : '/ mo'}
-                </span>
-              </div>
-            </div>
-
-            {/* Billing Cycle Picker */}
-            <div className="p-1 rounded-full bg-slate-100 border border-slate-200 flex text-center">
-              <button
-                type="button"
-                onClick={() => setBillingCycle('yearly')}
-                className={`flex-1 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                  billingCycle === 'yearly'
-                    ? 'bg-[#7C3AED] text-white shadow-2xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <span>Yearly Billing</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  billingCycle === 'yearly' ? 'bg-white/20 text-white' : 'bg-purple-100 text-[#7C3AED]'
-                }`}>
-                  Save 40%+
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setBillingCycle('monthly')}
-                className={`flex-1 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  billingCycle === 'monthly'
-                    ? 'bg-white text-[#7C3AED] shadow-2xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                Monthly Billing
-              </button>
-            </div>
-
-            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
-              <div className="flex items-center gap-1.5 text-emerald-600 font-semibold">
-                <ShieldCheckIcon className="size-4" />
-                <span>100% Offline Local Privacy</span>
-              </div>
-              <span>No Cloud Egress Fees</span>
-            </div>
+        {/* Feature Image Frame */}
+        <div className="relative z-10 my-auto py-4">
+          <div className="rounded-2xl overflow-hidden border border-slate-200/90 shadow-lg bg-white">
+            <img
+              src={activeFeature.imageUrl}
+              alt={activeFeature.imageAlt}
+              className="w-full h-auto object-cover object-top"
+              loading="eager"
+            />
           </div>
         </div>
 
-        {/* Right Column: Form (Sign In Default, Sign Up, or Confirmed Payment) (6 Cols) */}
-        <div className="lg:col-span-6 bg-white rounded-squircle p-6 sm:p-8 border border-slate-200/90 shadow-xl">
+        {/* Bottom Feature Footer */}
+        <div className="relative z-10 pt-4 flex items-center justify-between text-xs text-slate-500 font-medium border-t border-slate-200/60 mt-6">
+          <div className="flex items-center gap-1.5 text-emerald-600 font-semibold">
+            <ShieldCheckIcon className="size-4" />
+            <span>100% Offline Local SQLite Privacy</span>
+          </div>
+          <button
+            type="button"
+            onClick={handleNextFeature}
+            className="text-[11px] font-semibold text-slate-500 hover:text-[#7C3AED] transition-colors cursor-pointer"
+            title="See another feature image"
+          >
+            Shuffle Image →
+          </button>
+        </div>
+      </div>
+
+      {/* Right Section: Form (Sign In Default / Sign Up) */}
+      <div className="w-full lg:w-1/2 bg-white p-8 sm:p-12 lg:p-16 flex items-center justify-center">
+        <div className="w-full max-w-md mx-auto my-auto">
           {currentUser ? (
             /* State: Already Signed In */
             <div>
-              <div className="flex items-center gap-3.5 mb-5">
-                <div className="size-12 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center font-bold text-base shadow-2xs">
-                  {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-slate-900">
-                    {currentUser.businessName || 'Your Business Account'}
-                  </h3>
-                  <p className="text-xs text-slate-500 font-medium">
-                    {currentUser.email}
-                  </p>
-                </div>
+              <div className="mb-6">
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                  Ready for Checkout
+                </h2>
+                <p className="text-xs text-slate-500 mt-1">
+                  Complete payment to instantly link Invio Plus to your account.
+                </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <CheckIcon className="size-4 text-emerald-600 shrink-0" />
-                  <span>Account confirmed. Ready for instant license activation.</span>
+              <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200/90 mb-5">
+                <div className="size-11 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center font-bold text-base shadow-2xs">
+                  {currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-sm font-bold text-slate-900 truncate">
+                    {currentUser.businessName || 'Your Business Account'}
+                  </h4>
+                  <p className="text-xs text-slate-500 font-medium truncate">
+                    {currentUser.email}
+                  </p>
                 </div>
                 <button
                   type="button"
                   onClick={handleSwitchAccount}
-                  className="text-xs font-semibold text-emerald-700 hover:text-emerald-950 underline cursor-pointer shrink-0 ml-2"
+                  className="text-xs font-semibold text-slate-500 hover:text-slate-800 underline cursor-pointer shrink-0"
                 >
-                  Switch account
+                  Switch
                 </button>
+              </div>
+
+              {/* Billing Cycle Selector */}
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 mb-5">
+                <span className="text-xs font-bold text-slate-700">Billing Cycle</span>
+                <div className="inline-flex items-center p-0.5 rounded-full bg-slate-200/70 text-[11px] font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => setBillingCycle('yearly')}
+                    className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
+                      billingCycle === 'yearly'
+                        ? 'bg-[#7C3AED] text-white shadow-2xs font-bold'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    Yearly (₹{prices.yearly})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setBillingCycle('monthly')}
+                    className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
+                      billingCycle === 'monthly'
+                        ? 'bg-[#7C3AED] text-white shadow-2xs font-bold'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    Monthly (₹{prices.monthly})
+                  </button>
+                </div>
               </div>
 
               {payError && (
@@ -501,30 +458,34 @@ export function CheckoutPage() {
                 {paying ? (
                   <>
                     <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Opening Secure Payment Window...</span>
+                    <span>Opening Payment Gateway...</span>
                   </>
                 ) : (
                   <span>
-                    Proceed to Payment — ₹{currentPrice} {billingCycle === 'yearly' ? '/ year' : '/ month'}
+                    Pay ₹{currentPrice} {billingCycle === 'yearly' ? '/ year' : '/ month'}
                   </span>
                 )}
               </button>
+
+              <p className="text-center text-[11px] text-slate-400 mt-3 font-medium">
+                🔒 256-Bit SSL Secure Checkout • Powered by Razorpay
+              </p>
             </div>
           ) : (
             /* State: Not Signed In (Sign In by DEFAULT, Sign Up secondary) */
             <div>
-              <div className="mb-5">
-                <h3 className="text-lg font-bold text-slate-900 tracking-tight">
-                  {authTab === 'login' ? 'Sign In to Your Account' : 'Create Your Business Account'}
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+              <div className="mb-6">
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                  {authTab === 'login' ? 'Sign In' : 'Create Account'}
+                </h2>
+                <p className="text-xs text-slate-500 mt-1">
                   {authTab === 'login'
-                    ? 'Enter your credentials to link your Invio Plus license.'
-                    : 'Enter your basic shop details to register and activate your license.'}
+                    ? 'Sign in to complete checkout and link your license.'
+                    : 'Enter your details to create an account and unlock Invio Plus.'}
                 </p>
               </div>
 
-              {/* Two-Tab Switcher: Sign In (Default) vs Sign Up */}
+              {/* Two-Tab Switcher: Sign In (DEFAULT) vs Sign Up */}
               <div className="flex p-1 rounded-full bg-slate-100 border border-slate-200/80 mb-5">
                 <button
                   type="button"
@@ -572,7 +533,7 @@ export function CheckoutPage() {
                   <div className="w-full border-t border-slate-200" />
                 </div>
                 <span className="relative bg-white px-3 text-[11px] font-medium text-slate-400">
-                  Or with email and password
+                  Or with email
                 </span>
               </div>
 
@@ -618,7 +579,7 @@ export function CheckoutPage() {
                         required
                         value={businessName}
                         onChange={(e) => setBusinessName(e.target.value)}
-                        placeholder="Sharma Kirana &amp; General Store"
+                        placeholder="Sharma Kirana Store"
                         className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
                       />
                     </div>
@@ -635,13 +596,13 @@ export function CheckoutPage() {
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="sharma.store@example.com"
+                    placeholder="name@shop.com"
                     className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
                   />
                   {isFromDesktop && (
                     <p className="text-[11px] text-emerald-600 font-medium mt-1 flex items-center gap-1">
                       <CheckIcon className="size-3" />
-                      <span>Linked from your Invio desktop app</span>
+                      <span>Linked from Invio desktop app</span>
                     </p>
                   )}
                 </div>
@@ -657,7 +618,7 @@ export function CheckoutPage() {
                       autoComplete={authTab === 'register' ? 'new-password' : 'current-password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Enter your password (min. 6 characters)"
+                      placeholder="Min. 6 characters"
                       className="w-full px-3 py-2 pr-10 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs sm:text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
                     />
                     <button
@@ -667,6 +628,35 @@ export function CheckoutPage() {
                       aria-label="Toggle password visibility"
                     >
                       {showPassword ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Inline Billing Cycle Toggle */}
+                <div className="flex items-center justify-between pt-1 text-xs">
+                  <span className="text-slate-500 font-medium">Billing Cycle</span>
+                  <div className="inline-flex items-center p-0.5 rounded-full bg-slate-100 border border-slate-200 text-[11px] font-semibold">
+                    <button
+                      type="button"
+                      onClick={() => setBillingCycle('yearly')}
+                      className={`px-3 py-0.5 rounded-full transition-all cursor-pointer ${
+                        billingCycle === 'yearly'
+                          ? 'bg-[#7C3AED] text-white shadow-2xs font-bold'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      Yearly (₹{prices.yearly})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setBillingCycle('monthly')}
+                      className={`px-3 py-0.5 rounded-full transition-all cursor-pointer ${
+                        billingCycle === 'monthly'
+                          ? 'bg-[#7C3AED] text-white shadow-2xs font-bold'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      Monthly (₹{prices.monthly})
                     </button>
                   </div>
                 </div>
@@ -690,8 +680,8 @@ export function CheckoutPage() {
                   ) : (
                     <span>
                       {authTab === 'login'
-                        ? 'Sign In & Proceed to Payment'
-                        : 'Create Account & Proceed to Payment'}
+                        ? `Sign In & Pay ₹${currentPrice}`
+                        : `Create Account & Pay ₹${currentPrice}`}
                     </span>
                   )}
                 </button>
@@ -728,12 +718,16 @@ export function CheckoutPage() {
                     </span>
                   )}
                 </div>
+
+                <p className="text-center text-[10px] text-slate-400 pt-1">
+                  🔒 256-Bit SSL Secure Checkout • Razorpay Verified
+                </p>
               </form>
             </div>
           )}
         </div>
       </div>
-    </PageContainer>
+    </div>
   );
 }
 
