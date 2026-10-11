@@ -54,13 +54,13 @@ export function Hero() {
             Create professional invoices in a few clicks. 60+ templates or customize your own. Easily add logo, rates, and photos. Let clients pay online. Automatically send receipts.
           </p>
 
-          {/* Platform Selector Buttons (macOS, Windows, Linux) matching old UI */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
-            <span className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold shrink-0">
+          {/* Platform Selector Buttons (macOS, Windows, Linux) in Column Layout */}
+          <div className="flex flex-col items-start gap-2 mb-6">
+            <span className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
               Available on:
             </span>
             <div
-              className="flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-[18px] border border-slate-200/80 text-slate-600"
+              className="flex flex-col gap-1.5 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/80 text-slate-600 w-full sm:w-64"
               role="radiogroup"
               aria-label="Select desktop operating system"
             >
@@ -69,14 +69,17 @@ export function Hero() {
                 onClick={() => setSelectedOSId('mac')}
                 role="radio"
                 aria-checked={selectedOSId === 'mac'}
-                className={`px-3 py-1 rounded-[12px] cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-3 text-xs transition-all w-full ${
                   selectedOSId === 'mac'
                     ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                    : 'hover:text-slate-900'
+                    : 'hover:text-slate-900 hover:bg-white/60'
                 }`}
               >
-                <AppleIcon className="size-3.5" />
-                <span>macOS</span>
+                <div className="flex items-center gap-2">
+                  <AppleIcon className="size-3.5" />
+                  <span>macOS</span>
+                </div>
+                {selectedOSId === 'mac' && <span className="size-1.5 rounded-full bg-[#7C3AED]" />}
               </button>
 
               <button
@@ -84,14 +87,17 @@ export function Hero() {
                 onClick={() => setSelectedOSId('windows')}
                 role="radio"
                 aria-checked={selectedOSId === 'windows'}
-                className={`px-3 py-1 rounded-[12px] cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-3 text-xs transition-all w-full ${
                   selectedOSId === 'windows'
                     ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                    : 'hover:text-slate-900'
+                    : 'hover:text-slate-900 hover:bg-white/60'
                 }`}
               >
-                <WindowsIcon className="size-3.5" />
-                <span>Windows</span>
+                <div className="flex items-center gap-2">
+                  <WindowsIcon className="size-3.5" />
+                  <span>Windows</span>
+                </div>
+                {selectedOSId === 'windows' && <span className="size-1.5 rounded-full bg-[#7C3AED]" />}
               </button>
 
               <button
@@ -99,14 +105,17 @@ export function Hero() {
                 onClick={() => setSelectedOSId('linux')}
                 role="radio"
                 aria-checked={selectedOSId === 'linux'}
-                className={`px-3 py-1 rounded-[12px] cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl cursor-pointer flex items-center justify-between gap-3 text-xs transition-all w-full ${
                   selectedOSId === 'linux'
                     ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                    : 'hover:text-slate-900'
+                    : 'hover:text-slate-900 hover:bg-white/60'
                 }`}
               >
-                <LinuxIcon className="size-3.5" />
-                <span>Linux</span>
+                <div className="flex items-center gap-2">
+                  <LinuxIcon className="size-3.5" />
+                  <span>Linux</span>
+                </div>
+                {selectedOSId === 'linux' && <span className="size-1.5 rounded-full bg-[#7C3AED]" />}
               </button>
             </div>
           </div>
