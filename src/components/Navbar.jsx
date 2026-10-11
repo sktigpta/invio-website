@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AppleIcon, WindowsIcon, LinuxIcon } from './Icons';
-import { detectDeviceOS, triggerDirectDownload } from '../utils/osDetector';
+import { detectDeviceOS } from '../utils/osDetector';
+import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
+  const { openDownloadModal } = useDownloadModal();
   const activeOS = detectDeviceOS();
 
   const isToolsPage = location.pathname.startsWith('/tools');
@@ -67,11 +68,7 @@ export function Navbar() {
   };
 
   const handleDownload = () => {
-    if (activeOS.isMobileFallback) {
-      navigate('/download');
-    } else {
-      triggerDirectDownload(activeOS);
-    }
+    openDownloadModal(activeOS);
   };
 
   const isActive = (path) => {

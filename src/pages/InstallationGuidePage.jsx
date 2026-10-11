@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { WindowsIcon, AppleIcon } from '../components/Icons';
+import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function InstallationGuidePage() {
+  const { openDownloadModal } = useDownloadModal();
+
   useEffect(() => {
     applySEO('docs-installation');
     window.scrollTo(0, 0);
@@ -25,7 +28,7 @@ export function InstallationGuidePage() {
           </div>
           <ol className="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed list-decimal pl-4">
             <li>
-              Download the latest Windows installer (<code>Invio-Setup-1.0.2.exe</code>) from our <Link to="/download" className="text-[#7C3AED] underline">Download page</Link>.
+              Download the latest Windows installer (<code>Invio-Setup-1.0.2.exe</code>) via <button type="button" onClick={() => openDownloadModal('windows')} className="text-[#7C3AED] underline font-medium cursor-pointer">direct download</button>.
             </li>
             <li>
               Open your Downloads folder and double-click the setup file.
@@ -47,7 +50,7 @@ export function InstallationGuidePage() {
           </div>
           <ol className="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed list-decimal pl-4">
             <li>
-              Download the macOS disk image (<code>Invio-1.0.2.dmg</code>) from our <Link to="/download" className="text-[#7C3AED] underline">Download page</Link>.
+              Download the macOS disk image (<code>Invio-1.0.2.dmg</code>) via <button type="button" onClick={() => openDownloadModal('mac')} className="text-[#7C3AED] underline font-medium cursor-pointer">direct download</button>.
             </li>
             <li>
               Double-click the downloaded <code>.dmg</code> file to mount it.
@@ -97,9 +100,13 @@ export function InstallationGuidePage() {
         <Link to="/system-requirements" className="font-semibold text-[#7C3AED] hover:underline">
           ← Check system requirements
         </Link>
-        <Link to="/download" className="font-semibold text-[#7C3AED] hover:underline">
-          Go to download page →
-        </Link>
+        <button
+          type="button"
+          onClick={() => openDownloadModal()}
+          className="font-semibold text-[#7C3AED] hover:underline cursor-pointer"
+        >
+          Download desktop application →
+        </button>
       </div>
     </PageContainer>
   );

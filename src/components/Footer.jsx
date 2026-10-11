@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function Footer() {
+  const { openDownloadModal } = useDownloadModal();
+
   return (
     <footer className="mt-auto border-t border-slate-200 bg-white text-slate-600 text-sm">
       <div className="max-w-[1200px] mx-auto px-6 sm:px-8 py-8 sm:py-10">
@@ -21,7 +24,7 @@ export function Footer() {
             <h4 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Software</h4>
             <ul className="space-y-1.5 text-xs">
               <li><Link to="/features" className="hover:text-[#7C3AED] transition-colors">Features</Link></li>
-              <li><Link to="/download" className="hover:text-[#7C3AED] transition-colors">Download</Link></li>
+              <li><button type="button" onClick={() => openDownloadModal()} className="hover:text-[#7C3AED] transition-colors cursor-pointer text-left">Download App</button></li>
               <li><Link to="/pricing" className="hover:text-[#7C3AED] transition-colors">Pricing</Link></li>
               <li><Link to="/changelog" className="hover:text-[#7C3AED] transition-colors">Changelog</Link></li>
               <li><Link to="/system-requirements" className="hover:text-[#7C3AED] transition-colors">Requirements</Link></li>

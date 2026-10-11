@@ -2,8 +2,11 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
+import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function NotFoundPage() {
+  const { openDownloadModal } = useDownloadModal();
+
   useEffect(() => {
     applySEO('404');
     window.scrollTo(0, 0);
@@ -29,12 +32,13 @@ export function NotFoundPage() {
           >
             Return to Home
           </Link>
-          <Link
-            to="/download"
-            className="h-9 px-5 border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-semibold rounded-full flex items-center justify-center transition-colors"
+          <button
+            type="button"
+            onClick={() => openDownloadModal()}
+            className="h-9 px-5 border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-semibold rounded-full flex items-center justify-center transition-colors cursor-pointer"
           >
             Download Desktop App
-          </Link>
+          </button>
           <Link
             to="/tools"
             className="h-9 px-5 border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-semibold rounded-full flex items-center justify-center transition-colors"

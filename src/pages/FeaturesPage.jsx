@@ -2,8 +2,11 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { FEATURES_DATA } from '../data/featuresData';
+import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function FeaturesPage() {
+  const { openDownloadModal } = useDownloadModal();
+
   useEffect(() => {
     applySEO('features');
     window.scrollTo(0, 0);
@@ -124,12 +127,13 @@ export function FeaturesPage() {
             Download Invio for free. No credit card required, zero setup hurdles, and operates 100% offline on your desktop computer.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/download"
-              className="h-12 px-8 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-sm font-semibold flex items-center justify-center transition-colors shadow-md select-none"
+            <button
+              type="button"
+              onClick={() => openDownloadModal()}
+              className="h-12 px-8 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-sm font-semibold flex items-center justify-center transition-colors shadow-md select-none cursor-pointer"
             >
               Download Free for Desktop →
-            </Link>
+            </button>
             <Link
               to="/pricing"
               className="h-12 px-8 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-900 text-sm font-semibold flex items-center justify-center transition-colors shadow-xs select-none"

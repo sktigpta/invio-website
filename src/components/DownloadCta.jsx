@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { detectDeviceOS, triggerDirectDownload } from '../utils/osDetector';
-import { AppleIcon, WindowsIcon, LinuxIcon, DownloadIcon } from './Icons';
+import { detectDeviceOS } from '../utils/osDetector';
+import { useDownloadModal } from '../context/DownloadModalContext';
+import { AppleIcon, WindowsIcon, LinuxIcon } from './Icons';
 
 export function DownloadCta({
   title = "Download Invio for Desktop",
@@ -9,6 +10,7 @@ export function DownloadCta({
   className = ""
 }) {
   const activeOS = detectDeviceOS();
+  const { openDownloadModal } = useDownloadModal();
 
   const getOsIcon = (id, sizeClass = "size-4") => {
     if (id === 'mac') return <AppleIcon className={sizeClass} />;
@@ -31,7 +33,7 @@ export function DownloadCta({
         <div className="flex flex-wrap items-center gap-3 shrink-0">
           <button
             type="button"
-            onClick={() => triggerDirectDownload(activeOS)}
+            onClick={() => openDownloadModal(activeOS)}
             className="h-10 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-semibold rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm hover:shadow-purple-200"
           >
             {getOsIcon(activeOS.id)}
@@ -40,10 +42,10 @@ export function DownloadCta({
 
           {showAllLinks && (
             <Link
-              to="/download"
+              to="/changelog"
               className="text-xs font-semibold text-[#7C3AED] hover:underline"
             >
-              All platforms →
+              All platforms &amp; changelog →
             </Link>
           )}
         </div>

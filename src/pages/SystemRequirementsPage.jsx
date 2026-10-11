@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { WindowsIcon, AppleIcon } from '../components/Icons';
+import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function SystemRequirementsPage() {
+  const { openDownloadModal } = useDownloadModal();
+
   useEffect(() => {
     applySEO('system-requirements');
     window.scrollTo(0, 0);
@@ -30,9 +33,13 @@ export function SystemRequirementsPage() {
             <p><strong>Disk Storage:</strong> 350 MB available disk space for application and local SQLite database.</p>
             <p><strong>Display Resolution:</strong> 1024 × 768 minimum (1920 × 1080 recommended).</p>
           </div>
-          <Link to="/download" className="text-xs font-semibold text-[#7C3AED] hover:underline">
+          <button
+            type="button"
+            onClick={() => openDownloadModal('windows')}
+            className="text-xs font-semibold text-[#7C3AED] hover:underline cursor-pointer"
+          >
             Download for Windows (.exe) →
-          </Link>
+          </button>
         </div>
 
         {/* macOS Card */}
@@ -48,9 +55,13 @@ export function SystemRequirementsPage() {
             <p><strong>Disk Storage:</strong> 400 MB available disk space for installation and invoice data.</p>
             <p><strong>Display Resolution:</strong> Any Retina or standard display.</p>
           </div>
-          <Link to="/download" className="text-xs font-semibold text-[#7C3AED] hover:underline">
+          <button
+            type="button"
+            onClick={() => openDownloadModal('mac')}
+            className="text-xs font-semibold text-[#7C3AED] hover:underline cursor-pointer"
+          >
             Download for macOS (.dmg) →
-          </Link>
+          </button>
         </div>
       </div>
 

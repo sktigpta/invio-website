@@ -4,6 +4,7 @@ import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { DownloadCta } from '../components/DownloadCta';
 import { FaqAccordion } from '../components/FaqAccordion';
+import { useDownloadModal } from '../context/DownloadModalContext';
 import {
   fetchSubscriptionPlans,
   createSubscriptionOrder,
@@ -77,6 +78,7 @@ const DEFAULT_PLANS_STATE = {
 };
 
 export function PricingPage() {
+  const { openDownloadModal } = useDownloadModal();
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'yearly'
   const [plansData, setPlansData] = useState(DEFAULT_PLANS_STATE);
   const [payingPlan, setPayingPlan] = useState(null);
@@ -264,12 +266,13 @@ export function PricingPage() {
                 To link Invio Plus, launch the Invio desktop application on your PC, open <strong>Settings &gt; Account</strong>, and enter your account email. If you need any assistance, reach out directly to <a href="mailto:support@timrio.com" className="text-[#7C3AED] font-semibold underline">support@timrio.com</a>.
               </p>
               <div className="flex items-center gap-3">
-                <Link
-                  to="/download"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full text-xs font-semibold transition-colors shadow-2xs"
+                <button
+                  type="button"
+                  onClick={() => openDownloadModal()}
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full text-xs font-semibold transition-colors shadow-2xs cursor-pointer"
                 >
                   Download Invio Desktop
-                </Link>
+                </button>
                 <button
                   type="button"
                   onClick={() => setSuccess(null)}
@@ -330,12 +333,13 @@ export function PricingPage() {
             </ul>
           </div>
 
-          <Link
-            to={plansData.free.ctaLink}
-            className="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-semibold text-xs text-center transition-colors shadow-2xs select-none block"
+          <button
+            type="button"
+            onClick={() => openDownloadModal()}
+            className="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-semibold text-xs text-center transition-colors shadow-2xs select-none block cursor-pointer"
           >
             {plansData.free.ctaText}
-          </Link>
+          </button>
         </div>
 
         {/* 2. Plus Plan (Highlighted) */}

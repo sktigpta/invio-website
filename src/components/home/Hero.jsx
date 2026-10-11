@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { AppleIcon, WindowsIcon, LinuxIcon } from '../Icons';
-import { detectDeviceOS, PLATFORM_DOWNLOADS, triggerDirectDownload } from '../../utils/osDetector';
+import { detectDeviceOS, PLATFORM_DOWNLOADS } from '../../utils/osDetector';
+import { useDownloadModal } from '../../context/DownloadModalContext';
 
 export function Hero() {
   const initialOS = detectDeviceOS();
+  const { openDownloadModal } = useDownloadModal();
   const [selectedOSId, setSelectedOSId] = useState(
     initialOS.id === 'linux' ? 'linux' : initialOS.id === 'windows' ? 'windows' : 'mac'
   );
@@ -17,7 +19,7 @@ export function Hero() {
   };
 
   const handleDownload = () => {
-    triggerDirectDownload(currentOS);
+    openDownloadModal(currentOS);
   };
 
   return (
