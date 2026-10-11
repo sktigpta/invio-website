@@ -22,12 +22,21 @@ export function Hero() {
 
   return (
     <section className="relative w-full min-h-[80vh] flex items-center overflow-hidden bg-white border-b border-slate-100">
-      {/* Background Software Dashboard Image (Right side) */}
+      {/* Background Software Dashboard Image (Right side) with accessible semantic SEO image */}
       <div
-        className="absolute inset-y-0 right-0 w-full md:w-[65%] lg:w-[60%] bg-no-repeat bg-cover bg-left md:bg-center"
-        style={{ backgroundImage: "url('/screenshots/dashboard.png')" }}
+        className="absolute inset-y-0 right-0 w-full md:w-[65%] lg:w-[60%] overflow-hidden pointer-events-none"
         aria-hidden="true"
-      />
+      >
+        <img
+          src="/screenshots/dashboard.png"
+          alt="Invio Free Offline Invoice Generator App & GST Billing Software Dashboard Screenshot"
+          width="1280"
+          height="800"
+          loading="eager"
+          decoding="async"
+          className="w-full h-full object-cover object-left md:object-center opacity-85 sm:opacity-95"
+        />
+      </div>
 
       {/* Overlay: White on the left fading to transparent on the right */}
       <div
