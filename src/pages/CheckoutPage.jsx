@@ -351,20 +351,6 @@ export function CheckoutPage() {
                 </button>
               </div>
 
-              {/* Plan Summary Badge */}
-              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-purple-50/70 border border-purple-100/90 mb-5">
-                <div className="flex items-center gap-2">
-                  <span className="size-2 rounded-full bg-[#7C3AED]" />
-                  <span className="text-xs font-bold text-slate-900 tracking-tight">Invio Plus License</span>
-                  <span className="text-[11px] font-semibold text-purple-700 bg-purple-100/80 px-2 py-0.5 rounded-full">
-                    {billingCycle === 'yearly' ? 'Yearly' : 'Monthly'}
-                  </span>
-                </div>
-                <span className="text-sm font-extrabold text-[#7C3AED]">
-                  ₹{currentPrice}
-                </span>
-              </div>
-
               {payError && (
                 <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
                   {payError}
@@ -392,20 +378,6 @@ export function CheckoutPage() {
           ) : (
             /* State: Not Signed In (Sign In by DEFAULT, Sign Up secondary) */
             <div>
-              {/* Plan Summary Badge */}
-              <div className="flex items-center justify-between p-3 rounded-2xl bg-purple-50/70 border border-purple-100/90 mb-5">
-                <div className="flex items-center gap-2">
-                  <span className="size-2 rounded-full bg-[#7C3AED]" />
-                  <span className="text-xs font-bold text-slate-900 tracking-tight">Invio Plus License</span>
-                  <span className="text-[11px] font-semibold text-purple-700 bg-purple-100/80 px-2 py-0.5 rounded-full">
-                    {billingCycle === 'yearly' ? 'Yearly' : 'Monthly'}
-                  </span>
-                </div>
-                <span className="text-sm font-extrabold text-[#7C3AED]">
-                  ₹{currentPrice}
-                </span>
-              </div>
-
               {/* Two-Tab Switcher: Sign In (DEFAULT) vs Sign Up */}
               <div className="flex p-1 rounded-full bg-slate-100 border border-slate-200/80 mb-5">
                 <button
@@ -436,26 +408,6 @@ export function CheckoutPage() {
                 >
                   Sign Up
                 </button>
-              </div>
-
-              {/* Google One-Click Auth */}
-              <button
-                type="button"
-                disabled={authLoading}
-                onClick={handleGoogleAuth}
-                className="w-full py-2.5 px-4 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2.5 mb-4"
-              >
-                <GoogleIcon className="size-4" />
-                <span>Continue with Google</span>
-              </button>
-
-              <div className="relative my-4 text-center">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-200" />
-                </div>
-                <span className="relative bg-white px-3 text-[11px] font-medium text-slate-400">
-                  Or with email
-                </span>
               </div>
 
               {/* Form */}
@@ -547,6 +499,27 @@ export function CheckoutPage() {
                   )}
                 </button>
               </form>
+
+              {/* Divider */}
+              <div className="relative my-4 text-center">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-slate-200" />
+                </div>
+                <span className="relative bg-white px-3 text-[11px] font-medium text-slate-400">
+                  Or continue with
+                </span>
+              </div>
+
+              {/* Google One-Click Auth at Bottom */}
+              <button
+                type="button"
+                disabled={authLoading}
+                onClick={handleGoogleAuth}
+                className="w-full py-2.5 px-4 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2.5"
+              >
+                <GoogleIcon className="size-4" />
+                <span>Continue with Google</span>
+              </button>
             </div>
           )}
         </div>
