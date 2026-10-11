@@ -43,19 +43,19 @@ export function Hero() {
 
       {/* Hero Foreground Content */}
       <div className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        <div className="max-w-2xl text-left">
+        <div className="max-w-2xl text-center flex flex-col items-center">
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-slate-900 leading-[1.12] mb-5">
             Create &amp; Send Customer Invoices in Seconds
           </h1>
 
           {/* Subtitle */}
-          <p className="text-sm sm:text-base lg:text-[17px] text-slate-600 font-normal leading-relaxed mb-8 max-w-xl">
+          <p className="text-sm sm:text-base lg:text-[17px] text-slate-600 font-normal leading-relaxed mb-8 max-w-xl text-center">
             Create professional invoices in a few clicks. 60+ templates or customize your own. Easily add logo, rates, and photos. Let clients pay online. Automatically send receipts.
           </p>
 
           {/* Platform Selector & Download Controls (Centered relative to each other) */}
-          <div className="flex flex-col items-start mb-6">
+          <div className="flex flex-col items-center mb-6">
             <div className="inline-flex flex-col items-center gap-3">
               <span className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
                 Available on:
@@ -126,7 +126,7 @@ export function Hero() {
           </div>
 
           {/* Key Feature Badges */}
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-slate-700 pt-3 border-t border-slate-100">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-slate-700 pt-3 border-t border-slate-100 w-full">
             <div className="flex items-center gap-1.5">
               <span className="text-emerald-500 font-bold">✓</span>
               <span>Works 100% Offline</span>
