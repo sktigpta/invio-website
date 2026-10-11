@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
-import { WindowsIcon, AppleIcon } from '../components/Icons';
+import { WindowsIcon, AppleIcon, LinuxIcon } from '../components/Icons';
 import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function InstallationGuidePage() {
@@ -64,9 +64,28 @@ export function InstallationGuidePage() {
           </ol>
         </section>
 
+        {/* Linux Section */}
+        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
+          <div className="flex items-center gap-2 mb-3">
+            <LinuxIcon className="size-5 text-amber-600" />
+            <h2 className="text-base sm:text-lg font-bold text-slate-900">3. Installing on Linux (Ubuntu, Debian, Fedora, Arch)</h2>
+          </div>
+          <ol className="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed list-decimal pl-4">
+            <li>
+              Download the Linux package (<button type="button" onClick={() => openDownloadModal('linux')} className="text-[#7C3AED] underline font-medium cursor-pointer">AppImage or .deb</button>).
+            </li>
+            <li>
+              <strong>AppImage:</strong> Open terminal, make it executable with <code>chmod +x Invio-*.AppImage</code>, and double-click to run.
+            </li>
+            <li>
+              <strong>Debian / Ubuntu:</strong> Install via terminal using <code>sudo dpkg -i Invio-*.deb</code> or right-click and open with Software Install.
+            </li>
+          </ol>
+        </section>
+
         {/* First-Run Configuration */}
         <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3">3. First-Run Setup &amp; Configuration</h2>
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3">4. First-Run Setup &amp; Configuration</h2>
           <div className="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
             <p>
               <strong>Business Profile:</strong> Open Settings &gt; Business Profile. Enter your Store Name, Address, GSTIN / Tax ID, Phone Number, and upload your Store Logo.
@@ -85,13 +104,14 @@ export function InstallationGuidePage() {
 
         {/* Database Storage Location */}
         <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-2">4. Database Storage Location</h2>
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-2">5. Database Storage Location</h2>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
             Invio stores your local SQLite database entirely on your local machine:
           </p>
           <div className="space-y-1.5 text-xs font-mono text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100">
             <p><strong>Windows:</strong> %APPDATA%\invio\invio.sqlite</p>
             <p><strong>macOS:</strong> ~/Library/Application Support/invio/invio.sqlite</p>
+            <p><strong>Linux:</strong> ~/.config/invio/invio.sqlite</p>
           </div>
         </section>
       </div>

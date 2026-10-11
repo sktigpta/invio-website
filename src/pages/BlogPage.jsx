@@ -15,6 +15,7 @@ export function BlogPage() {
       title: 'Offline vs Cloud Invoicing: Why Small Businesses Prefer Local SQLite',
       date: 'October 2026',
       readTime: '5 min read',
+      link: '/security',
       summary:
         'Cloud invoicing software introduces monthly subscriptions and crashes when internet connections fail. Discover how offline-first desktop billing with embedded SQLite ensures zero latency, complete data sovereignty, and reliable counter operations.',
       tag: 'Architecture'
@@ -23,6 +24,7 @@ export function BlogPage() {
       title: 'How to Set Up 58mm & 80mm Thermal Receipt Printers for Retail Billing',
       date: 'September 2026',
       readTime: '6 min read',
+      link: '/features',
       summary:
         'A comprehensive guide to ESC/POS thermal printing. Learn the differences between 2-inch (58mm) and 3-inch (80mm) paper widths, baud rates, ESC/POS escape commands, and how to print paper slips with dynamic UPI payment QR codes.',
       tag: 'Hardware POS'
@@ -31,6 +33,7 @@ export function BlogPage() {
       title: 'GST Slabs & Automatic Tax Splits: CGST, SGST, IGST Explained',
       date: 'August 2026',
       readTime: '4 min read',
+      link: '/tools/gst-calculator',
       summary:
         'Understanding how GSTIN state codes determine intra-state (CGST + SGST 50/50 split) vs inter-state (IGST 100%) tax liabilities, and how automated billing engines prevent expensive filing errors.',
       tag: 'GST & Compliance'
@@ -39,6 +42,7 @@ export function BlogPage() {
       title: 'Dynamic UPI QR Codes on Printed Invoices: Accelerating Checkout Speed',
       date: 'July 2026',
       readTime: '4 min read',
+      link: '/features',
       summary:
         'How embedding the exact payable invoice sum into paper-printed UPI QR codes eliminates manual payment amount entry, minimizes customer queues, and speeds up retail counter throughput.',
       tag: 'Payments'
@@ -64,14 +68,16 @@ export function BlogPage() {
               <span>{art.readTime}</span>
             </div>
             <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-2">
-              {art.title}
+              <Link to={art.link} className="hover:text-[#7C3AED] transition-colors">
+                {art.title}
+              </Link>
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
               {art.summary}
             </p>
-            <span className="text-xs font-semibold text-[#7C3AED] inline-flex items-center gap-1">
+            <Link to={art.link} className="text-xs font-semibold text-[#7C3AED] hover:underline inline-flex items-center gap-1">
               Read complete guide →
-            </span>
+            </Link>
           </article>
         ))}
       </div>

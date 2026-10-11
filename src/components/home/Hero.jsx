@@ -24,27 +24,22 @@ export function Hero() {
 
   return (
     <section className="relative w-full min-h-[80vh] flex items-center overflow-hidden bg-white border-b border-slate-100">
-      {/* Background Software Dashboard Image (Full Width, Left-to-Right) */}
+      {/* Background Software Hero Image (Right Aligned, Height 100%, Width Auto, Top Z-Index) */}
       <div
-        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
+        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none flex justify-end z-30"
         aria-hidden="true"
       >
         <img
-          src="/screenshots/dashboard.png"
-          alt="Invio Free Offline Invoice Generator App & GST Billing Software Dashboard Screenshot"
-          width="1280"
-          height="800"
+          src="/screenshots/hero.png"
+          alt="Invio Free Offline Invoice Generator App & GST Billing Software Hero Screenshot"
+          width="1640"
+          height="856"
           loading="eager"
           decoding="async"
-          className="w-full h-full object-cover object-left md:object-left-top opacity-80 sm:opacity-90"
+          style={{ height: '100%', width: 'auto' }}
+          className="h-full w-auto max-w-none object-contain object-right"
         />
       </div>
-
-      {/* Overlay: Left-to-right gradient ensuring high text contrast while showcasing dashboard across full width */}
-      <div
-        className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/50 md:from-white/90 md:via-white/75 md:to-white/45 z-10 pointer-events-none"
-        aria-hidden="true"
-      />
 
       {/* Soft Ambient Radial Violet Glow */}
       <div
@@ -53,7 +48,7 @@ export function Hero() {
       />
 
       {/* Hero Foreground Content */}
-      <div className="relative z-20 w-full max-w-[1200px] mx-auto px-6 sm:px-8 py-16 sm:py-24">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 sm:px-8 py-16 sm:py-24">
         <div className="max-w-2xl text-center flex flex-col items-center">
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-slate-900 leading-[1.12] mb-5">

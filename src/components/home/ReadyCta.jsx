@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
-import { detectDeviceOS, triggerDirectDownload } from '../../utils/osDetector';
+import { detectDeviceOS } from '../../utils/osDetector';
 import { AppleIcon, WindowsIcon, LinuxIcon, CalculatorIcon } from '../Icons';
+import { useDownloadModal } from '../../context/DownloadModalContext';
 
 export function ReadyCta() {
   const activeOS = detectDeviceOS();
+  const { openDownloadModal } = useDownloadModal();
 
   const getOsIcon = (id, sizeClass = 'size-3.5 shrink-0 pointer-events-none') => {
     if (id === 'mac') return <AppleIcon className={sizeClass} />;
@@ -12,7 +14,26 @@ export function ReadyCta() {
   };
 
   return (
-    <section className="w-full pt-12 pb-0 mb-0">
+    <section className="w-full pt-16 pb-0 mb-0">
+      {/* Free In-Browser Tools Intro (Outside the card, on top of CTA) */}
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-8 mb-12 sm:mb-16 text-center flex flex-col items-center">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-200/80 text-[#7C3AED] text-xs font-semibold mb-3.5">
+          <CalculatorIcon className="size-3.5 text-[#7C3AED]" />
+          <span>In-Browser Financial &amp; Tax Suite</span>
+        </div>
+        <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto mb-4 font-normal">
+          Need quick calculations without installing? Use our free in-browser GST calculator, FY 25–26 income tax planner, UK &amp; UAE VAT tools, and payslip generator.
+        </p>
+        <Link
+          to="/tools"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#7C3AED] hover:text-[#6D28D9] hover:underline transition-colors"
+        >
+          <span>Explore Free Financial Tools</span>
+          <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+
+      {/* Main Ready CTA Card */}
       <div className="w-[90%] max-w-[1200px] mx-auto rounded-t-3xl rounded-b-none bg-slate-900 text-white p-8 sm:p-12 pb-10 sm:pb-12 text-center flex flex-col items-center justify-center relative overflow-hidden shadow-lg mb-0 border-b-0">
         {/* Subtle violet ambient glow */}
         <div
@@ -20,50 +41,25 @@ export function ReadyCta() {
           aria-hidden="true"
         />
 
-        {/* Part 1: Ready to Simplify Invoicing */}
+        {/* Ready to Simplify Invoicing */}
         <div className="relative z-10 max-w-2xl text-center flex flex-col items-center">
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white mb-3 leading-tight">
             Ready to simplify your shop&rsquo;s invoicing?
           </h2>
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 max-w-xl">
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 max-w-xl font-normal">
             Download Invio for free. No credit card required, no account setup, and works 100% offline on your computer with private local SQLite storage.
           </p>
 
           {/* Download button - Identical pill button style as navbar */}
           <button
             type="button"
-            onClick={() => triggerDirectDownload(activeOS)}
-            className="h-9 px-5 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs select-none"
+            onClick={() => openDownloadModal(activeOS)}
+            className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs select-none"
             title={`Download Invio for ${activeOS.name}`}
           >
             {getOsIcon(activeOS.id)}
             <span>Download Free for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
           </button>
-        </div>
-
-        {/* Subtle Horizontal Divider */}
-        <div className="relative z-10 w-full max-w-2xl my-8 border-t border-slate-800" />
-
-        {/* Part 2: Merged Free Online Finance, Tax & Payroll Suite */}
-        <div className="relative z-10 max-w-2xl text-center flex flex-col items-center">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <CalculatorIcon className="size-4 text-purple-300" />
-            <h3 className="text-base sm:text-lg font-bold text-white">
-              Free Online Finance, Tax &amp; Payroll Suite
-            </h3>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6 max-w-xl">
-            Need quick calculations without installing? Use our free in-browser GST calculator, FY 25–26 income tax planner, UK &amp; UAE VAT tools, and payslip generator.
-          </p>
-
-          {/* Tools button - Identical pill button style as navbar */}
-          <Link
-            to="/tools"
-            className="h-9 px-5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs select-none"
-          >
-            <CalculatorIcon className="size-3.5 shrink-0 pointer-events-none" />
-            <span>Explore Free Tools Suite →</span>
-          </Link>
         </div>
       </div>
     </section>

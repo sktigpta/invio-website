@@ -8,7 +8,7 @@ export const SHARED_PRODUCT_SPECS = {
   brand: 'Timrio',
   publisherUrl: 'https://timrio.com',
   homeUrl: 'https://invio.timrio.com/',
-  productLandingUrl: 'https://invio.timrio.com/product',
+  productLandingUrl: 'https://invio.timrio.com/features',
   feedUrl: 'https://invio.timrio.com/feeds/google-merchant.tsv',
   category: 'BusinessApplication',
   applicationSubCategory: 'Invoicing & Inventory Management',
@@ -105,7 +105,7 @@ export const SHARED_PRODUCT_SPECS = {
   supportContact: {
     email: 'support@timrio.com',
     website: 'https://timrio.com',
-    docsUrl: 'https://invio.timrio.com/docs/features',
+    docsUrl: 'https://invio.timrio.com/features',
     privacyUrl: 'https://invio.timrio.com/privacy-policy',
     termsUrl: 'https://invio.timrio.com/terms',
   },
@@ -129,7 +129,7 @@ export const PRODUCT_TIERS = [
     priceString: '0.00 INR',
     pricingDisplay: 'Free Forever',
     availability: 'in_stock',
-    canonicalUrl: 'https://invio.timrio.com/product',
+    canonicalUrl: 'https://invio.timrio.com/features',
     description:
       'Invio by Timrio is a 100% free offline desktop invoicing software for Windows, macOS, and Linux. Unlimited offline bills, automated GST tax calculation (CGST/SGST/IGST), A4 PDF printing, barcode scanner checkout, customer credit ledger, and local SQLite data privacy.',
     features: [

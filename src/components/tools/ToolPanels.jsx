@@ -416,8 +416,9 @@ export function IncomeTaxIndiaTool() {
 
             {/* Step 2: Amount Inputs */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">2. Annual Gross CTC Salary (₹)</label>
+              <label htmlFor="it-annual-ctc" className="block text-xs font-semibold text-slate-700 mb-1.5">2. Annual Gross CTC Salary (₹)</label>
               <input
+                id="it-annual-ctc"
                 type="number"
                 min="0"
                 placeholder="Enter gross CTC (e.g. 1200000)"
@@ -428,10 +429,11 @@ export function IncomeTaxIndiaTool() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="it-old-deductions" className="block text-xs font-semibold text-slate-700 mb-1.5">
                 3. Old Regime Deductions (80C, 80D, HRA, NPS) (₹)
               </label>
               <input
+                id="it-old-deductions"
                 type="number"
                 min="0"
                 placeholder="Enter total deductions (e.g. 150000)"
@@ -620,10 +622,11 @@ export function UkVatTool() {
 
             {/* Step 3: Amount */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="uk-vat-amount" className="block text-xs font-semibold text-slate-700 mb-1.5">
                 3. {mode === 'exclusive' ? 'Net Amount (£)' : 'Gross Amount with VAT (£)'}
               </label>
               <input
+                id="uk-vat-amount"
                 type="number"
                 min="0"
                 placeholder="Enter amount (e.g. 1000)"
@@ -781,10 +784,11 @@ export function UaeVatTool() {
 
             {/* Step 3: Amount */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="uae-vat-amount" className="block text-xs font-semibold text-slate-700 mb-1.5">
                 3. {mode === 'exclusive' ? 'Base Amount (AED)' : 'Gross Inclusive Amount (AED)'}
               </label>
               <input
+                id="uae-vat-amount"
                 type="number"
                 min="0"
                 placeholder="Enter amount (e.g. 5000)"
@@ -911,8 +915,9 @@ export function PayslipGeneratorTool() {
             {/* Employee Meta Row */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Employee Name</label>
+                <label htmlFor="ps-emp-name" className="block text-xs font-semibold text-slate-700 mb-1">Employee Name</label>
                 <input
+                  id="ps-emp-name"
                   type="text"
                   placeholder="e.g. Rahul Sharma"
                   value={empName}
@@ -921,8 +926,9 @@ export function PayslipGeneratorTool() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Employee ID</label>
+                <label htmlFor="ps-emp-id" className="block text-xs font-semibold text-slate-700 mb-1">Employee ID</label>
                 <input
+                  id="ps-emp-id"
                   type="text"
                   placeholder="e.g. EMP-1042"
                   value={empId}
@@ -931,8 +937,9 @@ export function PayslipGeneratorTool() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Pay Period / Month</label>
+                <label htmlFor="ps-pay-month" className="block text-xs font-semibold text-slate-700 mb-1">Pay Period / Month</label>
                 <input
+                  id="ps-pay-month"
                   type="text"
                   placeholder="e.g. October 2026"
                   value={month}
@@ -951,8 +958,9 @@ export function PayslipGeneratorTool() {
                   <span className="text-xs font-bold text-purple-700">{formatINR(totalEarnings)}</span>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">Basic Salary</label>
+                  <label htmlFor="ps-basic-salary" className="block text-[11px] font-semibold text-slate-600 mb-1">Basic Salary</label>
                   <input
+                    id="ps-basic-salary"
                     type="number"
                     placeholder="0.00"
                     value={basic}
@@ -961,8 +969,9 @@ export function PayslipGeneratorTool() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">House Rent Allowance (HRA)</label>
+                  <label htmlFor="ps-hra" className="block text-[11px] font-semibold text-slate-600 mb-1">House Rent Allowance (HRA)</label>
                   <input
+                    id="ps-hra"
                     type="number"
                     placeholder="0.00"
                     value={hra}
@@ -971,8 +980,9 @@ export function PayslipGeneratorTool() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">Special / Other Allowances</label>
+                  <label htmlFor="ps-allowance" className="block text-[11px] font-semibold text-slate-600 mb-1">Special / Other Allowances</label>
                   <input
+                    id="ps-allowance"
                     type="number"
                     placeholder="0.00"
                     value={allowance}
@@ -989,8 +999,9 @@ export function PayslipGeneratorTool() {
                   <span className="text-xs font-bold text-rose-600">−{formatINR(totalDeductions)}</span>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">Provident Fund (PF)</label>
+                  <label htmlFor="ps-pf" className="block text-[11px] font-semibold text-slate-600 mb-1">Provident Fund (PF)</label>
                   <input
+                    id="ps-pf"
                     type="number"
                     placeholder="0.00"
                     value={pf}
@@ -999,8 +1010,9 @@ export function PayslipGeneratorTool() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">Tax Withheld (TDS)</label>
+                  <label htmlFor="ps-tds" className="block text-[11px] font-semibold text-slate-600 mb-1">Tax Withheld (TDS)</label>
                   <input
+                    id="ps-tds"
                     type="number"
                     placeholder="0.00"
                     value={tds}
@@ -1170,8 +1182,9 @@ export function PaycheckTool() {
 
             {/* Step 2: Gross Paycheck */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">2. Gross Paycheck ($)</label>
+              <label htmlFor="pc-gross-salary" className="block text-xs font-semibold text-slate-700 mb-1.5">2. Gross Paycheck ($)</label>
               <input
+                id="pc-gross-salary"
                 type="number"
                 min="0"
                 placeholder="Enter gross paycheck (e.g. 5000)"
@@ -1183,8 +1196,9 @@ export function PaycheckTool() {
 
             {/* Step 3: Deductions */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">3. Benefits &amp; Pre-Tax Deductions ($)</label>
+              <label htmlFor="pc-deductions" className="block text-xs font-semibold text-slate-700 mb-1.5">3. Benefits &amp; Pre-Tax Deductions ($)</label>
               <input
+                id="pc-deductions"
                 type="number"
                 min="0"
                 placeholder="Enter benefits/deductions (e.g. 350)"
@@ -1337,8 +1351,9 @@ export function HraExemptionTool() {
 
             {/* Step 2: Basic Salary */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">2. Annual Basic Salary + DA (₹)</label>
+              <label htmlFor="hra-basic-salary" className="block text-xs font-semibold text-slate-700 mb-1.5">2. Annual Basic Salary + DA (₹)</label>
               <input
+                id="hra-basic-salary"
                 type="number"
                 min="0"
                 placeholder="Enter annual basic (e.g. 500000)"
@@ -1350,8 +1365,9 @@ export function HraExemptionTool() {
 
             {/* Step 3: HRA Received */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">3. Total Annual HRA Received from Employer (₹)</label>
+              <label htmlFor="hra-received" className="block text-xs font-semibold text-slate-700 mb-1.5">3. Total Annual HRA Received from Employer (₹)</label>
               <input
+                id="hra-received"
                 type="number"
                 min="0"
                 placeholder="Enter HRA received (e.g. 200000)"
@@ -1363,8 +1379,9 @@ export function HraExemptionTool() {
 
             {/* Step 4: Rent Paid */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">4. Total Annual Rent Paid (₹)</label>
+              <label htmlFor="hra-rent-paid" className="block text-xs font-semibold text-slate-700 mb-1.5">4. Total Annual Rent Paid (₹)</label>
               <input
+                id="hra-rent-paid"
                 type="number"
                 min="0"
                 placeholder="Enter annual rent paid (e.g. 240000)"
@@ -1497,8 +1514,9 @@ export function GratuityTool() {
 
             {/* Step 2: Last Salary */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">2. Last Drawn Monthly Basic + DA (₹)</label>
+              <label htmlFor="grat-last-salary" className="block text-xs font-semibold text-slate-700 mb-1.5">2. Last Drawn Monthly Basic + DA (₹)</label>
               <input
+                id="grat-last-salary"
                 type="number"
                 min="0"
                 placeholder="Enter monthly basic + DA (e.g. 50000)"
@@ -1510,8 +1528,9 @@ export function GratuityTool() {
 
             {/* Step 3: Tenure */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">3. Completed Years of Service</label>
+              <label htmlFor="grat-tenure" className="block text-xs font-semibold text-slate-700 mb-1.5">3. Completed Years of Service</label>
               <input
+                id="grat-tenure"
                 type="number"
                 min="1"
                 max="50"
@@ -1658,8 +1677,9 @@ export function ProjectEstimateTool() {
             {/* Step 2: Hours & Rate */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">2. Estimated Labor Hours</label>
+                <label htmlFor="pe-labor-hours" className="block text-xs font-semibold text-slate-700 mb-1.5">2. Estimated Labor Hours</label>
                 <input
+                  id="pe-labor-hours"
                   type="number"
                   min="1"
                   placeholder="e.g. 100"
@@ -1669,8 +1689,9 @@ export function ProjectEstimateTool() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">3. Hourly Rate ($)</label>
+                <label htmlFor="pe-hourly-rate" className="block text-xs font-semibold text-slate-700 mb-1.5">3. Hourly Rate ($)</label>
                 <input
+                  id="pe-hourly-rate"
                   type="number"
                   min="0"
                   placeholder="e.g. 50"
@@ -1683,8 +1704,9 @@ export function ProjectEstimateTool() {
 
             {/* Step 3: Fixed Expenses */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">4. Fixed Materials &amp; Third-Party Costs ($)</label>
+              <label htmlFor="pe-fixed-costs" className="block text-xs font-semibold text-slate-700 mb-1.5">4. Fixed Materials &amp; Third-Party Costs ($)</label>
               <input
+                id="pe-fixed-costs"
                 type="number"
                 min="0"
                 placeholder="e.g. 500"

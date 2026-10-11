@@ -97,7 +97,7 @@ export async function createSubscriptionOrder(planId, validity) {
  * Asks the backend to verify the Razorpay Checkout signature server-side.
  * Client-reported success is never trusted on its own.
  */
-export async function verifyPayment({ orderId, paymentId, signature }) {
+export async function verifyPayment({ orderId, paymentId, signature, email, planId, validity }) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 8000);
   try {
@@ -111,6 +111,9 @@ export async function verifyPayment({ orderId, paymentId, signature }) {
         razorpay_order_id: orderId,
         razorpay_payment_id: paymentId,
         razorpay_signature: signature,
+        email: email || undefined,
+        planId: planId || undefined,
+        validity: validity || undefined,
       }),
       signal: controller.signal,
     });
@@ -185,6 +188,8 @@ export function openRazorpayCheckout({
   currency = 'INR',
   amountRupees,
   description,
+  customerEmail,
+  customerPhone,
   onSuccess,
   onDismiss,
   onError,
@@ -202,6 +207,10 @@ export function openRazorpayCheckout({
       name: 'Invio',
       description: description || `Invio Plus subscription — ₹${amountRupees}`,
       theme: { color: '#7C3AED' },
+      prefill: {
+        ...(customerEmail ? { email: customerEmail } : {}),
+        ...(customerPhone ? { contact: customerPhone } : {}),
+      },
       handler(response) {
         onSuccess?.({
           orderId: response.razorpay_order_id,

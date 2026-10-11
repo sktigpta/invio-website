@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { DownloadCta } from '../components/DownloadCta';
@@ -79,15 +79,38 @@ const DEFAULT_PLANS_STATE = {
 
 export function PricingPage() {
   const { openDownloadModal } = useDownloadModal();
-  const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'yearly'
+  const [searchParams] = useSearchParams();
+
+  // Read query parameters passed from desktop or marketing links
+  const paramEmail = searchParams.get('email') || '';
+  const paramCycle = searchParams.get('cycle') || '';
+  const paramPlan = searchParams.get('plan') || '';
+  const paramPhone = searchParams.get('phone') || '';
+  const isAutoCheckout = searchParams.get('checkout') === '1' || searchParams.get('checkout') === 'true' || searchParams.get('action') === 'buy';
+
+  const [billingCycle, setBillingCycle] = useState(
+    paramCycle === 'monthly' ? 'monthly' : 'yearly'
+  );
   const [plansData, setPlansData] = useState(DEFAULT_PLANS_STATE);
   const [payingPlan, setPayingPlan] = useState(null);
   const [payError, setPayError] = useState('');
   const [success, setSuccess] = useState(null);
 
+  // Checkout Email Modal State
+  const [checkoutModalPlan, setCheckoutModalPlan] = useState(null);
+  const [checkoutEmail, setCheckoutEmail] = useState(paramEmail);
+  const [checkoutPhone, setCheckoutPhone] = useState(paramPhone);
+  const [emailInputError, setEmailInputError] = useState('');
+  const isFromDesktop = Boolean(paramEmail || searchParams.get('source') === 'desktop');
+
   useEffect(() => {
     applySEO('pricing');
     window.scrollTo(0, 0);
+
+    // If query params specified auto-checkout or plus plan, open checkout modal
+    if (isAutoCheckout || (paramPlan && paramPlan.toLowerCase() === 'plus')) {
+      setCheckoutModalPlan('plus');
+    }
 
     // Fetch dynamic plan catalog and live prices from backend API (/api/account/plans)
     const loadPlans = async () => {
@@ -119,12 +142,30 @@ export function PricingPage() {
     };
 
     loadPlans();
-  }, []);
+  }, [isAutoCheckout, paramPlan]);
 
-  const handleCheckout = async (planId) => {
+  const handleOpenCheckoutModal = (planId) => {
+    setPayError('');
+    setEmailInputError('');
+    setCheckoutModalPlan(planId);
+  };
+
+  const handleStartPayment = async (planId) => {
+    const trimmedEmail = checkoutEmail.trim().toLowerCase();
+    if (!trimmedEmail) {
+      setEmailInputError('Please enter your account email address to link your license.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(trimmedEmail)) {
+      setEmailInputError('Please enter a valid email address (e.g. yourname@shop.com).');
+      return;
+    }
+
+    setEmailInputError('');
     if (payingPlan || success) return;
     setPayingPlan(planId);
     setPayError('');
+
     try {
       const order = await createSubscriptionOrder(planId, billingCycle);
       if (!order.success) {
@@ -138,16 +179,27 @@ export function PricingPage() {
         setPayingPlan(null);
         return;
       }
+
       openRazorpayCheckout({
         keyId: order.keyId,
         orderId: order.orderId,
         amountPaise: order.amountPaise,
         currency: order.currency,
         amountRupees: order.amount,
+        customerEmail: trimmedEmail,
+        customerPhone: checkoutPhone.trim() || undefined,
         description: `Invio Plus — ${billingCycle === 'yearly' ? 'Yearly' : 'Monthly'} Subscription`,
         onSuccess: async ({ orderId, paymentId, signature }) => {
-          const result = await verifyPayment({ orderId, paymentId, signature });
+          const result = await verifyPayment({
+            orderId,
+            paymentId,
+            signature,
+            planId,
+            validity: billingCycle,
+            email: trimmedEmail,
+          });
           setPayingPlan(null);
+          setCheckoutModalPlan(null);
           if (result.success) {
             setSuccess({
               plan: 'plus',
@@ -155,6 +207,8 @@ export function PricingPage() {
               amount: order.amount,
               orderId,
               paymentId,
+              email: trimmedEmail,
+              activated: result.data?.activated,
             });
             window.scrollTo({ top: 0, behavior: 'smooth' });
           } else {
@@ -260,11 +314,17 @@ export function PricingPage() {
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed mb-2">
                 Your payment of <strong>₹{success.amount}</strong> for Invio Plus ({success.validity}) is confirmed.
-                Razorpay Payment ID: <code className="font-mono bg-emerald-100 px-1.5 py-0.5 rounded text-emerald-800 font-semibold">{success.paymentId}</code>.
+                {success.email && (
+                  <> License linked to: <strong className="text-slate-900 bg-emerald-100/70 px-2 py-0.5 rounded font-mono">{success.email}</strong>.</>
+                )}
+                {' '}Razorpay Payment ID: <code className="font-mono bg-emerald-100 px-1.5 py-0.5 rounded text-emerald-800 font-semibold">{success.paymentId}</code>.
               </p>
-              <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                To link Invio Plus, launch the Invio desktop application on your PC, open <strong>Settings &gt; Account</strong>, and enter your account email. If you need any assistance, reach out directly to <a href="mailto:support@timrio.com" className="text-[#7C3AED] font-semibold underline">support@timrio.com</a>.
-              </p>
+              <div className="text-xs text-slate-600 leading-relaxed mb-4 bg-white/70 p-3 rounded-lg border border-emerald-100 space-y-1">
+                <p className="font-bold text-slate-800">Quick steps to start using Invio Plus:</p>
+                <p>1. Open the Invio desktop application on your PC or Mac.</p>
+                <p>2. Open <strong>Settings &gt; Account</strong> and sign in with <strong>{success.email || 'your account email'}</strong>.</p>
+                <p>3. Your Plus features (thermal receipts, dynamic UPI QR, dual-screen POS display) will unlock immediately!</p>
+              </div>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
@@ -391,7 +451,7 @@ export function PricingPage() {
           <button
             type="button"
             disabled={payingPlan === 'plus'}
-            onClick={() => handleCheckout('plus')}
+            onClick={() => handleOpenCheckoutModal('plus')}
             className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs text-center transition-colors shadow-xs select-none cursor-pointer flex items-center justify-center gap-2"
           >
             {payingPlan === 'plus' ? (
@@ -473,6 +533,169 @@ export function PricingPage() {
         title="Start Billing for Free Today"
         subtitle="No credit card required. Install Invio on your PC or Mac and create your first invoice in minutes."
       />
+
+      {/* Checkout Modal — Collect & Associate Customer Account Email */}
+      {checkoutModalPlan && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="checkout-modal-title"
+        >
+          <div className="relative w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200/90 my-8">
+            {/* Close button */}
+            <button
+              type="button"
+              onClick={() => {
+                setCheckoutModalPlan(null);
+                setEmailInputError('');
+                setPayError('');
+              }}
+              className="absolute top-5 right-5 text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
+              aria-label="Close checkout modal"
+            >
+              ✕
+            </button>
+
+            {/* Header */}
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-[#7C3AED] px-2.5 py-0.5 rounded-full">
+                Instant License Setup
+              </span>
+              <span className="text-xs text-slate-500 font-medium">
+                Razorpay 256-Bit SSL
+              </span>
+            </div>
+
+            <h2 id="checkout-modal-title" className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+              Order Invio Plus
+            </h2>
+            <p className="text-xs text-slate-600 mt-1 mb-5">
+              Enter your email to link your license so all commercial features activate in your Invio desktop app.
+            </p>
+
+            {/* Order Summary Box */}
+            <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 mb-5">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-sm font-bold text-slate-900">
+                  Invio Plus ({billingCycle === 'yearly' ? '1 Year License' : '1 Month Access'})
+                </span>
+                <span className="text-lg font-extrabold text-[#7C3AED]">
+                  ₹{billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly}
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
+                Includes ESC/POS thermal printing, dynamic UPI QR payments, dual-screen POS projection, and WhatsApp invoices.
+              </p>
+            </div>
+
+            {/* Email Association Field */}
+            <div className="mb-4">
+              <label htmlFor="checkout-email-input" className="block text-xs font-bold text-slate-800 mb-1">
+                Your Account Email Address <span className="text-rose-500">*</span>
+              </label>
+              <p className="text-[11px] text-slate-500 mb-2 leading-relaxed">
+                Use the email address you sign in with on Invio Desktop (or intend to use). Your license will link to this address.
+              </p>
+
+              <input
+                id="checkout-email-input"
+                type="email"
+                autoComplete="email"
+                value={checkoutEmail}
+                onChange={(e) => {
+                  setCheckoutEmail(e.target.value);
+                  setEmailInputError('');
+                }}
+                placeholder="yourname@shop.com"
+                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none transition-all ${
+                  emailInputError
+                    ? 'border-rose-400 bg-rose-50/30 text-rose-900 focus:ring-2 focus:ring-rose-200'
+                    : 'border-slate-300 bg-white text-slate-900 focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100'
+                }`}
+              />
+
+              {isFromDesktop && !emailInputError && (
+                <p className="text-[11px] text-emerald-600 font-medium mt-1.5 flex items-center gap-1">
+                  <span>✓</span> Linked from your Invio desktop app
+                </p>
+              )}
+
+              {emailInputError && (
+                <p className="text-[11px] text-rose-600 font-medium mt-1.5">
+                  {emailInputError}
+                </p>
+              )}
+            </div>
+
+            {/* Optional Phone Field */}
+            <div className="mb-6">
+              <label htmlFor="checkout-phone-input" className="block text-xs font-semibold text-slate-700 mb-1">
+                Phone Number <span className="text-slate-400 font-normal">(Optional — for SMS/WhatsApp receipt)</span>
+              </label>
+              <input
+                id="checkout-phone-input"
+                type="tel"
+                autoComplete="tel"
+                value={checkoutPhone}
+                onChange={(e) => setCheckoutPhone(e.target.value)}
+                placeholder="9876543210"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 text-sm outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
+              />
+            </div>
+
+            {/* Error Notice */}
+            {payError && (
+              <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 leading-snug">
+                {payError}
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="space-y-2.5">
+              <button
+                type="button"
+                disabled={payingPlan === checkoutModalPlan}
+                onClick={() => handleStartPayment(checkoutModalPlan)}
+                className="w-full py-3 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-bold text-xs uppercase tracking-wider text-center transition-all shadow-xs hover:shadow-sm cursor-pointer flex items-center justify-center gap-2"
+              >
+                {payingPlan === checkoutModalPlan ? (
+                  <>
+                    <span className="size-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Opening Secure Payment...</span>
+                  </>
+                ) : (
+                  <span>
+                    Proceed to Payment • ₹{billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly}
+                  </span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setCheckoutModalPlan(null);
+                  setEmailInputError('');
+                  setPayError('');
+                }}
+                className="w-full py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer text-center"
+              >
+                Cancel
+              </button>
+            </div>
+
+            <div className="mt-5 pt-4 border-t border-slate-100 text-center">
+              <p className="text-[10px] text-slate-400 flex items-center justify-center gap-2">
+                <span>🔒 256-Bit SSL</span>
+                <span>•</span>
+                <span>UPI, Cards, Netbanking</span>
+                <span>•</span>
+                <span>Instant License Activation</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </PageContainer>
   );
 }

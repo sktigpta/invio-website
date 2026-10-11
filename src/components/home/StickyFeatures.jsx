@@ -51,18 +51,36 @@ export function StickyFeatures() {
                 return (
                   <div
                     key={feature.title}
-                    className="group relative p-6 rounded-squircle bg-white/95 backdrop-blur-xs border border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-900/5 transition-all duration-300 flex flex-col justify-start h-[220px] overflow-hidden cursor-default shadow-xs"
+                    className="group relative p-6 rounded-squircle bg-white border border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-300 flex flex-col justify-between min-h-[240px] sm:h-[250px] overflow-hidden cursor-default shadow-xs"
                   >
-                    <div className="relative z-10 flex flex-col h-full">
-                      <div className="size-11 rounded-squircle-sm bg-purple-50 flex items-center justify-center mb-3.5 text-[#7C3AED] group-hover:bg-[#7C3AED] group-hover:text-white group-hover:scale-105 transition-all duration-200 shrink-0">
+                    {/* Feature Background Image */}
+                    {feature.imageUrl && (
+                      <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden" aria-hidden="true">
+                        <img
+                          src={feature.imageUrl}
+                          alt=""
+                          loading="lazy"
+                          className="w-full h-full object-cover object-center opacity-55 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
+                      </div>
+                    )}
+
+                    <div className="relative z-10 flex flex-col justify-between h-full">
+                      {/* Top: Icon / Logo */}
+                      <div className="size-11 rounded-squircle-sm bg-purple-50/90 backdrop-blur-xs border border-purple-100 flex items-center justify-center text-[#7C3AED] group-hover:bg-[#7C3AED] group-hover:text-white group-hover:scale-105 transition-all duration-200 shrink-0 shadow-2xs">
                         <Icon className="size-5 text-[#7C3AED] group-hover:text-white transition-colors duration-200" />
                       </div>
-                      <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight mb-2 line-clamp-1 group-hover:text-[#7C3AED] transition-colors">
-                        {feature.title}
-                      </h3>
-                      <p className="text-xs text-slate-600 leading-relaxed font-normal line-clamp-4">
-                        {feature.description}
-                      </p>
+
+                      {/* Bottom: Title & Description Text */}
+                      <div className="pt-4">
+                        <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight mb-1.5 line-clamp-1 group-hover:text-[#7C3AED] transition-colors">
+                          {feature.title}
+                        </h3>
+                        <p className="text-xs text-slate-600 leading-relaxed font-normal line-clamp-3">
+                          {feature.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 );

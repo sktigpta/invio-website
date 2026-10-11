@@ -299,7 +299,7 @@ export function applySEO(pageKey, overrides = {}) {
         offers: {
           '@type': 'Offer',
           price: '0',
-          priceCurrency: 'USD',
+          priceCurrency: 'INR',
           availability: 'https://schema.org/InStock'
         },
         author: {

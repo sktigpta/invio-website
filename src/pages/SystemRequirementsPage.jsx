@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
-import { WindowsIcon, AppleIcon } from '../components/Icons';
+import { WindowsIcon, AppleIcon, LinuxIcon } from '../components/Icons';
 import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function SystemRequirementsPage() {
@@ -19,7 +19,7 @@ export function SystemRequirementsPage() {
       title="Invio Desktop System Requirements"
       subtitle="Review the minimum and recommended hardware and operating system specifications to ensure smooth, high-speed performance."
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-8">
         {/* Windows Card */}
         <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
           <div className="flex items-center gap-2 mb-3">
@@ -61,6 +61,28 @@ export function SystemRequirementsPage() {
             className="text-xs font-semibold text-[#7C3AED] hover:underline cursor-pointer"
           >
             Download for macOS (.dmg) →
+          </button>
+        </div>
+
+        {/* Linux Card */}
+        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
+          <div className="flex items-center gap-2 mb-3">
+            <LinuxIcon className="size-5 text-amber-600" />
+            <h2 className="text-base sm:text-lg font-bold text-slate-900">Linux PC</h2>
+          </div>
+          <div className="space-y-2 text-xs text-slate-600 leading-relaxed mb-4">
+            <p><strong>Operating System:</strong> Ubuntu 20.04+, Debian 11+, Fedora 36+, or Arch Linux (64-bit).</p>
+            <p><strong>Package Formats:</strong> Universal AppImage &amp; native Debian package (.deb).</p>
+            <p><strong>Memory (RAM):</strong> 2 GB minimum (4 GB recommended).</p>
+            <p><strong>Disk Storage:</strong> 350 MB available disk space for application and local SQLite database.</p>
+            <p><strong>Display Resolution:</strong> 1024 × 768 minimum.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => openDownloadModal('linux')}
+            className="text-xs font-semibold text-[#7C3AED] hover:underline cursor-pointer"
+          >
+            Download for Linux (.AppImage) →
           </button>
         </div>
       </div>
