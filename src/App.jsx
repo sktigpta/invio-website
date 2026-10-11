@@ -7,6 +7,7 @@ import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
 import { FeaturesPage } from './pages/FeaturesPage';
 import { PricingPage } from './pages/PricingPage';
+import { DownloadPage } from './pages/DownloadPage';
 import { ChangelogPage } from './pages/ChangelogPage';
 import { SystemRequirementsPage } from './pages/SystemRequirementsPage';
 import { InstallationGuidePage } from './pages/InstallationGuidePage';
@@ -41,7 +42,7 @@ export function App() {
             <Route path="/product-overview" element={<Navigate to="/features" replace />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/subscription" element={<Navigate to="/pricing" replace />} />
-            <Route path="/download" element={<Navigate to="/changelog" replace />} />
+            <Route path="/download" element={<DownloadPage />} />
             <Route path="/changelog" element={<ChangelogPage />} />
             <Route path="/version" element={<Navigate to="/changelog" replace />} />
             <Route path="/releases" element={<Navigate to="/changelog" replace />} />
