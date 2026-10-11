@@ -327,8 +327,8 @@ export function CheckoutPage() {
   // 2. Full Width, Two-Section Layout
   return (
     <div className="w-full min-h-[calc(100vh-64px)] lg:h-[calc(100vh-64px)] flex flex-col lg:flex-row bg-white lg:overflow-hidden">
-      {/* Left Section: Image (Full width & height, pinned) */}
-      <div className="w-full lg:w-1/2 bg-slate-950 lg:h-full min-h-[350px] flex items-center justify-center overflow-hidden relative group shrink-0">
+      {/* Left Section: Image (More width: 60%, full height, pinned) */}
+      <div className="w-full lg:w-[60%] bg-slate-950 lg:h-full min-h-[350px] flex items-center justify-center overflow-hidden relative group shrink-0">
         <img
           src={activeFeature.imageUrl}
           alt={activeFeature.imageAlt}
@@ -346,8 +346,8 @@ export function CheckoutPage() {
         </button>
       </div>
 
-      {/* Right Section: Form with independent smooth overflow scroll */}
-      <div className="w-full lg:w-1/2 bg-white p-6 sm:p-10 lg:p-14 lg:h-full lg:overflow-y-auto flex flex-col">
+      {/* Right Section: Form (40% width with independent smooth overflow scroll) */}
+      <div className="w-full lg:w-[40%] bg-white p-6 sm:p-8 lg:p-12 lg:h-full lg:overflow-y-auto flex flex-col">
         <div className="w-full max-w-md mx-auto my-auto py-6 sm:py-8">
           {currentUser ? (
             /* State: Already Signed In */
