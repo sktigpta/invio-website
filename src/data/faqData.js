@@ -12,7 +12,7 @@ export const FAQ_ITEMS = [
   {
     id: 'free-forever',
     question: 'Is the free invoice generator plan time-limited or restricted?',
-    answer: 'No. The free core version of Invio has no trial period, no expiration date, and no limit on the number of invoices you can generate. It is free forever for desktop billing.',
+    answer: 'No. The free core version of Invio has no trial period, no expiration date, and no limit on the number of offline invoices you can generate on your computer. It is free forever for local desktop billing.',
   },
   {
     id: 'printers',

@@ -19,7 +19,7 @@ const DEFAULT_PLANS_STATE = {
     ctaText: 'Download Free App',
     ctaLink: '/download',
     features: [
-      'Unlimited invoices, estimates, and receipts',
+      'Unlimited offline invoices, estimates, and receipts',
       'Unlimited customer contacts & stock items',
       'Automated GST tax engine (CGST / SGST / IGST)',
       'Standard A4 & A5 PDF invoice generation',
