@@ -53,6 +53,7 @@ export function CheckoutPage() {
   const [authTab, setAuthTab] = useState('login'); // 'login' (default) | 'register'
 
   // Form fields
+  const [fullName, setFullName] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [email, setEmail] = useState(paramEmail);
   const [password, setPassword] = useState('');
@@ -91,6 +92,7 @@ export function CheckoutPage() {
     setPayError('');
 
     const targetEmail = (user?.email || email).trim().toLowerCase();
+    const effectiveName = user?.fullName || fullName.trim();
     const effectiveBiz = user?.businessName || businessName.trim();
 
     try {
@@ -126,6 +128,7 @@ export function CheckoutPage() {
             planId: 'plus',
             validity: billingCycle,
             businessName: effectiveBiz,
+            firstName: effectiveName || undefined,
             password: password || undefined,
           });
 
@@ -193,7 +196,13 @@ export function CheckoutPage() {
     }
 
     if (authTab === 'register') {
+      const cleanName = fullName.trim();
       const cleanBiz = businessName.trim();
+
+      if (!cleanName) {
+        setAuthError('Please enter your full name.');
+        return;
+      }
 
       if (!cleanBiz) {
         setAuthError('Please enter your business or shop name.');
@@ -221,6 +230,7 @@ export function CheckoutPage() {
 
       const userObj = {
         email: cleanEmail,
+        fullName: cleanName,
         businessName: cleanBiz,
       };
       setStoredAuth(null, userObj);
@@ -413,19 +423,35 @@ export function CheckoutPage() {
               {/* Form */}
               <form onSubmit={handleEmailAuthSubmit} className="space-y-3.5">
                 {authTab === 'register' && (
-                  <div>
-                    <label className="block text-xs font-medium text-slate-700 mb-1">
-                      Business / Shop Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={businessName}
-                      onChange={(e) => setBusinessName(e.target.value)}
-                      placeholder="Business or shop name"
-                      className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
-                    />
-                  </div>
+                  <>
+                    <div>
+                      <label className="block text-xs font-medium text-slate-700 mb-1">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="Your full name"
+                        className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-slate-700 mb-1">
+                        Business / Shop Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={businessName}
+                        onChange={(e) => setBusinessName(e.target.value)}
+                        placeholder="Business or shop name"
+                        className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                      />
+                    </div>
+                  </>
                 )}
 
                 <div>
