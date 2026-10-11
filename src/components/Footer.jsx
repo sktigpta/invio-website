@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useDownloadModal } from '../context/DownloadModalContext';
+import { MailIcon } from './Icons';
 
 export function Footer() {
   const { openDownloadModal } = useDownloadModal();
@@ -14,9 +15,23 @@ export function Footer() {
               <img src="/appLogo.png" alt="Invio Logo" className="size-5 object-contain" width="20" height="20" />
               <span className="font-bold text-slate-900 text-sm">Invio</span>
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
+            <p className="text-xs text-slate-500 leading-relaxed max-w-sm mb-3">
               Fast, privacy-first desktop invoicing and inventory management software for Windows and macOS by Timrio.
             </p>
+
+            {/* Direct Contact Email */}
+            <div className="space-y-1 text-xs">
+              <a
+                href="mailto:support@timrio.com"
+                className="inline-flex items-center gap-1.5 text-slate-600 hover:text-[#7C3AED] transition-colors font-medium"
+              >
+                <MailIcon className="size-3.5 text-[#7C3AED] shrink-0" />
+                <span>support@timrio.com</span>
+              </a>
+              <p className="text-[11px] text-slate-400">
+                Mon – Fri • Response within 24h
+              </p>
+            </div>
           </div>
 
           {/* Product Links */}
@@ -50,8 +65,8 @@ export function Footer() {
             <ul className="space-y-1.5 text-xs">
               <li><Link to="/docs/installation" className="hover:text-[#7C3AED] transition-colors">Install Guide</Link></li>
               <li><Link to="/faq" className="hover:text-[#7C3AED] transition-colors">FAQ</Link></li>
-              <li><Link to="/support" className="hover:text-[#7C3AED] transition-colors">Support</Link></li>
-              <li><Link to="/contact" className="hover:text-[#7C3AED] transition-colors">Contact</Link></li>
+              <li><Link to="/support" className="hover:text-[#7C3AED] transition-colors">Support Center</Link></li>
+              <li><Link to="/contact" className="hover:text-[#7C3AED] transition-colors font-medium text-slate-800">Contact Us</Link></li>
               <li><Link to="/blog" className="hover:text-[#7C3AED] transition-colors">Blog</Link></li>
             </ul>
           </div>
@@ -73,6 +88,14 @@ export function Footer() {
         <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
           <p>© {new Date().getFullYear()} Timrio. All rights reserved. Invio is a trademark of Timrio.</p>
           <div className="flex items-center gap-4">
+            <a
+              href="mailto:support@timrio.com"
+              className="inline-flex items-center gap-1.5 hover:text-[#7C3AED] transition-colors font-medium text-slate-600"
+            >
+              <MailIcon className="size-3.5 text-[#7C3AED]" />
+              support@timrio.com
+            </a>
+            <span className="text-slate-300">•</span>
             <a href="https://timrio.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#7C3AED] transition-colors">
               timrio.com
             </a>
