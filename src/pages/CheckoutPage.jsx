@@ -53,8 +53,6 @@ export function CheckoutPage() {
   const [authTab, setAuthTab] = useState('login'); // 'login' (default) | 'register'
 
   // Form fields
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [email, setEmail] = useState(paramEmail);
   const [password, setPassword] = useState('');
@@ -94,8 +92,6 @@ export function CheckoutPage() {
 
     const targetEmail = (user?.email || email).trim().toLowerCase();
     const effectiveBiz = user?.businessName || businessName.trim();
-    const effectiveFirst = user?.firstName || firstName.trim();
-    const effectiveLast = user?.lastName || lastName.trim();
 
     try {
       const order = await createSubscriptionOrder('plus', billingCycle);
@@ -130,8 +126,6 @@ export function CheckoutPage() {
             planId: 'plus',
             validity: billingCycle,
             businessName: effectiveBiz,
-            firstName: effectiveFirst,
-            lastName: effectiveLast,
             password: password || undefined,
           });
 
@@ -199,20 +193,10 @@ export function CheckoutPage() {
     }
 
     if (authTab === 'register') {
-      const cleanFirst = firstName.trim();
-      const cleanLast = lastName.trim();
       const cleanBiz = businessName.trim();
 
-      if (!cleanFirst) {
-        setAuthError('Please enter your first name.');
-        return;
-      }
-      if (!cleanLast) {
-        setAuthError('Please enter your last name.');
-        return;
-      }
       if (!cleanBiz) {
-        setAuthError('Please enter your shop or business name.');
+        setAuthError('Please enter your business or shop name.');
         return;
       }
 
@@ -238,8 +222,6 @@ export function CheckoutPage() {
       const userObj = {
         email: cleanEmail,
         businessName: cleanBiz,
-        firstName: cleanFirst,
-        lastName: cleanLast,
       };
       setStoredAuth(null, userObj);
       setCurrentUser(userObj);
@@ -369,33 +351,18 @@ export function CheckoutPage() {
                 </button>
               </div>
 
-              {/* Billing Cycle Selector */}
-              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 mb-5">
-                <span className="text-xs font-bold text-slate-700">Billing Cycle</span>
-                <div className="inline-flex items-center p-0.5 rounded-full bg-slate-200/70 text-[11px] font-semibold">
-                  <button
-                    type="button"
-                    onClick={() => setBillingCycle('yearly')}
-                    className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
-                      billingCycle === 'yearly'
-                        ? 'bg-[#7C3AED] text-white shadow-2xs font-bold'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    Yearly (₹{prices.yearly})
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setBillingCycle('monthly')}
-                    className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
-                      billingCycle === 'monthly'
-                        ? 'bg-[#7C3AED] text-white shadow-2xs font-bold'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    Monthly (₹{prices.monthly})
-                  </button>
+              {/* Plan Summary Badge */}
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-purple-50/70 border border-purple-100/90 mb-5">
+                <div className="flex items-center gap-2">
+                  <span className="size-2 rounded-full bg-[#7C3AED]" />
+                  <span className="text-xs font-bold text-slate-900 tracking-tight">Invio Plus License</span>
+                  <span className="text-[11px] font-semibold text-purple-700 bg-purple-100/80 px-2 py-0.5 rounded-full">
+                    {billingCycle === 'yearly' ? 'Yearly' : 'Monthly'}
+                  </span>
                 </div>
+                <span className="text-sm font-extrabold text-[#7C3AED]">
+                  ₹{currentPrice}
+                </span>
               </div>
 
               {payError && (
@@ -417,64 +384,26 @@ export function CheckoutPage() {
                   </>
                 ) : (
                   <span>
-                    Pay ₹{currentPrice} {billingCycle === 'yearly' ? '/ year' : '/ month'}
+                    Pay ₹{currentPrice}
                   </span>
                 )}
               </button>
-
-              <p className="text-center text-[11px] text-slate-400 mt-3 font-medium">
-                🔒 256-Bit SSL Secure Checkout • Powered by Razorpay
-              </p>
             </div>
           ) : (
             /* State: Not Signed In (Sign In by DEFAULT, Sign Up secondary) */
             <div>
-              {/* Plan & Cycle Summary / Selector Header */}
+              {/* Plan Summary Badge */}
               <div className="flex items-center justify-between p-3 rounded-2xl bg-purple-50/70 border border-purple-100/90 mb-5">
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="size-2 rounded-full bg-[#7C3AED]" />
-                    <span className="text-xs font-bold text-slate-900 tracking-tight">Invio Plus</span>
-                    <span className="text-[11px] font-semibold text-purple-700 bg-purple-100/80 px-2 py-0.5 rounded-full">
-                      ₹{currentPrice} {billingCycle === 'yearly' ? '/ yr' : '/ mo'}
-                    </span>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <span className="size-2 rounded-full bg-[#7C3AED]" />
+                  <span className="text-xs font-bold text-slate-900 tracking-tight">Invio Plus License</span>
+                  <span className="text-[11px] font-semibold text-purple-700 bg-purple-100/80 px-2 py-0.5 rounded-full">
+                    {billingCycle === 'yearly' ? 'Yearly' : 'Monthly'}
+                  </span>
                 </div>
-                <div className="inline-flex items-center p-0.5 rounded-full bg-white border border-slate-200/80 text-[11px] font-semibold shadow-2xs">
-                  <button
-                    type="button"
-                    onClick={() => setBillingCycle('yearly')}
-                    className={`px-2.5 py-0.5 rounded-full transition-all cursor-pointer ${
-                      billingCycle === 'yearly'
-                        ? 'bg-[#7C3AED] text-white font-bold'
-                        : 'text-slate-500 hover:text-slate-800'
-                    }`}
-                  >
-                    Yearly
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setBillingCycle('monthly')}
-                    className={`px-2.5 py-0.5 rounded-full transition-all cursor-pointer ${
-                      billingCycle === 'monthly'
-                        ? 'bg-[#7C3AED] text-white font-bold'
-                        : 'text-slate-500 hover:text-slate-800'
-                    }`}
-                  >
-                    Monthly
-                  </button>
-                </div>
-              </div>
-
-              <div className="mb-5">
-                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                  {authTab === 'login' ? 'Sign In' : 'Create Account'}
-                </h2>
-                <p className="text-xs text-slate-500 mt-1">
-                  {authTab === 'login'
-                    ? 'Sign in to complete checkout and link your license.'
-                    : 'Enter your details to create an account and unlock Invio Plus.'}
-                </p>
+                <span className="text-sm font-extrabold text-[#7C3AED]">
+                  ₹{currentPrice}
+                </span>
               </div>
 
               {/* Two-Tab Switcher: Sign In (DEFAULT) vs Sign Up */}
@@ -532,50 +461,19 @@ export function CheckoutPage() {
               {/* Form */}
               <form onSubmit={handleEmailAuthSubmit} className="space-y-3.5">
                 {authTab === 'register' && (
-                  <>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-medium text-slate-700 mb-1">
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
-                          placeholder="First name"
-                          className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-medium text-slate-700 mb-1">
-                          Last Name
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
-                          placeholder="Last name"
-                          className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
-                        Business / Shop Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={businessName}
-                        onChange={(e) => setBusinessName(e.target.value)}
-                        placeholder="Business or shop name"
-                        className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
-                      />
-                    </div>
-                  </>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-700 mb-1">
+                      Business / Shop Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={businessName}
+                      onChange={(e) => setBusinessName(e.target.value)}
+                      placeholder="Business or shop name"
+                      className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                    />
+                  </div>
                 )}
 
                 <div>
@@ -648,43 +546,6 @@ export function CheckoutPage() {
                     </span>
                   )}
                 </button>
-
-                {/* Footer Switch Prompt */}
-                <div className="pt-2 text-center text-xs text-slate-500">
-                  {authTab === 'login' ? (
-                    <span>
-                      Don't have an account yet?{' '}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setAuthTab('register');
-                          setAuthError('');
-                        }}
-                        className="text-[#7C3AED] font-semibold hover:underline cursor-pointer"
-                      >
-                        Sign Up
-                      </button>
-                    </span>
-                  ) : (
-                    <span>
-                      Already have an account?{' '}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setAuthTab('login');
-                          setAuthError('');
-                        }}
-                        className="text-[#7C3AED] font-semibold hover:underline cursor-pointer"
-                      >
-                        Sign In
-                      </button>
-                    </span>
-                  )}
-                </div>
-
-                <p className="text-center text-[10px] text-slate-400 pt-1">
-                  🔒 256-Bit SSL Secure Checkout • Razorpay Verified
-                </p>
               </form>
             </div>
           )}
