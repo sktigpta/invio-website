@@ -22,9 +22,9 @@ export function Hero() {
 
   return (
     <section className="relative w-full min-h-[80vh] flex items-center overflow-hidden bg-white border-b border-slate-100">
-      {/* Background Software Dashboard Image (Right side) with accessible semantic SEO image */}
+      {/* Background Software Dashboard Image (Full Width, Left-to-Right) */}
       <div
-        className="absolute inset-y-0 right-0 w-full md:w-[65%] lg:w-[60%] overflow-hidden pointer-events-none"
+        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
         aria-hidden="true"
       >
         <img
@@ -34,13 +34,13 @@ export function Hero() {
           height="800"
           loading="eager"
           decoding="async"
-          className="w-full h-full object-cover object-left md:object-center opacity-85 sm:opacity-95"
+          className="w-full h-full object-cover object-left md:object-left-top opacity-80 sm:opacity-90"
         />
       </div>
 
-      {/* Overlay: White on the left fading to transparent on the right */}
+      {/* Overlay: Left-to-right gradient ensuring high text contrast while showcasing dashboard across full width */}
       <div
-        className="absolute inset-0 bg-gradient-to-r from-white via-white/95 md:via-white/90 md:via-50% to-white/40 md:to-transparent z-10 pointer-events-none"
+        className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/50 md:from-white/90 md:via-white/75 md:to-white/45 z-10 pointer-events-none"
         aria-hidden="true"
       />
 
