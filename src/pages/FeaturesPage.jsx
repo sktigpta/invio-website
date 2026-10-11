@@ -60,21 +60,17 @@ export function FeaturesPage() {
                   } items-center gap-12 lg:gap-16`}
                 >
                   {/* Content Column */}
-                  <div className="flex-1 space-y-6">
-                    <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-100/70 px-3 py-1 rounded-full">
-                      {feature.category}
-                    </span>
-
+                  <div className="flex-1 space-y-5">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
                       {feature.title}
                     </h2>
 
-                    <p className="text-lg sm:text-xl text-slate-600 font-light leading-relaxed max-w-xl">
+                    <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-xl">
                       {feature.description}
                     </p>
 
                     {/* Feature Bullet Points */}
-                    <ul className="space-y-3.5 pt-2 mb-6">
+                    <ul className="space-y-3 pt-1">
                       {feature.bullets?.map((bullet, bulletIdx) => (
                         <li key={bulletIdx} className="flex items-start gap-3 text-slate-700 text-sm sm:text-base">
                           <span className="size-2 rounded-full bg-[#7C3AED] mt-2 shrink-0" />
@@ -82,27 +78,12 @@ export function FeaturesPage() {
                         </li>
                       ))}
                     </ul>
-
-                    {/* Action link */}
-                    <div className="pt-2">
-                      <Link
-                        to="/download"
-                        className="inline-flex items-center gap-2 text-[#7C3AED] font-semibold text-base sm:text-lg hover:underline transition-all group"
-                      >
-                        <span>Download Free for Desktop</span>
-                        <span className="transition-transform group-hover:translate-x-1" aria-hidden="true">
-                          →
-                        </span>
-                      </Link>
-                    </div>
                   </div>
 
-                  {/* Visual Illustration / Mockup Column (Timrio Aspect Ratio Container) */}
-                  <div className="flex-1 w-full group origin-center">
-                    <div className="w-full aspect-[4/3] rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 border border-slate-200/90 flex items-center justify-center relative overflow-hidden transition-all duration-500 shadow-sm group-hover:shadow-md">
-                      <div className="w-full h-full p-4 sm:p-6 flex items-center justify-center">
-                        <FeatureIllustration type={feature.imageType} title={feature.title} />
-                      </div>
+                  {/* Visual Illustration Column - Full Height and Width */}
+                  <div className="flex-1 w-full h-full min-h-[300px] sm:min-h-[360px] flex items-center justify-center">
+                    <div className="w-full h-full min-h-[300px] sm:min-h-[360px] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                      <FeatureIllustration type={feature.imageType} title={feature.title} />
                     </div>
                   </div>
                 </div>

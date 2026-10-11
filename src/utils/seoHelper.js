@@ -23,11 +23,11 @@ export const PAGE_METADATA = {
     schemaType: 'SoftwareApplication',
   },
   features: {
-    title: 'Features – Offline Invoicing, Thermal POS & Stock Tracking | Invio',
-    description: 'Explore Invio core capabilities: 100% offline billing, automated GST tax splits, 58mm/80mm thermal receipt printing, barcode scanner checkout, and local SQLite data privacy.',
+    title: 'Features – Free Offline Invoice Generator App & GST Billing Software | Invio',
+    description: 'Discover all Invio features: 100% offline desktop billing, automated GST tax calculations, thermal receipt printing with dynamic UPI QR codes, barcode scanner integration, and private local SQLite storage.',
     canonical: `${BASE_URL}/features`,
-    keywords: 'Invio features, offline billing features, thermal receipt printing, barcode billing, customer display, GST calculation',
-    schemaType: 'WebPage',
+    keywords: 'Invio features, invoice generator app, free invoice software, offline billing software, GST invoice software, thermal receipt printing, barcode billing software, desktop invoice app, retail POS software',
+    schemaType: 'SoftwareApplication',
   },
   pricing: {
     title: 'Pricing – Free Forever Core Plan & Plus Commercial License | Invio',
