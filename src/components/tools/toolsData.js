@@ -1,0 +1,100 @@
+export const TOOL_CATEGORIES = [
+  {
+    id: 'tax-vat',
+    name: 'Tax & VAT Calculators',
+    icon: 'PercentIcon',
+    tools: [
+      {
+        id: 'gst-calculator',
+        name: 'India GST Calculator',
+        shortDesc: 'Calculate CGST, SGST, IGST, UTGST and reverse tax for India.',
+        category: 'tax-vat',
+        region: 'India',
+        icon: 'CalculatorIcon',
+        badge: 'Popular',
+      },
+      {
+        id: 'income-tax-india',
+        name: 'Income Tax Calculator',
+        shortDesc: 'Compare New vs Old Tax Regime slabs with cess and rebates.',
+        category: 'tax-vat',
+        region: 'India (FY 25-26)',
+        icon: 'LandmarkIcon',
+        badge: 'Hot',
+      },
+      {
+        id: 'vat-uk',
+        name: 'UK VAT Calculator',
+        shortDesc: 'Calculate 20% Standard, 5% Reduced and reverse UK VAT.',
+        category: 'tax-vat',
+        region: 'United Kingdom',
+        icon: 'ReceiptIcon',
+      },
+      {
+        id: 'vat-uae',
+        name: 'UAE VAT Calculator',
+        shortDesc: 'Calculate 5% UAE Federal Tax Authority VAT and net amounts.',
+        category: 'tax-vat',
+        region: 'UAE (FTA)',
+        icon: 'CoinsIcon',
+      },
+    ],
+  },
+  {
+    id: 'payroll-salary',
+    name: 'Payroll & Salary Tools',
+    icon: 'UserCheckIcon',
+    tools: [
+      {
+        id: 'payslip-generator',
+        name: 'Free Payslip Generator',
+        shortDesc: 'Generate and print professional monthly employee salary slips.',
+        category: 'payroll-salary',
+        region: 'India / Global',
+        icon: 'FileTextIcon',
+        badge: 'Popular',
+      },
+      {
+        id: 'paycheck-calc',
+        name: 'Take-Home Paycheck Calculator',
+        shortDesc: 'Calculate gross to net take-home salary after taxes and deductions.',
+        category: 'payroll-salary',
+        region: 'Global / US / IN',
+        icon: 'CoinsIcon',
+      },
+      {
+        id: 'hra-exemption',
+        name: 'HRA Exemption Calculator',
+        shortDesc: 'Calculate Section 10(13A) House Rent Allowance tax savings.',
+        category: 'payroll-salary',
+        region: 'India (Sec 10)',
+        icon: 'PercentIcon',
+      },
+      {
+        id: 'gratuity-calc',
+        name: 'Gratuity Calculator',
+        shortDesc: 'Calculate statutory gratuity payout under Payment of Gratuity Act.',
+        category: 'payroll-salary',
+        region: 'India & UAE',
+        icon: 'AwardIcon',
+      },
+    ],
+  },
+  {
+    id: 'business-billing',
+    name: 'Business & Project Billing',
+    icon: 'BriefcaseIcon',
+    tools: [
+      {
+        id: 'project-estimate',
+        name: 'Project Cost Estimator',
+        shortDesc: 'Estimate total project budget, hourly billing & contingency buffer.',
+        category: 'business-billing',
+        region: 'Global',
+        icon: 'BriefcaseIcon',
+      },
+    ],
+  },
+];
+
+export const ALL_TOOLS = TOOL_CATEGORIES.flatMap((c) => c.tools);

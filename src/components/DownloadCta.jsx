@@ -1,0 +1,55 @@
+import { Link } from 'react-router-dom';
+import { detectDeviceOS, triggerDirectDownload } from '../utils/osDetector';
+import { AppleIcon, WindowsIcon, LinuxIcon, DownloadIcon } from './Icons';
+
+export function DownloadCta({
+  title = "Download Invio for Desktop",
+  subtitle = "Version 1.0.2 for Windows and macOS. Free forever for core billing with 100% local SQLite storage.",
+  showAllLinks = true,
+  className = ""
+}) {
+  const activeOS = detectDeviceOS();
+
+  const getOsIcon = (id, sizeClass = "size-4") => {
+    if (id === 'mac') return <AppleIcon className={sizeClass} />;
+    if (id === 'windows') return <WindowsIcon className={sizeClass} />;
+    return <LinuxIcon className={sizeClass} />;
+  };
+
+  return (
+    <section className={`my-6 p-5 sm:p-6 border border-slate-200/90 rounded-2xl bg-white shadow-2xs ${className}`}>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight mb-1">
+            {title}
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">
+            {subtitle}
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <button
+            type="button"
+            onClick={() => triggerDirectDownload(activeOS)}
+            className="h-10 px-5 bg-[#8646F4] hover:bg-[#7234de] active:scale-95 text-white text-xs font-semibold rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+          >
+            {getOsIcon(activeOS.id)}
+            <span>Download for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
+          </button>
+
+          {showAllLinks && (
+            <Link
+              to="/download"
+              className="text-xs font-semibold text-[#8646F4] hover:underline"
+            >
+              All platforms →
+            </Link>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default DownloadCta;
