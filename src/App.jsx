@@ -25,6 +25,22 @@ const SecurityPage = lazy(() => import('./pages/SecurityPage').then(m => ({ defa
 const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
 const ToolsPage = lazy(() => import('./pages/ToolsPage').then(m => ({ default: m.ToolsPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+// CRM System Components
+import { CrmAuthProvider } from './crm/context/CrmAuthContext';
+import { CrmLayout } from './crm/components/CrmLayout';
+import { CrmProtectedRoute } from './crm/components/CrmProtectedRoute';
+import { CrmLoginPage } from './crm/pages/CrmLoginPage';
+import { CrmDashboardPage } from './crm/pages/CrmDashboardPage';
+import { CrmCustomersPage } from './crm/pages/CrmCustomersPage';
+import { CrmCustomerDetailPage } from './crm/pages/CrmCustomerDetailPage';
+import { CrmDiscountsPage } from './crm/pages/CrmDiscountsPage';
+import { CrmApprovalsPage } from './crm/pages/CrmApprovalsPage';
+import { CrmCouponsPage } from './crm/pages/CrmCouponsPage';
+import { CrmTicketsPage } from './crm/pages/CrmTicketsPage';
+import { CrmTicketDetailPage } from './crm/pages/CrmTicketDetailPage';
+import { CrmPlansPage } from './crm/pages/CrmPlansPage';
+import { CrmStaffPage } from './crm/pages/CrmStaffPage';
+import { CrmAuditLogsPage } from './crm/pages/CrmAuditLogsPage';
 
 function PageFallback() {
   return (
@@ -36,70 +52,110 @@ function PageFallback() {
 
 export function App() {
   const location = useLocation();
+  const isCrmPage = location.pathname.startsWith('/crm');
   const isToolsPage = location.pathname.startsWith('/tools');
   const isDocsPage = location.pathname.startsWith('/docs') || location.pathname.startsWith('/doc');
   const isCheckoutPage = location.pathname.startsWith('/checkout');
 
   return (
     <DownloadModalProvider>
-      <div className="min-h-screen flex flex-col bg-[#f8fafc] text-slate-800">
-        <Navbar />
+      <CrmAuthProvider>
+        <div className="min-h-screen flex flex-col bg-[#f8fafc] text-slate-800">
+          {!isCrmPage && <Navbar />}
 
-        <div className={`flex-1 flex flex-col ${isToolsPage || isDocsPage ? '' : 'pt-16'}`}>
-          <ErrorBoundary>
-          <Suspense fallback={<PageFallback />}>
-            <Routes>
-              {/* Main Brand & Conversion Routes */}
-              <Route path="/" element={<HomePage />} />
-              <Route path="/features" element={<FeaturesPage />} />
-              <Route path="/products/invio" element={<Navigate to="/features" replace />} />
-              <Route path="/product" element={<Navigate to="/features" replace />} />
-              <Route path="/product-overview" element={<Navigate to="/features" replace />} />
-              <Route path="/pricing" element={<PricingPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/subscription" element={<Navigate to="/pricing" replace />} />
-              <Route path="/download" element={<DownloadPage />} />
-              <Route path="/changelog" element={<ChangelogPage />} />
-              <Route path="/version" element={<Navigate to="/changelog" replace />} />
-              <Route path="/releases" element={<Navigate to="/changelog" replace />} />
+          <div className={`flex-1 flex flex-col ${isToolsPage || isDocsPage || isCrmPage ? '' : 'pt-16'}`}>
+            <ErrorBoundary>
+            <Suspense fallback={<PageFallback />}>
+              <Routes>
+                {/* CRM Administration & Customer Management Routes */}
+                <Route path="/crm/login" element={<CrmLoginPage />} />
+                <Route
+                  path="/crm"
+                  element={
+                    <CrmProtectedRoute>
+                      <CrmLayout />
+                    </CrmProtectedRoute>
+                  }
+                >
+                  <Route index element={<CrmDashboardPage />} />
+                  <Route path="customers" element={<CrmCustomersPage />} />
+                  <Route path="customers/:id" element={<CrmCustomerDetailPage />} />
+                  <Route path="discounts" element={<CrmDiscountsPage />} />
+                  <Route path="approvals" element={<CrmApprovalsPage />} />
+                  <Route path="coupons" element={<CrmCouponsPage />} />
+                  <Route path="tickets" element={<CrmTicketsPage />} />
+                  <Route path="tickets/:id" element={<CrmTicketDetailPage />} />
+                  <Route path="plans" element={<CrmPlansPage />} />
+                  <Route
+                    path="staff"
+                    element={
+                      <CrmProtectedRoute requiredRoles={['admin', 'manager']}>
+                        <CrmStaffPage />
+                      </CrmProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="audit-logs"
+                    element={
+                      <CrmProtectedRoute requiredRoles={['admin']}>
+                        <CrmAuditLogsPage />
+                      </CrmProtectedRoute>
+                    }
+                  />
+                </Route>
 
-              {/* Documentation Dashboard (Start-to-End Guides & Requirements) */}
-              <Route path="/docs" element={<DocsPage />} />
-              <Route path="/doc" element={<DocsPage />} />
-              <Route path="/docs/:docId" element={<DocsPage />} />
-              <Route path="/doc/:docId" element={<DocsPage />} />
-              <Route path="/system-requirements" element={<Navigate to="/docs/system" replace />} />
-              <Route path="/installation-guide" element={<Navigate to="/docs/installation" replace />} />
-              <Route path="/support" element={<Navigate to="/docs/troubleshooting" replace />} />
-              <Route path="/faq" element={<FaqPage />} />
+                {/* Main Brand & Conversion Routes */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/features" element={<FeaturesPage />} />
+                <Route path="/products/invio" element={<Navigate to="/features" replace />} />
+                <Route path="/product" element={<Navigate to="/features" replace />} />
+                <Route path="/product-overview" element={<Navigate to="/features" replace />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/subscription" element={<Navigate to="/pricing" replace />} />
+                <Route path="/download" element={<DownloadPage />} />
+                <Route path="/changelog" element={<ChangelogPage />} />
+                <Route path="/version" element={<Navigate to="/changelog" replace />} />
+                <Route path="/releases" element={<Navigate to="/changelog" replace />} />
 
-              {/* Free Financial & Tax Tools */}
-              <Route path="/tools" element={<ToolsPage />} />
-              <Route path="/tools/:toolId" element={<ToolsPage />} />
+                {/* Documentation Dashboard (Start-to-End Guides & Requirements) */}
+                <Route path="/docs" element={<DocsPage />} />
+                <Route path="/doc" element={<DocsPage />} />
+                <Route path="/docs/:docId" element={<DocsPage />} />
+                <Route path="/doc/:docId" element={<DocsPage />} />
+                <Route path="/system-requirements" element={<Navigate to="/docs/system" replace />} />
+                <Route path="/installation-guide" element={<Navigate to="/docs/installation" replace />} />
+                <Route path="/support" element={<Navigate to="/docs/troubleshooting" replace />} />
+                <Route path="/faq" element={<FaqPage />} />
 
-              {/* Legal & Trust Routes */}
-              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-              <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
-              <Route path="/terms" element={<TermsPage />} />
-              <Route path="/terms-of-service" element={<Navigate to="/terms" replace />} />
-              <Route path="/eula" element={<EulaPage />} />
-              <Route path="/cookie-policy" element={<CookiePolicyPage />} />
-              <Route path="/security" element={<SecurityPage />} />
-              <Route path="/contact" element={<ContactPage />} />
+                {/* Free Financial & Tax Tools */}
+                <Route path="/tools" element={<ToolsPage />} />
+                <Route path="/tools/:toolId" element={<ToolsPage />} />
 
-              {/* Fallback & 404 */}
-              <Route path="/404" element={<NotFoundPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </Suspense>
-          </ErrorBoundary>
+                {/* Legal & Trust Routes */}
+                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+                <Route path="/terms" element={<TermsPage />} />
+                <Route path="/terms-of-service" element={<Navigate to="/terms" replace />} />
+                <Route path="/eula" element={<EulaPage />} />
+                <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+                <Route path="/security" element={<SecurityPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+
+                {/* Fallback & 404 */}
+                <Route path="/404" element={<NotFoundPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </Suspense>
+            </ErrorBoundary>
+          </div>
+
+          {!isToolsPage && !isDocsPage && !isCheckoutPage && !isCrmPage && <Footer />}
+
+          {/* Global Multi-Platform Download Modal */}
+          <DownloadModal />
         </div>
-
-        {!isToolsPage && !isDocsPage && !isCheckoutPage && <Footer />}
-
-        {/* Global Multi-Platform Download Modal */}
-        <DownloadModal />
-      </div>
+      </CrmAuthProvider>
     </DownloadModalProvider>
   );
 }
