@@ -16,7 +16,7 @@ export const SHARED_PRODUCT_SPECS = {
   productType: 'Software > Invoicing Software > Desktop Billing App',
   condition: 'new',
   identifierExists: 'no',
-  imageLink: 'https://invio.timrio.com/screenshots/dashboard.png',
+  imageLink: 'https://invio.timrio.com/screenshots/hero.webp',
   logoLink: 'https://invio.timrio.com/appLogo.png',
   ogImageLink: 'https://invio.timrio.com/og-image.jpg',
   targetAudience: 'Freelancers, retail shopkeepers, small businesses, and independent professionals.',

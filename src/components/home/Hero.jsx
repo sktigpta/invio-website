@@ -36,9 +36,9 @@ export function Hero() {
           srcLow="/screenshots/hero-360p.webp"
           srcHigh="/screenshots/hero.webp"
           alt="Invio Free Offline Invoice Generator App & GST Billing Software Hero Screenshot"
-          width={1640}
-          height={856}
-          aspectRatio="1640 / 856"
+          width={1920}
+          height={1301}
+          aspectRatio="1920 / 1301"
           priority={true}
           className="h-full w-auto max-w-none flex justify-end"
           imgClassName="h-full w-auto max-w-none object-contain object-right"
