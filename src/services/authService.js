@@ -115,6 +115,7 @@ export async function registerUser({ email, password, businessName }) {
         success: true,
         requiresVerification: Boolean(data.requiresVerification),
         message: data.message,
+        email: data.email || email.trim().toLowerCase(),
       };
     }
     return {

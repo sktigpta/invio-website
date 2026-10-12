@@ -360,33 +360,46 @@ export function CheckoutPage() {
         return;
       }
 
-      const logRes = await loginUser(cleanEmail, password);
-      const userObj = (logRes.success && logRes.user) ? logRes.user : {
-        email: cleanEmail,
-        fullName: cleanName,
-        businessName: cleanBiz,
-      };
-      if (logRes.success && logRes.token) {
-        setStoredAuth(logRes.token, logRes.user);
-      } else {
-        setStoredAuth(null, userObj);
-      }
-      setCurrentUser(userObj);
-      setAuthLoading(false);
-      executePayment(userObj);
-    } else {
-      // Login flow
-      setAuthLoading(true);
-      const logRes = await loginUser(cleanEmail, password);
-
-      if (!logRes.success) {
+      if (regRes.requiresVerification) {
+        setPendingVerificationEmail(regRes.email || cleanEmail);
+        setVerificationCode('');
+        setResendCooldownSeconds(60);
         setAuthLoading(false);
-        setAuthError(logRes.error || 'Invalid email or password.');
+        setAuthError('');
         return;
       }
 
-      setCurrentUser(logRes.user);
+      // If already verified (e.g. edge case), sign in directly
+      const logRes = await loginUser(cleanEmail, password);
       setAuthLoading(false);
+      if (logRes.success && logRes.user) {
+        setCurrentUser(logRes.user);
+        executePayment(logRes.user);
+      } else {
+        setAuthError(logRes.error || 'Account created. Please sign in.');
+        setAuthTab('login');
+      }
+    } else {
+      // Login flow: already verified users sign in directly with password (NO OTP)
+      // If NOT verified, login rejects with requiresVerification and will not proceed!
+      setAuthLoading(true);
+      const logRes = await loginUser(cleanEmail, password);
+      setAuthLoading(false);
+
+      if (!logRes.success) {
+        if (logRes.requiresVerification) {
+          setPendingVerificationEmail(cleanEmail);
+          setVerificationCode('');
+          setResendCooldownSeconds(0);
+          setAuthError('Your email is not verified yet. Enter the 4-digit code sent to your email to verify.');
+        } else {
+          setAuthError(logRes.error || 'Invalid email or password.');
+        }
+        return;
+      }
+
+      // User is verified: proceed immediately to membership check & payment
+      setCurrentUser(logRes.user);
       setCheckingMembership(true);
       const mem = await checkMembership(logRes.user, logRes.token);
       setCheckingMembership(false);
