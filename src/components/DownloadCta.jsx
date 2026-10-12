@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { detectDeviceOS } from '../utils/osDetector';
 import { useDownloadModal } from '../context/DownloadModalContext';
-import { AppleIcon, WindowsIcon, LinuxIcon } from './Icons';
+import { AppleIcon, WindowsIcon, LinuxIcon, DownloadIcon } from './Icons';
 
 export function DownloadCta({
   title = "Download Invio for Desktop",
@@ -15,7 +15,8 @@ export function DownloadCta({
   const getOsIcon = (id, sizeClass = "size-4") => {
     if (id === 'mac') return <AppleIcon className={sizeClass} />;
     if (id === 'windows') return <WindowsIcon className={sizeClass} />;
-    return <LinuxIcon className={sizeClass} />;
+    if (id === 'linux') return <LinuxIcon className={sizeClass} />;
+    return <DownloadIcon className={sizeClass} />;
   };
 
   return (

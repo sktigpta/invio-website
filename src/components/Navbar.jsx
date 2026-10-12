@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AppleIcon, WindowsIcon, LinuxIcon } from './Icons';
+import { AppleIcon, WindowsIcon, LinuxIcon, DownloadIcon } from './Icons';
 import { detectDeviceOS } from '../utils/osDetector';
 import { useDownloadModal } from '../context/DownloadModalContext';
 
@@ -12,13 +12,13 @@ export function Navbar() {
   const { openDownloadModal } = useDownloadModal();
   const activeOS = detectDeviceOS();
 
-  const isToolsPage = location.pathname.startsWith('/tools');
+  const isFullWidthPage = location.pathname.startsWith('/tools') || location.pathname.startsWith('/docs') || location.pathname.startsWith('/doc');
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
-      if (isToolsPage || location.pathname !== '/') {
+      if (isFullWidthPage || location.pathname !== '/') {
         setHidden(false);
         setScrolled(false);
         return;
@@ -39,7 +39,7 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [location.pathname, isToolsPage]);
+  }, [location.pathname, isFullWidthPage]);
 
   // Lock scroll on mobile menu open
   useEffect(() => {
@@ -64,7 +64,8 @@ export function Navbar() {
   const getOsIcon = (id, sizeClass = 'size-3.5') => {
     if (id === 'mac') return <AppleIcon className={sizeClass} />;
     if (id === 'windows') return <WindowsIcon className={sizeClass} />;
-    return <LinuxIcon className={sizeClass} />;
+    if (id === 'linux') return <LinuxIcon className={sizeClass} />;
+    return <DownloadIcon className={sizeClass} />;
   };
 
   const handleDownload = () => {
@@ -87,19 +88,19 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 h-16 z-50 transition-transform duration-300 ease-out flex items-center ${
-        hidden && !isToolsPage ? '-translate-y-full' : 'translate-y-0'
+        hidden && !isFullWidthPage ? '-translate-y-full' : 'translate-y-0'
       } ${
-        isToolsPage
+        isFullWidthPage
           ? 'bg-white border-b border-slate-200 shadow-2xs'
           : scrolled
           ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs'
           : 'bg-white/90 backdrop-blur-sm border-b border-slate-100'
       }`}
     >
-      {/* Container: 100% width on Tools page, max-w-[1200px] on all other pages */}
+      {/* Container: 100% width on Tools & Docs page, max-w-[1200px] on all other pages */}
       <div
         className={`w-full h-full flex items-center justify-between ${
-          isToolsPage ? 'px-4 sm:px-6' : 'max-w-[1200px] mx-auto px-6 sm:px-8'
+          isFullWidthPage ? 'px-4 sm:px-6' : 'max-w-[1200px] mx-auto px-6 sm:px-8'
         }`}
       >
         {/* Brand Logo & Name */}

@@ -1,4 +1,5 @@
 import { API_BASE_URL } from '../utils/osDetector';
+import { getStoredToken } from './authService';
 
 const RAZORPAY_CHECKOUT_SRC = 'https://checkout.razorpay.com/v1/checkout.js';
 
@@ -111,13 +112,18 @@ export async function verifyPayment({
 }) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 8000);
+  const token = getStoredToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
   try {
     const response = await fetch(`${apiBase()}/api/payment/verify`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+      headers,
       body: JSON.stringify({
         razorpay_order_id: orderId,
         razorpay_payment_id: paymentId,

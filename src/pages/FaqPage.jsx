@@ -17,12 +17,13 @@ export function FaqPage() {
       badge="Support & Answers"
       title="Frequently Asked Questions (FAQ)"
       subtitle="Everything you need to know about Invio desktop invoicing software, offline local SQLite storage, thermal printing, and GST compliance."
+      center={true}
     >
-      <div className="my-6">
+      <div className="my-6 max-w-3xl mx-auto">
         <FaqAccordion items={FAQ_ITEMS} />
       </div>
 
-      <div className="my-8 p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
+      <div className="my-8 max-w-3xl mx-auto p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
         <div>
           <h2 className="text-sm sm:text-base font-bold text-slate-900 mb-1">Still have questions?</h2>
           <p className="text-xs text-slate-600 max-w-lg leading-relaxed">
@@ -45,10 +46,12 @@ export function FaqPage() {
         </div>
       </div>
 
-      <DownloadCta
-        title="Ready to Try Invio?"
-        subtitle="Version 1.0.2 is free forever for core desktop billing. Zero cloud setup required."
-      />
+      <div className="max-w-3xl mx-auto">
+        <DownloadCta
+          title="Ready to Try Invio?"
+          subtitle="Version 1.0.2 is free forever for core desktop billing. Zero cloud setup required."
+        />
+      </div>
     </PageContainer>
   );
 }

@@ -6,9 +6,6 @@ import { useDownloadModal } from '../context/DownloadModalContext';
 import { PLATFORM_DOWNLOADS } from '../utils/osDetector';
 import {
   DownloadIcon,
-  AppleIcon,
-  WindowsIcon,
-  LinuxIcon,
   ExternalLinkIcon,
 } from '../components/Icons';
 

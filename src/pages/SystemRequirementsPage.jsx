@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
-import { PageContainer } from '../components/PageContainer';
-import { WindowsIcon, AppleIcon, LinuxIcon } from '../components/Icons';
+import { A4DocLayout } from '../components/A4DocLayout';
 import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function SystemRequirementsPage() {
@@ -14,98 +12,142 @@ export function SystemRequirementsPage() {
   }, []);
 
   return (
-    <PageContainer
-      badge="Compatibility"
-      title="Invio Desktop System Requirements"
-      subtitle="Review the minimum and recommended hardware and operating system specifications to ensure smooth, high-speed performance."
+    <A4DocLayout
+      title="System &amp; Hardware Requirements"
+      subtitle="Invio Desktop Software • Compatibility Specifications • Published by Timrio"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-8">
-        {/* Windows Card */}
-        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <div className="flex items-center gap-2 mb-3">
-            <WindowsIcon className="size-5 text-[#0078D7]" />
-            <h2 className="text-base sm:text-lg font-bold text-slate-900">Windows PC</h2>
-          </div>
-          <div className="space-y-2 text-xs text-slate-600 leading-relaxed mb-4">
-            <p><strong>Operating System:</strong> Windows 10 (version 1809 or higher) or Windows 11 (64-bit).</p>
-            <p><strong>Processor:</strong> 1.6 GHz Intel, AMD, or ARM64 processor (64-bit architecture).</p>
-            <p><strong>Memory (RAM):</strong> 2 GB minimum (4 GB or more recommended for high-volume retail).</p>
-            <p><strong>Disk Storage:</strong> 350 MB available disk space for application and local SQLite database.</p>
-            <p><strong>Display Resolution:</strong> 1024 × 768 minimum (1920 × 1080 recommended).</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => openDownloadModal('windows')}
-            className="text-xs font-semibold text-[#7C3AED] hover:underline cursor-pointer"
-          >
-            Download for Windows (.exe) →
-          </button>
-        </div>
+      <p>
+        Review the minimum and recommended hardware and operating system specifications to ensure smooth, high-speed performance for offline billing, thermal receipt printing, and barcode scanning.
+      </p>
 
-        {/* macOS Card */}
-        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <div className="flex items-center gap-2 mb-3">
-            <AppleIcon className="size-5 text-slate-800" />
-            <h2 className="text-base sm:text-lg font-bold text-slate-900">Apple Mac</h2>
-          </div>
-          <div className="space-y-2 text-xs text-slate-600 leading-relaxed mb-4">
-            <p><strong>Operating System:</strong> macOS 11.0 (Big Sur), macOS 12, 13, 14, or macOS 15 (Sequoia).</p>
-            <p><strong>Processor:</strong> Apple Silicon (M1, M2, M3, M4) or Intel 64-bit processor.</p>
-            <p><strong>Memory (RAM):</strong> 2 GB minimum (4 GB unified memory recommended).</p>
-            <p><strong>Disk Storage:</strong> 400 MB available disk space for installation and invoice data.</p>
-            <p><strong>Display Resolution:</strong> Any Retina or standard display.</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => openDownloadModal('mac')}
-            className="text-xs font-semibold text-[#7C3AED] hover:underline cursor-pointer"
-          >
-            Download for macOS (.dmg) →
-          </button>
-        </div>
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+        1. Operating System &amp; Hardware Specifications
+      </h2>
 
-        {/* Linux Card */}
-        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <div className="flex items-center gap-2 mb-3">
-            <LinuxIcon className="size-5 text-amber-600" />
-            <h2 className="text-base sm:text-lg font-bold text-slate-900">Linux PC</h2>
-          </div>
-          <div className="space-y-2 text-xs text-slate-600 leading-relaxed mb-4">
-            <p><strong>Operating System:</strong> Ubuntu 20.04+, Debian 11+, Fedora 36+, or Arch Linux (64-bit).</p>
-            <p><strong>Package Formats:</strong> Universal AppImage &amp; native Debian package (.deb).</p>
-            <p><strong>Memory (RAM):</strong> 2 GB minimum (4 GB recommended).</p>
-            <p><strong>Disk Storage:</strong> 350 MB available disk space for application and local SQLite database.</p>
-            <p><strong>Display Resolution:</strong> 1024 × 768 minimum.</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => openDownloadModal('linux')}
-            className="text-xs font-semibold text-[#7C3AED] hover:underline cursor-pointer"
-          >
-            Download for Linux (.AppImage) →
-          </button>
-        </div>
+      <div className="overflow-x-auto my-3 border border-slate-200 rounded">
+        <table className="w-full text-left text-xs border-collapse">
+          <thead className="bg-slate-50 text-slate-900 font-semibold border-b border-slate-200">
+            <tr>
+              <th className="py-2 px-3">Operating System</th>
+              <th className="py-2 px-3">Supported Versions</th>
+              <th className="py-2 px-3">Minimum RAM</th>
+              <th className="py-2 px-3">Recommended</th>
+              <th className="py-2 px-3">Disk Space</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td className="py-2 px-3 font-medium text-slate-900">Windows PC</td>
+              <td className="py-2 px-3">Windows 10 (1809+) &amp; Windows 11 (64-bit)</td>
+              <td className="py-2 px-3">2 GB</td>
+              <td className="py-2 px-3">4 GB or higher</td>
+              <td className="py-2 px-3">350 MB free</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-3 font-medium text-slate-900">Apple Mac</td>
+              <td className="py-2 px-3">macOS 11 (Big Sur) through macOS 15 (Sequoia)</td>
+              <td className="py-2 px-3">2 GB</td>
+              <td className="py-2 px-3">4 GB unified memory</td>
+              <td className="py-2 px-3">400 MB free</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-3 font-medium text-slate-900">Linux Desktop</td>
+              <td className="py-2 px-3">Ubuntu 20.04+, Debian 11+, Fedora, Arch</td>
+              <td className="py-2 px-3">2 GB</td>
+              <td className="py-2 px-3">4 GB or higher</td>
+              <td className="py-2 px-3">350 MB free</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      {/* Hardware & Peripherals */}
-      <section className="my-8 p-5 rounded-squircle border border-slate-200/90 bg-white">
-        <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3">Hardware &amp; Peripheral Compatibility</h2>
-        <div className="space-y-3 text-xs text-slate-600 leading-relaxed">
-          <p>
-            <strong>Receipt Printers:</strong> Compatible with 58mm (2-inch) and 80mm (3-inch) ESC/POS thermal printers connected via USB, Network Ethernet, or Virtual COM. Works with Epson, TVS, Citizen, NGX, Everycom, and generic POS printers.
-          </p>
-          <p>
-            <strong>Barcode Scanners:</strong> Compatible with standard 1D/2D laser and CCD barcode scanners operating in USB Keyboard Emulation (HID) mode. No proprietary drivers needed.
-          </p>
-          <p>
-            <strong>Customer POS Display:</strong> Supports any secondary monitor connected via HDMI, DisplayPort, VGA, or USB-C configured in Extended Desktop mode.
-          </p>
-          <p>
-            <strong>Offline Operation:</strong> Invio operates completely without internet connectivity. Internet access is only required when checking for software updates, authenticating email accounts via Google OAuth, or sending invoices via SMTP / WhatsApp.
-          </p>
-        </div>
-      </section>
-    </PageContainer>
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+        2. Thermal Receipt Printer Compatibility (ESC/POS)
+      </h2>
+      <p>
+        Invio communicates directly with POS thermal receipt printers via native ESC/POS command sequences:
+      </p>
+
+      <div className="overflow-x-auto my-3 border border-slate-200 rounded">
+        <table className="w-full text-left text-xs border-collapse">
+          <thead className="bg-slate-50 text-slate-900 font-semibold border-b border-slate-200">
+            <tr>
+              <th className="py-2 px-3">Printer Type</th>
+              <th className="py-2 px-3">Paper Width</th>
+              <th className="py-2 px-3">Interface</th>
+              <th className="py-2 px-3">Compatible Brands</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td className="py-2 px-3 font-medium text-slate-900">Thermal Receipt</td>
+              <td className="py-2 px-3">58mm (2-inch, 384 dots)</td>
+              <td className="py-2 px-3">USB, Ethernet LAN, COM</td>
+              <td className="py-2 px-3">Epson, TVS, Citizen, NGX, Everycom, POS-58</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-3 font-medium text-slate-900">Wide Thermal POS</td>
+              <td className="py-2 px-3">80mm (3-inch, 576 dots)</td>
+              <td className="py-2 px-3">USB, Ethernet LAN, COM</td>
+              <td className="py-2 px-3">Epson TM-T82, Star Micronics, TVS RP-3200, POS-80</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-3 font-medium text-slate-900">Office Desktop</td>
+              <td className="py-2 px-3">A4 &amp; A5 Full Page</td>
+              <td className="py-2 px-3">USB, Wi-Fi, System Spooler</td>
+              <td className="py-2 px-3">Any Laser or Inkjet printer (HP, Canon, Brother, Epson)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+        3. Barcode Scanners &amp; POS Peripherals
+      </h2>
+      <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
+        <li>
+          <strong>Barcode Scanners:</strong> Compatible with all standard 1D and 2D handheld or hands-free barcode scanners configured in <strong>USB Keyboard Emulation (HID)</strong> mode. Works out-of-the-box with zero vendor drivers.
+        </li>
+        <li>
+          <strong>Cash Drawers:</strong> Connects directly to the RJ11 / RJ12 cash drawer port on any supported thermal printer. Invio triggers drawer open pulses upon cash receipt finalization.
+        </li>
+        <li>
+          <strong>Customer Display:</strong> Supports secondary customer-facing monitors connected via HDMI, DisplayPort, VGA, or USB-C configured in standard Extended Desktop mode.
+        </li>
+      </ul>
+
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+        4. Downloads &amp; Platform Installers
+      </h2>
+      <p>
+        Ready to test on your system? Download the standalone executable for your operating system:
+      </p>
+      <div className="flex flex-wrap items-center gap-4 pt-2 text-xs">
+        <button
+          type="button"
+          onClick={() => openDownloadModal('windows')}
+          className="text-[#7C3AED] underline font-semibold hover:text-[#6D28D9] cursor-pointer"
+        >
+          Download for Windows (.exe) →
+        </button>
+        <span className="text-slate-300">•</span>
+        <button
+          type="button"
+          onClick={() => openDownloadModal('mac')}
+          className="text-[#7C3AED] underline font-semibold hover:text-[#6D28D9] cursor-pointer"
+        >
+          Download for macOS (.dmg) →
+        </button>
+        <span className="text-slate-300">•</span>
+        <button
+          type="button"
+          onClick={() => openDownloadModal('linux')}
+          className="text-[#7C3AED] underline font-semibold hover:text-[#6D28D9] cursor-pointer"
+        >
+          Download for Linux (.AppImage) →
+        </button>
+      </div>
+    </A4DocLayout>
   );
 }
 

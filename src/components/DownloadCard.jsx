@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { triggerDirectDownload, detectDeviceOS } from '../utils/osDetector';
+import { triggerDirectDownload, detectDeviceOS, PLATFORM_DOWNLOADS } from '../utils/osDetector';
 import { DownloadIcon, CloseIcon, CheckIcon } from './Icons';
 
 export function DownloadCard({
@@ -10,16 +10,21 @@ export function DownloadCard({
   onClose = null,
   className = '',
 }) {
-  const [platform] = useState(() => {
-    if (initialPlatform) return initialPlatform;
-    return detectDeviceOS();
-  });
-  const [phase, setPhase] = useState('downloading'); // 'downloading' | 'thankyou'
-  const downloadTimer = useRef(null);
+  const detectedOS = detectDeviceOS();
+  const isMobile = Boolean(detectedOS?.isMobileFallback);
 
-  // Trigger download on mount, then transition to thankyou after 2.5s
+  const [platform, setPlatform] = useState(() => {
+    if (initialPlatform && !initialPlatform.isMobileFallback) return initialPlatform;
+    return detectedOS.isMobileFallback ? PLATFORM_DOWNLOADS.windows : detectedOS;
+  });
+  const [phase, setPhase] = useState(isMobile ? 'thankyou' : 'downloading'); // 'downloading' | 'thankyou'
+  const downloadTimer = useRef(null);
+  const hasAutoTriggeredRef = useRef(false);
+
+  // Trigger download on mount only for desktop; mobile visitors must explicitly choose a platform
   useEffect(() => {
-    if (autoTrigger && platform) {
+    if (autoTrigger && !isMobile && platform && !platform.isMobileFallback && !hasAutoTriggeredRef.current) {
+      hasAutoTriggeredRef.current = true;
       triggerDirectDownload(platform);
       downloadTimer.current = setTimeout(() => {
         setPhase('thankyou');
@@ -28,11 +33,21 @@ export function DownloadCard({
     return () => {
       if (downloadTimer.current) clearTimeout(downloadTimer.current);
     };
-  }, [autoTrigger, platform]);
+  }, [autoTrigger, platform, isMobile]);
 
   const handleRetryDownload = () => {
     setPhase('downloading');
     triggerDirectDownload(platform);
+    if (downloadTimer.current) clearTimeout(downloadTimer.current);
+    downloadTimer.current = setTimeout(() => {
+      setPhase('thankyou');
+    }, 2500);
+  };
+
+  const handleSelectPlatform = (selected) => {
+    setPlatform(selected);
+    setPhase('downloading');
+    triggerDirectDownload(selected);
     if (downloadTimer.current) clearTimeout(downloadTimer.current);
     downloadTimer.current = setTimeout(() => {
       setPhase('thankyou');
@@ -55,9 +70,30 @@ export function DownloadCard({
         </button>
       )}
 
+      {/* Platform Switcher Tabs */}
+      <div className="flex items-center justify-center gap-1.5 p-1 bg-slate-100/90 rounded-full mb-2 max-w-sm sm:max-w-md mx-auto">
+        {Object.values(PLATFORM_DOWNLOADS).map((item) => {
+          const isSelected = platform?.id === item.id;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => handleSelectPlatform(item)}
+              className={`flex-1 py-1 px-3 text-xs font-semibold rounded-full transition-all cursor-pointer ${
+                isSelected
+                  ? 'bg-white text-slate-900 shadow-2xs font-bold'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              {item.shortName || item.name}
+            </button>
+          );
+        })}
+      </div>
+
       {/* PHASE 1: Downloading... State */}
       {phase === 'downloading' && (
-        <div className="min-h-[340px] flex flex-col items-center justify-center text-center p-6 animate-fadeIn">
+        <div className="min-h-[300px] flex flex-col items-center justify-center text-center p-6 animate-fadeIn">
           <div className="size-16 rounded-2xl bg-purple-50 text-[#7C3AED] flex items-center justify-center mx-auto mb-5 shadow-sm animate-pulse">
             <DownloadIcon className="size-8" />
           </div>
@@ -83,12 +119,12 @@ export function DownloadCard({
 
       {/* PHASE 2: Thank You Note */}
       {phase === 'thankyou' && (
-        <div className="min-h-[340px] flex flex-col items-center justify-center text-center p-6 animate-fadeIn">
+        <div className="min-h-[300px] flex flex-col items-center justify-center text-center p-6 animate-fadeIn">
           <div className="size-16 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto mb-5">
             <CheckIcon className="size-8" />
           </div>
 
-          <h3 id="download-modal-title" className="text-xl font-bold text-slate-900 tracking-tight">
+          <h3 id="download-modal-success-title" className="text-xl font-bold text-slate-900 tracking-tight">
             Thank you for downloading!
           </h3>
           <p className="text-sm text-slate-500 mt-2 leading-relaxed max-w-xs mx-auto">

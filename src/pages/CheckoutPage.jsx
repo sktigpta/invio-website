@@ -10,6 +10,8 @@ import {
   loginUser,
   registerUser,
   triggerGoogleSignIn,
+  verifyEmail,
+  resendVerification,
 } from '../services/authService';
 import {
   fetchSubscriptionPlans,
@@ -23,6 +25,7 @@ import {
   GoogleIcon,
   EyeIcon,
   EyeOffIcon,
+  MailIcon,
 } from '../components/Icons';
 import { FEATURES_DATA } from '../data/featuresData';
 
@@ -71,6 +74,12 @@ export function CheckoutPage() {
   const [checkingMembership, setCheckingMembership] = useState(() => Boolean(getStoredUser()));
   const [allowReorder, setAllowReorder] = useState(false);
 
+  // OTP verification state
+  const [pendingVerificationEmail, setPendingVerificationEmail] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [isVerifyingCode, setIsVerifyingCode] = useState(false);
+  const [resendCooldownSeconds, setResendCooldownSeconds] = useState(0);
+
   const checkMembership = async (user, token) => {
     if (!user) return null;
     let plan = (user.plan || '').toLowerCase();
@@ -104,7 +113,7 @@ export function CheckoutPage() {
   };
 
   useEffect(() => {
-    applySEO('pricing');
+    applySEO('checkout');
     window.scrollTo(0, 0);
 
     // Fetch dynamic plan catalog from backend
@@ -186,6 +195,10 @@ export function CheckoutPage() {
           setPaying(false);
 
           if (result.success) {
+            if (result.data?.token && result.data?.user) {
+              setStoredAuth(result.data.token, result.data.user);
+              setCurrentUser(result.data.user);
+            }
             setSuccessData({
               email: targetEmail,
               businessName: effectiveBiz,
@@ -209,6 +222,58 @@ export function CheckoutPage() {
     } catch {
       setPaying(false);
       setPayError('An unexpected error occurred while starting checkout.');
+    }
+  };
+
+  useEffect(() => {
+    if (resendCooldownSeconds <= 0) return;
+    const timer = setInterval(() => {
+      setResendCooldownSeconds((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendCooldownSeconds]);
+
+  const handleVerifyCode = async (e) => {
+    e.preventDefault();
+    const cleanCode = verificationCode.trim();
+    if (!/^\d{4}$/.test(cleanCode)) {
+      setAuthError('Please enter the 4-digit numeric verification code.');
+      return;
+    }
+    setAuthError('');
+    setIsVerifyingCode(true);
+    const res = await verifyEmail(pendingVerificationEmail, cleanCode);
+    setIsVerifyingCode(false);
+    if (res.success) {
+      if (res.alreadyVerified) {
+        setPendingVerificationEmail('');
+        setAuthTab('login');
+        setAuthError('Your email is already verified. Please sign in with your password.');
+        return;
+      }
+      if (res.user) {
+        setCurrentUser(res.user);
+        setPendingVerificationEmail('');
+        executePayment(res.user);
+      } else {
+        setPendingVerificationEmail('');
+        setAuthTab('login');
+        setAuthError('Email verified successfully! Please sign in with your password.');
+      }
+    } else {
+      setAuthError(res.error || 'Verification code failed. Please check the code and try again.');
+    }
+  };
+
+  const handleResendCode = async () => {
+    if (!pendingVerificationEmail || resendCooldownSeconds > 0) return;
+    setAuthError('');
+    const res = await resendVerification(pendingVerificationEmail);
+    if (res.success) {
+      setResendCooldownSeconds(60);
+      setAuthError('A fresh verification code was sent to your email.');
+    } else {
+      setAuthError(res.error || 'Could not resend code. Please try again shortly.');
     }
   };
 
@@ -288,12 +353,17 @@ export function CheckoutPage() {
         return;
       }
 
-      const userObj = {
+      const logRes = await loginUser(cleanEmail, password);
+      const userObj = (logRes.success && logRes.user) ? logRes.user : {
         email: cleanEmail,
         fullName: cleanName,
         businessName: cleanBiz,
       };
-      setStoredAuth(null, userObj);
+      if (logRes.success && logRes.token) {
+        setStoredAuth(logRes.token, logRes.user);
+      } else {
+        setStoredAuth(null, userObj);
+      }
       setCurrentUser(userObj);
       setAuthLoading(false);
       executePayment(userObj);
@@ -401,22 +471,59 @@ export function CheckoutPage() {
       {/* Right Section: Form (40% width with independent smooth overflow scroll) */}
       <div className="w-full lg:w-[40%] bg-white p-6 sm:p-8 lg:p-12 lg:h-full lg:overflow-y-auto flex flex-col">
         <div className="w-full max-w-md mx-auto my-auto py-6 sm:py-8">
+          {/* Header */}
+          <div className="mb-5">
+            <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+              {currentUser && membershipInfo?.hasMembership && !allowReorder
+                ? `You're on Invio ${membershipInfo.plan}`
+                : 'Invio Plus Checkout'}
+            </h2>
+            <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+              {currentUser && membershipInfo?.hasMembership && !allowReorder
+                ? `Your account has full access. You don't need to purchase this license again to use Invio ${membershipInfo.plan}.`
+                : 'Choose your billing plan and complete checkout to activate Invio Plus immediately.'}
+            </p>
+          </div>
+
+          {/* Billing Cycle Selector */}
+          {(!currentUser || !membershipInfo?.hasMembership || allowReorder) && (
+            <div className="mb-5">
+              <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-2xl border border-slate-200/80">
+                <button
+                  type="button"
+                  onClick={() => setBillingCycle('yearly')}
+                  className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
+                    billingCycle === 'yearly'
+                      ? 'bg-white text-slate-900 shadow-2xs ring-1 ring-purple-100 font-bold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <span>Yearly</span>
+                    <span className="bg-purple-100 text-[#7C3AED] text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                      Save 44%
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-slate-500">₹{prices.yearly} / year</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBillingCycle('monthly')}
+                  className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
+                    billingCycle === 'monthly'
+                      ? 'bg-white text-slate-900 shadow-2xs ring-1 ring-purple-100 font-bold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <span>Monthly</span>
+                  <span className="text-[11px] text-slate-500">₹{prices.monthly} / month</span>
+                </button>
+              </div>
+            </div>
+          )}
+
           {currentUser ? (
             <div>
-              {/* Header - clean, no badge */}
-              <div className="mb-6">
-                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                  {membershipInfo?.hasMembership && !allowReorder
-                    ? `You're on Invio ${membershipInfo.plan}`
-                    : 'Ready for Checkout'}
-                </h2>
-                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                  {membershipInfo?.hasMembership && !allowReorder
-                    ? `Your account has full access. You don't need to purchase this license again to use Invio ${membershipInfo.plan}.`
-                    : 'Complete payment to instantly link Invio Plus to your account.'}
-                </p>
-              </div>
-
               {/* Account Details Card */}
               <div className="rounded-2xl border border-slate-200/90 bg-linear-to-b from-slate-50/70 to-white p-4 sm:p-5 shadow-xs mb-5">
                 {/* Account Header */}
@@ -540,6 +647,74 @@ export function CheckoutPage() {
                 </button>
               )}
             </div>
+          ) : pendingVerificationEmail ? (
+            /* State: Email OTP Verification */
+            <div className="rounded-2xl border border-purple-200 bg-purple-50/30 p-5 shadow-xs">
+              <div className="text-center mb-4">
+                <div className="size-12 rounded-full bg-purple-100 text-[#7C3AED] flex items-center justify-center mx-auto mb-2">
+                  <MailIcon className="size-6" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900">Verify Your Email</h3>
+                <p className="text-xs text-slate-600 mt-1">
+                  We sent a 4-digit verification code to <strong className="text-slate-900 font-mono">{pendingVerificationEmail}</strong>
+                </p>
+              </div>
+
+              <form onSubmit={handleVerifyCode} className="space-y-3.5">
+                <div>
+                  <label htmlFor="checkout-otp" className="block text-xs font-medium text-slate-700 mb-1 text-center">
+                    Enter 4-Digit Code
+                  </label>
+                  <input
+                    id="checkout-otp"
+                    type="text"
+                    maxLength={4}
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
+                    placeholder="0000"
+                    className="w-full h-11 text-center font-mono text-xl tracking-widest rounded-xl border border-slate-200 bg-white text-slate-900 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                    autoFocus
+                  />
+                </div>
+
+                {authError && (
+                  <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 leading-snug">
+                    {authError}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isVerifyingCode || verificationCode.trim().length !== 4}
+                  className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2"
+                >
+                  {isVerifyingCode ? 'Verifying...' : `Verify & Proceed to Pay ₹${currentPrice}`}
+                </button>
+
+                <div className="flex items-center justify-between text-xs pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPendingVerificationEmail('');
+                      setAuthError('');
+                    }}
+                    className="text-slate-500 hover:text-slate-800 cursor-pointer"
+                  >
+                    ← Back to Sign In
+                  </button>
+                  <button
+                    type="button"
+                    disabled={resendCooldownSeconds > 0}
+                    onClick={handleResendCode}
+                    className="text-[#7C3AED] hover:text-[#6D28D9] font-medium disabled:text-slate-400 cursor-pointer"
+                  >
+                    {resendCooldownSeconds > 0
+                      ? `Resend in ${resendCooldownSeconds}s`
+                      : 'Resend code'}
+                  </button>
+                </div>
+              </form>
+            </div>
           ) : (
             /* State: Not Signed In (Sign In by DEFAULT, Sign Up secondary) */
             <div>
@@ -580,10 +755,11 @@ export function CheckoutPage() {
                 {authTab === 'register' && (
                   <>
                     <div>
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
+                      <label htmlFor="checkout-fullName" className="block text-xs font-medium text-slate-700 mb-1">
                         Full Name
                       </label>
                       <input
+                        id="checkout-fullName"
                         type="text"
                         required
                         value={fullName}
@@ -594,10 +770,11 @@ export function CheckoutPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
+                      <label htmlFor="checkout-businessName" className="block text-xs font-medium text-slate-700 mb-1">
                         Business / Shop Name
                       </label>
                       <input
+                        id="checkout-businessName"
                         type="text"
                         required
                         value={businessName}
@@ -610,10 +787,11 @@ export function CheckoutPage() {
                 )}
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label htmlFor="checkout-email" className="block text-xs font-medium text-slate-700 mb-1">
                     Email Address
                   </label>
                   <input
+                    id="checkout-email"
                     type="email"
                     required
                     autoComplete="email"
@@ -631,11 +809,12 @@ export function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label htmlFor="checkout-password" className="block text-xs font-medium text-slate-700 mb-1">
                     Password
                   </label>
                   <div className="relative">
                     <input
+                      id="checkout-password"
                       type={showPassword ? 'text' : 'password'}
                       required
                       autoComplete={authTab === 'register' ? 'new-password' : 'current-password'}

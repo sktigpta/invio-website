@@ -12,21 +12,36 @@ const ENV_API_URL = typeof import.meta !== 'undefined' && import.meta.env && imp
 
 export const API_BASE_URL = ENV_API_URL
   || (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? 'http://localhost:5000'
+    ? ''
     : 'https://api.invio.timrio.com');
 
 export const PLATFORM_DOWNLOADS = {
   mac: {
     id: 'mac',
-    name: 'macOS',
-    shortName: 'Mac',
-    badge: 'Apple Mac (All Models)',
+    name: 'macOS (Apple Silicon)',
+    shortName: 'Mac (M1/M2/M3)',
+    badge: 'Apple Silicon (M1/M2/M3/M4)',
     extension: '.dmg',
     filename: `Invio-${APP_VERSION}-mac-arm64.dmg`,
-    downloadEndpoint: `${API_BASE_URL}/api/download?platform=mac`,
-    archLabel: 'Mac Installer (.dmg)',
-    minRequirement: 'macOS 11.0 or later',
+    downloadEndpoint: `${API_BASE_URL}/api/download?platform=mac&arch=arm64`,
+    archLabel: 'Apple Silicon (.dmg)',
+    minRequirement: 'macOS 11.0 or later (Apple Silicon)',
     sizeEstimate: '119 MB',
+    installInstruction: 'Open the downloaded Invio file (.dmg) and drag the Invio icon into your Applications folder. Open Invio to start billing.',
+    securityTip: 'On first launch, if macOS asks for confirmation, simply click "Open" to start billing.',
+  },
+  macIntel: {
+    id: 'macIntel',
+    platformQuery: 'mac',
+    name: 'macOS (Intel)',
+    shortName: 'Mac (Intel)',
+    badge: 'Intel Mac (x64)',
+    extension: '.dmg',
+    filename: `Invio-${APP_VERSION}-mac-x64.dmg`,
+    downloadEndpoint: `${API_BASE_URL}/api/download?platform=mac&arch=x64`,
+    archLabel: 'Intel Mac (.dmg)',
+    minRequirement: 'macOS 10.15 or later (Intel x64)',
+    sizeEstimate: '124 MB',
     installInstruction: 'Open the downloaded Invio file (.dmg) and drag the Invio icon into your Applications folder. Open Invio to start billing.',
     securityTip: 'On first launch, if macOS asks for confirmation, simply click "Open" to start billing.',
   },
@@ -92,23 +107,23 @@ export function detectDeviceOS() {
 
 /**
  * Trigger direct file download through the backend API.
- * Opens the backend download URL in a new tab (cross-origin <a download> is
- * ignored by browsers, so a plain anchor with target=_blank is used instead).
+ * Uses window.location.assign so downloads are handled natively by the browser
+ * without swallowing server errors inside a hidden iframe.
  */
 export function triggerDirectDownload(platformMeta) {
   const target = platformMeta || PLATFORM_DOWNLOADS.mac;
   if (target.isMobileFallback || target.id === 'mobile') return null;
-  const targetUrl = target.downloadEndpoint || `${API_BASE_URL}/api/download?platform=${encodeURIComponent(target.id || 'mac')}`;
+  const platformParam = target.platformQuery || target.id || 'mac';
+  const targetUrl = target.downloadEndpoint || `${API_BASE_URL}/api/download?platform=${encodeURIComponent(platformParam)}`;
   try {
+    window.location.assign(targetUrl);
+  } catch {
     const a = document.createElement('a');
     a.href = targetUrl;
     a.rel = 'noopener noreferrer';
-    a.target = '_blank';
     document.body.appendChild(a);
     a.click();
     a.remove();
-  } catch {
-    window.open(targetUrl, '_blank', 'noopener,noreferrer');
   }
   return targetUrl;
 }

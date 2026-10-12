@@ -168,6 +168,28 @@ export function triggerGoogleSignIn({ businessName = '', onSuccess, onError }) {
 
     pollInterval = setInterval(async () => {
       if (resolved || pollInFlight) return;
+      if (popup && popup.closed) {
+        // Run a final poll before treating closure as cancellation in case user closed after success
+        try {
+          const res = await fetch(`${base}/api/auth/google/poll?sessionId=${encodeURIComponent(sessionId)}`, {
+            signal: AbortSignal.timeout(4000),
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && data.token && data.user) {
+              setStoredAuth(data.token, data.user);
+              cleanup();
+              if (onSuccess) onSuccess(data.user, data.token);
+              return;
+            }
+          }
+        } catch {
+          // ignore final attempt error
+        }
+        cleanup();
+        if (onError) onError('Google sign-in window was closed.');
+        return;
+      }
       pollInFlight = true;
       try {
         const res = await fetch(`${base}/api/auth/google/poll?sessionId=${encodeURIComponent(sessionId)}`, {
@@ -199,5 +221,45 @@ export function triggerGoogleSignIn({ businessName = '', onSuccess, onError }) {
     }, 3 * 60 * 1000);
   } catch (err) {
     if (onError) onError(err?.message || 'Unable to start Google sign-in window.');
+  }
+}
+
+export async function verifyEmail(email, code) {
+  try {
+    const res = await fetch(`${apiBase()}/api/auth/verify-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ email: email.trim().toLowerCase(), code: String(code).trim() }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.success) {
+      if (data.token && data.user) {
+        setStoredAuth(data.token, data.user);
+      }
+      return { success: true, alreadyVerified: Boolean(data.alreadyVerified), user: data.user, token: data.token };
+    }
+    return { success: false, error: data.error || 'Verification failed. Please check the code.' };
+  } catch {
+    return { success: false, error: 'Could not connect to verification server.' };
+  }
+}
+
+export async function resendVerification(email) {
+  try {
+    const res = await fetch(`${apiBase()}/api/auth/resend-verification`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ email: email.trim().toLowerCase() }),
+    });
+    const data = await res.json().catch(() => ({}));
+    return { success: res.ok && Boolean(data.success), message: data.message, retryAfterSeconds: data.retryAfterSeconds };
+  } catch {
+    return { success: false, error: 'Could not connect to verification server.' };
   }
 }

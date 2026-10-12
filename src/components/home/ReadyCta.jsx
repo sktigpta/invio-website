@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { detectDeviceOS } from '../../utils/osDetector';
-import { AppleIcon, WindowsIcon, LinuxIcon, CalculatorIcon } from '../Icons';
+import { AppleIcon, WindowsIcon, LinuxIcon, CalculatorIcon, DownloadIcon } from '../Icons';
 import { useDownloadModal } from '../../context/DownloadModalContext';
 
 export function ReadyCta() {
@@ -10,7 +10,8 @@ export function ReadyCta() {
   const getOsIcon = (id, sizeClass = 'size-3.5 shrink-0 pointer-events-none') => {
     if (id === 'mac') return <AppleIcon className={sizeClass} />;
     if (id === 'windows') return <WindowsIcon className={sizeClass} />;
-    return <LinuxIcon className={sizeClass} />;
+    if (id === 'linux') return <LinuxIcon className={sizeClass} />;
+    return <DownloadIcon className={sizeClass} />;
   };
 
   return (

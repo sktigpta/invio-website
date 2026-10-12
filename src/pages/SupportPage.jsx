@@ -34,62 +34,65 @@ export function SupportPage() {
       badge="Support & Help Center"
       title="Invio Support &amp; Assistance"
       subtitle="Need assistance installing Invio, connecting hardware, or managing your local database? We are here to help."
+      center={true}
     >
-      {/* Contact Support Box */}
-      <div className="my-6 p-5 rounded-squircle border border-slate-200/90 bg-white">
-        <div className="flex items-start gap-3">
-          <div className="p-2 rounded-lg bg-purple-50 text-[#7C3AED] shrink-0 mt-0.5">
-            <MailIcon className="size-5" />
-          </div>
-          <div className="flex-1">
-            <h2 className="text-sm font-bold text-slate-900 mb-1">Direct Technical Support</h2>
-            <p className="text-xs text-slate-600 mb-3 leading-relaxed">
-              Email our engineering support team directly for setup assistance, bug reports, and data migration guidance:
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="mailto:support@timrio.com"
-                className="h-9 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-sm"
-              >
-                support@timrio.com
-              </a>
-              <span className="text-xs text-slate-500">Response time: Within 24 business hours</span>
+      <div className="max-w-3xl mx-auto space-y-8 my-6">
+        {/* Contact Support Box */}
+        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-lg bg-purple-50 text-[#7C3AED] shrink-0 mt-0.5">
+              <MailIcon className="size-5" />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-sm font-bold text-slate-900 mb-1">Direct Technical Support</h2>
+              <p className="text-xs text-slate-600 mb-3 leading-relaxed">
+                Email our engineering support team directly for setup assistance, bug reports, and data migration guidance:
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <a
+                  href="mailto:support@timrio.com"
+                  className="h-9 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded-full flex items-center justify-center transition-colors shadow-sm"
+                >
+                  support@timrio.com
+                </a>
+                <span className="text-xs text-slate-500">Response time: Within 24 business hours</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Self-Help Guides */}
-      <section className="my-8">
-        <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight mb-4">
-          Self-Help &amp; Quick Troubleshooting
-        </h2>
-        <div className="space-y-3">
-          {solutions.map((item, idx) => (
-            <div key={idx} className="p-4 rounded-xl border border-slate-200/90 bg-white">
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1.5">{item.q}</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">{item.a}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        {/* Self-Help Guides */}
+        <section>
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight mb-4">
+            Self-Help &amp; Quick Troubleshooting
+          </h2>
+          <div className="space-y-3">
+            {solutions.map((item, idx) => (
+              <div key={idx} className="p-4 rounded-xl border border-slate-200/90 bg-white">
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-1.5">{item.q}</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
-      {/* Documentation Links */}
-      <div className="my-8 p-5 rounded-squircle border border-slate-200/90 bg-white">
-        <h2 className="text-sm font-bold text-slate-900 mb-3">Helpful Documentation</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <Link to="/docs/installation" className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
-            → Installation &amp; Setup Walkthrough
-          </Link>
-          <Link to="/system-requirements" className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
-            → System Requirements &amp; Hardware Compatibility
-          </Link>
-          <Link to="/faq" className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
-            → Frequently Asked Questions
-          </Link>
-          <Link to="/security" className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
-            → Security Architecture &amp; Data Privacy
-          </Link>
+        {/* Documentation Links */}
+        <div className="p-5 rounded-squircle border border-slate-200/90 bg-white">
+          <h2 className="text-sm font-bold text-slate-900 mb-3">Helpful Documentation</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <Link to="/docs/installation" className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
+              → Installation &amp; Setup Walkthrough
+            </Link>
+            <Link to="/system-requirements" className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
+              → System Requirements &amp; Hardware Compatibility
+            </Link>
+            <Link to="/faq" className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
+              → Frequently Asked Questions
+            </Link>
+            <Link to="/security" className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
+              → Security Architecture &amp; Data Privacy
+            </Link>
+          </div>
         </div>
       </div>
     </PageContainer>

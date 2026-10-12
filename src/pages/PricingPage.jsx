@@ -93,7 +93,11 @@ export function PricingPage() {
 
     // If query params specified auto-checkout or plus plan, redirect to dedicated /checkout page
     if (isAutoCheckout || (paramPlan && paramPlan.toLowerCase() === 'plus')) {
-      navigate(`/checkout?plan=plus&cycle=${paramCycle || 'yearly'}${paramEmail ? `&email=${encodeURIComponent(paramEmail)}` : ''}`, { replace: true });
+      const redirectParams = new URLSearchParams(searchParams);
+      redirectParams.set('plan', 'plus');
+      redirectParams.set('cycle', paramCycle || 'yearly');
+      if (paramEmail) redirectParams.set('email', paramEmail);
+      navigate(`/checkout?${redirectParams.toString()}`, { replace: true });
       return;
     }
 

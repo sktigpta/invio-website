@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
-import { PageContainer } from '../components/PageContainer';
-import { WindowsIcon, AppleIcon, LinuxIcon } from '../components/Icons';
+import { A4DocLayout } from '../components/A4DocLayout';
 import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function InstallationGuidePage() {
@@ -14,121 +12,101 @@ export function InstallationGuidePage() {
   }, []);
 
   return (
-    <PageContainer
-      badge="Documentation"
-      title="Invio Installation &amp; Setup Guide"
-      subtitle="Follow this guide to download, install, verify, and configure Invio on your computer. Setup takes less than 3 minutes."
+    <A4DocLayout
+      title="Installation &amp; Setup Guide"
+      subtitle="Invio Desktop Software • Step-by-Step Installation Instructions • Published by Timrio"
     >
-      <div className="space-y-5 my-8">
-        {/* Windows Section */}
-        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <div className="flex items-center gap-2 mb-3">
-            <WindowsIcon className="size-5 text-[#0078D7]" />
-            <h2 className="text-base sm:text-lg font-bold text-slate-900">1. Installing on Windows (10 &amp; 11)</h2>
-          </div>
-          <ol className="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed list-decimal pl-4">
-            <li>
-              Download the latest Windows installer (<code>Invio-Setup-1.0.2.exe</code>) via <button type="button" onClick={() => openDownloadModal('windows')} className="text-[#7C3AED] underline font-medium cursor-pointer">direct download</button>.
-            </li>
-            <li>
-              Open your Downloads folder and double-click the setup file.
-            </li>
-            <li>
-              <strong>Windows SmartScreen notice:</strong> Because Invio is an independently distributed executable, SmartScreen may display a prompt saying &ldquo;Windows protected your PC&rdquo;. Click <strong>&ldquo;More info&rdquo;</strong> (underlined text) and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
-            </li>
-            <li>
-              The installer will copy the application files, place a shortcut on your Desktop, and launch Invio automatically.
-            </li>
-          </ol>
-        </section>
+      <p>
+        Follow this guide to download, install, verify, and configure Invio on your computer. Setup takes less than 3 minutes.
+      </p>
 
-        {/* macOS Section */}
-        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <div className="flex items-center gap-2 mb-3">
-            <AppleIcon className="size-5 text-slate-800" />
-            <h2 className="text-base sm:text-lg font-bold text-slate-900">2. Installing on macOS (Apple Silicon &amp; Intel)</h2>
-          </div>
-          <ol className="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed list-decimal pl-4">
-            <li>
-              Download the macOS disk image (<code>Invio-1.0.2.dmg</code>) via <button type="button" onClick={() => openDownloadModal('mac')} className="text-[#7C3AED] underline font-medium cursor-pointer">direct download</button>.
-            </li>
-            <li>
-              Double-click the downloaded <code>.dmg</code> file to mount it.
-            </li>
-            <li>
-              Drag the Invio application icon into your <strong>Applications</strong> folder shortcut inside the window.
-            </li>
-            <li>
-              <strong>First Launch &amp; Gatekeeper:</strong> Launch Invio from Applications or Spotlight. If macOS prompts &ldquo;Invio is an app downloaded from the internet. Are you sure you want to open it?&rdquo;, click <strong>&ldquo;Open&rdquo;</strong>.
-            </li>
-          </ol>
-        </section>
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+        1. Installing on Windows (Windows 10 &amp; 11)
+      </h2>
+      <ol className="list-decimal pl-5 space-y-2 text-xs text-slate-700 leading-relaxed my-2">
+        <li>
+          Download the latest Windows installer (<code>Invio-Setup-1.0.2.exe</code>) via{' '}
+          <button
+            type="button"
+            onClick={() => openDownloadModal('windows')}
+            className="text-[#7C3AED] underline font-semibold hover:text-[#6D28D9] cursor-pointer"
+          >
+            direct download
+          </button>
+          .
+        </li>
+        <li>Open your Downloads folder and double-click the setup executable.</li>
+        <li>
+          <strong>Windows SmartScreen notice:</strong> Because Invio is an independently distributed executable, Windows Defender SmartScreen may display a prompt stating <em>&ldquo;Windows protected your PC&rdquo;</em>.
+          <blockquote className="border-l-2 border-slate-300 pl-3 py-1 my-1.5 text-xs text-slate-600 bg-slate-50 italic">
+            <strong>Action:</strong> Click <strong>&ldquo;More info&rdquo;</strong> (underlined text in the dialog) and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
+          </blockquote>
+        </li>
+        <li>The installer will copy application files, place a shortcut on your Desktop, and launch Invio automatically.</li>
+      </ol>
 
-        {/* Linux Section */}
-        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <div className="flex items-center gap-2 mb-3">
-            <LinuxIcon className="size-5 text-amber-600" />
-            <h2 className="text-base sm:text-lg font-bold text-slate-900">3. Installing on Linux (Ubuntu, Debian, Fedora, Arch)</h2>
-          </div>
-          <ol className="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed list-decimal pl-4">
-            <li>
-              Download the Linux package (<button type="button" onClick={() => openDownloadModal('linux')} className="text-[#7C3AED] underline font-medium cursor-pointer">AppImage or .deb</button>).
-            </li>
-            <li>
-              <strong>AppImage:</strong> Open terminal, make it executable with <code>chmod +x Invio-*.AppImage</code>, and double-click to run.
-            </li>
-            <li>
-              <strong>Debian / Ubuntu:</strong> Install via terminal using <code>sudo dpkg -i Invio-*.deb</code> or right-click and open with Software Install.
-            </li>
-          </ol>
-        </section>
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+        2. Installing on macOS (Apple Silicon M1–M4 &amp; Intel)
+      </h2>
+      <ol className="list-decimal pl-5 space-y-2 text-xs text-slate-700 leading-relaxed my-2">
+        <li>
+          Download the macOS disk image (<code>Invio-1.0.2.dmg</code>) via{' '}
+          <button
+            type="button"
+            onClick={() => openDownloadModal('mac')}
+            className="text-[#7C3AED] underline font-semibold hover:text-[#6D28D9] cursor-pointer"
+          >
+            direct download
+          </button>
+          .
+        </li>
+        <li>Double-click the downloaded <code>.dmg</code> file to mount it.</li>
+        <li>Drag the Invio application icon into your <strong>Applications</strong> folder shortcut.</li>
+        <li>Eject the disk image and launch Invio from Applications or Spotlight (Cmd + Space).</li>
+        <li>
+          If macOS displays a notice stating the application was downloaded from the internet, click <strong>&ldquo;Open&rdquo;</strong> to approve.
+        </li>
+      </ol>
 
-        {/* First-Run Configuration */}
-        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3">4. First-Run Setup &amp; Configuration</h2>
-          <div className="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
-            <p>
-              <strong>Business Profile:</strong> Open Settings &gt; Business Profile. Enter your Store Name, Address, GSTIN / Tax ID, Phone Number, and upload your Store Logo.
-            </p>
-            <p>
-              <strong>Payment Details:</strong> Enter your Bank Account Number, IFSC code, and UPI ID (VPA). Your UPI ID will automatically generate scannable payment QR codes on all printed receipts.
-            </p>
-            <p>
-              <strong>Printer Format:</strong> Under Settings &gt; Printing, select between <strong>A4 Full Page</strong>, <strong>A5 Compact</strong>, or <strong>58mm/80mm Thermal Receipt</strong>.
-            </p>
-            <p>
-              <strong>Products &amp; Inventory:</strong> Navigate to Products &gt; Add Item to populate your catalogue, or use the Import CSV button to load your entire inventory at once.
-            </p>
-          </div>
-        </section>
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+        3. Installing on Linux (Ubuntu, Debian, Fedora, Arch)
+      </h2>
+      <ol className="list-decimal pl-5 space-y-2 text-xs text-slate-700 leading-relaxed my-2">
+        <li>
+          Download the Linux package via{' '}
+          <button
+            type="button"
+            onClick={() => openDownloadModal('linux')}
+            className="text-[#7C3AED] underline font-semibold hover:text-[#6D28D9] cursor-pointer"
+          >
+            direct download
+          </button>
+          .
+        </li>
+        <li>
+          <strong>AppImage:</strong> Open your terminal, mark the file as executable, and run:
+          <pre className="bg-slate-900 text-slate-100 rounded p-2.5 text-[11px] font-mono overflow-x-auto my-1.5">
+            chmod +x Invio-1.0.2.AppImage && ./Invio-1.0.2.AppImage
+          </pre>
+        </li>
+        <li>
+          <strong>Debian / Ubuntu:</strong> Install via terminal:
+          <pre className="bg-slate-900 text-slate-100 rounded p-2.5 text-[11px] font-mono overflow-x-auto my-1.5">
+            sudo dpkg -i Invio-1.0.2.deb
+          </pre>
+        </li>
+      </ol>
 
-        {/* Database Storage Location */}
-        <section className="p-5 rounded-squircle border border-slate-200/90 bg-white">
-          <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-2">5. Database Storage Location</h2>
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
-            Invio stores your local SQLite database entirely on your local machine:
-          </p>
-          <div className="space-y-1.5 text-xs font-mono text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100">
-            <p><strong>Windows:</strong> %APPDATA%\invio\invio.sqlite</p>
-            <p><strong>macOS:</strong> ~/Library/Application Support/invio/invio.sqlite</p>
-            <p><strong>Linux:</strong> ~/.config/invio/invio.sqlite</p>
-          </div>
-        </section>
-      </div>
-
-      <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-        <Link to="/system-requirements" className="font-semibold text-[#7C3AED] hover:underline">
-          ← Check system requirements
-        </Link>
-        <button
-          type="button"
-          onClick={() => openDownloadModal()}
-          className="font-semibold text-[#7C3AED] hover:underline cursor-pointer"
-        >
-          Download desktop application →
-        </button>
-      </div>
-    </PageContainer>
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+        4. First-Run Setup &amp; Configuration
+      </h2>
+      <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
+        <li><strong>Business Profile:</strong> Open Settings &gt; Business Profile. Enter your Store Name, Address, GSTIN / Tax ID, Phone Number, and upload your Store Logo.</li>
+        <li><strong>Payment Details:</strong> Enter your Bank Account details and UPI ID (VPA). Your UPI ID automatically generates scannable payment QR codes on all printed receipts.</li>
+        <li><strong>Printer Format:</strong> Under Settings &gt; Printing, select between <strong>A4 Full Page</strong>, <strong>A5 Compact</strong>, or <strong>58mm/80mm Thermal Receipt</strong>.</li>
+        <li><strong>Products &amp; Inventory:</strong> Navigate to Products &gt; Add Item to populate your catalogue, or use the Import CSV button to load your entire inventory at once.</li>
+      </ul>
+    </A4DocLayout>
   );
 }
 

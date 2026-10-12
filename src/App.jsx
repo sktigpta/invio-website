@@ -13,9 +13,8 @@ import { CheckoutPage } from './pages/CheckoutPage';
 import { DownloadPage } from './pages/DownloadPage';
 
 // Secondary pages loaded on demand (reduces initial bundle size)
+const DocsPage = lazy(() => import('./pages/DocsPage').then(m => ({ default: m.DocsPage })));
 const ChangelogPage = lazy(() => import('./pages/ChangelogPage').then(m => ({ default: m.ChangelogPage })));
-const SystemRequirementsPage = lazy(() => import('./pages/SystemRequirementsPage').then(m => ({ default: m.SystemRequirementsPage })));
-const InstallationGuidePage = lazy(() => import('./pages/InstallationGuidePage').then(m => ({ default: m.InstallationGuidePage })));
 const SupportPage = lazy(() => import('./pages/SupportPage').then(m => ({ default: m.SupportPage })));
 const FaqPage = lazy(() => import('./pages/FaqPage').then(m => ({ default: m.FaqPage })));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
@@ -39,6 +38,7 @@ function PageFallback() {
 export function App() {
   const location = useLocation();
   const isToolsPage = location.pathname.startsWith('/tools');
+  const isDocsPage = location.pathname.startsWith('/docs') || location.pathname.startsWith('/doc');
   const isCheckoutPage = location.pathname.startsWith('/checkout');
 
   return (
@@ -46,7 +46,7 @@ export function App() {
       <div className="min-h-screen flex flex-col bg-[#f8fafc] text-slate-800">
         <Navbar />
 
-        <div className={`flex-1 flex flex-col ${isToolsPage ? '' : 'pt-16'}`}>
+        <div className={`flex-1 flex flex-col ${isToolsPage || isDocsPage ? '' : 'pt-16'}`}>
           <Suspense fallback={<PageFallback />}>
             <Routes>
               {/* Main Brand & Conversion Routes */}
@@ -62,13 +62,14 @@ export function App() {
               <Route path="/changelog" element={<ChangelogPage />} />
               <Route path="/version" element={<Navigate to="/changelog" replace />} />
               <Route path="/releases" element={<Navigate to="/changelog" replace />} />
-              <Route path="/system-requirements" element={<SystemRequirementsPage />} />
 
-              {/* Documentation & Support Routes */}
-              <Route path="/docs/installation" element={<InstallationGuidePage />} />
-              <Route path="/docs/features" element={<Navigate to="/features" replace />} />
-              <Route path="/docs/settings" element={<Navigate to="/docs/installation" replace />} />
-              <Route path="/docs" element={<Navigate to="/docs/installation" replace />} />
+              {/* Documentation Dashboard (Start-to-End Guides & Requirements) */}
+              <Route path="/docs" element={<DocsPage />} />
+              <Route path="/doc" element={<DocsPage />} />
+              <Route path="/docs/:docId" element={<DocsPage />} />
+              <Route path="/doc/:docId" element={<DocsPage />} />
+              <Route path="/system-requirements" element={<Navigate to="/docs/system" replace />} />
+              <Route path="/installation-guide" element={<Navigate to="/docs/installation" replace />} />
               <Route path="/support" element={<SupportPage />} />
               <Route path="/faq" element={<FaqPage />} />
 
@@ -94,7 +95,7 @@ export function App() {
           </Suspense>
         </div>
 
-        {!isToolsPage && !isCheckoutPage && <Footer />}
+        {!isToolsPage && !isDocsPage && !isCheckoutPage && <Footer />}
 
         {/* Global Multi-Platform Download Modal */}
         <DownloadModal />
