@@ -152,7 +152,7 @@ export function CrmLayout() {
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden sm:inline-block text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md font-mono">
-              crm.invio.timrio.com
+              crm.inv.timrio.com
             </span>
             <div className="size-2 rounded-full bg-emerald-500 animate-pulse" title="System Operational" />
           </div>

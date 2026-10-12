@@ -27,9 +27,9 @@ export function Hero() {
 
   return (
     <section className="relative w-full min-h-[80vh] flex items-center overflow-hidden bg-white border-b border-slate-100">
-      {/* Background Software Hero Image (Right Aligned, Height 100%, Width Auto, Top Z-Index) */}
+      {/* Background Software Hero Image (Desktop Only: hidden on mobile and tablet) */}
       <div
-        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none flex justify-end z-30"
+        className="hidden lg:flex absolute inset-0 w-full h-full overflow-hidden pointer-events-none justify-end z-30"
         aria-hidden="true"
       >
         <ProgressiveImage
