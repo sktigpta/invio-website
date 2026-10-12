@@ -128,7 +128,7 @@ export async function registerUser({ email, password, businessName }) {
 
 let activeGoogleCleanup = null;
 
-export function triggerGoogleSignIn({ businessName = '', onSuccess, onError }) {
+export function triggerGoogleSignIn({ businessName = '', mode = 'signin', onSuccess, onError }) {
   if (activeGoogleCleanup) {
     activeGoogleCleanup();
     activeGoogleCleanup = null;
@@ -137,7 +137,8 @@ export function triggerGoogleSignIn({ businessName = '', onSuccess, onError }) {
   try {
     const sessionId = `gis_${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
     const base = apiBase();
-    const loginUrl = `${base}/api/auth/google/login?sessionId=${encodeURIComponent(sessionId)}&businessName=${encodeURIComponent(businessName)}`;
+    const authMode = mode === 'signup' ? 'signup' : 'signin';
+    const loginUrl = `${base}/api/auth/google/login?sessionId=${encodeURIComponent(sessionId)}&mode=${encodeURIComponent(authMode)}&businessName=${encodeURIComponent(businessName)}`;
 
     let resolved = false;
     let pollInterval = null;

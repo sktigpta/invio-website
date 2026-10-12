@@ -280,7 +280,9 @@ export function CheckoutPage() {
   const handleGoogleAuth = () => {
     setAuthError('');
     setAuthLoading(true);
+    const authMode = authTab === 'register' ? 'signup' : 'signin';
     triggerGoogleSignIn({
+      mode: authMode,
       businessName: businessName.trim() || undefined,
       onSuccess: async (user, token) => {
         setCurrentUser(user);
@@ -300,7 +302,12 @@ export function CheckoutPage() {
       },
       onError: (err) => {
         setAuthLoading(false);
-        setAuthError(err || 'Google sign-in could not be completed.');
+        if (authMode === 'signin' && (err.includes('not found') || err.includes('sign up first'))) {
+          setAuthTab('register');
+          setAuthError('No account found for this Google email. Please create your account below.');
+        } else {
+          setAuthError(err || 'Google sign-in could not be completed.');
+        }
       },
     });
   };
