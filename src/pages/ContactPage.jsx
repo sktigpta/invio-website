@@ -2,9 +2,17 @@ import { useState, useEffect } from 'react';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { MailIcon, CopyIcon, CheckIcon } from '../components/Icons';
+import { submitContactMessage } from '../services/contactService';
 
 export function ContactPage() {
   const [copied, setCopied] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [formError, setFormError] = useState('');
 
   useEffect(() => {
     applySEO('contact');
@@ -21,10 +29,24 @@ export function ContactPage() {
     }
   };
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setFormError('');
+    setSending(true);
+    try {
+      await submitContactMessage({ name, email, subject, message });
+      setSent(true);
+    } catch (err) {
+      setFormError(err.message || 'Failed to send your message. Please try again.');
+    } finally {
+      setSending(false);
+    }
+  }
+
   return (
     <PageContainer
       title="Contact Us"
-      subtitle="Email us directly for support, hardware setup, and licensing."
+      subtitle="Send us a message — we usually reply within 24 hours."
       center={true}
     >
       <div className="w-full max-w-md mx-auto my-6">
@@ -77,16 +99,101 @@ export function ContactPage() {
           </div>
         </div>
 
-        {/* Action Button matching Auth & Checkout UI */}
-        <div>
-          <a
-            href="mailto:support@timrio.com"
-            className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2 text-center cursor-pointer"
-          >
-            <MailIcon className="size-4" />
-            <span>Open Email to Contact Support</span>
-          </a>
-        </div>
+        {/* Contact form -> API -> contact sheet -> Zoho auto-reply */}
+        {sent ? (
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
+            <div className="size-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+              <CheckIcon className="size-6" />
+            </div>
+            <h4 className="text-sm font-bold text-slate-900 mb-1">Thank you! We received your message.</h4>
+            <p className="text-xs text-slate-600">
+              We will get back to you soon — a confirmation email is on its way to <span className="font-mono font-semibold">{email}</span>.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setSent(false);
+                setName('');
+                setEmail('');
+                setSubject('');
+                setMessage('');
+              }}
+              className="mt-4 text-xs font-semibold text-[#7C3AED] hover:text-[#6D28D9] cursor-pointer"
+            >
+              Send another message →
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-xs space-y-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Your Name *</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Priya Sharma"
+                  required
+                  maxLength={100}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-[#7C3AED]"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Email *</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@domain.com"
+                  required
+                  maxLength={100}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-[#7C3AED]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Subject *</label>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="How can we help?"
+                required
+                maxLength={150}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-[#7C3AED]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Message *</label>
+              <textarea
+                rows={4}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Describe your question, hardware setup, or licensing need..."
+                required
+                maxLength={5000}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-[#7C3AED]"
+              />
+            </div>
+
+            {formError && (
+              <p className="text-xs font-medium text-red-600 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5">
+                {formError}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={sending}
+              className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            >
+              <MailIcon className="size-4" />
+              <span>{sending ? 'Sending...' : 'Send Message'}</span>
+            </button>
+          </form>
+        )}
 
         <p className="text-center text-[11px] text-slate-400 mt-5">
           Support hours: Monday – Friday, 9:00 AM – 6:00 PM IST
