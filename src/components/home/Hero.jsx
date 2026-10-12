@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AppleIcon, WindowsIcon, LinuxIcon } from '../Icons';
 import { detectDeviceOS, PLATFORM_DOWNLOADS } from '../../utils/osDetector';
 import { useDownloadModal } from '../../context/DownloadModalContext';
+import { ProgressiveImage } from '../common/ProgressiveImage';
 
 export function Hero() {
   const initialOS = detectDeviceOS();
@@ -31,15 +32,17 @@ export function Hero() {
         className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none flex justify-end z-30"
         aria-hidden="true"
       >
-        <img
-          src="/screenshots/hero.png"
+        <ProgressiveImage
+          srcLow="/screenshots/hero-360p.webp"
+          srcHigh="/screenshots/hero.webp"
           alt="Invio Free Offline Invoice Generator App & GST Billing Software Hero Screenshot"
-          width="1640"
-          height="856"
-          loading="eager"
-          decoding="async"
+          width={1640}
+          height={856}
+          aspectRatio="1640 / 856"
+          priority={true}
+          className="h-full w-auto max-w-none flex justify-end"
+          imgClassName="h-full w-auto max-w-none object-contain object-right"
           style={{ height: '100%', width: 'auto' }}
-          className="h-full w-auto max-w-none object-contain object-right"
         />
       </div>
 
