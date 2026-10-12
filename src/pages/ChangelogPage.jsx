@@ -38,8 +38,8 @@ export function ChangelogPage() {
       title="Invio Desktop Release Notes & Version History"
       subtitle="Official release documentation, verified distribution binaries, security bulletins, and hardware specifications • Published by Timrio • Last updated: October 2026"
     >
-      {/* Quick Jump Navigation */}
-      <div className="flex flex-wrap items-center gap-2 py-2 border-y border-slate-200 text-xs text-slate-600 my-4 not-prose">
+      {/* Quick Jump Navigation (Sticky below Navbar) */}
+      <div className="sticky top-16 z-30 bg-[#f8fafc]/95 backdrop-blur-md py-2.5 -mx-4 px-4 sm:-mx-6 sm:px-6 border-y border-slate-200/90 flex flex-wrap items-center gap-2 text-xs text-slate-600 my-4 shadow-2xs not-prose">
         <span className="font-semibold text-slate-900">Jump to:</span>
         <a href="#v1-0-2" className="text-[#7C3AED] hover:underline font-semibold flex items-center gap-1">
           <span className="size-1.5 rounded-full bg-[#7C3AED]"></span>
@@ -60,7 +60,7 @@ export function ChangelogPage() {
       {/* ========================================================================= */}
       {/* Version 1.0.2 - Current Latest Production Release */}
       {/* ========================================================================= */}
-      <section id="v1-0-2" className="pt-4">
+      <section id="v1-0-2" className="pt-4 scroll-mt-32">
         <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-300">
           <div>
             <div className="flex flex-wrap items-center gap-2">
@@ -208,7 +208,7 @@ export function ChangelogPage() {
       {/* ========================================================================= */}
       {/* Version 1.0.1 - Maintenance & Hardware Release */}
       {/* ========================================================================= */}
-      <section id="v1-0-1" className="pt-6 border-t border-slate-200">
+      <section id="v1-0-1" className="pt-6 border-t border-slate-200 scroll-mt-32">
         <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200">
           <div>
             <div className="flex items-center gap-2">
@@ -260,7 +260,7 @@ export function ChangelogPage() {
       {/* ========================================================================= */}
       {/* Version 1.0.0 - Initial Production Launch */}
       {/* ========================================================================= */}
-      <section id="v1-0-0" className="pt-6 border-t border-slate-200">
+      <section id="v1-0-0" className="pt-6 border-t border-slate-200 scroll-mt-32">
         <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200">
           <div>
             <div className="flex items-center gap-2">
@@ -309,7 +309,7 @@ export function ChangelogPage() {
       {/* ========================================================================= */}
       {/* Printing Specifications Table */}
       {/* ========================================================================= */}
-      <section id="print-specs" className="pt-6 border-t border-slate-200">
+      <section id="print-specs" className="pt-6 border-t border-slate-200 scroll-mt-32">
         <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
           <PrinterIcon className="size-4 text-[#7C3AED]" />
           <h2 className="text-sm sm:text-base font-bold uppercase tracking-tight text-slate-900">
