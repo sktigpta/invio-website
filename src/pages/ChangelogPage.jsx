@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { applySEO } from '../utils/seoHelper';
-import { PageContainer } from '../components/PageContainer';
-import { DownloadCta } from '../components/DownloadCta';
+import { A4DocLayout } from '../components/A4DocLayout';
 import { useDownloadModal } from '../context/DownloadModalContext';
 import { PLATFORM_DOWNLOADS } from '../utils/osDetector';
 import {
@@ -17,7 +16,6 @@ import {
 
 export function ChangelogPage() {
   const { openDownloadModal } = useDownloadModal();
-  const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
     applySEO('changelog');
@@ -36,450 +34,353 @@ export function ChangelogPage() {
   ];
 
   return (
-    <PageContainer
-      badge="Release Notes & Version History"
-      title="Invio Desktop Releases"
-      subtitle="Discover all new features, security hardening, multi-platform binaries, and hardware integrations across every production release of Invio."
+    <A4DocLayout
+      title="Invio Desktop Release Notes & Version History"
+      subtitle="Official release documentation, verified distribution binaries, security bulletins, and hardware specifications • Published by Timrio • Last updated: October 2026"
     >
       {/* Quick Jump Navigation */}
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
-        <a
-          href="#v1-0-2"
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-purple-100 text-[#7C3AED] hover:bg-purple-200 transition-colors"
-        >
-          <span className="size-1.5 rounded-full bg-[#7C3AED] animate-pulse"></span>
+      <div className="flex flex-wrap items-center gap-2 py-2 border-y border-slate-200 text-xs text-slate-600 my-4 not-prose">
+        <span className="font-semibold text-slate-900">Jump to:</span>
+        <a href="#v1-0-2" className="text-[#7C3AED] hover:underline font-semibold flex items-center gap-1">
+          <span className="size-1.5 rounded-full bg-[#7C3AED]"></span>
           v1.0.2 (Latest)
         </a>
-        <a
-          href="#v1-0-1"
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-        >
-          v1.0.1
-        </a>
-        <a
-          href="#v1-0-0"
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-        >
-          v1.0.0 (Initial)
-        </a>
-        <a
-          href="#print-specs"
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-        >
-          <PrinterIcon className="size-3" />
-          Print Specifications
-        </a>
+        <span>•</span>
+        <a href="#v1-0-1" className="text-[#7C3AED] hover:underline font-medium">v1.0.1</a>
+        <span>•</span>
+        <a href="#v1-0-0" className="text-[#7C3AED] hover:underline font-medium">v1.0.0</a>
+        <span>•</span>
+        <a href="#print-specs" className="text-[#7C3AED] hover:underline font-medium">Print Specifications</a>
       </div>
 
-      <div className="space-y-10 my-6">
-        {/* ========================================================================= */}
-        {/* Version 1.0.2 - Current Latest Production Release */}
-        {/* ========================================================================= */}
-        <article id="v1-0-2" className="p-6 sm:p-8 rounded-squircle border-2 border-[#7C3AED]/40 bg-white shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+      <p>
+        This document provides the definitive change log, distribution manifests, security bulletins, and hardware compatibility specifications for the Invio desktop application on macOS, Windows, and Linux. All official release binaries are compiled directly from source and verified for offline production readiness.
+      </p>
 
-          {/* Release Header */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-slate-100 mb-6">
-            <div>
-              <div className="flex flex-wrap items-center gap-3">
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                  Invio Version 1.0.2
-                </h2>
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider bg-purple-100 text-[#7C3AED] px-3 py-1 rounded-full shadow-2xs">
-                  <span className="size-1.5 rounded-full bg-[#7C3AED] animate-ping"></span>
-                  Latest Production Release
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 mt-1.5 font-mono flex flex-wrap items-center gap-2">
-                <span>Released: October 12, 2026</span>
-                <span>•</span>
-                <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono">Build v1.0.2</span>
-                <span>•</span>
-                <span className="text-emerald-600 font-semibold flex items-center gap-1">
-                  <CheckIcon className="size-3" /> Production Verified
-                </span>
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => openDownloadModal()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold rounded-full transition-all cursor-pointer shadow-sm hover:shadow"
-            >
-              <DownloadIcon className="size-4" />
-              <span>Download v1.0.2</span>
-            </button>
-          </div>
-
-          <p className="text-sm sm:text-base text-slate-700 leading-relaxed mb-6 font-medium">
-            Invio Desktop v1.0.2 delivers vital authentication reliability improvements, multi-account state isolation, strict 4-digit email verification gates, and guaranteed dashboard startup navigation.
-          </p>
-
-          {/* Categorized Detailed Highlights */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-            {/* Column 1: Security & Verification */}
-            <div className="p-4 sm:p-5 rounded-squircle-sm bg-purple-50/40 border border-purple-100/80">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 rounded-lg bg-purple-100 text-[#7C3AED]">
-                  <ShieldCheckIcon className="size-4" />
-                </div>
-                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                  Security &amp; OTP Gates
-                </h3>
-              </div>
-              <ul className="space-y-2.5 text-xs text-slate-700 leading-relaxed">
-                <li className="flex items-start gap-2">
-                  <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                  <span><strong>Strict OTP Verification:</strong> Unverified accounts cannot access local billing workspaces, invoices, or customer data until 4-digit email code is verified.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                  <span><strong>Offline Session Hardening:</strong> Unverified sessions are rejected even during offline transitions; system strictly fails closed.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                  <span><strong>OAuth Workflow Isolation:</strong> Google sign-in strictly separates account creation from existing user sign-in to prevent unverified takeovers.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 2: Multi-Account & Plan Sync */}
-            <div className="p-4 sm:p-5 rounded-squircle-sm bg-purple-50/40 border border-purple-100/80">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 rounded-lg bg-purple-100 text-[#7C3AED]">
-                  <ZapIcon className="size-4" />
-                </div>
-                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                  Multi-Account &amp; Plans
-                </h3>
-              </div>
-              <ul className="space-y-2.5 text-xs text-slate-700 leading-relaxed">
-                <li className="flex items-start gap-2">
-                  <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                  <span><strong>Instant Plan Refresh:</strong> Resolved an issue where logging out and switching to a new account retained the previous user's subscription plan.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                  <span><strong>Reactive Context Synchronization:</strong> Client immediately refreshes on both auth identity change and SQLite partition reload events.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                  <span><strong>Default Plan Integrity:</strong> Default plan is strictly set to Free; Plus and Pro tiers require verified payment signatures.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 3: Navigation & UX */}
-            <div className="p-4 sm:p-5 rounded-squircle-sm bg-purple-50/40 border border-purple-100/80">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 rounded-lg bg-purple-100 text-[#7C3AED]">
-                  <CheckIcon className="size-4" />
-                </div>
-                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                  Navigation &amp; UI Polish
-                </h3>
-              </div>
-              <ul className="space-y-2.5 text-xs text-slate-700 leading-relaxed">
-                <li className="flex items-start gap-2">
-                  <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                  <span><strong>Dashboard Startup Reset:</strong> Launching the app or signing in now consistently lands on Dashboard instead of lingering on Settings.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                  <span><strong>Clean Cache Purge:</strong> Cached partition pointers and user tokens are purged on logout to guarantee clean tenant isolation.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                  <span><strong>Informative Alerts:</strong> Clear toast notifications when sessions expire or sign-outs complete.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Compiled Distribution Packages Table */}
-          <div className="pt-6 border-t border-slate-100">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-              <div>
-                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                  Production Distribution Packages for v1.0.2:
-                </h4>
-                <p className="text-[11px] text-slate-500 font-mono mt-0.5">
-                  Native standalone installers &amp; automatic in-app updater manifests
-                </p>
-              </div>
-              <span className="text-[11px] font-mono text-purple-700 bg-purple-50 border border-purple-200/60 px-2.5 py-1 rounded-md self-start sm:self-auto">
-                8 Platform Binaries
+      {/* ========================================================================= */}
+      {/* Version 1.0.2 - Current Latest Production Release */}
+      {/* ========================================================================= */}
+      <section id="v1-0-2" className="pt-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-300">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-sm sm:text-base font-bold uppercase tracking-tight text-slate-900">
+                1. Version 1.0.2 (Latest Production Release)
+              </h2>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-[#7C3AED]">
+                Latest
               </span>
             </div>
-
-            <div className="overflow-x-auto border border-slate-200 rounded-squircle-sm bg-white">
-              <table className="w-full text-left font-mono text-[11px] sm:text-xs border-collapse">
-                <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-700">
-                    <th className="px-3.5 py-2.5 font-semibold">Distribution File</th>
-                    <th className="px-3.5 py-2.5 font-semibold">Platform &amp; Architecture</th>
-                    <th className="px-3.5 py-2.5 font-semibold">Package Format</th>
-                    <th className="px-3.5 py-2.5 font-semibold">File Size</th>
-                    <th className="px-3.5 py-2.5 font-semibold text-right">Direct Download</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 text-slate-600">
-                  {V102_ASSETS.map((asset, idx) => {
-                    const IconComp = asset.icon;
-                    return (
-                      <tr key={idx} className="hover:bg-purple-50/25 transition-colors">
-                        <td className="px-3.5 py-2.5 text-slate-900 font-semibold whitespace-nowrap">
-                          <div className="flex items-center gap-2">
-                            <IconComp className="size-3.5 text-slate-400 shrink-0" />
-                            <span>{asset.name}</span>
-                          </div>
-                        </td>
-                        <td className="px-3.5 py-2.5 whitespace-nowrap">
-                          <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[10px] font-medium">
-                            {asset.arch}
-                          </span>
-                        </td>
-                        <td className="px-3.5 py-2.5 text-slate-500 whitespace-nowrap">
-                          {asset.format}
-                        </td>
-                        <td className="px-3.5 py-2.5 text-slate-500 whitespace-nowrap font-medium">
-                          {asset.size}
-                        </td>
-                        <td className="px-3.5 py-2.5 text-right whitespace-nowrap">
-                          <button
-                            type="button"
-                            onClick={() => openDownloadModal(PLATFORM_DOWNLOADS[asset.platform])}
-                            className="inline-flex items-center gap-1 font-semibold text-[#7C3AED] hover:text-[#6D28D9] hover:underline cursor-pointer"
-                          >
-                            <span>Download</span>
-                            <DownloadIcon className="size-3" />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </article>
-
-        {/* ========================================================================= */}
-        {/* Version 1.0.1 - Hardware & Dual Screen POS */}
-        {/* ========================================================================= */}
-        <article id="v1-0-1" className="p-6 sm:p-7 rounded-squircle border border-slate-200/90 bg-white shadow-2xs">
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100 mb-4">
-            <div>
-              <div className="flex items-center gap-2.5">
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
-                  Invio Version 1.0.1
-                </h3>
-                <span className="text-[10px] font-semibold uppercase tracking-wider bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full">
-                  Maintenance Release
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 mt-1 font-mono">
-                Released: October 7, 2026 • Tag: <code>v1.0.1</code>
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => openDownloadModal()}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-full transition-colors cursor-pointer"
-            >
-              <DownloadIcon className="size-3" />
-              <span>Download v1.0.1</span>
-            </button>
+            <p className="text-[11px] text-slate-500 font-mono mt-0.5">
+              Released: October 12, 2026 • Tag: <code>v1.0.2</code> • Status: Production Verified
+            </p>
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-            Added secondary dual-screen customer checkout displays, 58mm &amp; 80mm ESC/POS hardware thermal slip printing, dynamic UPI payment QR codes, and multi-tenant email integrations.
-          </p>
+          <button
+            type="button"
+            onClick={() => openDownloadModal()}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded transition-colors cursor-pointer"
+          >
+            <DownloadIcon className="size-3.5" />
+            <span>Download v1.0.2</span>
+          </button>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-700 leading-relaxed mb-4">
-            <div className="p-3.5 rounded-squircle-sm bg-slate-50/60 border border-slate-100 space-y-2">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Features &amp; Hardware</h4>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>Dual-Screen POS Customer Display:</strong> Project real-time cart items, tax breakdown, and instant UPI QR code onto any secondary monitor.</span>
-              </p>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>ESC/POS Thermal Slip Printing:</strong> Native raw driver support for 58mm (2-inch) and 80mm (3-inch) thermal receipt printers.</span>
-              </p>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>Hardware Barcode Scanning:</strong> USB &amp; Bluetooth HID scanner integration with automatic quantity incrementing.</span>
-              </p>
-            </div>
+        <p className="mt-3">
+          Version 1.0.2 is a major stability and security release delivering strict 4-digit email verification gating, robust multi-account state isolation, immediate subscription tier synchronization, and guaranteed dashboard startup navigation.
+        </p>
 
-            <div className="p-3.5 rounded-squircle-sm bg-slate-50/60 border border-slate-100 space-y-2">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Taxes &amp; Integrations</h4>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>Automated GST Splits:</strong> Automatic intra-state (CGST 50% + SGST 50%) and inter-state (IGST 100%) tax calculation.</span>
-              </p>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>OAuth &amp; SMTP Email Dispatch:</strong> 1-click Google OAuth and custom SMTP relay with encrypted local credential storage.</span>
-              </p>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>UPI Payment QR:</strong> Dynamic payment string encoding on receipts for instant merchant settlement.</span>
-              </p>
-            </div>
-          </div>
-        </article>
-
-        {/* ========================================================================= */}
-        {/* Version 1.0.0 - Initial Production Launch */}
-        {/* ========================================================================= */}
-        <article id="v1-0-0" className="p-6 sm:p-7 rounded-squircle border border-slate-200/90 bg-white shadow-2xs">
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100 mb-4">
-            <div>
-              <div className="flex items-center gap-2.5">
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
-                  Invio Version 1.0.0
-                </h3>
-                <span className="text-[10px] font-semibold uppercase tracking-wider bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full">
-                  Initial Launch
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 mt-1 font-mono">
-                Released: October 2, 2026 • Tag: <code>v1.0.0</code>
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => openDownloadModal()}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-full transition-colors cursor-pointer"
-            >
-              <DownloadIcon className="size-3" />
-              <span>Download v1.0.0</span>
-            </button>
-          </div>
-
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-            Foundational release of Invio desktop invoicing for Windows, macOS, and Linux. Built from the ground up for 100% offline billing with zero cloud dependency.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
-            <div className="p-3.5 rounded-squircle-sm bg-slate-50/60 border border-slate-100 space-y-2">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Core Invoicing</h4>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>Embedded Local SQLite Engine:</strong> Invoices, customers, and inventory remain strictly local on your computer.</span>
-              </p>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>Vector A4 &amp; A5 PDF Generator:</strong> High-resolution vector PDF export with business logo and custom bank details.</span>
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-squircle-sm bg-slate-50/60 border border-slate-100 space-y-2">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Inventory &amp; Contacts</h4>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>Catalog &amp; Stock Tracking:</strong> Product SKU directory, stock level management, and automated low-stock badges.</span>
-              </p>
-              <p className="flex items-start gap-2">
-                <span className="text-[#7C3AED] font-bold shrink-0">•</span>
-                <span><strong>Customer Management:</strong> Customer ledger, GSTIN verification, and multi-format contact records.</span>
-              </p>
-            </div>
-          </div>
-        </article>
-
-        {/* ========================================================================= */}
-        {/* Supported Invoice & Printing Specifications Markdown Table */}
-        {/* ========================================================================= */}
-        <section id="print-specs" className="p-6 sm:p-7 rounded-squircle border border-slate-200/90 bg-white shadow-2xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
-            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-              Supported Invoice Paper &amp; Print Specifications:
+        {/* Detailed Sections for v1.0.2 */}
+        <div className="space-y-3 mt-3">
+          <div className="p-3 bg-purple-50/50 border border-purple-200/70 rounded text-xs space-y-1.5">
+            <h3 className="font-bold text-slate-900 flex items-center gap-1.5">
+              <ShieldCheckIcon className="size-4 text-[#7C3AED]" />
+              <span>1.1 Security &amp; Email Verification Gates</span>
             </h3>
-            <span className="text-[11px] font-mono text-slate-400">
-              Native A4 vector rendering • Hardware ESC/POS integration
+            <ul className="list-disc pl-5 space-y-1 text-slate-700">
+              <li>
+                <strong>Strict OTP Verification Gate:</strong> Unverified accounts are strictly barred from opening or creating invoices, billing workspaces, customer ledgers, or business settings until their 4-digit email code is verified.
+              </li>
+              <li>
+                <strong>Fail-Closed Offline Security:</strong> If an unverified account attempts to access offline billing storage, the system strictly fails closed and returns the user to the verification view.
+              </li>
+              <li>
+                <strong>OAuth Account Isolation:</strong> Google sign-in strictly separates newly registered email identities from pre-existing accounts to prevent unverified workspace takeovers.
+              </li>
+            </ul>
+          </div>
+
+          <div className="p-3 bg-slate-50 border border-slate-200 rounded text-xs space-y-1.5">
+            <h3 className="font-bold text-slate-900 flex items-center gap-1.5">
+              <ZapIcon className="size-4 text-[#7C3AED]" />
+              <span>1.2 Multi-Account Plan Isolation &amp; Entitlement Integrity</span>
+            </h3>
+            <ul className="list-disc pl-5 space-y-1 text-slate-700">
+              <li>
+                <strong>Instant Subscription Refresh:</strong> Resolved an issue where signing out of a paid account and logging in with a new account inadvertently retained the previous account&rsquo;s cached plan.
+              </li>
+              <li>
+                <strong>Reactive Identity Context:</strong> The desktop UI now immediately flushes and refreshes user entitlements on identity changes, session teardown, and SQLite partition reloads.
+              </li>
+              <li>
+                <strong>Strict Payment Signatures:</strong> Commercial Plus and Pro tiers are activated strictly upon receipt of verified payment signatures; default accounts remain on the Free offline tier.
+              </li>
+            </ul>
+          </div>
+
+          <div className="p-3 bg-slate-50 border border-slate-200 rounded text-xs space-y-1.5">
+            <h3 className="font-bold text-slate-900 flex items-center gap-1.5">
+              <CheckIcon className="size-4 text-emerald-600" />
+              <span>1.3 Navigation Hardening &amp; Startup Reset</span>
+            </h3>
+            <ul className="list-disc pl-5 space-y-1 text-slate-700">
+              <li>
+                <strong>Consistent Dashboard Landing:</strong> Launching the application or completing authentication consistently routes the user to the Dashboard, preventing accidental retention of previous Settings views.
+              </li>
+              <li>
+                <strong>Clean Storage Purge on Logout:</strong> Signing out flushes cached partition keys and auth tokens from memory and local storage, ensuring true multi-tenant isolation on shared computers.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Compiled Distribution Packages Table */}
+        <div className="mt-4 pt-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+              Official Release Distribution Packages (v1.0.2)
+            </h3>
+            <span className="text-[10px] font-mono text-slate-500">
+              8 Verified Platform Binaries
             </span>
           </div>
 
-          <div className="overflow-x-auto border border-slate-200/90 rounded-squircle-sm bg-white">
-            <table className="w-full text-left font-mono text-[11px] sm:text-xs border-collapse">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-slate-700">
-                  <th className="px-3.5 py-2.5 font-semibold">Format</th>
-                  <th className="px-3.5 py-2.5 font-semibold">Paper Dimensions</th>
-                  <th className="px-3.5 py-2.5 font-semibold">Hardware Type</th>
-                  <th className="px-3.5 py-2.5 font-semibold">Typical Use Case</th>
-                  <th className="px-3.5 py-2.5 font-semibold text-right">Output Mode</th>
+          <div className="overflow-x-auto border border-slate-200 rounded bg-white">
+            <table className="w-full text-left font-mono text-[11px] border-collapse">
+              <thead className="bg-slate-50 border-b border-slate-200 text-slate-800 font-semibold">
+                <tr>
+                  <th className="py-2 px-3">Distribution File</th>
+                  <th className="py-2 px-3">Architecture</th>
+                  <th className="py-2 px-3">Format</th>
+                  <th className="py-2 px-3">Size</th>
+                  <th className="py-2 px-3 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-slate-600">
-                <tr className="hover:bg-purple-50/20 transition-colors">
-                  <td className="px-3.5 py-2.5 text-slate-900 font-semibold whitespace-nowrap">
-                    A4 Full Page
-                  </td>
-                  <td className="px-3.5 py-2.5 whitespace-nowrap">210 × 297 mm</td>
-                  <td className="px-3.5 py-2.5 whitespace-nowrap">Laser / Inkjet / PDF</td>
-                  <td className="px-3.5 py-2.5 text-slate-500 whitespace-nowrap">
-                    B2B Tax Invoices, GST Filings, Detailed Quotations
-                  </td>
-                  <td className="px-3.5 py-2.5 text-right font-semibold text-emerald-700 whitespace-nowrap">
-                    Vector PDF &amp; Print
-                  </td>
-                </tr>
-                <tr className="hover:bg-purple-50/20 transition-colors">
-                  <td className="px-3.5 py-2.5 text-slate-900 font-semibold whitespace-nowrap">
-                    A5 Half Page
-                  </td>
-                  <td className="px-3.5 py-2.5 whitespace-nowrap">148 × 210 mm</td>
-                  <td className="px-3.5 py-2.5 whitespace-nowrap">Laser, Inkjet, Dot-Matrix</td>
-                  <td className="px-3.5 py-2.5 text-slate-500 whitespace-nowrap">
-                    Wholesale bills, Delivery challans, Compact memos
-                  </td>
-                  <td className="px-3.5 py-2.5 text-right font-semibold text-emerald-700 whitespace-nowrap">
-                    Vector PDF &amp; Print
-                  </td>
-                </tr>
-                <tr className="hover:bg-purple-50/20 transition-colors">
-                  <td className="px-3.5 py-2.5 text-slate-900 font-semibold whitespace-nowrap">
-                    80mm Thermal Slip
-                  </td>
-                  <td className="px-3.5 py-2.5 whitespace-nowrap">80 mm roll (3-inch)</td>
-                  <td className="px-3.5 py-2.5 whitespace-nowrap">ESC/POS Thermal Receipt Printers</td>
-                  <td className="px-3.5 py-2.5 text-slate-500 whitespace-nowrap">
-                    Supermarkets, Grocery counters, Dine-in POS receipts
-                  </td>
-                  <td className="px-3.5 py-2.5 text-right font-semibold text-purple-700 whitespace-nowrap">
-                    Direct ESC/POS Raw Print
-                  </td>
-                </tr>
-                <tr className="hover:bg-purple-50/20 transition-colors">
-                  <td className="px-3.5 py-2.5 text-slate-900 font-semibold whitespace-nowrap">
-                    58mm Thermal Slip
-                  </td>
-                  <td className="px-3.5 py-2.5 whitespace-nowrap">58 mm roll (2-inch)</td>
-                  <td className="px-3.5 py-2.5 whitespace-nowrap">Bluetooth / USB Mini Thermal</td>
-                  <td className="px-3.5 py-2.5 text-slate-500 whitespace-nowrap">
-                    Small kiosks, Mobile vans, Quick billing counters
-                  </td>
-                  <td className="px-3.5 py-2.5 text-right font-semibold text-purple-700 whitespace-nowrap">
-                    Direct ESC/POS Raw Print
-                  </td>
-                </tr>
+              <tbody className="divide-y divide-slate-100 text-slate-700">
+                {V102_ASSETS.map((asset, idx) => {
+                  const IconComp = asset.icon;
+                  return (
+                    <tr key={idx} className="hover:bg-purple-50/30 transition-colors">
+                      <td className="py-2 px-3 font-semibold text-slate-900 whitespace-nowrap">
+                        <div className="flex items-center gap-1.5">
+                          <IconComp className="size-3 text-slate-400 shrink-0" />
+                          <span>{asset.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-2 px-3 whitespace-nowrap text-slate-600">
+                        {asset.arch}
+                      </td>
+                      <td className="py-2 px-3 whitespace-nowrap text-slate-500">
+                        {asset.format}
+                      </td>
+                      <td className="py-2 px-3 whitespace-nowrap text-slate-600">
+                        {asset.size}
+                      </td>
+                      <td className="py-2 px-3 text-right whitespace-nowrap">
+                        <button
+                          type="button"
+                          onClick={() => openDownloadModal(PLATFORM_DOWNLOADS[asset.platform])}
+                          className="text-[#7C3AED] hover:text-[#6D28D9] font-semibold hover:underline cursor-pointer inline-flex items-center gap-1"
+                        >
+                          <span>Download</span>
+                          <DownloadIcon className="size-2.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      <DownloadCta
-        title="Download Invio Desktop (Version 1.0.2)"
-        subtitle="Experience instant offline billing, thermal receipt printing, and customer displays."
-      />
-    </PageContainer>
+      {/* ========================================================================= */}
+      {/* Version 1.0.1 - Maintenance & Hardware Release */}
+      {/* ========================================================================= */}
+      <section id="v1-0-1" className="pt-6 border-t border-slate-200">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200">
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm sm:text-base font-bold uppercase tracking-tight text-slate-900">
+                2. Version 1.0.1 (Hardware &amp; POS Integration)
+              </h2>
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600">
+                Maintenance
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 font-mono mt-0.5">
+              Released: October 7, 2026 • Tag: <code>v1.0.1</code>
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => openDownloadModal()}
+            className="inline-flex items-center gap-1 px-2.5 py-1 text-slate-700 bg-slate-100 hover:bg-slate-200 text-xs font-semibold rounded transition-colors cursor-pointer"
+          >
+            <DownloadIcon className="size-3" />
+            <span>Download</span>
+          </button>
+        </div>
+
+        <p className="mt-3">
+          Introduced secondary dual-screen customer checkout displays, 58mm and 80mm ESC/POS raw thermal slip printing, dynamic UPI payment QR generation, and automated intra/inter-state GST tax splits.
+        </p>
+
+        <ul className="list-disc pl-5 space-y-1.5 mt-2 text-slate-700">
+          <li>
+            <strong>Dual-Screen Customer POS Display:</strong> Real-time checkout projection onto secondary HDMI or USB monitors showing line items, itemized discounts, taxes, and dynamic payment QR code.
+          </li>
+          <li>
+            <strong>ESC/POS Thermal Slip Engine:</strong> Native raw driver communication for 58mm (2-inch) and 80mm (3-inch) thermal receipt printers without system dialog prompts.
+          </li>
+          <li>
+            <strong>Barcode Scanner HID Integration:</strong> Automatic barcode reader detection with instantaneous catalog lookup and line quantity increments.
+          </li>
+          <li>
+            <strong>Automated GST Splits:</strong> In-engine separation of intra-state transactions (CGST 50% + SGST 50%) and inter-state transactions (IGST 100%) based on customer place of supply.
+          </li>
+          <li>
+            <strong>Encrypted Email Delivery:</strong> Direct dispatch of PDF invoices via Gmail OAuth or custom SMTP credentials stored in the OS cryptographic keychain.
+          </li>
+        </ul>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* Version 1.0.0 - Initial Production Launch */}
+      {/* ========================================================================= */}
+      <section id="v1-0-0" className="pt-6 border-t border-slate-200">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200">
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm sm:text-base font-bold uppercase tracking-tight text-slate-900">
+                3. Version 1.0.0 (Initial Production Launch)
+              </h2>
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600">
+                Initial
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 font-mono mt-0.5">
+              Released: October 2, 2026 • Tag: <code>v1.0.0</code>
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => openDownloadModal()}
+            className="inline-flex items-center gap-1 px-2.5 py-1 text-slate-700 bg-slate-100 hover:bg-slate-200 text-xs font-semibold rounded transition-colors cursor-pointer"
+          >
+            <DownloadIcon className="size-3" />
+            <span>Download</span>
+          </button>
+        </div>
+
+        <p className="mt-3">
+          Foundational release of Invio desktop invoicing for Windows, macOS, and Linux. Built from the ground up for 100% offline local billing with zero mandatory cloud dependencies.
+        </p>
+
+        <ul className="list-disc pl-5 space-y-1.5 mt-2 text-slate-700">
+          <li>
+            <strong>Embedded SQLite Storage Engine:</strong> Invoices, products, and customer records reside exclusively in a local database partition in your user application directory.
+          </li>
+          <li>
+            <strong>Vector A4 &amp; A5 PDF Generator:</strong> High-resolution vector document rendering with custom store logos, bank account details, and terms.
+          </li>
+          <li>
+            <strong>Inventory Catalog &amp; Low-Stock Warnings:</strong> Product stock tracking, barcode SKU index, and real-time inventory ledger adjustments.
+          </li>
+          <li>
+            <strong>Customer Ledger &amp; Tax Identifiers:</strong> Contact management with GSTIN validation, historical invoice trails, and credit tracking.
+          </li>
+        </ul>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* Printing Specifications Table */}
+      {/* ========================================================================= */}
+      <section id="print-specs" className="pt-6 border-t border-slate-200">
+        <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
+          <PrinterIcon className="size-4 text-[#7C3AED]" />
+          <h2 className="text-sm sm:text-base font-bold uppercase tracking-tight text-slate-900">
+            4. Supported Invoice Paper &amp; Printing Specifications
+          </h2>
+        </div>
+
+        <p className="mt-3">
+          Invio natively renders and prints across standard laser/inkjet sheet paper and specialized continuous roll thermal receipt hardware:
+        </p>
+
+        <div className="overflow-x-auto border border-slate-200 rounded bg-white mt-3">
+          <table className="w-full text-left font-mono text-[11px] border-collapse">
+            <thead className="bg-slate-50 border-b border-slate-200 text-slate-800 font-semibold">
+              <tr>
+                <th className="py-2 px-3">Format</th>
+                <th className="py-2 px-3">Dimensions</th>
+                <th className="py-2 px-3">Hardware Type</th>
+                <th className="py-2 px-3">Typical Application</th>
+                <th className="py-2 px-3 text-right">Rendering Engine</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              <tr className="hover:bg-purple-50/20 transition-colors">
+                <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">A4 Full Page</td>
+                <td className="py-2 px-3 whitespace-nowrap">210 × 297 mm</td>
+                <td className="py-2 px-3 whitespace-nowrap">Laser / Inkjet / PDF</td>
+                <td className="py-2 px-3 text-slate-600 whitespace-nowrap">B2B Tax Invoices, GST Filings, Detailed Quotes</td>
+                <td className="py-2 px-3 text-right font-semibold text-emerald-700 whitespace-nowrap">Vector PDF &amp; Print</td>
+              </tr>
+              <tr className="hover:bg-purple-50/20 transition-colors">
+                <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">A5 Half Page</td>
+                <td className="py-2 px-3 whitespace-nowrap">148 × 210 mm</td>
+                <td className="py-2 px-3 whitespace-nowrap">Laser, Inkjet, Dot-Matrix</td>
+                <td className="py-2 px-3 text-slate-600 whitespace-nowrap">Wholesale slips, Delivery challans, Compact bills</td>
+                <td className="py-2 px-3 text-right font-semibold text-emerald-700 whitespace-nowrap">Vector PDF &amp; Print</td>
+              </tr>
+              <tr className="hover:bg-purple-50/20 transition-colors">
+                <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">80mm Thermal</td>
+                <td className="py-2 px-3 whitespace-nowrap">80 mm roll (3-inch)</td>
+                <td className="py-2 px-3 whitespace-nowrap">ESC/POS Thermal Receipt Printers</td>
+                <td className="py-2 px-3 text-slate-600 whitespace-nowrap">Retail checkout, Supermarkets, Restaurants</td>
+                <td className="py-2 px-3 text-right font-semibold text-purple-700 whitespace-nowrap">Raw ESC/POS Commands</td>
+              </tr>
+              <tr className="hover:bg-purple-50/20 transition-colors">
+                <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">58mm Thermal</td>
+                <td className="py-2 px-3 whitespace-nowrap">58 mm roll (2-inch)</td>
+                <td className="py-2 px-3 whitespace-nowrap">Bluetooth / USB Mini Thermal Printers</td>
+                <td className="py-2 px-3 text-slate-600 whitespace-nowrap">Kiosks, Mobile sales, Compact counters</td>
+                <td className="py-2 px-3 text-right font-semibold text-purple-700 whitespace-nowrap">Raw ESC/POS Commands</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* Security Architecture Summary */}
+      {/* ========================================================================= */}
+      <section className="pt-6 border-t border-slate-200">
+        <h2 className="text-sm sm:text-base font-bold uppercase tracking-tight text-slate-900 pb-1">
+          5. Binary Verification &amp; Security Baseline
+        </h2>
+        <p>
+          All Invio desktop installers are built under strict security constraints: Electron <code>contextIsolation: true</code> is enforced, <code>nodeIntegration: false</code> is strictly guaranteed, all inter-process communications (IPC) are schema-validated, and credentials are protected by the host operating system&rsquo;s cryptographic key storage via Electron <code>safeStorage</code>.
+        </p>
+        <p className="mt-2 text-slate-500">
+          For technical security inquiries or vulnerability disclosure, consult our <a href="/security" className="text-[#7C3AED] underline font-semibold">Security Architecture Document</a> or contact <a href="mailto:support@timrio.com" className="text-slate-900 font-semibold underline">support@timrio.com</a>.
+        </p>
+      </section>
+    </A4DocLayout>
   );
 }
 
