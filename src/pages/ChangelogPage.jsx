@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { applySEO } from '../utils/seoHelper';
 import { A4DocLayout } from '../components/A4DocLayout';
 import { useDownloadModal } from '../context/DownloadModalContext';
@@ -6,19 +6,16 @@ import { PLATFORM_DOWNLOADS, API_BASE_URL } from '../utils/osDetector';
 import {
   DownloadIcon,
   PrinterIcon,
-  ChevronDownIcon,
   AppleIcon,
   WindowsIcon,
   LinuxIcon,
 } from '../components/Icons';
 
-// Version 1.x releases catalog
-const V1_RELEASES = [
+const RELEASES_METADATA = [
   {
     tag: 'v1.0.2',
-    version: '1.0.2',
-    name: 'Version 1.0.2 (Latest Production)',
-    shortName: 'v1.0.2',
+    anchorId: 'v1-0-2',
+    name: 'Version 1.0.2 (Latest Production Release)',
     date: 'October 12, 2026',
     isLatest: true,
     assets: [
@@ -47,9 +44,8 @@ const V1_RELEASES = [
   },
   {
     tag: 'v1.0.1',
-    version: '1.0.1',
-    name: 'Version 1.0.1 (Hardware & POS)',
-    shortName: 'v1.0.1',
+    anchorId: 'v1-0-1',
+    name: 'Version 1.0.1 (Hardware & POS Integration)',
     date: 'October 7, 2026',
     isLatest: false,
     assets: [
@@ -69,9 +65,8 @@ const V1_RELEASES = [
   },
   {
     tag: 'v1.0.0',
-    version: '1.0.0',
-    name: 'Version 1.0.0 (Initial Launch)',
-    shortName: 'v1.0.0',
+    anchorId: 'v1-0-0',
+    name: 'Version 1.0.0 (Initial Production Launch)',
     date: 'October 2, 2026',
     isLatest: false,
     assets: [
@@ -101,7 +96,7 @@ function renderMarkdown(mdText) {
   const flushList = () => {
     if (currentList.length > 0) {
       elements.push(
-        <ul key={`list-${listKey++}`} className="list-disc pl-5 space-y-1.5 my-2.5 text-slate-700">
+        <ul key={`list-${listKey++}`} className="list-disc pl-5 space-y-1.5 my-2 text-slate-700">
           {currentList.map((item, i) => (
             <li key={i} className="leading-relaxed">
               {formatInline(item)}
@@ -184,18 +179,6 @@ function renderMarkdown(mdText) {
 export function ChangelogPage() {
   const { openDownloadModal } = useDownloadModal();
 
-  // Active version release state
-  const [activeRelease, setActiveRelease] = useState(V1_RELEASES[0]);
-  const [showSpecs, setShowSpecs] = useState(false);
-
-  // Dropdown open states
-  const [v1MenuOpen, setV1MenuOpen] = useState(false);
-  const [v2MenuOpen, setV2MenuOpen] = useState(false);
-
-  // Dropdown container refs for outside clicks
-  const v1MenuRef = useRef(null);
-  const v2MenuRef = useRef(null);
-
   // Dynamic release notes cache: { [tag]: string }
   const [notesCache, setNotesCache] = useState({});
   const [loadingTag, setLoadingTag] = useState(null);
@@ -205,22 +188,8 @@ export function ChangelogPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Close dropdown menus on outside click
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (v1MenuRef.current && !v1MenuRef.current.contains(event.target)) {
-        setV1MenuOpen(false);
-      }
-      if (v2MenuRef.current && !v2MenuRef.current.contains(event.target)) {
-        setV2MenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, []);
-
   /**
-   * Fetch release note dynamically on click / mount from release endpoints.
+   * Fetch release notes dynamically from release feeds.
    */
   const loadReleaseNotes = useCallback(async (tag) => {
     if (notesCache[tag]) return;
@@ -274,9 +243,9 @@ export function ChangelogPage() {
       }
     }
 
-    // 4. If remote is offline/empty, use structured local release notes
+    // 4. Fallback to local structured notes if remote unavailable
     if (!fetchedNotes) {
-      const fallbackItem = V1_RELEASES.find((v) => v.tag === tag);
+      const fallbackItem = RELEASES_METADATA.find((v) => v.tag === tag);
       if (fallbackItem) {
         fetchedNotes = fallbackItem.fallbackNotes;
       }
@@ -284,201 +253,119 @@ export function ChangelogPage() {
 
     setNotesCache((prev) => ({
       ...prev,
-      [tag]: fetchedNotes || 'Release documentation currently unavailable for this build.',
+      [tag]: fetchedNotes || 'Release notes currently unavailable.',
     }));
     setLoadingTag(null);
   }, [notesCache]);
 
-  // Load active version notes on initial render
+  // Load notes on mount
   useEffect(() => {
-    if (activeRelease?.tag && !notesCache[activeRelease.tag]) {
-      loadReleaseNotes(activeRelease.tag);
-    }
-  }, [activeRelease, loadReleaseNotes, notesCache]);
+    RELEASES_METADATA.forEach((rel) => {
+      loadReleaseNotes(rel.tag);
+    });
+  }, [loadReleaseNotes]);
 
   return (
     <A4DocLayout
       title="Invio Desktop Release Notes & Version History"
       subtitle="Official release documentation, verified distribution binaries, security bulletins, and hardware specifications • Published by Timrio • Last updated: October 2026"
     >
-      {/* Quick Jump Navigation (Version Dropdowns, No Top/Bottom Borders) */}
+      {/* Quick Jump Navigation (Clean Hypertext, Sticky below Navbar, No Borders) */}
       <div className="sticky top-16 z-30 bg-[#f8fafc]/95 backdrop-blur-md py-2.5 -mx-4 px-4 sm:-mx-6 sm:px-6 flex flex-wrap items-center gap-2 text-xs text-slate-600 my-4 shadow-2xs not-prose">
         <span className="font-semibold text-slate-900">Jump to:</span>
-
-        {/* Version 1 Dropdown Menu */}
-        <div className="relative inline-block" ref={v1MenuRef}>
-          <button
-            type="button"
-            onClick={() => {
-              setV1MenuOpen((prev) => !prev);
-              setV2MenuOpen(false);
-            }}
-            className={`font-semibold flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded transition-colors ${
-              !showSpecs ? 'text-[#7C3AED] bg-purple-50/80' : 'text-slate-700 hover:text-slate-900'
-            }`}
-            aria-expanded={v1MenuOpen}
-          >
-            <span className="size-1.5 rounded-full bg-[#7C3AED]"></span>
-            <span>Version 1 ({activeRelease.shortName})</span>
-            <ChevronDownIcon
-              className={`size-3 transition-transform duration-200 ${v1MenuOpen ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
-            />
-          </button>
-
-          {/* Version 1 Dropdown List (001, 002, 003...) */}
-          {v1MenuOpen && (
-            <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-lg border border-slate-200/80 py-1.5 z-50">
-              <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 mb-1">
-                Version 1 Releases
-              </div>
-              {V1_RELEASES.map((rel) => {
-                const isSelected = activeRelease.tag === rel.tag && !showSpecs;
-                return (
-                  <button
-                    key={rel.tag}
-                    type="button"
-                    onClick={() => {
-                      setActiveRelease(rel);
-                      setShowSpecs(false);
-                      setV1MenuOpen(false);
-                      if (!notesCache[rel.tag]) {
-                        loadReleaseNotes(rel.tag);
-                      }
-                    }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between transition-colors cursor-pointer ${
-                      isSelected
-                        ? 'bg-purple-50 text-[#7C3AED] font-semibold'
-                        : 'text-slate-700 hover:bg-slate-50'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className={`size-1.5 rounded-full ${rel.isLatest ? 'bg-[#7C3AED]' : 'bg-slate-300'}`} />
-                      <span>{rel.name}</span>
-                    </div>
-                    {rel.isLatest && (
-                      <span className="text-[10px] uppercase font-bold text-[#7C3AED] bg-purple-100/80 px-1.5 py-0.5 rounded">
-                        Latest
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        <span className="text-slate-300">•</span>
-
-        {/* Version 2 Dropdown (Next Roadmap) */}
-        <div className="relative inline-block" ref={v2MenuRef}>
-          <button
-            type="button"
-            onClick={() => {
-              setV2MenuOpen((prev) => !prev);
-              setV1MenuOpen(false);
-            }}
-            className="flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded text-slate-600 hover:text-slate-900 font-medium transition-colors"
-            aria-expanded={v2MenuOpen}
-          >
-            <span>Version 2</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-200/70 text-slate-600 font-mono">
-              Planned
-            </span>
-            <ChevronDownIcon
-              className={`size-3 transition-transform duration-200 ${v2MenuOpen ? 'rotate-180 text-slate-700' : 'text-slate-400'}`}
-            />
-          </button>
-
-          {v2MenuOpen && (
-            <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-lg border border-slate-200/80 p-3 z-50 text-xs">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 pb-1 mb-1 border-b border-slate-100">
-                Version 2.x Roadmap
-              </div>
-              <p className="text-[11px] leading-relaxed text-slate-600">
-                Major Version 2 is currently in active development. Features in progress include multi-store database replication, advanced analytics, and custom receipt templating.
-              </p>
-            </div>
-          )}
-        </div>
-
-        <span className="text-slate-300">•</span>
-
-        {/* Print Specifications */}
-        <button
-          type="button"
-          onClick={() => {
-            setShowSpecs(true);
-            setV1MenuOpen(false);
-            setV2MenuOpen(false);
-          }}
-          className={`flex items-center gap-1 cursor-pointer px-2 py-1 rounded transition-colors ${
-            showSpecs ? 'text-[#7C3AED] font-semibold bg-purple-50/80' : 'text-slate-600 hover:text-slate-900 font-medium'
-          }`}
+        <a
+          href="#v1-0-2"
+          className="text-[#7C3AED] underline hover:text-[#6D28D9] font-semibold flex items-center gap-1"
         >
-          <PrinterIcon className="size-3" />
-          <span>Print Specifications</span>
-        </button>
+          <span className="size-1.5 rounded-full bg-[#7C3AED]"></span>
+          <span>v1.0.2 (Latest)</span>
+        </a>
+        <span className="text-slate-300">•</span>
+        <a
+          href="#v1-0-1"
+          className="text-[#7C3AED] underline hover:text-[#6D28D9] font-medium"
+        >
+          v1.0.1
+        </a>
+        <span className="text-slate-300">•</span>
+        <a
+          href="#v1-0-0"
+          className="text-[#7C3AED] underline hover:text-[#6D28D9] font-medium"
+        >
+          v1.0.0
+        </a>
+        <span className="text-slate-300">•</span>
+        <a
+          href="#print-specs"
+          className="text-[#7C3AED] underline hover:text-[#6D28D9] font-medium"
+        >
+          Print Specifications
+        </a>
       </div>
 
       <p className="text-slate-600">
-        All builds from <code>v1.0.0</code> up to <code>v1.0.2</code> are part of Major Version 1. Select any version from the Version 1 dropdown above to toggle its release notes and verified packages.
+        This document provides the definitive change log, distribution manifests, security bulletins, and hardware compatibility specifications for the Invio desktop application on macOS, Windows, and Linux. All official release binaries are compiled directly from source and verified for offline production readiness.
       </p>
 
-      {/* Selected Version Release Notes (Toggled, Clean Look) */}
-      {!showSpecs && activeRelease && (
-        <section className="pt-2 space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-2">
+      {/* Release Sections (Clean Document Style, Scroll Margins, No Harsh Borders) */}
+      {RELEASES_METADATA.map((rel, index) => (
+        <section
+          key={rel.tag}
+          id={rel.anchorId}
+          className="pt-6 scroll-mt-32 space-y-3"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-1">
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <h2 className="text-base font-bold uppercase tracking-tight text-slate-900">
-                  {activeRelease.name}
+                  {index + 1}. {rel.name}
                 </h2>
-                {activeRelease.isLatest && (
+                {rel.isLatest && (
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-[#7C3AED]">
-                    Latest Release
+                    Latest
                   </span>
                 )}
               </div>
               <p className="text-[11px] text-slate-500 font-mono mt-0.5">
-                Released: {activeRelease.date} • Tag: <code>{activeRelease.tag}</code> • Status: Production Verified
+                Released: {rel.date} • Tag: <code>{rel.tag}</code> • Status: Production Verified
               </p>
             </div>
 
             <button
               type="button"
               onClick={() => openDownloadModal()}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded transition-colors cursor-pointer"
             >
               <DownloadIcon className="size-3.5" />
-              <span>Download {activeRelease.tag}</span>
+              <span>Download {rel.tag}</span>
             </button>
           </div>
 
-          {/* Dynamic Markdown Release Notes */}
-          <div className="p-4 rounded-lg bg-slate-50/80 space-y-2">
-            {loadingTag === activeRelease.tag ? (
-              <div className="py-6 flex flex-col items-center justify-center gap-2 text-slate-500 text-xs">
-                <div className="size-5 rounded-full border-2 border-slate-300 border-t-[#7C3AED] animate-spin" />
-                <span>Fetching release notes from distribution registry...</span>
+          {/* Dynamic Release Notes Content */}
+          <div className="text-xs leading-relaxed text-slate-800 space-y-1">
+            {loadingTag === rel.tag && !notesCache[rel.tag] ? (
+              <div className="py-4 flex items-center gap-2 text-slate-400 text-xs">
+                <div className="size-4 rounded-full border-2 border-slate-300 border-t-[#7C3AED] animate-spin" />
+                <span>Loading release notes...</span>
               </div>
             ) : (
-              renderMarkdown(notesCache[activeRelease.tag])
+              renderMarkdown(notesCache[rel.tag] || rel.fallbackNotes)
             )}
           </div>
 
-          {/* Distribution Manifest Table for the active release */}
-          {activeRelease.assets && activeRelease.assets.length > 0 && (
+          {/* Verified Binaries Table */}
+          {rel.assets && rel.assets.length > 0 && (
             <div className="pt-2">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900">
-                  Distribution Binaries ({activeRelease.tag})
+                  Distribution Binaries ({rel.tag})
                 </h3>
                 <span className="text-[10px] font-mono text-slate-500">
-                  {activeRelease.assets.length} Verified Platform Packages
+                  {rel.assets.length} Verified Platform Packages
                 </span>
               </div>
 
-              <div className="overflow-x-auto rounded-lg bg-white shadow-2xs">
+              <div className="overflow-x-auto rounded bg-white shadow-2xs">
                 <table className="w-full text-left font-mono text-[11px] border-collapse">
                   <thead className="bg-slate-100/70 text-slate-800 font-semibold">
                     <tr>
@@ -490,7 +377,7 @@ export function ChangelogPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 text-slate-700">
-                    {activeRelease.assets.map((asset, idx) => {
+                    {rel.assets.map((asset, idx) => {
                       const IconComp = asset.icon;
                       return (
                         <tr key={idx} className="hover:bg-purple-50/30 transition-colors">
@@ -528,72 +415,70 @@ export function ChangelogPage() {
             </div>
           )}
         </section>
-      )}
+      ))}
 
-      {/* Hardware Printing Specifications Section (Toggled) */}
-      {showSpecs && (
-        <section className="pt-2 space-y-3">
-          <div className="flex items-center gap-2 pb-1">
-            <PrinterIcon className="size-4 text-[#7C3AED]" />
-            <h2 className="text-base font-bold uppercase tracking-tight text-slate-900">
-              Supported Invoice Paper &amp; Printing Specifications
-            </h2>
-          </div>
+      {/* Hardware Printing Specifications Section */}
+      <section id="print-specs" className="pt-6 scroll-mt-32 space-y-3">
+        <div className="flex items-center gap-2 pb-1">
+          <PrinterIcon className="size-4 text-[#7C3AED]" />
+          <h2 className="text-base font-bold uppercase tracking-tight text-slate-900">
+            4. Supported Invoice Paper &amp; Printing Specifications
+          </h2>
+        </div>
 
-          <p className="text-slate-600">
-            Invio natively renders and prints across standard laser/inkjet sheet paper and specialized continuous roll thermal receipt hardware:
-          </p>
+        <p className="text-slate-600">
+          Invio natively renders and prints across standard laser/inkjet sheet paper and specialized continuous roll thermal receipt hardware:
+        </p>
 
-          <div className="overflow-x-auto rounded-lg bg-white shadow-2xs mt-2">
-            <table className="w-full text-left font-mono text-[11px] border-collapse">
-              <thead className="bg-slate-100/70 text-slate-800 font-semibold">
-                <tr>
-                  <th className="py-2 px-3">Format</th>
-                  <th className="py-2 px-3">Dimensions</th>
-                  <th className="py-2 px-3">Hardware Type</th>
-                  <th className="py-2 px-3">Typical Application</th>
-                  <th className="py-2 px-3 text-right">Rendering Engine</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 text-slate-700">
-                <tr className="hover:bg-purple-50/20 transition-colors">
-                  <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">A4 Full Page</td>
-                  <td className="py-2 px-3 whitespace-nowrap">210 × 297 mm</td>
-                  <td className="py-2 px-3 whitespace-nowrap">Laser / Inkjet / PDF</td>
-                  <td className="py-2 px-3 text-slate-600 whitespace-nowrap">B2B Tax Invoices, GST Filings, Detailed Quotes</td>
-                  <td className="py-2 px-3 text-right font-semibold text-emerald-700 whitespace-nowrap">Vector PDF &amp; Print</td>
-                </tr>
-                <tr className="hover:bg-purple-50/20 transition-colors">
-                  <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">A5 Half Page</td>
-                  <td className="py-2 px-3 whitespace-nowrap">148 × 210 mm</td>
-                  <td className="py-2 px-3 whitespace-nowrap">Laser, Inkjet, Dot-Matrix</td>
-                  <td className="py-2 px-3 text-slate-600 whitespace-nowrap">Wholesale slips, Delivery challans, Compact bills</td>
-                  <td className="py-2 px-3 text-right font-semibold text-emerald-700 whitespace-nowrap">Vector PDF &amp; Print</td>
-                </tr>
-                <tr className="hover:bg-purple-50/20 transition-colors">
-                  <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">80mm Thermal</td>
-                  <td className="py-2 px-3 whitespace-nowrap">80 mm roll (3-inch)</td>
-                  <td className="py-2 px-3 whitespace-nowrap">ESC/POS Thermal Receipt Printers</td>
-                  <td className="py-2 px-3 text-slate-600 whitespace-nowrap">Retail checkout, Supermarkets, Restaurants</td>
-                  <td className="py-2 px-3 text-right font-semibold text-purple-700 whitespace-nowrap">Raw ESC/POS Commands</td>
-                </tr>
-                <tr className="hover:bg-purple-50/20 transition-colors">
-                  <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">58mm Thermal</td>
-                  <td className="py-2 px-3 whitespace-nowrap">58 mm roll (2-inch)</td>
-                  <td className="py-2 px-3 whitespace-nowrap">Bluetooth / USB Mini Thermal Printers</td>
-                  <td className="py-2 px-3 text-slate-600 whitespace-nowrap">Kiosks, Mobile sales, Compact counters</td>
-                  <td className="py-2 px-3 text-right font-semibold text-purple-700 whitespace-nowrap">Raw ESC/POS Commands</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
+        <div className="overflow-x-auto rounded bg-white shadow-2xs mt-2">
+          <table className="w-full text-left font-mono text-[11px] border-collapse">
+            <thead className="bg-slate-100/70 text-slate-800 font-semibold">
+              <tr>
+                <th className="py-2 px-3">Format</th>
+                <th className="py-2 px-3">Dimensions</th>
+                <th className="py-2 px-3">Hardware Type</th>
+                <th className="py-2 px-3">Typical Application</th>
+                <th className="py-2 px-3 text-right">Rendering Engine</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              <tr className="hover:bg-purple-50/20 transition-colors">
+                <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">A4 Full Page</td>
+                <td className="py-2 px-3 whitespace-nowrap">210 × 297 mm</td>
+                <td className="py-2 px-3 whitespace-nowrap">Laser / Inkjet / PDF</td>
+                <td className="py-2 px-3 text-slate-600 whitespace-nowrap">B2B Tax Invoices, GST Filings, Detailed Quotes</td>
+                <td className="py-2 px-3 text-right font-semibold text-emerald-700 whitespace-nowrap">Vector PDF &amp; Print</td>
+              </tr>
+              <tr className="hover:bg-purple-50/20 transition-colors">
+                <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">A5 Half Page</td>
+                <td className="py-2 px-3 whitespace-nowrap">148 × 210 mm</td>
+                <td className="py-2 px-3 whitespace-nowrap">Laser, Inkjet, Dot-Matrix</td>
+                <td className="py-2 px-3 text-slate-600 whitespace-nowrap">Wholesale slips, Delivery challans, Compact bills</td>
+                <td className="py-2 px-3 text-right font-semibold text-emerald-700 whitespace-nowrap">Vector PDF &amp; Print</td>
+              </tr>
+              <tr className="hover:bg-purple-50/20 transition-colors">
+                <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">80mm Thermal</td>
+                <td className="py-2 px-3 whitespace-nowrap">80 mm roll (3-inch)</td>
+                <td className="py-2 px-3 whitespace-nowrap">ESC/POS Thermal Receipt Printers</td>
+                <td className="py-2 px-3 text-slate-600 whitespace-nowrap">Retail checkout, Supermarkets, Restaurants</td>
+                <td className="py-2 px-3 text-right font-semibold text-purple-700 whitespace-nowrap">Raw ESC/POS Commands</td>
+              </tr>
+              <tr className="hover:bg-purple-50/20 transition-colors">
+                <td className="py-2 px-3 font-bold text-slate-900 whitespace-nowrap">58mm Thermal</td>
+                <td className="py-2 px-3 whitespace-nowrap">58 mm roll (2-inch)</td>
+                <td className="py-2 px-3 whitespace-nowrap">Bluetooth / USB Mini Thermal Printers</td>
+                <td className="py-2 px-3 text-slate-600 whitespace-nowrap">Kiosks, Mobile sales, Compact counters</td>
+                <td className="py-2 px-3 text-right font-semibold text-purple-700 whitespace-nowrap">Raw ESC/POS Commands</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       {/* Security Baseline Note */}
-      <section className="pt-4 space-y-1.5 text-slate-600">
+      <section className="pt-6 space-y-1.5 text-slate-600">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900">
-          Security Baseline &amp; Verification
+          5. Binary Verification &amp; Security Baseline
         </h3>
         <p>
           All Invio desktop installers enforce Electron <code>contextIsolation: true</code>, strictly disable <code>nodeIntegration: false</code>, validate all IPC payloads, and secure email credentials inside the OS cryptographic keychain via <code>safeStorage</code>.
