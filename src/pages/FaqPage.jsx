@@ -38,10 +38,10 @@ export function FaqPage() {
             Email support@timrio.com
           </a>
           <Link
-            to="/support"
+            to="/docs/troubleshooting"
             className="text-xs font-semibold text-[#7C3AED] hover:underline"
           >
-            Help Center →
+            Support Center →
           </Link>
         </div>
       </div>

@@ -28,10 +28,10 @@ export function EulaPage() {
         2. License Editions
       </h2>
       <p>
-        <strong>Core Free Edition:</strong> The core desktop invoicing edition is licensed free of charge for unlimited local invoice generation and customer record management on a standalone machine.
+        <strong>Core Free Edition:</strong> The core desktop invoicing edition is licensed free of charge for unlimited offline invoice generation, customer management, inventory cataloguing, and standard A4 printing on a standalone machine.
       </p>
       <p>
-        <strong>Plus Commercial Edition:</strong> Advanced hardware features (such as secondary customer POS display monitors, specialised ESC/POS thermal formatting, and priority technical support) require an active commercial Plus license per store workstation.
+        <strong>Commercial Plus &amp; Pro Editions:</strong> Commercial hardware features (such as secondary customer POS display screens, ESC/POS thermal receipt printing, email delivery, multi-counter PostgreSQL network mode, and priority engineering support) require an active commercial subscription or workstation activation.
       </p>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">

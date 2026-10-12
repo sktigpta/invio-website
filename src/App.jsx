@@ -15,7 +15,6 @@ import { DownloadPage } from './pages/DownloadPage';
 // Secondary pages loaded on demand (reduces initial bundle size)
 const DocsPage = lazy(() => import('./pages/DocsPage').then(m => ({ default: m.DocsPage })));
 const ChangelogPage = lazy(() => import('./pages/ChangelogPage').then(m => ({ default: m.ChangelogPage })));
-const SupportPage = lazy(() => import('./pages/SupportPage').then(m => ({ default: m.SupportPage })));
 const FaqPage = lazy(() => import('./pages/FaqPage').then(m => ({ default: m.FaqPage })));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
 const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })));
@@ -70,7 +69,7 @@ export function App() {
               <Route path="/doc/:docId" element={<DocsPage />} />
               <Route path="/system-requirements" element={<Navigate to="/docs/system" replace />} />
               <Route path="/installation-guide" element={<Navigate to="/docs/installation" replace />} />
-              <Route path="/support" element={<SupportPage />} />
+              <Route path="/support" element={<Navigate to="/docs/troubleshooting" replace />} />
               <Route path="/faq" element={<FaqPage />} />
 
               {/* Free Financial & Tax Tools */}

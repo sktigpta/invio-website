@@ -51,7 +51,7 @@ export function Footer() {
             <ul className="space-y-1.5 text-xs">
               <li><Link to="/docs" className="hover:text-[#7C3AED] transition-colors font-medium text-slate-700">Documentation</Link></li>
               <li><Link to="/faq" className="hover:text-[#7C3AED] transition-colors">FAQ</Link></li>
-              <li><Link to="/support" className="hover:text-[#7C3AED] transition-colors">Support Center</Link></li>
+              <li><Link to="/docs/troubleshooting" className="hover:text-[#7C3AED] transition-colors">Support Center</Link></li>
               <li><Link to="/contact" className="hover:text-[#7C3AED] transition-colors">Contact Us</Link></li>
             </ul>
           </div>
@@ -60,7 +60,6 @@ export function Footer() {
           <div className="lg:col-span-2">
             <h4 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Free Tools</h4>
             <ul className="space-y-1.5 text-xs">
-              <li><Link to="/tools" className="hover:text-[#7C3AED] transition-colors">All Calculators</Link></li>
               <li><Link to="/tools/gst-calculator" className="hover:text-[#7C3AED] transition-colors">GST Calculator</Link></li>
               <li><Link to="/tools/income-tax-india" className="hover:text-[#7C3AED] transition-colors">Income Tax</Link></li>
               <li><Link to="/tools/vat-uk" className="hover:text-[#7C3AED] transition-colors">UK VAT</Link></li>

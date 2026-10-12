@@ -77,8 +77,8 @@ export function ContactPage() {
           </div>
         </div>
 
-        {/* Action Buttons matching Auth & Checkout UI */}
-        <div className="space-y-2.5">
+        {/* Action Button matching Auth & Checkout UI */}
+        <div>
           <a
             href="mailto:support@timrio.com"
             className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2 text-center cursor-pointer"
@@ -86,15 +86,6 @@ export function ContactPage() {
             <MailIcon className="size-4" />
             <span>Open Email to Contact Support</span>
           </a>
-
-          <button
-            type="button"
-            onClick={handleCopyEmail}
-            className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full font-semibold text-xs sm:text-sm transition-colors text-center cursor-pointer flex items-center justify-center gap-1.5"
-          >
-            <CopyIcon className="size-3.5 text-slate-500" />
-            <span>{copied ? 'Copied to Clipboard!' : 'Copy support@timrio.com'}</span>
-          </button>
         </div>
 
         <p className="text-center text-[11px] text-slate-400 mt-5">

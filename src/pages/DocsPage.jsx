@@ -123,13 +123,13 @@ export const DOC_CATEGORIES = [
   },
   {
     id: 'help-support',
-    name: 'Help & Questions',
+    name: 'Support & Help Center',
     steps: [
       {
         id: 'troubleshooting',
         stepNumber: 13,
-        title: 'Common Questions & Support',
-        shortDesc: 'Quick fixes and direct email assistance',
+        title: 'Support Center & Troubleshooting',
+        shortDesc: 'Direct support, database recovery & hardware fixes',
         seoKey: 'docs-troubleshooting',
       },
     ],
@@ -729,40 +729,64 @@ export function DocsPage() {
         return (
           <>
             <p>
-              Here are quick answers and solutions for the most common questions.
+              Here are direct solutions and answers for setup, hardware connectivity, database management, and support requests.
             </p>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              1. My Receipt Printer Stopped Printing
+              1. Direct Technical Support Channel
+            </h2>
+            <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 my-2">
+              <p className="text-xs text-slate-700 leading-relaxed mb-2">
+                Need personalized help setting up Invio, connecting hardware, or migrating data? Reach our engineering team directly:
+              </p>
+              <p className="font-mono text-xs">
+                Email:{' '}
+                <a href="mailto:support@timrio.com" className="text-[#7C3AED] underline font-semibold">
+                  support@timrio.com
+                </a>
+              </p>
+              <p className="text-[11px] text-slate-500 mt-1">
+                Hours: Monday – Friday, 9:00 AM – 6:00 PM IST • Response within 24 business hours.
+              </p>
+            </div>
+
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+              2. Backing Up or Transferring Your Invoice Database
+            </h2>
+            <p>
+              In Invio, open <strong>Settings &gt; Database</strong> and click <strong>&ldquo;Export SQLite Backup&rdquo;</strong>. Save the file to an external USB flash drive or backup folder. To restore on a new computer, install Invio, open <strong>Settings &gt; Database</strong>, and select <strong>&ldquo;Import Backup&rdquo;</strong>. Your complete billing history is restored instantly.
+            </p>
+
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+              3. Thermal Receipt Printer Stops or Prints Misaligned Lines
             </h2>
             <ol className="list-decimal pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Check that the printer power cord is plugged in and the green power light is on.</li>
-              <li>Unplug the USB cable from your computer, wait 5 seconds, and plug it back into the same USB slot.</li>
-              <li>Open the printer paper compartment and check if the paper roll is empty.</li>
-              <li>In Invio, go to <strong>Settings &gt; Invoice &amp; Printing</strong> and click <strong>Test Print</strong>.</li>
+              <li>Ensure the printer power cord is plugged in and the green power LED is lit.</li>
+              <li>Unplug the USB cable from your computer, wait 5 seconds, and plug it back into the same port.</li>
+              <li>Confirm your paper roll width in <strong>Settings &gt; Invoice &amp; Printing</strong> (58mm vs 80mm).</li>
+              <li>Open the printer paper compartment and ensure the paper roll is inserted thermal-side up.</li>
+              <li>Click <strong>Test Print</strong> in Invio settings to verify communication with the printer.</li>
             </ol>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              2. Windows Antivirus Showed a Warning
+              4. Windows Antivirus / SmartScreen Warning on Install
             </h2>
             <p>
-              Because Invio is an independently distributed offline software, Windows Defender may occasionally show a popup on first download. Invio contains zero spyware or adware. Simply click <strong>&ldquo;More info&rdquo;</strong> and then <strong>&ldquo;Run anyway&rdquo;</strong>.
+              Because Invio is an independently distributed offline desktop software, Windows Defender may show a &ldquo;Windows protected your PC&rdquo; banner on initial download. Invio is completely secure and contains zero tracking or adware. Simply click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
             </p>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              3. Need Personal Help from Our Team?
+              5. Email Dispatch Authorization Error
             </h2>
             <p>
-              Our support team is happy to assist you:
+              When connecting Gmail, ensure your Google account permits desktop application authorization. Alternatively, when configuring custom SMTP, generate an App Password from your email provider account settings and enter it into <strong>Settings &gt; Email</strong>.
             </p>
-            <p className="font-mono text-xs pt-1">
-              Email:{' '}
-              <a href="mailto:support@timrio.com" className="text-[#7C3AED] underline font-semibold">
-                support@timrio.com
-              </a>
-            </p>
-            <p className="text-[11px] text-slate-500">
-              Hours: Monday to Friday • Every message is answered within 24 hours.
+
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+              6. Running Multiple Counters in the Same Store
+            </h2>
+            <p>
+              While Invio uses embedded SQLite by default for single-counter setups, it includes an optional multi-terminal PostgreSQL database mode under <strong>Settings &gt; Advanced Database</strong>. You can host PostgreSQL on your main counter PC and connect secondary counter terminals over your shop local Wi-Fi or LAN.
             </p>
           </>
         );
