@@ -299,48 +299,62 @@ export function ChangelogPage() {
       title="Invio Desktop Release Notes & Version History"
       subtitle="Official release documentation, verified distribution binaries, security bulletins, and hardware specifications • Published by Timrio • Last updated: October 2026"
     >
-      {/* Sticky Version Toggle Bar (No Top/Bottom Borders) */}
-      <div className="sticky top-16 z-30 bg-[#f8fafc]/95 backdrop-blur-md py-3 not-prose">
-        <div className="flex flex-wrap items-center gap-2">
-          {INITIAL_VERSIONS.map((v) => {
-            const isOpen = activeVersion === v.tag;
-            return (
-              <button
-                key={v.tag}
-                type="button"
-                onClick={() => handleToggleVersion(v.tag)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
-                  isOpen
-                    ? 'bg-[#7C3AED] text-white shadow-xs'
-                    : 'bg-slate-200/70 text-slate-700 hover:bg-slate-300/80 hover:text-slate-900'
-                }`}
-                aria-expanded={isOpen}
-              >
-                <span>{v.name}</span>
-                <ChevronDownIcon
-                  className={`size-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180 text-white' : 'text-slate-500'}`}
-                />
-              </button>
-            );
-          })}
-
-          <button
-            type="button"
-            onClick={handleToggleSpecs}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
-              showSpecs
-                ? 'bg-slate-800 text-white shadow-xs'
-                : 'bg-slate-200/70 text-slate-700 hover:bg-slate-300/80 hover:text-slate-900'
-            }`}
-            aria-expanded={showSpecs}
-          >
-            <PrinterIcon className="size-3.5" />
-            <span>Print Specifications</span>
-            <ChevronDownIcon
-              className={`size-3.5 transition-transform duration-200 ${showSpecs ? 'rotate-180 text-white' : 'text-slate-500'}`}
-            />
-          </button>
-        </div>
+      {/* Quick Jump Navigation (Sticky below Navbar, No Top/Bottom Borders) */}
+      <div className="sticky top-16 z-30 bg-[#f8fafc]/95 backdrop-blur-md py-2.5 -mx-4 px-4 sm:-mx-6 sm:px-6 flex flex-wrap items-center gap-2 text-xs text-slate-600 my-4 shadow-2xs not-prose">
+        <span className="font-semibold text-slate-900">Jump to:</span>
+        <button
+          type="button"
+          onClick={() => handleToggleVersion('v1.0.2')}
+          className={`font-semibold flex items-center gap-1 cursor-pointer transition-colors ${
+            activeVersion === 'v1.0.2' ? 'text-[#7C3AED]' : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          <span className="size-1.5 rounded-full bg-[#7C3AED]"></span>
+          <span>v1.0.2 (Latest)</span>
+          <ChevronDownIcon
+            className={`size-3 transition-transform duration-200 ${activeVersion === 'v1.0.2' ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
+          />
+        </button>
+        <span className="text-slate-300">•</span>
+        <button
+          type="button"
+          onClick={() => handleToggleVersion('v1.0.1')}
+          className={`flex items-center gap-1 cursor-pointer transition-colors ${
+            activeVersion === 'v1.0.1' ? 'text-[#7C3AED] font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'
+          }`}
+        >
+          <span>v1.0.1</span>
+          <ChevronDownIcon
+            className={`size-3 transition-transform duration-200 ${activeVersion === 'v1.0.1' ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
+          />
+        </button>
+        <span className="text-slate-300">•</span>
+        <button
+          type="button"
+          onClick={() => handleToggleVersion('v1.0.0')}
+          className={`flex items-center gap-1 cursor-pointer transition-colors ${
+            activeVersion === 'v1.0.0' ? 'text-[#7C3AED] font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'
+          }`}
+        >
+          <span>v1.0.0</span>
+          <ChevronDownIcon
+            className={`size-3 transition-transform duration-200 ${activeVersion === 'v1.0.0' ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
+          />
+        </button>
+        <span className="text-slate-300">•</span>
+        <button
+          type="button"
+          onClick={handleToggleSpecs}
+          className={`flex items-center gap-1 cursor-pointer transition-colors ${
+            showSpecs ? 'text-[#7C3AED] font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'
+          }`}
+        >
+          <PrinterIcon className="size-3" />
+          <span>Print Specifications</span>
+          <ChevronDownIcon
+            className={`size-3 transition-transform duration-200 ${showSpecs ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
+          />
+        </button>
       </div>
 
       <p className="text-slate-600">
