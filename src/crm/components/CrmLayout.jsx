@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, Link } from 'react-router-dom';
 import { useCrmAuth } from '../context/CrmAuthContext';
 import {
   DashboardIcon,
@@ -27,15 +27,15 @@ export function CrmLayout() {
   const location = useLocation();
 
   const navItems = [
-    { to: '/crm', label: 'Dashboard', icon: DashboardIcon, end: true },
-    { to: '/crm/customers', label: 'Customers', icon: UsersIcon },
-    { to: '/crm/discounts', label: 'Discounts', icon: PercentIcon },
-    { to: '/crm/approvals', label: 'Discount Approvals', icon: CheckCircleIcon },
-    { to: '/crm/coupons', label: 'Coupons', icon: TagIcon },
-    { to: '/crm/tickets', label: 'Support Tickets', icon: TicketIcon },
-    { to: '/crm/plans', label: 'Subscription Plans', icon: LayersIcon },
-    ...(isManagerOrAdmin ? [{ to: '/crm/staff', label: 'Staff Management', icon: ShieldCheckIcon }] : []),
-    ...(isAdmin ? [{ to: '/crm/audit-logs', label: 'Audit Logs', icon: FileTextIcon }] : []),
+    { to: '/dashboard', label: 'Dashboard', icon: DashboardIcon },
+    { to: '/customers', label: 'Customers', icon: UsersIcon },
+    { to: '/discounts', label: 'Discounts', icon: PercentIcon },
+    { to: '/approvals', label: 'Discount Approvals', icon: CheckCircleIcon },
+    { to: '/coupons', label: 'Coupons', icon: TagIcon },
+    { to: '/tickets', label: 'Support Tickets', icon: TicketIcon },
+    { to: '/plans', label: 'Subscription Plans', icon: LayersIcon },
+    ...(isManagerOrAdmin ? [{ to: '/staff', label: 'Staff Management', icon: ShieldCheckIcon }] : []),
+    ...(isAdmin ? [{ to: '/audit-logs', label: 'Audit Logs', icon: FileTextIcon }] : []),
   ];
 
   const currentRole = roleMeta[staff?.role] || { label: staff?.role || 'Staff', bg: 'bg-slate-100 text-slate-700 border-slate-200' };
@@ -44,12 +44,12 @@ export function CrmLayout() {
     <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-800">
       {/* Mobile Header Bar */}
       <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30">
-        <div className="flex items-center gap-2.5">
+        <Link to="/dashboard" className="flex items-center gap-2.5">
           <div className="size-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow">
             IN
           </div>
           <span className="font-bold text-base tracking-tight text-slate-900">Invio CRM</span>
-        </div>
+        </Link>
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="p-1.5 rounded-md text-slate-600 hover:bg-slate-100"
@@ -68,20 +68,20 @@ export function CrmLayout() {
         } md:block w-full md:w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col z-20`}
       >
         {/* Brand header */}
-        <div className="p-5 border-b border-slate-100 hidden md:flex items-center gap-3">
+        <Link to="/dashboard" className="p-5 border-b border-slate-100 hidden md:flex items-center gap-3 hover:bg-slate-50/50 transition">
           <div className="size-9 rounded-xl bg-gradient-to-tr from-[#7C3AED] to-[#4F46E5] flex items-center justify-center text-white font-black text-base shadow-sm">
             IN
           </div>
           <div>
             <div className="font-bold text-base text-slate-900 tracking-tight flex items-center gap-1.5">
-              Invio Portal
+              Invio CRM
               <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-200">
-                CRM
+                Staff
               </span>
             </div>
             <p className="text-xs text-slate-500 font-medium">Customer & Discount Admin</p>
           </div>
-        </div>
+        </Link>
 
         {/* Staff badge card */}
         <div className="p-4 mx-3 my-3 bg-slate-50/80 rounded-xl border border-slate-200/80">
@@ -123,7 +123,7 @@ export function CrmLayout() {
         {/* Bottom actions */}
         <div className="p-3 border-t border-slate-100 space-y-1">
           <a
-            href="/"
+            href="https://invio.timrio.com"
             target="_blank"
             rel="noreferrer"
             className="flex items-center justify-between px-3.5 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
@@ -146,13 +146,13 @@ export function CrmLayout() {
         <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
           <div>
             <h1 className="text-xl font-bold text-slate-900 capitalize">
-              {location.pathname.replace('/crm', '').replace('/', '') || 'Overview'}
+              {location.pathname === '/' ? 'Dashboard' : location.pathname.slice(1).replace('-', ' ')}
             </h1>
             <p className="text-xs text-slate-500">Authoritative real-time administrative operations</p>
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden sm:inline-block text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md font-mono">
-              Live Mode
+              crm.invio.timrio.com
             </span>
             <div className="size-2 rounded-full bg-emerald-500 animate-pulse" title="System Operational" />
           </div>
