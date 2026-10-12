@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { applySEO } from '../utils/seoHelper';
 import { A4DocLayout } from '../components/A4DocLayout';
 import { useDownloadModal } from '../context/DownloadModalContext';
@@ -12,12 +12,13 @@ import {
   LinuxIcon,
 } from '../components/Icons';
 
-// Fallback release metadata and notes if network is unreachable
-const INITIAL_VERSIONS = [
+// Version 1.x releases catalog
+const V1_RELEASES = [
   {
     tag: 'v1.0.2',
     version: '1.0.2',
     name: 'Version 1.0.2 (Latest Production)',
+    shortName: 'v1.0.2',
     date: 'October 12, 2026',
     isLatest: true,
     assets: [
@@ -48,6 +49,7 @@ const INITIAL_VERSIONS = [
     tag: 'v1.0.1',
     version: '1.0.1',
     name: 'Version 1.0.1 (Hardware & POS)',
+    shortName: 'v1.0.1',
     date: 'October 7, 2026',
     isLatest: false,
     assets: [
@@ -69,6 +71,7 @@ const INITIAL_VERSIONS = [
     tag: 'v1.0.0',
     version: '1.0.0',
     name: 'Version 1.0.0 (Initial Launch)',
+    shortName: 'v1.0.0',
     date: 'October 2, 2026',
     isLatest: false,
     assets: [
@@ -181,9 +184,17 @@ function renderMarkdown(mdText) {
 export function ChangelogPage() {
   const { openDownloadModal } = useDownloadModal();
 
-  // Active toggled version tag (e.g. 'v1.0.2'). Only this version's release notes are shown.
-  const [activeVersion, setActiveVersion] = useState('v1.0.2');
+  // Active version release state
+  const [activeRelease, setActiveRelease] = useState(V1_RELEASES[0]);
   const [showSpecs, setShowSpecs] = useState(false);
+
+  // Dropdown open states
+  const [v1MenuOpen, setV1MenuOpen] = useState(false);
+  const [v2MenuOpen, setV2MenuOpen] = useState(false);
+
+  // Dropdown container refs for outside clicks
+  const v1MenuRef = useRef(null);
+  const v2MenuRef = useRef(null);
 
   // Dynamic release notes cache: { [tag]: string }
   const [notesCache, setNotesCache] = useState({});
@@ -192,6 +203,20 @@ export function ChangelogPage() {
   useEffect(() => {
     applySEO('changelog');
     window.scrollTo(0, 0);
+  }, []);
+
+  // Close dropdown menus on outside click
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (v1MenuRef.current && !v1MenuRef.current.contains(event.target)) {
+        setV1MenuOpen(false);
+      }
+      if (v2MenuRef.current && !v2MenuRef.current.contains(event.target)) {
+        setV2MenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
   /**
@@ -251,7 +276,7 @@ export function ChangelogPage() {
 
     // 4. If remote is offline/empty, use structured local release notes
     if (!fetchedNotes) {
-      const fallbackItem = INITIAL_VERSIONS.find((v) => v.tag === tag);
+      const fallbackItem = V1_RELEASES.find((v) => v.tag === tag);
       if (fallbackItem) {
         fetchedNotes = fallbackItem.fallbackNotes;
       }
@@ -266,103 +291,141 @@ export function ChangelogPage() {
 
   // Load active version notes on initial render
   useEffect(() => {
-    if (activeVersion && !notesCache[activeVersion]) {
-      loadReleaseNotes(activeVersion);
+    if (activeRelease?.tag && !notesCache[activeRelease.tag]) {
+      loadReleaseNotes(activeRelease.tag);
     }
-  }, [activeVersion, loadReleaseNotes, notesCache]);
-
-  /**
-   * Toggle between release notes on click.
-   * If already open, clicking toggles it closed (or keeps it toggled).
-   */
-  const handleToggleVersion = (tag) => {
-    setShowSpecs(false);
-    if (activeVersion === tag) {
-      setActiveVersion(null); // allow collapse
-    } else {
-      setActiveVersion(tag);
-      if (!notesCache[tag]) {
-        loadReleaseNotes(tag);
-      }
-    }
-  };
-
-  const handleToggleSpecs = () => {
-    setActiveVersion(null);
-    setShowSpecs((prev) => !prev);
-  };
-
-  const activeRelease = INITIAL_VERSIONS.find((v) => v.tag === activeVersion);
+  }, [activeRelease, loadReleaseNotes, notesCache]);
 
   return (
     <A4DocLayout
       title="Invio Desktop Release Notes & Version History"
       subtitle="Official release documentation, verified distribution binaries, security bulletins, and hardware specifications • Published by Timrio • Last updated: October 2026"
     >
-      {/* Quick Jump Navigation (Sticky below Navbar, No Top/Bottom Borders) */}
+      {/* Quick Jump Navigation (Version Dropdowns, No Top/Bottom Borders) */}
       <div className="sticky top-16 z-30 bg-[#f8fafc]/95 backdrop-blur-md py-2.5 -mx-4 px-4 sm:-mx-6 sm:px-6 flex flex-wrap items-center gap-2 text-xs text-slate-600 my-4 shadow-2xs not-prose">
         <span className="font-semibold text-slate-900">Jump to:</span>
-        <button
-          type="button"
-          onClick={() => handleToggleVersion('v1.0.2')}
-          className={`font-semibold flex items-center gap-1 cursor-pointer transition-colors ${
-            activeVersion === 'v1.0.2' ? 'text-[#7C3AED]' : 'text-slate-600 hover:text-slate-900'
-          }`}
-        >
-          <span className="size-1.5 rounded-full bg-[#7C3AED]"></span>
-          <span>v1.0.2 (Latest)</span>
-          <ChevronDownIcon
-            className={`size-3 transition-transform duration-200 ${activeVersion === 'v1.0.2' ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
-          />
-        </button>
+
+        {/* Version 1 Dropdown Menu */}
+        <div className="relative inline-block" ref={v1MenuRef}>
+          <button
+            type="button"
+            onClick={() => {
+              setV1MenuOpen((prev) => !prev);
+              setV2MenuOpen(false);
+            }}
+            className={`font-semibold flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded transition-colors ${
+              !showSpecs ? 'text-[#7C3AED] bg-purple-50/80' : 'text-slate-700 hover:text-slate-900'
+            }`}
+            aria-expanded={v1MenuOpen}
+          >
+            <span className="size-1.5 rounded-full bg-[#7C3AED]"></span>
+            <span>Version 1 ({activeRelease.shortName})</span>
+            <ChevronDownIcon
+              className={`size-3 transition-transform duration-200 ${v1MenuOpen ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
+            />
+          </button>
+
+          {/* Version 1 Dropdown List (001, 002, 003...) */}
+          {v1MenuOpen && (
+            <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-lg border border-slate-200/80 py-1.5 z-50">
+              <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 mb-1">
+                Version 1 Releases
+              </div>
+              {V1_RELEASES.map((rel) => {
+                const isSelected = activeRelease.tag === rel.tag && !showSpecs;
+                return (
+                  <button
+                    key={rel.tag}
+                    type="button"
+                    onClick={() => {
+                      setActiveRelease(rel);
+                      setShowSpecs(false);
+                      setV1MenuOpen(false);
+                      if (!notesCache[rel.tag]) {
+                        loadReleaseNotes(rel.tag);
+                      }
+                    }}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between transition-colors cursor-pointer ${
+                      isSelected
+                        ? 'bg-purple-50 text-[#7C3AED] font-semibold'
+                        : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className={`size-1.5 rounded-full ${rel.isLatest ? 'bg-[#7C3AED]' : 'bg-slate-300'}`} />
+                      <span>{rel.name}</span>
+                    </div>
+                    {rel.isLatest && (
+                      <span className="text-[10px] uppercase font-bold text-[#7C3AED] bg-purple-100/80 px-1.5 py-0.5 rounded">
+                        Latest
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
         <span className="text-slate-300">•</span>
-        <button
-          type="button"
-          onClick={() => handleToggleVersion('v1.0.1')}
-          className={`flex items-center gap-1 cursor-pointer transition-colors ${
-            activeVersion === 'v1.0.1' ? 'text-[#7C3AED] font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'
-          }`}
-        >
-          <span>v1.0.1</span>
-          <ChevronDownIcon
-            className={`size-3 transition-transform duration-200 ${activeVersion === 'v1.0.1' ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
-          />
-        </button>
+
+        {/* Version 2 Dropdown (Next Roadmap) */}
+        <div className="relative inline-block" ref={v2MenuRef}>
+          <button
+            type="button"
+            onClick={() => {
+              setV2MenuOpen((prev) => !prev);
+              setV1MenuOpen(false);
+            }}
+            className="flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded text-slate-600 hover:text-slate-900 font-medium transition-colors"
+            aria-expanded={v2MenuOpen}
+          >
+            <span>Version 2</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-200/70 text-slate-600 font-mono">
+              Planned
+            </span>
+            <ChevronDownIcon
+              className={`size-3 transition-transform duration-200 ${v2MenuOpen ? 'rotate-180 text-slate-700' : 'text-slate-400'}`}
+            />
+          </button>
+
+          {v2MenuOpen && (
+            <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-lg border border-slate-200/80 p-3 z-50 text-xs">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 pb-1 mb-1 border-b border-slate-100">
+                Version 2.x Roadmap
+              </div>
+              <p className="text-[11px] leading-relaxed text-slate-600">
+                Major Version 2 is currently in active development. Features in progress include multi-store database replication, advanced analytics, and custom receipt templating.
+              </p>
+            </div>
+          )}
+        </div>
+
         <span className="text-slate-300">•</span>
+
+        {/* Print Specifications */}
         <button
           type="button"
-          onClick={() => handleToggleVersion('v1.0.0')}
-          className={`flex items-center gap-1 cursor-pointer transition-colors ${
-            activeVersion === 'v1.0.0' ? 'text-[#7C3AED] font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'
-          }`}
-        >
-          <span>v1.0.0</span>
-          <ChevronDownIcon
-            className={`size-3 transition-transform duration-200 ${activeVersion === 'v1.0.0' ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
-          />
-        </button>
-        <span className="text-slate-300">•</span>
-        <button
-          type="button"
-          onClick={handleToggleSpecs}
-          className={`flex items-center gap-1 cursor-pointer transition-colors ${
-            showSpecs ? 'text-[#7C3AED] font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'
+          onClick={() => {
+            setShowSpecs(true);
+            setV1MenuOpen(false);
+            setV2MenuOpen(false);
+          }}
+          className={`flex items-center gap-1 cursor-pointer px-2 py-1 rounded transition-colors ${
+            showSpecs ? 'text-[#7C3AED] font-semibold bg-purple-50/80' : 'text-slate-600 hover:text-slate-900 font-medium'
           }`}
         >
           <PrinterIcon className="size-3" />
           <span>Print Specifications</span>
-          <ChevronDownIcon
-            className={`size-3 transition-transform duration-200 ${showSpecs ? 'rotate-180 text-[#7C3AED]' : 'text-slate-400'}`}
-          />
         </button>
       </div>
 
       <p className="text-slate-600">
-        Select a release version above to toggle its release notes, security advisories, and verified distribution binaries. Release notes are fetched dynamically from the official distribution registry.
+        All builds from <code>v1.0.0</code> up to <code>v1.0.2</code> are part of Major Version 1. Select any version from the Version 1 dropdown above to toggle its release notes and verified packages.
       </p>
 
-      {/* Toggled Release Note Container */}
-      {activeRelease && (
+      {/* Selected Version Release Notes (Toggled, Clean Look) */}
+      {!showSpecs && activeRelease && (
         <section className="pt-2 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3 pb-2">
             <div>
@@ -396,7 +459,7 @@ export function ChangelogPage() {
             {loadingTag === activeRelease.tag ? (
               <div className="py-6 flex flex-col items-center justify-center gap-2 text-slate-500 text-xs">
                 <div className="size-5 rounded-full border-2 border-slate-300 border-t-[#7C3AED] animate-spin" />
-                <span>Fetching release notes from distribution feed...</span>
+                <span>Fetching release notes from distribution registry...</span>
               </div>
             ) : (
               renderMarkdown(notesCache[activeRelease.tag])
