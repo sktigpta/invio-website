@@ -4,6 +4,7 @@ import { DownloadModalProvider } from './context/DownloadModalContext';
 import { DownloadModal } from './components/DownloadModal';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Primary pages loaded eagerly
 import { HomePage } from './pages/HomePage';
@@ -22,7 +23,6 @@ const EulaPage = lazy(() => import('./pages/EulaPage').then(m => ({ default: m.E
 const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage').then(m => ({ default: m.CookiePolicyPage })));
 const SecurityPage = lazy(() => import('./pages/SecurityPage').then(m => ({ default: m.SecurityPage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
-const BlogPage = lazy(() => import('./pages/BlogPage').then(m => ({ default: m.BlogPage })));
 const ToolsPage = lazy(() => import('./pages/ToolsPage').then(m => ({ default: m.ToolsPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
@@ -46,6 +46,7 @@ export function App() {
         <Navbar />
 
         <div className={`flex-1 flex flex-col ${isToolsPage || isDocsPage ? '' : 'pt-16'}`}>
+          <ErrorBoundary>
           <Suspense fallback={<PageFallback />}>
             <Routes>
               {/* Main Brand & Conversion Routes */}
@@ -85,13 +86,13 @@ export function App() {
               <Route path="/cookie-policy" element={<CookiePolicyPage />} />
               <Route path="/security" element={<SecurityPage />} />
               <Route path="/contact" element={<ContactPage />} />
-              <Route path="/blog" element={<BlogPage />} />
 
               {/* Fallback & 404 */}
               <Route path="/404" element={<NotFoundPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
+          </ErrorBoundary>
         </div>
 
         {!isToolsPage && !isDocsPage && !isCheckoutPage && <Footer />}

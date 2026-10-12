@@ -35,7 +35,7 @@ export function DownloadPage() {
           </Link>
           <span className="text-slate-300">•</span>
           <Link
-            to="/system-requirements"
+            to="/docs/system"
             className="font-semibold text-[#7C3AED] hover:underline"
           >
             System requirements →

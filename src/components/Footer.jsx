@@ -16,7 +16,7 @@ export function Footer() {
               <span className="font-bold text-slate-900 text-sm">Invio</span>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed max-w-md mb-3">
-              Fast, privacy-first desktop invoicing and inventory management software for Windows and macOS by Timrio.
+              Fast, privacy-first desktop invoicing and inventory management software for Windows, macOS, and Linux by Timrio.
             </p>
 
             {/* Direct Contact Email */}

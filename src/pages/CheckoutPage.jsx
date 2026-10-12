@@ -29,6 +29,9 @@ import {
 } from '../components/Icons';
 import { FEATURES_DATA } from '../data/featuresData';
 
+// Computed once at module level — avoids re-randomizing on every render in React 18 Strict Mode.
+const CHECKOUT_FEATURE_INDEX = Math.floor(Math.random() * FEATURES_DATA.length);
+
 const DEFAULT_PLUS_PRICE = {
   monthly: 149,
   yearly: 999,
@@ -48,9 +51,7 @@ export function CheckoutPage() {
   const [prices, setPrices] = useState(DEFAULT_PLUS_PRICE);
 
   // Random feature from FEATURES_DATA for left-side image section
-  const [featureIndex, setFeatureIndex] = useState(() => {
-    return Math.floor(Math.random() * FEATURES_DATA.length);
-  });
+  const [featureIndex] = useState(CHECKOUT_FEATURE_INDEX);
   const activeFeature = FEATURES_DATA[featureIndex] || FEATURES_DATA[0];
 
   // Auth state — Default tab is 'login' (Sign In)
@@ -505,8 +506,9 @@ export function CheckoutPage() {
             </p>
           </div>
 
-          {/* Billing Cycle Selector */}
-          {(!currentUser || !membershipInfo?.hasMembership || allowReorder) && (
+          {/* Billing Cycle Selector — hidden while we are still verifying existing membership
+               to prevent a flash of the cycle picker before the loading state renders */}
+          {(!currentUser || !membershipInfo?.hasMembership || allowReorder) && !checkingMembership && (
             <div className="mb-5">
               <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-2xl border border-slate-200/80">
                 <button

@@ -13,7 +13,7 @@ function apiBase() {
 
 export function getStoredToken() {
   try {
-    return localStorage.getItem(TOKEN_KEY) || null;
+    return sessionStorage.getItem(TOKEN_KEY) || null;
   } catch {
     return null;
   }
@@ -21,7 +21,7 @@ export function getStoredToken() {
 
 export function getStoredUser() {
   try {
-    const raw = localStorage.getItem(USER_KEY);
+    const raw = sessionStorage.getItem(USER_KEY);
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
@@ -30,8 +30,8 @@ export function getStoredUser() {
 
 export function setStoredAuth(token, user) {
   try {
-    if (token) localStorage.setItem(TOKEN_KEY, token);
-    if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
+    if (token) sessionStorage.setItem(TOKEN_KEY, token);
+    if (user) sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   } catch (err) {
     console.debug('[Auth] Storage write warning:', err);
   }
@@ -39,8 +39,8 @@ export function setStoredAuth(token, user) {
 
 export function clearStoredAuth() {
   try {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(USER_KEY);
   } catch (err) {
     console.debug('[Auth] Storage clear warning:', err);
   }
@@ -136,7 +136,7 @@ export function triggerGoogleSignIn({ businessName = '', mode = 'signin', onSucc
   }
 
   try {
-    const sessionId = `gis_${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
+    const sessionId = crypto.randomUUID();
     const base = apiBase();
     const authMode = mode === 'signup' ? 'signup' : 'signin';
     const loginUrl = `${base}/api/auth/google/login?sessionId=${encodeURIComponent(sessionId)}&mode=${encodeURIComponent(authMode)}&businessName=${encodeURIComponent(businessName)}`;

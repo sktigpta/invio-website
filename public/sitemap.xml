@@ -62,12 +62,6 @@
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://invio.timrio.com/blog</loc>
-    <lastmod>2026-10-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-  <url>
     <loc>https://invio.timrio.com/contact</loc>
     <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>

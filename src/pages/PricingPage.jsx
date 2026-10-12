@@ -173,6 +173,10 @@ export function PricingPage() {
           role="radiogroup"
           aria-label="Billing cycle selection"
         >
+          {/* Visually-hidden live region announces billing cycle change to screen readers */}
+          <span className="sr-only" aria-live="polite" aria-atomic="true">
+            {billingCycle === 'yearly' ? 'Yearly billing selected' : 'Monthly billing selected'}
+          </span>
           <button
             type="button"
             onClick={() => setBillingCycle('monthly')}
@@ -265,7 +269,7 @@ export function PricingPage() {
               </span>
             </div>
 
-            <div className="mb-3">
+            <div className="mb-3" aria-live="polite" aria-atomic="true">
               <span className="text-3xl sm:text-4xl font-extrabold text-[#7C3AED]">
                 ₹{billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly}
               </span>

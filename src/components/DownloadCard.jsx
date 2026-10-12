@@ -45,13 +45,10 @@ export function DownloadCard({
   };
 
   const handleSelectPlatform = (selected) => {
+    // Tab click only updates the displayed platform — does not trigger a download.
+    // Download only fires on explicit retry or the initial autoTrigger.
     setPlatform(selected);
     setPhase('downloading');
-    triggerDirectDownload(selected);
-    if (downloadTimer.current) clearTimeout(downloadTimer.current);
-    downloadTimer.current = setTimeout(() => {
-      setPhase('thankyou');
-    }, 2500);
   };
 
   return (
@@ -124,7 +121,7 @@ export function DownloadCard({
             <CheckIcon className="size-8" />
           </div>
 
-          <h3 id="download-modal-success-title" className="text-xl font-bold text-slate-900 tracking-tight">
+          <h3 id="download-modal-title" className="text-xl font-bold text-slate-900 tracking-tight">
             Thank you for downloading!
           </h3>
           <p className="text-sm text-slate-500 mt-2 leading-relaxed max-w-xs mx-auto">

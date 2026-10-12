@@ -22,6 +22,8 @@ export function Hero() {
     openDownloadModal(currentOS);
   };
 
+  const selectedPlatformName = currentOS.name || selectedOSId;
+
   return (
     <section className="relative w-full min-h-[80vh] flex items-center overflow-hidden bg-white border-b border-slate-100">
       {/* Background Software Hero Image (Right Aligned, Height 100%, Width Auto, Top Z-Index) */}
@@ -73,6 +75,10 @@ export function Hero() {
                 role="radiogroup"
                 aria-label="Select desktop operating system"
               >
+                {/* Visually-hidden live region announces platform change to screen readers */}
+                <span className="sr-only" aria-live="polite" aria-atomic="true">
+                  Selected: {selectedPlatformName}
+                </span>
                 <button
                   type="button"
                   onClick={() => setSelectedOSId('mac')}

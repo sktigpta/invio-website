@@ -211,13 +211,6 @@ export const PAGE_METADATA = {
     keywords: 'Contact Invio, Timrio contact, support email, developer contact',
     schemaType: 'ContactPage',
   },
-  blog: {
-    title: 'Invio Blog – Small Business Billing & Invoicing Insights | Timrio',
-    description: 'Articles, practical guides, tax compliance tips, and thermal printing best practices for retail stores, freelancers, and small business owners.',
-    canonical: `${BASE_URL}/blog`,
-    keywords: 'Invio blog, invoicing tips, GST billing guide, small business accounting, retail POS guide',
-    schemaType: 'Blog',
-  },
   tools: {
     title: 'Free Financial, Tax & Payroll Calculators Suite | Invio',
     description: 'Suite of 100% free online business tools: India GST calculator, FY 25-26 Income Tax calculator, UK and UAE VAT calculators, Payslip generator, HRA exemption, and Gratuity calculators.',
