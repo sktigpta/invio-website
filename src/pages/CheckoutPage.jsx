@@ -19,6 +19,7 @@ import {
   verifyPayment,
   loadRazorpayCheckout,
   openRazorpayCheckout,
+  validateDiscount,
 } from '../services/paymentService';
 import {
   CheckIcon,
@@ -43,12 +44,19 @@ export function CheckoutPage() {
 
   const paramEmail = searchParams.get('email') || '';
   const paramCycle = searchParams.get('cycle') || 'yearly';
+  const paramCoupon = searchParams.get('coupon') || searchParams.get('discount') || searchParams.get('promo') || '';
   const isFromDesktop = Boolean(paramEmail || searchParams.get('source') === 'desktop');
 
   const [billingCycle, setBillingCycle] = useState(
     paramCycle === 'monthly' ? 'monthly' : 'yearly'
   );
   const [prices, setPrices] = useState(DEFAULT_PLUS_PRICE);
+
+  // Discount & Coupon State
+  const [couponInput, setCouponInput] = useState(paramCoupon);
+  const [couponApplied, setCouponApplied] = useState(null);
+  const [validatingCoupon, setValidatingCoupon] = useState(false);
+  const [couponError, setCouponError] = useState('');
 
   // Random feature from FEATURES_DATA for left-side image section
   const [featureIndex] = useState(CHECKOUT_FEATURE_INDEX);
@@ -80,6 +88,37 @@ export function CheckoutPage() {
   const [verificationCode, setVerificationCode] = useState('');
   const [isVerifyingCode, setIsVerifyingCode] = useState(false);
   const [resendCooldownSeconds, setResendCooldownSeconds] = useState(0);
+
+  const handleApplyCoupon = async (codeToApply = couponInput) => {
+    const clean = String(codeToApply || '').trim().toUpperCase();
+    if (!clean) {
+      setCouponError('Please enter a coupon code.');
+      return;
+    }
+    setValidatingCoupon(true);
+    setCouponError('');
+    try {
+      const res = await validateDiscount(clean, 'plus', billingCycle, currentUser?.id);
+      if (res.valid) {
+        setCouponApplied(res);
+        setCouponInput(clean);
+        setCouponError('');
+      } else {
+        setCouponApplied(null);
+        setCouponError(res.message || 'Invalid coupon code.');
+      }
+    } catch {
+      setCouponError('Failed to validate coupon. Please try again.');
+    } finally {
+      setValidatingCoupon(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setCouponApplied(null);
+    setCouponInput('');
+    setCouponError('');
+  };
 
   const checkMembership = async (user, token) => {
     if (!user) return null;
@@ -147,6 +186,20 @@ export function CheckoutPage() {
     }
   }, []);
 
+  // Auto-apply coupon from URL if present
+  useEffect(() => {
+    if (paramCoupon) {
+      handleApplyCoupon(paramCoupon);
+    }
+  }, []);
+
+  // Re-validate coupon when billing cycle changes
+  useEffect(() => {
+    if (couponApplied?.code) {
+      handleApplyCoupon(couponApplied.code);
+    }
+  }, [billingCycle]);
+
   const executePayment = async (user) => {
     if (paying || successData) return;
     setPaying(true);
@@ -157,7 +210,12 @@ export function CheckoutPage() {
     const effectiveBiz = user?.businessName || businessName.trim();
 
     try {
-      const order = await createSubscriptionOrder('plus', billingCycle);
+      const order = await createSubscriptionOrder(
+        'plus',
+        billingCycle,
+        couponApplied?.code || null,
+        user?.id || currentUser?.id
+      );
       if (!order.success) {
         setPayError(order.error || 'Could not start checkout. Please try again.');
         setPaying(false);
@@ -429,7 +487,10 @@ export function CheckoutPage() {
     setAuthTab('login');
   };
 
-  const currentPrice = billingCycle === 'yearly' ? prices.yearly : prices.monthly;
+  const basePrice = billingCycle === 'yearly' ? prices.yearly : prices.monthly;
+  const currentPrice = couponApplied && typeof couponApplied.finalAmount === 'number'
+    ? couponApplied.finalAmount
+    : basePrice;
 
   // 1. Success State View
   if (successData) {
@@ -541,6 +602,76 @@ export function CheckoutPage() {
                   <span className="text-[11px] text-slate-500">₹{prices.monthly} / month</span>
                 </button>
               </div>
+            </div>
+          )}
+
+          {/* Coupon & Discount Code Section */}
+          {(!currentUser || !membershipInfo?.hasMembership || allowReorder) && !checkingMembership && (
+            <div className="mb-5 p-3 sm:p-3.5 rounded-2xl border border-slate-200/80 bg-slate-50/60 shadow-2xs">
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
+                  <span>🏷️</span> Have a coupon or discount code?
+                </span>
+                {couponApplied && (
+                  <button
+                    type="button"
+                    onClick={handleRemoveCoupon}
+                    className="text-[11px] font-medium text-rose-600 hover:text-rose-700 underline cursor-pointer"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+
+              {couponApplied ? (
+                <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded-md bg-emerald-600 text-white font-mono font-bold text-[11px] tracking-wide">
+                      {couponApplied.code}
+                    </span>
+                    <span className="font-medium text-emerald-700">
+                      Applied: {couponApplied.discountType === 'percentage' ? `${couponApplied.discountValue}% OFF` : `₹${couponApplied.discountValue} OFF`}
+                    </span>
+                  </div>
+                  <span className="font-bold text-emerald-700">
+                    -₹{couponApplied.discountAmount}
+                  </span>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={couponInput}
+                    onChange={(e) => {
+                      setCouponInput(e.target.value.toUpperCase());
+                      setCouponError('');
+                    }}
+                    placeholder="Enter code (e.g. WELCOME20)"
+                    className="flex-1 px-3 py-1.5 text-xs font-mono tracking-wider rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 uppercase outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleApplyCoupon()}
+                    disabled={validatingCoupon || !couponInput.trim()}
+                    className="py-1.5 px-3.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white rounded-xl font-semibold text-xs transition-colors cursor-pointer shrink-0 shadow-2xs flex items-center gap-1.5"
+                  >
+                    {validatingCoupon ? (
+                      <>
+                        <span className="size-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <span>Checking...</span>
+                      </>
+                    ) : (
+                      <span>Apply</span>
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {couponError && (
+                <p className="mt-2 text-[11px] text-rose-600 font-medium">
+                  {couponError}
+                </p>
+              )}
             </div>
           )}
 
@@ -662,8 +793,19 @@ export function CheckoutPage() {
                       <span>Opening Payment Gateway...</span>
                     </>
                   ) : (
-                    <span>
-                      Pay ₹{currentPrice}
+                    <span className="flex items-center gap-1.5">
+                      <span>Pay</span>
+                      {couponApplied && (
+                        <span className="line-through text-purple-200 text-xs font-normal">
+                          ₹{basePrice}
+                        </span>
+                      )}
+                      <span>₹{currentPrice}</span>
+                      {couponApplied && (
+                        <span className="text-[11px] font-normal text-emerald-200 ml-1">
+                          (Saved ₹{couponApplied.discountAmount})
+                        </span>
+                      )}
                     </span>
                   )}
                 </button>
@@ -873,10 +1015,21 @@ export function CheckoutPage() {
                       <span>Verifying...</span>
                     </>
                   ) : (
-                    <span>
-                      {authTab === 'login'
-                        ? `Sign In & Pay ₹${currentPrice}`
-                        : `Create Account & Pay ₹${currentPrice}`}
+                    <span className="flex items-center gap-1.5">
+                      <span>
+                        {authTab === 'login' ? 'Sign In & Pay' : 'Create Account & Pay'}
+                      </span>
+                      {couponApplied && (
+                        <span className="line-through text-purple-200 text-xs font-normal">
+                          ₹{basePrice}
+                        </span>
+                      )}
+                      <span>₹{currentPrice}</span>
+                      {couponApplied && (
+                        <span className="text-[11px] font-normal text-emerald-200 ml-1">
+                          (Saved ₹{couponApplied.discountAmount})
+                        </span>
+                      )}
                     </span>
                   )}
                 </button>

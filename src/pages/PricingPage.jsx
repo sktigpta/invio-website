@@ -80,6 +80,7 @@ export function PricingPage() {
   const paramEmail = searchParams.get('email') || '';
   const paramCycle = searchParams.get('cycle') || '';
   const paramPlan = searchParams.get('plan') || '';
+  const paramCoupon = searchParams.get('coupon') || searchParams.get('discount') || searchParams.get('promo') || '';
   const isAutoCheckout = searchParams.get('checkout') === '1' || searchParams.get('checkout') === 'true' || searchParams.get('action') === 'buy';
 
   const [billingCycle, setBillingCycle] = useState(
@@ -300,7 +301,7 @@ export function PricingPage() {
           </div>
 
           <Link
-            to={`/checkout?plan=plus&cycle=${billingCycle}${paramEmail ? `&email=${encodeURIComponent(paramEmail)}` : ''}`}
+            to={`/checkout?plan=plus&cycle=${billingCycle}${paramEmail ? `&email=${encodeURIComponent(paramEmail)}` : ''}${paramCoupon ? `&coupon=${encodeURIComponent(paramCoupon)}` : ''}`}
             className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-xs select-none cursor-pointer flex items-center justify-center gap-2"
           >
             <span>{plansData.plus.ctaText}</span>

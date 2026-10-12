@@ -46,11 +46,63 @@ export async function fetchSubscriptionPlans() {
 }
 
 /**
- * Creates a Razorpay order for a plan subscription. The chargeable amount is
- * resolved server-side from the plan catalog — only `{ planId, validity }`
- * ('monthly' | 'yearly') is sent, never an amount.
+ * Validates a discount / coupon code against the backend pricing catalog.
  */
-export async function createSubscriptionOrder(planId, validity) {
+export async function validateDiscount(code, planId = 'plus', validity = 'yearly', customerUserId = null) {
+  const cleanCode = String(code || '').trim().toUpperCase();
+  if (!cleanCode) {
+    return { valid: false, message: 'Please enter a coupon code.' };
+  }
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 6000);
+  try {
+    const response = await fetch(`${apiBase()}/api/payment/validate-discount`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        code: cleanCode,
+        planId: String(planId).toLowerCase(),
+        validity: String(validity).toLowerCase(),
+        customerUserId,
+      }),
+      signal: controller.signal,
+    });
+    const data = await response.json().catch(() => ({}));
+    if (response.ok && data && (data.valid || data.success)) {
+      return {
+        valid: true,
+        code: data.code || cleanCode,
+        discountType: data.discountType,
+        discountValue: data.discountValue,
+        discountAmount: data.discountAmount,
+        finalAmount: data.finalAmount,
+        baseAmount: data.baseAmount,
+        message: data.message || `Coupon "${cleanCode}" applied successfully!`,
+      };
+    }
+    return {
+      valid: false,
+      message: (data && (data.message || data.error)) || 'Invalid or expired coupon code.',
+    };
+  } catch {
+    return {
+      valid: false,
+      message: 'Could not connect to verify the coupon. Please try again.',
+    };
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+/**
+ * Creates a Razorpay order for a plan subscription. The chargeable amount is
+ * resolved server-side from the plan catalog — only `{ planId, validity, couponCode? }`
+ * is sent, never an amount.
+ */
+export async function createSubscriptionOrder(planId, validity, couponCode = null, customerUserId = null) {
   const plan = String(planId || '').trim().toLowerCase();
   const term = String(validity || '').trim().toLowerCase();
   const controller = new AbortController();
@@ -62,7 +114,12 @@ export async function createSubscriptionOrder(planId, validity) {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: JSON.stringify({ planId: plan, validity: term }),
+      body: JSON.stringify({
+        planId: plan,
+        validity: term,
+        ...(couponCode ? { couponCode: String(couponCode).trim().toUpperCase() } : {}),
+        ...(customerUserId ? { customerUserId } : {}),
+      }),
       signal: controller.signal,
     });
     const data = await response.json().catch(() => ({}));
@@ -70,6 +127,9 @@ export async function createSubscriptionOrder(planId, validity) {
       return {
         success: true,
         amount: data.amount_rupees,
+        baseAmount: data.base_amount_rupees,
+        discountApplied: data.discount_applied || 0,
+        couponCode: data.coupon_code || null,
         amountPaise: data.amount,
         currency: data.currency || 'INR',
         orderId: data.order_id,
