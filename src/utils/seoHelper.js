@@ -171,7 +171,7 @@ export const PAGE_METADATA = {
   },
   privacy: {
     title: 'Privacy Policy – Invio Desktop Software | Timrio',
-    description: 'Invio privacy policy: Explaining 100% local SQLite storage, zero cloud synchronization of invoices, minimal authentication data, and compliance with privacy regulations.',
+    description: 'Invio privacy policy: local-first invoice storage on your device, what account and support data we receive, Gmail and payment handling, marketing consent, and your privacy rights.',
     canonical: `${BASE_URL}/privacy-policy`,
     keywords: 'Invio privacy policy, data privacy, local data storage policy, DPDP compliance, zero cloud sync',
     schemaType: 'WebPage',
