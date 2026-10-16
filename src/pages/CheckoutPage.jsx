@@ -22,6 +22,7 @@ import {
   openRazorpayCheckout,
   validateDiscount,
 } from '../services/paymentService';
+import { CouponTicket } from '../components/CouponTicket';
 import {
   CheckIcon,
   GoogleIcon,
@@ -1082,47 +1083,69 @@ export function CheckoutPage() {
                     </div>
 
                     {couponApplied ? (
-                      <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded-md bg-emerald-600 text-white font-mono font-bold text-[11px] tracking-wide">
-                            {couponApplied.code}
-                          </span>
-                          <span className="font-medium text-emerald-700">
-                            Applied: {couponApplied.discountType === 'percentage' ? `${couponApplied.discountValue}% OFF` : `₹${couponApplied.discountValue} OFF`}
-                          </span>
+                      <div className="space-y-3">
+                        <CouponTicket
+                          code={couponApplied.code}
+                          discountText={
+                            couponApplied.discountType === 'percentage'
+                              ? `${couponApplied.discountValue}% OFF`
+                              : `₹${couponApplied.discountValue} OFF`
+                          }
+                          title="Invio Plus"
+                          subtitle={`You save ₹${couponApplied.discountAmount} on this order`}
+                          validity="Applied to this purchase"
+                          variant="purple"
+                          showClaimButton={false}
+                        />
+                        <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-medium">
+                          <span>Discount activated on checkout:</span>
+                          <span className="font-bold text-emerald-700">-₹{couponApplied.discountAmount}</span>
                         </div>
-                        <span className="font-bold text-emerald-700">
-                          -₹{couponApplied.discountAmount}
-                        </span>
                       </div>
                     ) : (
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={couponInput}
-                          onChange={(e) => {
-                            setCouponInput(e.target.value.toUpperCase());
-                            setCouponError('');
-                          }}
-                          placeholder="Enter code (e.g. WELCOME20)"
-                          className="flex-1 px-3 py-1.5 text-xs font-mono tracking-wider rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 uppercase outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleApplyCoupon()}
-                          disabled={validatingCoupon || !couponInput.trim()}
-                          className="py-1.5 px-3.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white rounded-xl font-semibold text-xs transition-colors cursor-pointer shrink-0 shadow-2xs flex items-center gap-1.5"
-                        >
-                          {validatingCoupon ? (
-                            <>
-                              <span className="size-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                              <span>Checking...</span>
-                            </>
-                          ) : (
-                            <span>Apply</span>
-                          )}
-                        </button>
-                      </div>
+                      <>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={couponInput}
+                            onChange={(e) => {
+                              setCouponInput(e.target.value.toUpperCase());
+                              setCouponError('');
+                            }}
+                            placeholder="Enter code (e.g. WELCOME20)"
+                            className="flex-1 px-3 py-1.5 text-xs font-mono tracking-wider rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 uppercase outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleApplyCoupon()}
+                            disabled={validatingCoupon || !couponInput.trim()}
+                            className="py-1.5 px-3.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white rounded-xl font-semibold text-xs transition-colors cursor-pointer shrink-0 shadow-2xs flex items-center gap-1.5"
+                          >
+                            {validatingCoupon ? (
+                              <>
+                                <span className="size-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                <span>Checking...</span>
+                              </>
+                            ) : (
+                              <span>Apply</span>
+                            )}
+                          </button>
+                        </div>
+                        <div className="mt-2.5 flex items-center gap-1.5 flex-wrap">
+                          <span className="text-[10.5px] text-slate-500 font-medium">Quick apply:</span>
+                          {['WELCOME20', 'FESTIVE50'].map((qc) => (
+                            <button
+                              key={qc}
+                              type="button"
+                              onClick={() => handleApplyCoupon(qc)}
+                              disabled={validatingCoupon}
+                              className="px-2 py-0.5 text-[10.5px] font-mono font-bold bg-purple-50 text-[#7C3AED] hover:bg-purple-100 rounded-md border border-purple-200/60 transition-colors cursor-pointer"
+                            >
+                              {qc}
+                            </button>
+                          ))}
+                        </div>
+                      </>
                     )}
 
                     {couponError && (
