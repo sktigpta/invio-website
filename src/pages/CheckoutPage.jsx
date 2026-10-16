@@ -1072,15 +1072,15 @@ export function CheckoutPage() {
                   {couponApplied ? (
                     <div className="mb-4">
                       <CouponTicket
-                        mode="verified"
-                        variant="gold"
                         code={couponApplied.code}
                         discountText={
                           couponApplied.discountType === 'percentage'
                             ? `${couponApplied.discountValue}% OFF`
                             : `₹${couponApplied.discountValue} OFF`
                         }
+                        title="Coupon"
                         validity="Valid for Invio Plus"
+                        leftTag="Enjoy Your Gift"
                         onRemove={handleRemoveCoupon}
                       />
                     </div>
@@ -1099,22 +1099,50 @@ export function CheckoutPage() {
                     </div>
                   ) : (
                     <div className="mb-4">
-                      <CouponTicket
-                        mode="input"
-                        variant="gold"
-                        inputCode={couponInput}
-                        onInputChange={(val) => {
-                          setCouponInput(val);
-                          setCouponError('');
-                        }}
-                        onApply={(codeToApply) => handleApplyCoupon(codeToApply)}
-                        onCancel={() => {
-                          setShowCouponInput(false);
-                          setCouponError('');
-                        }}
-                        loading={validatingCoupon}
-                        error={couponError}
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={couponInput}
+                          onChange={(e) => {
+                            setCouponInput(e.target.value.toUpperCase());
+                            setCouponError('');
+                          }}
+                          placeholder="Enter coupon code"
+                          className="flex-1 px-3 py-2 text-xs font-mono font-bold tracking-wider rounded-xl border border-slate-300 bg-white text-slate-900 uppercase outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                          autoFocus
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleApplyCoupon()}
+                          disabled={validatingCoupon || !couponInput.trim()}
+                          className="py-2 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:opacity-50 text-white rounded-xl font-semibold text-xs transition-colors cursor-pointer shrink-0 shadow-2xs flex items-center gap-1.5"
+                        >
+                          {validatingCoupon ? (
+                            <>
+                              <span className="size-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              <span>Checking...</span>
+                            </>
+                          ) : (
+                            <span>Apply</span>
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShowCouponInput(false);
+                            setCouponError('');
+                          }}
+                          className="px-2 py-2 text-slate-400 hover:text-slate-700 cursor-pointer text-xs font-medium"
+                          title="Cancel"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                      {couponError && (
+                        <p className="mt-1.5 text-[11px] text-rose-600 font-medium">
+                          {couponError}
+                        </p>
+                      )}
                     </div>
                   )}
 
