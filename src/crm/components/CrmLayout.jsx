@@ -177,7 +177,7 @@ export function CrmLayout() {
           </div>
         </header>
 
-        <div className="p-6 md:p-8 flex-1">
+        <div className={`flex-1 ${location.pathname.includes('/broadcasts') ? 'p-0 overflow-hidden' : 'p-6 md:p-8'}`}>
           <Outlet />
         </div>
       </main>

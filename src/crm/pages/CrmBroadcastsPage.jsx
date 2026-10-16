@@ -2,50 +2,73 @@ import React, { useState, useEffect, useRef } from 'react';
 import { crmApi } from '../services/crmApi';
 import { useCrmAuth } from '../context/CrmAuthContext';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
-import { BroadcastIcon, RefreshCwIcon, CheckCircleIcon, AlertCircleIcon } from '../components/CrmIcons';
+import {
+  FiRadio,
+  FiBell,
+  FiSend,
+  FiInfo,
+  FiCheckCircle,
+  FiAlertTriangle,
+  FiAlertCircle,
+  FiExternalLink,
+  FiX,
+  FiSun,
+  FiMoon,
+  FiBold,
+  FiItalic,
+  FiUnderline,
+  FiList,
+  FiLink,
+  FiRefreshCw,
+  FiSave,
+  FiCode,
+  FiEye,
+  FiChevronDown,
+  FiCheck,
+} from 'react-icons/fi';
 
 export function CrmBroadcastsPage() {
+  const [toast, setToast] = useState(null);
+  const addToast = (message, type = 'info') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
   const { isManagerOrAdmin } = useCrmAuth();
 
   const [activeTab, setActiveTab] = useState('middle'); // 'middle' | 'notification'
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [previewTheme, setPreviewTheme] = useState('light'); // 'light' | 'dark'
   const [editorView, setEditorView] = useState('html'); // 'html' | 'body'
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
-
-  const showToast = (text, type = 'success') => {
-    setToastMessage({ text, type });
-    setTimeout(() => setToastMessage(null), 4000);
-  };
 
   // Center Modal Card state
   const [middleCard, setMiddleCard] = useState({
     id: '',
-    title: 'Happy Diwali from Invio & Timrio!',
-    subtitle: 'Wishing your business brilliant prosperity, boundless growth, and joyful success this festive season.',
+    title: 'Happy Festive Season from Invio & Timrio',
+    subtitle: 'Wishing your business continued prosperity, seamless billing operations, and ongoing growth.',
     badge: 'Festive Greeting',
     plan: 'all',
     ctaLabel: 'Visit Website',
     actionUrl: 'https://invio.timrio.com',
-    htmlContent: `<h2>✨ Wishing You a Joyous &amp; Prosperous Diwali!</h2>
-<p>As festival lights illuminate homes and shops across the country, the entire team at Invio extends our warmest blessings to you and your family.</p>
-<blockquote>May this auspicious season bring boundless growth, smooth operations, and higher profits to your business!</blockquote>
-<p><strong>Special Festive Notice:</strong></p>
+    htmlContent: `<h2>Wishing You a Joyous & Prosperous Festive Season</h2>
+<p>The entire team at Invio extends our warmest blessings to you and your business operations.</p>
+<blockquote>May this season bring steady growth, streamlined operations, and higher billing efficiency to your business.</blockquote>
+<p><strong>Highlights & Features:</strong></p>
 <ul>
-  <li>Our servers and automatic backups operate 24/7 uninterrupted.</li>
-  <li>Priority support desk remains open throughout the holidays.</li>
-  <li>Share invoices with festive greetings via WhatsApp in 1-tap.</li>
+  <li>Continuous 24/7 high-speed cloud synchronization and automated local backups.</li>
+  <li>Priority support desk available throughout all working hours.</li>
+  <li>Instant WhatsApp invoice delivery with automated tax breakdowns.</li>
 </ul>
-<p>Thank you for letting Invio be a part of your daily billing journey. Have a sparkling celebration!</p>`,
+<p>Thank you for partnering with Invio for your daily billing journey.</p>`,
     active: true,
   });
 
   // Notification Card state
   const [noticeCard, setNoticeCard] = useState({
     id: '',
-    title: 'Happy Festive Season!',
-    message: 'Wishing you and your business immense joy, growth, and prosperity from the Invio team! ✨',
+    title: 'Scheduled System Maintenance',
+    message: 'Invio cloud services will undergo scheduled infrastructure optimization on Sunday, 02:00 AM UTC. Desktop local billing remains fully functional.',
     actionType: 'info', // 'info' | 'success' | 'warning' | 'danger'
     actionLabel: 'Learn more',
     actionUrl: 'https://invio.timrio.com',
@@ -53,6 +76,18 @@ export function CrmBroadcastsPage() {
   });
 
   const textareaRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Load existing broadcasts from backend
   const loadBroadcasts = async () => {
@@ -88,7 +123,7 @@ export function CrmBroadcastsPage() {
         }
       }
     } catch (err) {
-      showToast(err?.message || 'Failed to load broadcasts', 'error');
+      addToast(err?.message || 'Failed to load broadcasts', 'error');
     } finally {
       setLoading(false);
     }
@@ -145,7 +180,7 @@ export function CrmBroadcastsPage() {
         };
         const res = await crmApi.updateMiddleCard(payload);
         if (res && res.success) {
-          showToast(res.message || 'Center Modal Card broadcast updated & activated!', 'success');
+          addToast(res.message || 'Center Modal Card broadcast updated & activated.', 'success');
           if (res.campaign?.id) {
             setMiddleCard((prev) => ({ ...prev, id: res.campaign.id }));
           }
@@ -163,153 +198,285 @@ export function CrmBroadcastsPage() {
         };
         const res = await crmApi.updateNotificationCard(payload);
         if (res && res.success) {
-          showToast(res.message || 'Notification Card notice updated & activated!', 'success');
+          addToast(res.message || 'Notification Card notice updated & activated.', 'success');
           if (res.notice?.id) {
             setNoticeCard((prev) => ({ ...prev, id: res.notice.id }));
           }
         }
       }
     } catch (err) {
-      showToast(err?.message || 'Failed to save broadcast', 'error');
+      addToast(err?.message || 'Failed to save broadcast', 'error');
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-slate-50 font-sans -m-6 p-6 min-h-[calc(100vh-80px)]">
-      {/* Toast Notice */}
-      {toastMessage && (
-        <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-xs font-semibold ${
-          toastMessage.type === 'error'
-            ? 'bg-red-50 border-red-200 text-red-800'
-            : 'bg-emerald-50 border-emerald-200 text-emerald-800'
-        }`}>
-          {toastMessage.type === 'error' ? <AlertCircleIcon className="size-4 text-red-600" /> : <CheckCircleIcon className="size-4 text-emerald-600" />}
-          <span>{toastMessage.text}</span>
+    <div className="w-full h-full flex flex-col overflow-hidden bg-slate-50 font-sans select-none m-0 p-0">
+      {/* Scoped Desktop App Styles & Keyframes */}
+      <style>{`
+        @keyframes desktopSlideIn {
+          from {
+            opacity: 0;
+            transform: translateY(16px) scale(0.98);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes desktopArtShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        @keyframes desktopGlowPulse {
+          0%, 100% { opacity: 0.4; transform: scale(1); }
+          50% { opacity: 0.8; transform: scale(1.06); }
+        }
+
+        .desktop-preview-modal {
+          animation: desktopSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .desktop-preview-header {
+          background-size: 200% 200%;
+          animation: desktopArtShift 12s ease infinite;
+        }
+
+        .desktop-html-scroll::-webkit-scrollbar {
+          width: 5px;
+        }
+        .desktop-html-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .desktop-html-scroll::-webkit-scrollbar-thumb {
+          background: rgba(148, 163, 184, 0.3);
+          border-radius: 9999px;
+        }
+        .desktop-html-scroll::-webkit-scrollbar-thumb:hover {
+          background: rgba(148, 163, 184, 0.5);
+        }
+      `}</style>
+
+      {/* Toast notification popup */}
+      {toast && (
+        <div className="fixed bottom-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg text-xs font-semibold text-white bg-slate-900 border border-slate-700 flex items-center gap-2">
+          <span>{toast.message}</span>
         </div>
       )}
 
-      {/* Header Bar */}
-      <div className="bg-white rounded-xl border border-slate-200 px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 shadow-xs">
-        <div className="flex items-center gap-3">
-          <div className="size-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-[#7C3AED]">
-            <BroadcastIcon className="size-5" />
+      {/* Merged Unified Top Control Bar */}
+      <div className="h-13 flex-shrink-0 bg-white border-b border-slate-200 px-4 md:px-5 flex items-center justify-between gap-3 z-20">
+        {/* Left: Title & Subtitle */}
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="size-7.5 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0">
+            <FiRadio className="size-4" />
           </div>
-          <div>
-            <h1 className="text-base font-bold text-slate-900 leading-tight">In-App Cards &amp; Broadcasts</h1>
-            <p className="text-xs text-slate-500 leading-tight">
+          <div className="min-w-0">
+            <h1 className="text-xs font-bold text-slate-900 leading-none truncate">
+              In-App Cards & Broadcasts
+            </h1>
+            <p className="text-[10.5px] text-slate-500 leading-tight truncate hidden sm:block mt-0.5">
               Manage multi-purpose announcements, festival wishes, release alerts, and promos live in desktop app
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        {/* Center: Dropdown Selector for Slot */}
+        <div className="relative flex-shrink-0" ref={dropdownRef}>
           <button
-            onClick={loadBroadcasts}
-            disabled={loading}
-            className="px-3 py-1.5 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-200 flex items-center gap-1.5 transition cursor-pointer"
-            title="Refresh current broadcast data"
+            type="button"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800 transition shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            aria-haspopup="listbox"
+            aria-expanded={dropdownOpen}
           >
-            <RefreshCwIcon className={`size-3.5 ${loading ? 'animate-spin' : ''}`} />
-            <span>Refresh</span>
+            {activeTab === 'middle' ? (
+              <FiSend className="size-3.5 text-indigo-600 flex-shrink-0" />
+            ) : (
+              <FiBell className="size-3.5 text-indigo-600 flex-shrink-0" />
+            )}
+            <span className="font-semibold text-slate-900">
+              {activeTab === 'middle'
+                ? 'Center Modal Card (Middle Dialog / Wishes & Updates)'
+                : 'Notification Card (Bottom-Right Floating Alert)'}
+            </span>
+            <span
+              className={`text-[9.5px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border ${
+                (activeTab === 'middle' ? middleCard.active : noticeCard.active)
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  : 'bg-slate-100 text-slate-600 border-slate-200'
+              }`}
+            >
+              {(activeTab === 'middle' ? middleCard.active : noticeCard.active) ? 'ACTIVE' : 'DISABLED'}
+            </span>
+            <FiChevronDown
+              className={`size-3.5 text-slate-400 transition-transform duration-200 ${
+                dropdownOpen ? 'rotate-180 text-indigo-600' : ''
+              }`}
+            />
           </button>
 
+          {dropdownOpen && (
+            <div className="absolute left-0 mt-1.5 w-96 bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 z-50 text-xs">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('middle');
+                  setDropdownOpen(false);
+                }}
+                className={`w-full px-3.5 py-2.5 flex items-center justify-between text-left transition cursor-pointer ${
+                  activeTab === 'middle' ? 'bg-indigo-50/70 text-indigo-900' : 'hover:bg-slate-50 text-slate-700'
+                }`}
+              >
+                <div className="flex items-start gap-2.5 min-w-0">
+                  <FiSend className={`size-4 mt-0.5 flex-shrink-0 ${activeTab === 'middle' ? 'text-indigo-600' : 'text-slate-400'}`} />
+                  <div>
+                    <div className="font-semibold text-slate-900 leading-tight">Center Modal Card</div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">Middle Dialog / Wishes & Updates</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span
+                    className={`text-[9.5px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border ${
+                      middleCard.active
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                        : 'bg-slate-100 text-slate-600 border-slate-200'
+                    }`}
+                  >
+                    {middleCard.active ? 'ACTIVE' : 'DISABLED'}
+                  </span>
+                  {activeTab === 'middle' && <FiCheck className="size-3.5 text-indigo-600" />}
+                </div>
+              </button>
+
+              <div className="h-px bg-slate-100 my-1" />
+
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('notification');
+                  setDropdownOpen(false);
+                }}
+                className={`w-full px-3.5 py-2.5 flex items-center justify-between text-left transition cursor-pointer ${
+                  activeTab === 'notification' ? 'bg-indigo-50/70 text-indigo-900' : 'hover:bg-slate-50 text-slate-700'
+                }`}
+              >
+                <div className="flex items-start gap-2.5 min-w-0">
+                  <FiBell className={`size-4 mt-0.5 flex-shrink-0 ${activeTab === 'notification' ? 'text-indigo-600' : 'text-slate-400'}`} />
+                  <div>
+                    <div className="font-semibold text-slate-900 leading-tight">Notification Card</div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">Bottom-Right Floating Alert</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span
+                    className={`text-[9.5px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full border ${
+                      noticeCard.active
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                        : 'bg-slate-100 text-slate-600 border-slate-200'
+                    }`}
+                  >
+                    {noticeCard.active ? 'ACTIVE' : 'DISABLED'}
+                  </span>
+                  {activeTab === 'notification' && <FiCheck className="size-3.5 text-indigo-600" />}
+                </div>
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Right Actions: Only Logo Preview Toggle, Refresh, Publish & Activate */}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Logo-only Theme Toggle (Sun / Moon) */}
+          <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+            <button
+              type="button"
+              onClick={() => setPreviewTheme('light')}
+              title="Light Preview"
+              aria-label="Light Preview"
+              className={`p-1.5 rounded-md transition cursor-pointer ${
+                previewTheme === 'light'
+                  ? 'bg-white text-amber-600 shadow-2xs'
+                  : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              <FiSun className="size-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setPreviewTheme('dark')}
+              title="Dark Preview"
+              aria-label="Dark Preview"
+              className={`p-1.5 rounded-md transition cursor-pointer ${
+                previewTheme === 'dark'
+                  ? 'bg-slate-900 text-indigo-300 shadow-2xs'
+                  : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              <FiMoon className="size-3.5" />
+            </button>
+          </div>
+
+          {/* Refresh Button */}
+          <button
+            type="button"
+            onClick={loadBroadcasts}
+            disabled={loading}
+            className="px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-2xs flex items-center gap-1.5 transition active:scale-[0.98] cursor-pointer disabled:opacity-50"
+            title="Refresh broadcast state"
+          >
+            <FiRefreshCw className={`size-3.5 text-slate-500 ${loading ? 'animate-spin' : ''}`} />
+            <span className="hidden sm:inline">Refresh</span>
+          </button>
+
+          {/* Publish & Activate Button */}
           {isManagerOrAdmin && (
             <button
+              type="button"
               onClick={handleSave}
               disabled={saving}
-              className="px-4 py-1.5 text-xs font-semibold text-white bg-[#7C3AED] hover:bg-[#6D28D9] rounded-lg shadow-xs flex items-center gap-1.5 transition cursor-pointer disabled:opacity-50"
+              className="px-3.5 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] rounded-lg shadow-2xs flex items-center gap-1.5 transition cursor-pointer disabled:opacity-50"
             >
-              {saving ? <RefreshCwIcon className="size-3.5 animate-spin" /> : <CheckCircleIcon className="size-3.5" />}
-              <span>Publish &amp; Activate</span>
+              {saving ? <FiRefreshCw className="size-3.5 animate-spin" /> : <FiSave className="size-3.5" />}
+              <span>Publish & Activate</span>
             </button>
           )}
         </div>
       </div>
 
-      {/* Tab Switcher & Theme Selector */}
-      <div className="bg-white rounded-xl border border-slate-200 px-4 py-2.5 flex flex-col md:flex-row items-center justify-between gap-3 mb-4 shadow-xs">
-        <div className="flex items-center gap-2 w-full md:w-auto">
-          <button
-            onClick={() => setActiveTab('middle')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-2 ${
-              activeTab === 'middle'
-                ? 'bg-purple-50 text-[#7C3AED] border border-purple-200 shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            <span>Center Modal Card (Middle Dialog / Wishes &amp; Updates)</span>
-            <span
-              className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${
-                middleCard.active ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'
-              }`}
-            >
-              {middleCard.active ? 'Active' : 'Disabled'}
-            </span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('notification')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-2 ${
-              activeTab === 'notification'
-                ? 'bg-purple-50 text-[#7C3AED] border border-purple-200 shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            <span>Notification Card (Bottom-Right Floating Alert)</span>
-            <span
-              className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${
-                noticeCard.active ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'
-              }`}
-            >
-              {noticeCard.active ? 'Active' : 'Disabled'}
-            </span>
-          </button>
-        </div>
-
-        {/* Preview Theme Toggle */}
-        <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-lg border border-slate-200">
-          <button
-            onClick={() => setPreviewTheme('light')}
-            className={`px-2.5 py-1 rounded text-xs font-medium transition cursor-pointer ${
-              previewTheme === 'light' ? 'bg-white text-slate-800 shadow-xs' : 'text-slate-500 hover:text-slate-700'
-            }`}
-          >
-            ☀️ Light Preview
-          </button>
-          <button
-            onClick={() => setPreviewTheme('dark')}
-            className={`px-2.5 py-1 rounded text-xs font-medium transition cursor-pointer ${
-              previewTheme === 'dark' ? 'bg-slate-800 text-white shadow-xs' : 'text-slate-500 hover:text-slate-700'
-            }`}
-          >
-            🌙 Dark Preview
-          </button>
-        </div>
-      </div>
-
-      {/* Main Grid: Left Editor & Right Live Desktop Preview */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-[500px]">
-        {/* Left Column: Form & Editor */}
-        <div className="space-y-4">
+      {/* Main Split Layout: Left Editor | Right Live Desktop Preview */}
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
+        {/* Left Side: CARD METADATA & AUDIENCE */}
+        <div className="w-full lg:w-1/2 h-full overflow-y-auto p-4 md:p-5 border-r border-slate-200 space-y-4 bg-white select-text">
           {activeTab === 'middle' ? (
-            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-4">
+            /* Center Modal Card Form */
+            <div className="space-y-4">
+              {/* Header Box */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                  Center Card Metadata &amp; Audience
-                </span>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <span className="text-xs font-semibold text-slate-600">Active Broadcast:</span>
+                <div>
+                  <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                    CARD METADATA & AUDIENCE
+                  </h2>
+                  <p className="text-[11px] text-slate-500">
+                    Configuration and targeting parameters for middle dialog card
+                  </p>
+                </div>
+                <label className="flex items-center gap-2 cursor-pointer bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+                  <span className="text-xs font-semibold text-slate-700">Active Status</span>
                   <input
                     type="checkbox"
                     checked={middleCard.active}
                     onChange={(e) => setMiddleCard({ ...middleCard, active: e.target.checked })}
-                    className="size-4 accent-[#7C3AED] rounded cursor-pointer"
+                    className="size-4 accent-indigo-600 rounded cursor-pointer"
                   />
                 </label>
               </div>
 
+              {/* Title & Badge Pill */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Title Header</label>
@@ -317,8 +484,8 @@ export function CrmBroadcastsPage() {
                     type="text"
                     value={middleCard.title}
                     onChange={(e) => setMiddleCard({ ...middleCard, title: e.target.value })}
-                    placeholder="e.g. Happy Diwali from Invio & Timrio!"
-                    className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                    placeholder="e.g. Happy Festive Season from Invio"
+                    className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition"
                   />
                 </div>
 
@@ -329,31 +496,33 @@ export function CrmBroadcastsPage() {
                     value={middleCard.badge}
                     onChange={(e) => setMiddleCard({ ...middleCard, badge: e.target.value })}
                     placeholder="e.g. Festive Greeting or Release v1.0.2"
-                    className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                    className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition"
                   />
                 </div>
               </div>
 
+              {/* Subtitle */}
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Subtitle / Summary</label>
                 <textarea
                   rows={2}
                   value={middleCard.subtitle}
                   onChange={(e) => setMiddleCard({ ...middleCard, subtitle: e.target.value })}
-                  placeholder="Short engaging subtitle shown below the title..."
-                  className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                  placeholder="Short engaging summary displayed below title..."
+                  className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition resize-none"
                 />
               </div>
 
+              {/* Audience, Primary CTA, CTA URL */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Target Audience</label>
                   <select
                     value={middleCard.plan}
                     onChange={(e) => setMiddleCard({ ...middleCard, plan: e.target.value })}
-                    className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                    className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition cursor-pointer"
                   >
-                    <option value="all">🌟 All Users (Free, Plus, Pro)</option>
+                    <option value="all">All Users (Free, Plus, Pro)</option>
                     <option value="free">Free Users Only</option>
                     <option value="plus">Plus Users Only</option>
                     <option value="pro">Pro Users Only</option>
@@ -367,7 +536,7 @@ export function CrmBroadcastsPage() {
                     value={middleCard.ctaLabel}
                     onChange={(e) => setMiddleCard({ ...middleCard, ctaLabel: e.target.value })}
                     placeholder="e.g. Check on Website"
-                    className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                    className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition"
                   />
                 </div>
 
@@ -378,88 +547,188 @@ export function CrmBroadcastsPage() {
                     value={middleCard.actionUrl}
                     onChange={(e) => setMiddleCard({ ...middleCard, actionUrl: e.target.value })}
                     placeholder="https://invio.timrio.com"
-                    className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                    className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition"
                   />
                 </div>
               </div>
 
-              {/* HTML Content */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-semibold text-slate-700">
-                    Card HTML Content (Formatted Body)
-                  </label>
-                  <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
+              {/* Formatted HTML Body Section */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-xs font-semibold text-slate-800">
+                      Card Content (HTML)
+                    </label>
+                    <span className="text-[11px] text-slate-400 block">
+                      Formatting tools apply directly to text selection
+                    </span>
+                  </div>
+
+                  {/* Toggle View: HTML Code vs Formatted Body */}
+                  <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
                     <button
                       type="button"
                       onClick={() => setEditorView('html')}
-                      className={`px-2 py-0.5 rounded font-semibold transition cursor-pointer ${
-                        editorView === 'html' ? 'bg-white text-purple-700 shadow-xs' : 'text-slate-600'
+                      className={`px-2 py-1 rounded text-[11px] font-semibold flex items-center gap-1 transition cursor-pointer ${
+                        editorView === 'html'
+                          ? 'bg-white text-indigo-700 shadow-2xs'
+                          : 'text-slate-500 hover:text-slate-800'
                       }`}
                     >
-                      &lt;/&gt; HTML Code
+                      <FiCode className="size-3" />
+                      <span>HTML Code</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => setEditorView('body')}
-                      className={`px-2 py-0.5 rounded font-semibold transition cursor-pointer ${
-                        editorView === 'body' ? 'bg-white text-purple-700 shadow-xs' : 'text-slate-600'
+                      className={`px-2 py-1 rounded text-[11px] font-semibold flex items-center gap-1 transition cursor-pointer ${
+                        editorView === 'body'
+                          ? 'bg-white text-indigo-700 shadow-2xs'
+                          : 'text-slate-500 hover:text-slate-800'
                       }`}
                     >
-                      👁 Rendered
+                      <FiEye className="size-3" />
+                      <span>Preview Body</span>
                     </button>
                   </div>
                 </div>
 
                 {editorView === 'html' ? (
-                  <div>
-                    <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 p-2 rounded-t-lg border border-slate-200 border-b-0 text-xs">
-                      <button type="button" onClick={() => insertHtmlTag('<h2>', '</h2>')} className="px-2 py-0.5 rounded hover:bg-slate-200 font-bold bg-white border border-slate-200">H2</button>
-                      <button type="button" onClick={() => insertHtmlTag('<h3>', '</h3>')} className="px-2 py-0.5 rounded hover:bg-slate-200 font-bold bg-white border border-slate-200">H3</button>
-                      <button type="button" onClick={() => insertHtmlTag('<p>', '</p>')} className="px-2 py-0.5 rounded hover:bg-slate-200 font-medium bg-white border border-slate-200">P</button>
-                      <button type="button" onClick={() => insertHtmlTag('<blockquote>', '</blockquote>')} className="px-2 py-0.5 rounded hover:bg-slate-200 italic bg-white border border-slate-200">Quote</button>
-                      <button type="button" onClick={() => insertHtmlTag('<strong>', '</strong>')} className="px-2 py-0.5 rounded hover:bg-slate-200 font-bold bg-white border border-slate-200">B</button>
-                      <button type="button" onClick={() => insertHtmlTag('<em>', '</em>')} className="px-2 py-0.5 rounded hover:bg-slate-200 italic bg-white border border-slate-200">I</button>
-                      <button type="button" onClick={() => insertHtmlTag('<ul>\n  <li>', '</li>\n</ul>')} className="px-2 py-0.5 rounded hover:bg-slate-200 bg-white border border-slate-200">• List</button>
-                      <button type="button" onClick={() => insertHtmlTag('<a href="https://invio.timrio.com">', '</a>')} className="px-2 py-0.5 rounded hover:bg-slate-200 bg-white border border-slate-200 underline">Link</button>
+                  <div className="border border-slate-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-600">
+                    {/* HTML Toolbar */}
+                    <div className="flex flex-wrap items-center gap-1 bg-slate-50 px-2 py-1.5 border-b border-slate-200">
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<h2>', '</h2>')}
+                        className="px-2 py-0.5 rounded text-[11px] font-bold text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Heading 2"
+                      >
+                        H2
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<h3>', '</h3>')}
+                        className="px-2 py-0.5 rounded text-[11px] font-bold text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Heading 3"
+                      >
+                        H3
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<p>', '</p>')}
+                        className="px-2 py-0.5 rounded text-[11px] font-medium text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Paragraph"
+                      >
+                        P
+                      </button>
+
+                      <div className="h-3.5 w-px bg-slate-300 mx-0.5" />
+
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<blockquote>', '</blockquote>')}
+                        className="px-2 py-0.5 rounded text-[11px] italic text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Quote Callout"
+                      >
+                        Quote
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<span class="badge">', '</span>')}
+                        className="px-2 py-0.5 rounded text-[11px] font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 transition border border-indigo-200"
+                        title="Badge Tag"
+                      >
+                        Badge
+                      </button>
+
+                      <div className="h-3.5 w-px bg-slate-300 mx-0.5" />
+
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<strong>', '</strong>')}
+                        className="p-1.5 rounded text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Bold"
+                      >
+                        <FiBold className="size-3" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<em>', '</em>')}
+                        className="p-1.5 rounded text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Italic"
+                      >
+                        <FiItalic className="size-3" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<u>', '</u>')}
+                        className="p-1.5 rounded text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Underline"
+                      >
+                        <FiUnderline className="size-3" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<ul>\n  <li>', '</li>\n  <li>Item 2</li>\n</ul>')}
+                        className="p-1.5 rounded text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Bullet List"
+                      >
+                        <FiList className="size-3" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<a href="https://invio.timrio.com">', '</a>')}
+                        className="p-1.5 rounded text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Link"
+                      >
+                        <FiLink className="size-3" />
+                      </button>
                     </div>
+
                     <textarea
                       ref={textareaRef}
-                      rows={8}
+                      rows={10}
                       value={middleCard.htmlContent}
                       onChange={(e) => setMiddleCard({ ...middleCard, htmlContent: e.target.value })}
                       placeholder="Write HTML content here..."
-                      className="w-full text-xs font-mono p-3 rounded-b-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-slate-900 text-emerald-400 selection:bg-purple-800 leading-relaxed"
+                      className="w-full text-xs font-mono p-3 bg-slate-900 text-slate-100 focus:outline-none selection:bg-indigo-600 leading-relaxed resize-none"
                     />
                   </div>
                 ) : (
                   <div
-                    className="w-full min-h-[180px] p-4 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs leading-relaxed overflow-y-auto"
+                    className="w-full min-h-[220px] max-h-[300px] overflow-y-auto p-4 rounded-lg border border-slate-300 bg-white text-slate-800 text-xs leading-relaxed desktop-html-scroll"
                     dangerouslySetInnerHTML={{
-                      __html: sanitizeHtml(middleCard.htmlContent || '<p>No content entered yet.</p>'),
+                      __html: sanitizeHtml(middleCard.htmlContent || '<p>No content provided</p>'),
                     }}
                   />
                 )}
               </div>
             </div>
           ) : (
-            /* Notification Notice Card Form */
-            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-4">
+            /* Notification Card Form */
+            <div className="space-y-4">
+              {/* Header Box */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                  Notification Properties
-                </span>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <span className="text-xs font-semibold text-slate-600">Active Notice:</span>
+                <div>
+                  <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                    NOTIFICATION PROPERTIES
+                  </h2>
+                  <p className="text-[11px] text-slate-500">
+                    Configuration for bottom-right floating desktop alert card
+                  </p>
+                </div>
+                <label className="flex items-center gap-2 cursor-pointer bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+                  <span className="text-xs font-semibold text-slate-700">Active Notice</span>
                   <input
                     type="checkbox"
                     checked={noticeCard.active}
                     onChange={(e) => setNoticeCard({ ...noticeCard, active: e.target.checked })}
-                    className="size-4 accent-[#7C3AED] rounded cursor-pointer"
+                    className="size-4 accent-indigo-600 rounded cursor-pointer"
                   />
                 </label>
               </div>
 
+              {/* Title & Severity Style */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Title Header</label>
@@ -467,8 +736,8 @@ export function CrmBroadcastsPage() {
                     type="text"
                     value={noticeCard.title}
                     onChange={(e) => setNoticeCard({ ...noticeCard, title: e.target.value })}
-                    placeholder="e.g. Cloud Maintenance"
-                    className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                    placeholder="e.g. Scheduled System Maintenance"
+                    className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition"
                   />
                 </div>
 
@@ -477,16 +746,17 @@ export function CrmBroadcastsPage() {
                   <select
                     value={noticeCard.actionType}
                     onChange={(e) => setNoticeCard({ ...noticeCard, actionType: e.target.value })}
-                    className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                    className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition cursor-pointer"
                   >
-                    <option value="info">🔵 Info (Blue)</option>
-                    <option value="success">🟢 Success / Festive (Green)</option>
-                    <option value="warning">🟡 Warning / Advisory (Amber)</option>
-                    <option value="danger">🔴 Danger / Critical (Red)</option>
+                    <option value="info">Info (Blue)</option>
+                    <option value="success">Success / Festive (Emerald)</option>
+                    <option value="warning">Warning / Advisory (Amber)</option>
+                    <option value="danger">Danger / Critical (Rose)</option>
                   </select>
                 </div>
               </div>
 
+              {/* Button Text & Button URL */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Action Button Text</label>
@@ -495,7 +765,7 @@ export function CrmBroadcastsPage() {
                     value={noticeCard.actionLabel}
                     onChange={(e) => setNoticeCard({ ...noticeCard, actionLabel: e.target.value })}
                     placeholder="e.g. Learn more"
-                    className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                    className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition"
                   />
                 </div>
 
@@ -506,78 +776,183 @@ export function CrmBroadcastsPage() {
                     value={noticeCard.actionUrl}
                     onChange={(e) => setNoticeCard({ ...noticeCard, actionUrl: e.target.value })}
                     placeholder="https://invio.timrio.com"
-                    className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
+                    className="w-full text-xs px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white text-slate-800 transition"
                   />
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Message Content</label>
-                <textarea
-                  rows={4}
-                  value={noticeCard.message}
-                  onChange={(e) => setNoticeCard({ ...noticeCard, message: e.target.value })}
-                  placeholder="Enter notification message here..."
-                  className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-[#7C3AED] bg-white text-slate-800"
-                />
+              {/* Message Content with Code vs Body Toggle */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-xs font-semibold text-slate-800">
+                      Message Content (HTML)
+                    </label>
+                    <span className="text-[11px] text-slate-400 block">
+                      Renders in 320px floating card
+                    </span>
+                  </div>
+
+                  <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => setEditorView('html')}
+                      className={`px-2 py-1 rounded text-[11px] font-semibold flex items-center gap-1 transition cursor-pointer ${
+                        editorView === 'html'
+                          ? 'bg-white text-indigo-700 shadow-2xs'
+                          : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      <FiCode className="size-3" />
+                      <span>HTML Code</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditorView('body')}
+                      className={`px-2 py-1 rounded text-[11px] font-semibold flex items-center gap-1 transition cursor-pointer ${
+                        editorView === 'body'
+                          ? 'bg-white text-indigo-700 shadow-2xs'
+                          : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      <FiEye className="size-3" />
+                      <span>Preview Body</span>
+                    </button>
+                  </div>
+                </div>
+
+                {editorView === 'html' ? (
+                  <div className="border border-slate-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-600">
+                    <div className="flex items-center gap-1 bg-slate-50 px-2 py-1.5 border-b border-slate-200">
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<strong>', '</strong>')}
+                        className="p-1.5 rounded text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Bold"
+                      >
+                        <FiBold className="size-3" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<em>', '</em>')}
+                        className="p-1.5 rounded text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Italic"
+                      >
+                        <FiItalic className="size-3" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertHtmlTag('<a href="https://invio.timrio.com">', '</a>')}
+                        className="p-1.5 rounded text-slate-700 hover:bg-slate-200/80 transition"
+                        title="Link"
+                      >
+                        <FiLink className="size-3" />
+                      </button>
+                    </div>
+
+                    <textarea
+                      ref={textareaRef}
+                      rows={6}
+                      value={noticeCard.message}
+                      onChange={(e) => setNoticeCard({ ...noticeCard, message: e.target.value })}
+                      placeholder="Enter notification message here..."
+                      className="w-full text-xs font-mono p-3 bg-slate-900 text-slate-100 focus:outline-none selection:bg-indigo-600 leading-relaxed resize-none"
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className="w-full min-h-[140px] p-3 rounded-lg border border-slate-300 bg-white text-slate-800 text-xs leading-relaxed desktop-html-scroll"
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizeHtml(noticeCard.message || '<p>No content entered.</p>'),
+                    }}
+                  />
+                )}
               </div>
             </div>
           )}
         </div>
 
-        {/* Right Column: Live Desktop App Preview */}
-        <div className={`rounded-xl border border-slate-200 p-6 flex flex-col items-center justify-center relative min-h-[460px] ${
-          previewTheme === 'dark' ? 'bg-[#0f172a]' : 'bg-slate-100'
-        }`}>
-          {/* Preview Badge */}
-          <div className="w-full max-w-[500px] flex items-center justify-between mb-4 text-xs font-semibold text-slate-400">
-            <span className="flex items-center gap-2">
-              <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Real-Time Desktop Preview ({previewTheme === 'dark' ? 'Dark' : 'Light'})</span>
-            </span>
-            <span className="font-mono text-[11px] bg-slate-200/80 px-2 py-0.5 rounded text-slate-700">
-              {activeTab === 'middle' ? 'Center Modal · 500px' : 'Notice Card · 320px'}
-            </span>
-          </div>
-
+        {/* Right Side: Live Desktop App Preview */}
+        <div
+          className={`w-full lg:w-1/2 h-full overflow-y-auto p-6 md:p-8 flex flex-col items-center justify-center relative transition-colors duration-200 ${
+            previewTheme === 'dark' ? 'bg-[#0b0f19]' : 'bg-slate-100/90'
+          }`}
+        >
           {activeTab === 'middle' ? (
-            /* Center Modal Card Live Preview */
-            <div className={`w-full max-w-[480px] rounded-2xl overflow-hidden shadow-2xl border transition-all ${
-              previewTheme === 'dark' ? 'bg-[#151928] border-slate-700 text-slate-100' : 'bg-white border-slate-200 text-slate-800'
-            }`}>
-              {/* Header Fluid Art */}
-              <div className="h-32 bg-gradient-to-tr from-purple-600 via-indigo-600 to-purple-800 flex flex-col items-center justify-center p-4 text-center relative text-white">
-                <button type="button" className="absolute top-3 right-3 size-7 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white text-xs">✕</button>
+            /* Center Modal Card Live Preview (Exact Desktop Replica) */
+            <div
+              className={`desktop-preview-modal w-full max-w-[480px] rounded-2xl overflow-hidden border shadow-2xl transition-all duration-200 ${
+                previewTheme === 'dark'
+                  ? 'bg-[#131826] border-slate-700/80 text-slate-100 shadow-[0_24px_50px_-12px_rgba(0,0,0,0.6)]'
+                  : 'bg-white border-slate-200 text-slate-900 shadow-[0_24px_50px_-12px_rgba(15,23,42,0.18)]'
+              }`}
+            >
+              {/* Header Fluid Art Wave */}
+              <div
+                className={`desktop-preview-header h-34 relative flex flex-col items-center justify-center p-5 text-center text-white ${
+                  previewTheme === 'dark'
+                    ? 'bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-950'
+                    : 'bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700'
+                }`}
+              >
+                {/* Close Button X */}
+                <button
+                  type="button"
+                  className="absolute top-3.5 right-3.5 size-7.5 rounded-full bg-white/20 hover:bg-white/30 active:scale-95 flex items-center justify-center text-white text-xs backdrop-blur-xs transition cursor-pointer"
+                  title="Close"
+                  aria-label="Close"
+                >
+                  <FiX className="size-4" />
+                </button>
+
+                {/* Badge Pill */}
                 {middleCard.badge && (
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 border border-white/30 px-2.5 py-0.5 rounded-full mb-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 border border-white/30 px-2.5 py-0.5 rounded-full mb-1.5 shadow-2xs">
                     {middleCard.badge}
                   </span>
                 )}
-                <h3 className="text-lg font-bold leading-snug">{middleCard.title}</h3>
-                {middleCard.subtitle && <p className="text-xs text-white/90 line-clamp-2 mt-0.5 max-w-sm">{middleCard.subtitle}</p>}
+
+                {/* Title */}
+                <h3
+                  className="text-lg md:text-xl font-bold leading-tight max-w-sm"
+                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                >
+                  {middleCard.title || 'Try Invio Plus'}
+                </h3>
+
+                {/* Subtitle */}
+                {middleCard.subtitle && (
+                  <p className="text-xs text-white/90 line-clamp-2 mt-1 max-w-sm">
+                    {middleCard.subtitle}
+                  </p>
+                )}
               </div>
 
-              {/* Body */}
+              {/* Modal Body */}
               <div className="p-5 space-y-4">
                 <div
-                  className={`text-xs leading-relaxed max-h-52 overflow-y-auto p-3.5 rounded-xl border ${
-                    previewTheme === 'dark' ? 'bg-slate-900/60 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-100 text-slate-700'
+                  className={`text-xs leading-relaxed max-h-52 overflow-y-auto p-4 rounded-xl border desktop-html-scroll ${
+                    previewTheme === 'dark'
+                      ? 'bg-slate-900/60 border-slate-800 text-slate-300'
+                      : 'bg-slate-50 border-slate-150 text-slate-700'
                   }`}
                   dangerouslySetInnerHTML={{
                     __html: sanitizeHtml(middleCard.htmlContent || '<p>No content provided</p>'),
                   }}
                 />
 
-                <div className="flex flex-col gap-2 pt-2">
+                {/* Buttons with Real UI Effects */}
+                <div className="flex flex-col gap-2 pt-1">
                   <button
                     type="button"
-                    className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold text-xs rounded-xl shadow-xs transition"
+                    className="w-full py-2.5 px-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 active:scale-[0.99] text-white font-semibold text-xs rounded-xl shadow-md transition-all duration-150 cursor-pointer"
                   >
                     {middleCard.ctaLabel || 'Check on Website'}
                   </button>
+
                   <button
                     type="button"
-                    className="text-xs text-slate-400 hover:text-slate-600 transition"
+                    className="w-full py-1 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer"
                   >
                     Maybe later
                   </button>
@@ -586,37 +961,87 @@ export function CrmBroadcastsPage() {
             </div>
           ) : (
             /* Notification Notice Card Live Preview (320px) */
-            <div className={`w-80 rounded-xl p-4 shadow-xl border relative transition-all ${
-              previewTheme === 'dark' ? 'bg-[#181920] border-slate-700 text-slate-100' : 'bg-white border-slate-200 text-slate-800'
-            }`}>
-              <div className="flex items-center justify-between gap-2 mb-2">
-                <div className="flex items-center gap-2">
-                  <span className={`size-2.5 rounded-full ${
-                    noticeCard.actionType === 'danger'
-                      ? 'bg-red-500'
-                      : noticeCard.actionType === 'warning'
-                      ? 'bg-amber-500'
-                      : noticeCard.actionType === 'success'
-                      ? 'bg-emerald-500'
-                      : 'bg-blue-500'
-                  }`} />
-                  <h4 className="text-xs font-bold truncate">{noticeCard.title || 'System Notification'}</h4>
+            <div
+              className={`desktop-preview-modal w-80 rounded-xl p-4 shadow-xl border relative transition-all duration-200 ${
+                previewTheme === 'dark'
+                  ? 'bg-[#151928] border-slate-700/80 text-slate-100 shadow-[0_16px_36px_-8px_rgba(0,0,0,0.5)]'
+                  : 'bg-white border-slate-200 text-slate-800 shadow-[0_16px_36px_-8px_rgba(15,23,42,0.14)]'
+              }`}
+            >
+              {/* Severity Glow */}
+              <div
+                className={`absolute -top-4 -right-4 size-20 rounded-full blur-xl pointer-events-none opacity-40 ${
+                  noticeCard.actionType === 'danger'
+                    ? 'bg-rose-500'
+                    : noticeCard.actionType === 'warning'
+                    ? 'bg-amber-500'
+                    : noticeCard.actionType === 'success'
+                    ? 'bg-emerald-500'
+                    : 'bg-blue-500'
+                }`}
+                style={{ animation: 'desktopGlowPulse 4s ease-in-out infinite' }}
+              />
+
+              {/* Header */}
+              <div className="flex items-center justify-between gap-2 mb-2 relative z-10">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span
+                    className={`size-4 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      noticeCard.actionType === 'danger'
+                        ? 'text-rose-500'
+                        : noticeCard.actionType === 'warning'
+                        ? 'text-amber-500'
+                        : noticeCard.actionType === 'success'
+                        ? 'text-emerald-500'
+                        : 'text-blue-500'
+                    }`}
+                  >
+                    {noticeCard.actionType === 'danger' ? (
+                      <FiAlertCircle className="size-4" />
+                    ) : noticeCard.actionType === 'warning' ? (
+                      <FiAlertTriangle className="size-4" />
+                    ) : noticeCard.actionType === 'success' ? (
+                      <FiCheckCircle className="size-4" />
+                    ) : (
+                      <FiInfo className="size-4" />
+                    )}
+                  </span>
+                  <h4 className="text-xs font-bold truncate">
+                    {noticeCard.title || 'System Notification'}
+                  </h4>
                 </div>
-                <button type="button" className="text-slate-400 hover:text-slate-600 text-xs">✕</button>
+
+                <button
+                  type="button"
+                  className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-0.5 cursor-pointer"
+                  title="Dismiss"
+                  aria-label="Dismiss"
+                >
+                  <FiX className="size-3.5" />
+                </button>
               </div>
 
+              {/* Message */}
               <div
-                className="text-xs leading-relaxed text-slate-600 dark:text-slate-300 mb-2.5"
+                className={`text-xs leading-relaxed mb-3 desktop-html-scroll max-h-36 overflow-y-auto relative z-10 ${
+                  previewTheme === 'dark' ? 'text-slate-300' : 'text-slate-600'
+                }`}
                 dangerouslySetInnerHTML={{
                   __html: sanitizeHtml(noticeCard.message || 'Notification content...'),
                 }}
               />
 
+              {/* Action Button */}
               {noticeCard.actionLabel && (
-                <button type="button" className="text-xs font-semibold text-[#7C3AED] hover:underline flex items-center gap-1">
-                  <span>{noticeCard.actionLabel}</span>
-                  <span>→</span>
-                </button>
+                <div className="pt-0.5 flex items-center relative z-10">
+                  <button
+                    type="button"
+                    className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 hover:underline flex items-center gap-1 transition cursor-pointer"
+                  >
+                    <span>{noticeCard.actionLabel}</span>
+                    <FiExternalLink className="size-3" />
+                  </button>
+                </div>
               )}
             </div>
           )}
