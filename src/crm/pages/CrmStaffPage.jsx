@@ -249,17 +249,20 @@ export function CrmStaffPage() {
                   className="w-full p-2.5 rounded-lg border border-slate-200 bg-white"
                 >
                   <option value="sales_executive">Sales Executive (Direct ≤10%, Requests ≤30%)</option>
-                  <option value="support_executive">Support Executive (Tickets, Requests ≤30%)</option>
+                  <option value="support_executive">Support Executive (Tickets, Customer Details)</option>
+                  <option value="digital_marketer">Digital Marketer (In-App Broadcasts, Promo Coupons)</option>
+                  <option value="billing_accountant">Billing Accountant (Financial Audits, Discounts & Plans)</option>
                   {isAdmin && (
                     <>
-                      <option value="manager">Operations Manager (Reviews ≤30%, Coupons)</option>
+                      <option value="manager">Operations Manager (Reviews ≤30%, Coupons, Broadcasts)</option>
                       <option value="admin">System Administrator (Full Authority)</option>
+                      <option value="super_admin">Super Administrator (Full System Authority)</option>
                     </>
                   )}
                 </select>
                 {isManager && (
                   <p className="mt-1 text-[11px] text-slate-500">
-                    As an Operations Manager, you can provision Sales and Support Executives.
+                    As an Operations Manager, you can provision Sales, Support, Marketing, and Billing accounts.
                   </p>
                 )}
               </div>

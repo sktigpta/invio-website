@@ -23,6 +23,8 @@ const roleMeta = {
   manager: { label: 'Operations Manager', bg: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
   sales_executive: { label: 'Sales Executive', bg: 'bg-amber-100 text-amber-800 border-amber-200' },
   support_executive: { label: 'Support Executive', bg: 'bg-sky-100 text-sky-800 border-sky-200' },
+  digital_marketer: { label: 'Digital Marketer', bg: 'bg-rose-100 text-rose-800 border-rose-200' },
+  billing_accountant: { label: 'Billing Accountant', bg: 'bg-teal-100 text-teal-800 border-teal-200' },
 };
 
 export function CrmLayout() {
