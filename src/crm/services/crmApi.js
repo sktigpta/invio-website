@@ -299,6 +299,44 @@ export const crmApi = {
     });
   },
 
+  // Bug Reports (STORE: Google Sheet)
+  async getBugs({ status = '', severity = '', search = '', page = 1, limit = 20 } = {}) {
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+      ...(status ? { status } : {}),
+      ...(severity ? { severity } : {}),
+      ...(search ? { search } : {}),
+    });
+    return request(`/bugs?${params.toString()}`);
+  },
+
+  async updateBugStatus(ticketId, status) {
+    return request(`/bugs/${encodeURIComponent(ticketId)}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  },
+
+  // Contact Submissions (STORE: Google Sheet)
+  async getContacts({ status = '', search = '', breached = false, page = 1, limit = 20 } = {}) {
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+      ...(status ? { status } : {}),
+      ...(search ? { search } : {}),
+      ...(breached ? { breached: '1' } : {}),
+    });
+    return request(`/contacts?${params.toString()}`);
+  },
+
+  async updateContactStatus(id, status) {
+    return request(`/contacts/${encodeURIComponent(id)}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  },
+
   // Support Tickets
   async getTickets({ status = '', category = '', priority = '', assignedStaffId = '', search = '', page = 1, limit = 20 } = {}) {
     const params = new URLSearchParams({

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { MailIcon, CopyIcon, CheckIcon } from '../components/Icons';
@@ -195,7 +196,14 @@ export function ContactPage() {
           </form>
         )}
 
-        <p className="text-center text-[11px] text-slate-400 mt-5">
+        <div className="mt-4 p-3 bg-purple-50/60 border border-purple-100 rounded-xl text-center text-xs text-slate-600">
+          Experiencing a software bug or glitch?{' '}
+          <Link to="/report-bug" className="font-semibold text-[#7C3AED] hover:underline">
+            Submit a diagnostic bug report →
+          </Link>
+        </div>
+
+        <p className="text-center text-[11px] text-slate-400 mt-4">
           Support hours: Monday – Friday, 9:00 AM – 6:00 PM IST
         </p>
       </div>

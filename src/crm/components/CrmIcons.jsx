@@ -127,3 +127,27 @@ export function LayersIcon({ className = 'size-5' }) {
     </svg>
   );
 }
+
+export function BugIcon({ className = 'size-5' }) {
+  return (
+    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 0 0 3.75-3.75V11.25a3.75 3.75 0 1 0-7.5 0v3A3.75 3.75 0 0 0 12 18ZM5.25 11.25h13.5M3.75 7.5l3 1.5M20.25 7.5l-3 1.5M3.75 16.5l3-1.5M20.25 16.5l-3-1.5M9 7.5l-1.5-3M15 7.5l1.5-3" />
+    </svg>
+  );
+}
+
+export function MailIcon({ className = 'size-5' }) {
+  return (
+    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+    </svg>
+  );
+}
+
+export function BroadcastIcon({ className = 'size-5' }) {
+  return (
+    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6c0-1.875-.857-3.551-2.197-4.664M12 18.75a6 6 0 0 1-6-6c0-1.875.857-3.551 2.197-4.664M12 14.25a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM19.5 7.5a9.75 9.75 0 0 1 0 10.5M4.5 7.5a9.75 9.75 0 0 0 0 10.5" />
+    </svg>
+  );
+}

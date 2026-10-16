@@ -23,6 +23,7 @@ const EulaPage = lazy(() => import('./pages/EulaPage').then(m => ({ default: m.E
 const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage').then(m => ({ default: m.CookiePolicyPage })));
 const SecurityPage = lazy(() => import('./pages/SecurityPage').then(m => ({ default: m.SecurityPage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
+const ReportBugPage = lazy(() => import('./pages/ReportBugPage').then(m => ({ default: m.ReportBugPage })));
 const ToolsPage = lazy(() => import('./pages/ToolsPage').then(m => ({ default: m.ToolsPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 // CRM System Components
@@ -38,6 +39,9 @@ import { CrmApprovalsPage } from './crm/pages/CrmApprovalsPage';
 import { CrmCouponsPage } from './crm/pages/CrmCouponsPage';
 import { CrmTicketsPage } from './crm/pages/CrmTicketsPage';
 import { CrmTicketDetailPage } from './crm/pages/CrmTicketDetailPage';
+import { CrmBugsPage } from './crm/pages/CrmBugsPage';
+import { CrmContactsPage } from './crm/pages/CrmContactsPage';
+import { CrmBroadcastsPage } from './crm/pages/CrmBroadcastsPage';
 import { CrmPlansPage } from './crm/pages/CrmPlansPage';
 import { CrmStaffPage } from './crm/pages/CrmStaffPage';
 import { CrmAuditLogsPage } from './crm/pages/CrmAuditLogsPage';
@@ -85,6 +89,9 @@ export function App() {
                   <Route path="coupons" element={<CrmProtectedRoute requiredRoles={['admin', 'manager']}><CrmCouponsPage /></CrmProtectedRoute>} />
                   <Route path="tickets" element={<CrmProtectedRoute requiredRoles={['admin', 'manager']}><CrmTicketsPage /></CrmProtectedRoute>} />
                   <Route path="tickets/:id" element={<CrmProtectedRoute requiredRoles={['admin', 'manager']}><CrmTicketDetailPage /></CrmProtectedRoute>} />
+                  <Route path="bugs" element={<CrmProtectedRoute requiredRoles={['admin', 'manager']}><CrmBugsPage /></CrmProtectedRoute>} />
+                  <Route path="contacts" element={<CrmContactsPage />} />
+                  <Route path="broadcasts" element={<CrmBroadcastsPage />} />
                   <Route path="plans" element={<CrmPlansPage />} />
                   <Route
                     path="staff"
@@ -141,6 +148,9 @@ export function App() {
                 <Route path="/cookie-policy" element={<CookiePolicyPage />} />
                 <Route path="/security" element={<SecurityPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route path="/report-bug" element={<ReportBugPage />} />
+                <Route path="/bugs" element={<Navigate to="/report-bug" replace />} />
+                <Route path="/bug-report" element={<Navigate to="/report-bug" replace />} />
 
                 {/* Fallback & 404 */}
                 <Route path="/404" element={<NotFoundPage />} />
