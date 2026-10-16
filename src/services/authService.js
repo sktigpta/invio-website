@@ -265,3 +265,30 @@ export async function resendVerification(email) {
     return { success: false, error: 'Could not connect to verification server.' };
   }
 }
+
+export async function updateAccountProfile(data, token) {
+  const authToken = token || getStoredToken();
+  if (!authToken) return { success: false, error: 'Not authenticated.' };
+  try {
+    const res = await fetch(`${apiBase()}/api/auth/profile`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json().catch(() => ({}));
+    if (res.ok && result.success) {
+      if (result.user) {
+        setStoredAuth(authToken, result.user);
+      }
+      return { success: true, user: result.user };
+    }
+    return { success: false, error: result.error || 'Failed to update profile.' };
+  } catch {
+    return { success: false, error: 'Could not connect to server.' };
+  }
+}
+
