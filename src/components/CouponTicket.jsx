@@ -3,17 +3,20 @@ import { Link } from 'react-router-dom';
 
 /**
  * CouponTicket Component
- * Authentic ticket voucher with radial cutout notches, vertical tear stub,
- * bold discount display, simulated barcode, and 1-click copy / claim interaction.
+ * Faithful implementation of user coupon ticket specification:
+ * - Radial cutouts at (0 50%) and (100% 50%)
+ * - Left vertical rotated stub ("ENJOY YOUR GIFT")
+ * - Center block with black badge dynamic discount h2, coupon title h3, and validity small text
+ * - Right stub with Invio logo, dynamic discount text, horizontal barcode, and 1-click apply/copy button
+ * - Fully responsive with @media (max-width: 500px) grid collapse
  */
 export function CouponTicket({
   code = 'WELCOME20',
-  discountText = '20% OFF',
-  title = 'Invio Plus',
-  subtitle = 'Lifetime Discount Voucher',
-  validity = 'Limited Period Offer',
+  discountText = '50% OFF',
+  title = 'COUPON',
+  validity = 'Valid until Limited Window',
   leftTag = 'ENJOY YOUR GIFT',
-  variant = 'purple', // 'purple' | 'gold' | 'dark'
+  variant = 'gold', // 'gold' | 'purple'
   onApply,
   showClaimButton = true,
 }) {
@@ -24,54 +27,25 @@ export function CouponTicket({
     navigator.clipboard?.writeText(code);
     setCopied(true);
     if (onApply) onApply(code);
-    setTimeout(() => setCopied(false), 2500);
+    setTimeout(() => setCopied(false), 2200);
   };
 
-  // Color schemes
-  const themes = {
-    purple: {
-      bgBefore: 'radial-gradient(circle at 0 50%, transparent 20px, #7c3aed 21px)',
-      bgAfter: 'radial-gradient(circle at 100% 50%, transparent 20px, #6d28d9 21px)',
-      leftBorder: 'rgba(255, 255, 255, 0.25)',
-      badgeBg: '#1e1b4b',
-      badgeText: '#f59e0b',
-      textColor: '#ffffff',
-      codeBg: 'rgba(255, 255, 255, 0.15)',
-      btnBg: 'bg-white text-indigo-900 hover:bg-slate-100',
-    },
-    gold: {
-      bgBefore: 'radial-gradient(circle at 0 50%, transparent 20px, #f59e0b 21px)',
-      bgAfter: 'radial-gradient(circle at 100% 50%, transparent 20px, #d97706 21px)',
-      leftBorder: 'rgba(0, 0, 0, 0.15)',
-      badgeBg: '#0f172a',
-      badgeText: '#fbbf24',
-      textColor: '#0f172a',
-      codeBg: 'rgba(0, 0, 0, 0.08)',
-      btnBg: 'bg-slate-900 text-amber-400 hover:bg-slate-800',
-    },
-    dark: {
-      bgBefore: 'radial-gradient(circle at 0 50%, transparent 20px, #1e293b 21px)',
-      bgAfter: 'radial-gradient(circle at 100% 50%, transparent 20px, #0f172a 21px)',
-      leftBorder: 'rgba(255, 255, 255, 0.18)',
-      badgeBg: '#7c3aed',
-      badgeText: '#ffffff',
-      textColor: '#f8fafc',
-      codeBg: 'rgba(255, 255, 255, 0.1)',
-      btnBg: 'bg-purple-600 text-white hover:bg-purple-700',
-    },
-  };
-
-  const theme = themes[variant] || themes.purple;
+  const isPurple = variant === 'purple';
+  const primaryColor = isPurple ? '#7c3aed' : '#f59e0b';
+  const primaryLight = isPurple ? '#8b5cf6' : 'gold';
+  const badgeTextColor = '#fbbf24';
+  const rightBg = 'radial-gradient(circle at 100% 50%, transparent 25px, #ffffff 26px)';
 
   return (
-    <div className="w-full max-w-[420px] mx-auto select-none font-sans">
+    <div className="w-full max-w-[440px] mx-auto select-none font-sans my-2">
       <style>{`
-        .coupon-ticket-wrap {
+        .invio-coupon-card {
           width: 100%;
-          min-height: 180px;
-          border-radius: 14px;
+          min-height: 200px;
+          border-radius: 12px;
           overflow: hidden;
-          filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.14));
+          margin: auto;
+          filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
           display: flex;
           align-items: stretch;
           position: relative;
@@ -79,13 +53,13 @@ export function CouponTicket({
           transition: transform 0.2s ease, filter 0.2s ease;
         }
 
-        .coupon-ticket-wrap:hover {
-          filter: drop-shadow(0 12px 28px rgba(124, 58, 237, 0.24));
+        .invio-coupon-card:hover {
+          filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
           transform: translateY(-2px);
         }
 
-        .coupon-ticket-wrap::before,
-        .coupon-ticket-wrap::after {
+        .invio-coupon-card::before,
+        .invio-coupon-card::after {
           content: "";
           position: absolute;
           top: 0;
@@ -94,161 +68,205 @@ export function CouponTicket({
           z-index: 0;
         }
 
-        .coupon-ticket-wrap::before {
+        .invio-coupon-card::before {
           left: 0;
-          background-image: ${theme.bgBefore};
+          background-image: radial-gradient(
+            circle at 0 50%,
+            transparent 25px,
+            ${primaryLight} 26px
+          );
         }
 
-        .coupon-ticket-wrap::after {
+        .invio-coupon-card::after {
           right: 0;
-          background-image: ${theme.bgAfter};
+          background-image: radial-gradient(
+            circle at 100% 50%,
+            transparent 25px,
+            ${primaryLight} 26px
+          );
         }
 
-        @media (max-width: 480px) {
-          .coupon-ticket-wrap {
-            flex-direction: column;
+        .invio-coupon-card > div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .invio-coupon-left {
+          width: 20%;
+          border-right: 2px dashed rgba(0, 0, 0, 0.15);
+        }
+
+        .invio-coupon-left div {
+          transform: rotate(-90deg);
+          white-space: nowrap;
+          font-weight: 800;
+          font-size: 0.68rem;
+          letter-spacing: 2px;
+          color: ${isPurple ? '#ffffff' : '#1e1b4b'};
+        }
+
+        .invio-coupon-center {
+          flex-grow: 1;
+          text-align: center;
+          padding: 12px 14px;
+        }
+
+        .invio-coupon-center h2 {
+          background: #000;
+          color: ${badgeTextColor};
+          padding: 4px 12px;
+          font-size: 1.85rem;
+          font-weight: 900;
+          white-space: nowrap;
+          border-radius: 6px;
+          display: inline-block;
+          letter-spacing: -0.5px;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        }
+
+        .invio-coupon-center h3 {
+          font-size: 1.45rem;
+          font-weight: 900;
+          letter-spacing: 1px;
+          margin-top: 6px;
+          color: ${isPurple ? '#ffffff' : '#0f172a'};
+        }
+
+        .invio-coupon-center small {
+          font-size: 0.625rem;
+          font-weight: 700;
+          letter-spacing: 2px;
+          color: ${isPurple ? 'rgba(255,255,255,0.9)' : 'rgba(15,23,42,0.85)'};
+          display: block;
+          margin-top: 6px;
+        }
+
+        .invio-coupon-right {
+          width: 135px;
+          background-image: ${rightBg};
+          padding: 12px 10px;
+          flex-direction: column;
+          border-left: 2px dashed rgba(0, 0, 0, 0.12);
+        }
+
+        @media screen and (max-width: 500px) {
+          .invio-coupon-card {
+            display: grid;
+            grid-template-columns: 1fr;
             min-height: auto;
           }
-          .coupon-ticket-wrap::before,
-          .coupon-ticket-wrap::after {
+          .invio-coupon-card::before,
+          .invio-coupon-card::after {
             display: none;
           }
-          .coupon-ticket-wrap {
-            background: ${variant === 'gold' ? '#f59e0b' : variant === 'dark' ? '#1e293b' : '#7c3aed'};
+          .invio-coupon-card {
+            background: ${primaryColor};
           }
-          .coupon-ticket-left div,
-          .coupon-ticket-right div {
-            transform: none !important;
+          .invio-coupon-left {
+            width: 100%;
+            border-right: none;
+            border-bottom: 2px dashed rgba(0, 0, 0, 0.15);
+            padding: 8px 0;
           }
-          .coupon-ticket-left {
-            width: 100% !important;
-            border-right: none !important;
-            border-bottom: 2px dashed rgba(255, 255, 255, 0.25) !important;
-            padding: 8px 0 !important;
+          .invio-coupon-left div {
+            transform: rotate(0deg);
           }
-          .coupon-ticket-right {
-            width: 100% !important;
-            border-left: none !important;
-            border-top: 2px dashed rgba(255, 255, 255, 0.25) !important;
-            padding: 12px 0 !important;
+          .invio-coupon-right {
+            width: 100%;
+            border-left: none;
+            border-top: 2px dashed rgba(0, 0, 0, 0.15);
+            background: #ffffff;
+            padding: 14px 10px;
           }
         }
       `}</style>
 
-      <div className="coupon-ticket-wrap">
-        {/* Left Vertical Stub */}
-        <div
-          className="coupon-ticket-left relative z-10 w-[18%] flex items-center justify-center py-4"
-          style={{ borderRight: `2px dashed ${theme.leftBorder}` }}
-        >
-          <div
-            className="text-[10px] font-black tracking-widest text-center whitespace-nowrap opacity-90"
-            style={{
-              transform: 'rotate(-90deg)',
-              color: theme.textColor,
-            }}
-          >
-            {leftTag}
+      <div className="invio-coupon-card">
+        {/* Left vertical stub */}
+        <div className="invio-coupon-left relative z-10">
+          <div>{leftTag}</div>
+        </div>
+
+        {/* Center coupon details */}
+        <div className="invio-coupon-center relative z-10 flex flex-col items-center justify-center">
+          <div>
+            <h2>{discountText}</h2>
+            <h3>{title}</h3>
+            <small>{validity}</small>
           </div>
         </div>
 
-        {/* Center Main Coupon Body */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-4.5">
-          {/* Discount Pill / Badge */}
-          <div
-            className="px-3.5 py-1 rounded-lg font-black text-xl sm:text-2xl tracking-tight mb-1.5 shadow-2xs whitespace-nowrap"
-            style={{
-              backgroundColor: theme.badgeBg,
-              color: theme.badgeText,
-            }}
-          >
+        {/* Right stub with Invio logo, horizontal barcode, and dynamic off */}
+        <div className="invio-coupon-right relative z-10 flex flex-col items-center justify-center text-center">
+          {/* Invio Brand Logo */}
+          <div className="flex items-center gap-1.5 mb-1">
+            <img
+              src="/appLogo.png"
+              alt="Invio"
+              className="size-5 object-contain"
+              width="20"
+              height="20"
+            />
+            <span className="font-black text-[11px] tracking-wider text-slate-900">
+              INVIO
+            </span>
+          </div>
+
+          {/* Dynamic Off Tag */}
+          <div className="text-[10.5px] font-extrabold text-[#7C3AED] leading-none mb-1">
             {discountText}
           </div>
 
-          {/* Title */}
-          <div
-            className="text-sm sm:text-base font-extrabold tracking-wider leading-tight"
-            style={{ color: theme.textColor }}
-          >
-            {title}
-          </div>
-
-          {/* Subtitle */}
-          <div
-            className="text-[10.5px] font-medium tracking-wide opacity-85 mt-0.5 leading-snug"
-            style={{ color: theme.textColor }}
-          >
-            {subtitle}
-          </div>
-
-          {/* Validity Small Text */}
-          <div
-            className="text-[9px] font-semibold tracking-widest mt-2 px-2 py-0.5 rounded-full"
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.15)',
-              color: theme.textColor,
-            }}
-          >
-            {validity}
-          </div>
-        </div>
-
-        {/* Right Barcode Stub & Code */}
-        <div
-          className="coupon-ticket-right relative z-10 w-[30%] flex flex-col items-center justify-center p-3 text-center"
-          style={{ borderLeft: `2px dashed ${theme.leftBorder}` }}
-        >
-          {/* Simulated SVG Barcode */}
-          <div className="mb-2 opacity-85 flex justify-center items-center">
-            <svg
-              className="w-16 h-8"
-              viewBox="0 0 100 40"
-              fill="currentColor"
-              style={{ color: theme.textColor }}
-            >
-              <rect x="2" y="2" width="4" height="36" />
-              <rect x="8" y="2" width="2" height="36" />
-              <rect x="13" y="2" width="6" height="36" />
-              <rect x="22" y="2" width="2" height="36" />
-              <rect x="27" y="2" width="8" height="36" />
-              <rect x="38" y="2" width="3" height="36" />
-              <rect x="44" y="2" width="5" height="36" />
-              <rect x="52" y="2" width="2" height="36" />
-              <rect x="57" y="2" width="7" height="36" />
-              <rect x="67" y="2" width="4" height="36" />
-              <rect x="74" y="2" width="3" height="36" />
-              <rect x="80" y="2" width="6" height="36" />
-              <rect x="89" y="2" width="2" height="36" />
-              <rect x="94" y="2" width="4" height="36" />
-            </svg>
-          </div>
-
-          {/* Promo Code Box */}
-          <div
-            className="px-2 py-0.5 rounded font-mono font-black text-xs tracking-wider mb-2"
-            style={{
-              backgroundColor: theme.codeBg,
-              color: theme.textColor,
-            }}
-          >
+          {/* Coupon Code Pill */}
+          <div className="px-1.5 py-0.5 rounded bg-slate-900 text-amber-400 font-mono font-black text-[10px] tracking-widest mb-1.5 shadow-2xs">
             {code}
           </div>
 
-          {/* Interactive Button */}
+          {/* Horizontal Barcode */}
+          <div className="w-full flex items-center justify-center px-1 mb-1.5 opacity-90">
+            <svg
+              className="w-20 h-4 text-slate-900"
+              viewBox="0 0 100 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <rect x="2" y="0" width="3" height="24" />
+              <rect x="7" y="0" width="1.5" height="24" />
+              <rect x="11" y="0" width="4" height="24" />
+              <rect x="18" y="0" width="1.5" height="24" />
+              <rect x="22" y="0" width="5" height="24" />
+              <rect x="30" y="0" width="2" height="24" />
+              <rect x="34" y="0" width="3.5" height="24" />
+              <rect x="40" y="0" width="1.5" height="24" />
+              <rect x="44" y="0" width="5" height="24" />
+              <rect x="52" y="0" width="3" height="24" />
+              <rect x="58" y="0" width="1.5" height="24" />
+              <rect x="62" y="0" width="4" height="24" />
+              <rect x="69" y="0" width="2" height="24" />
+              <rect x="74" y="0" width="4.5" height="24" />
+              <rect x="81" y="0" width="1.5" height="24" />
+              <rect x="85" y="0" width="3" height="24" />
+              <rect x="91" y="0" width="2" height="24" />
+              <rect x="95" y="0" width="3" height="24" />
+            </svg>
+          </div>
+
+          {/* 1-Click Action */}
           {showClaimButton ? (
             <Link
               to={`/checkout?plan=plus&cycle=yearly&coupon=${encodeURIComponent(code)}`}
-              className={`w-full py-1.5 px-2 rounded-lg text-[10.5px] font-bold uppercase tracking-wider text-center transition-all duration-150 active:scale-95 shadow-xs ${theme.btnBg}`}
+              className="w-full py-1 px-2 rounded-md bg-black hover:bg-slate-800 text-amber-400 font-bold text-[9.5px] uppercase tracking-wider text-center transition-colors shadow-2xs"
             >
-              Apply Code
+              Apply
             </Link>
           ) : (
             <button
               type="button"
               onClick={handleCopy}
-              className={`w-full py-1.5 px-2 rounded-lg text-[10.5px] font-bold uppercase tracking-wider text-center transition-all duration-150 active:scale-95 shadow-xs cursor-pointer ${theme.btnBg}`}
+              className="w-full py-1 px-2 rounded-md bg-black hover:bg-slate-800 text-amber-400 font-bold text-[9.5px] uppercase tracking-wider text-center transition-colors shadow-2xs cursor-pointer"
             >
-              {copied ? 'Copied!' : 'Copy Code'}
+              {copied ? 'Copied' : 'Copy'}
             </button>
           )}
         </div>
