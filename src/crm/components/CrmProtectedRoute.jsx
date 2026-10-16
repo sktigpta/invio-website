@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { useCrmAuth } from '../context/CrmAuthContext';
 
 export function CrmProtectedRoute({ children, requiredRoles }) {
-  const { staff, loading, isAuthenticated } = useCrmAuth();
+  const { staff, loading, isAuthenticated, mustChangePassword } = useCrmAuth();
 
   if (loading) {
     return (
@@ -19,7 +19,17 @@ export function CrmProtectedRoute({ children, requiredRoles }) {
     return <Navigate to="/crm/login" replace />;
   }
 
-  if (requiredRoles && !requiredRoles.includes(staff?.role)) {
+  // Temporary-password holders must set a new password before using the portal.
+  if (mustChangePassword) {
+    return <Navigate to="/crm/login?change=1" replace />;
+  }
+
+  // super_admin inherits admin access for role-based route gates
+  const effectiveRoles = [...(requiredRoles || [])];
+  if (staff?.role === 'super_admin' && !effectiveRoles.includes('super_admin')) {
+    effectiveRoles.push('admin');
+  }
+  if (requiredRoles && !effectiveRoles.includes(staff?.role)) {
     return (
       <div className="bg-white rounded-xl p-8 border border-red-200 max-w-lg mx-auto my-12 text-center shadow-sm">
         <div className="size-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4 font-bold text-xl">

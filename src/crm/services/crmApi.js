@@ -64,6 +64,8 @@ function resolveApiUrl(path) {
   return `${API_BASE_URL}/api/crm${cleanPath}`;
 }
 
+const REQUEST_TIMEOUT_MS = 25000;
+
 async function request(endpoint, options = {}) {
   const url = resolveApiUrl(endpoint);
   const token = getCrmToken();
@@ -74,10 +76,23 @@ async function request(endpoint, options = {}) {
     ...(options.headers || {}),
   };
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  let response;
+  try {
+    response = await fetch(url, {
+      ...options,
+      headers,
+      signal: controller.signal,
+    });
+  } catch (err) {
+    if (err?.name === 'AbortError') {
+      throw new Error('Request timed out — the server is taking too long. Please retry.');
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
 
   const data = await response.json().catch(() => ({}));
 
@@ -113,6 +128,13 @@ export const crmApi = {
     return request('/auth/me');
   },
 
+  async changePassword(currentPassword, newPassword) {
+    return request('/auth/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+  },
+
   // Dashboard
   async getDashboardMetrics() {
     return request('/dashboard');
@@ -134,6 +156,24 @@ export const crmApi = {
     return request(`/customers/${encodeURIComponent(customerId)}`);
   },
 
+  async lookupCustomer(email) {
+    return request(`/customers/lookup?email=${encodeURIComponent(email)}`);
+  },
+
+  async createCustomer(payload) {
+    return request('/customers', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async registerCustomer(payload) {
+    return request('/customers/register', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
   async assignCustomerStaff(customerId, staffId) {
     return request(`/customers/${encodeURIComponent(customerId)}/assign`, {
       method: 'POST',
@@ -145,6 +185,19 @@ export const crmApi = {
     return request(`/customers/${encodeURIComponent(customerId)}/notes`, {
       method: 'POST',
       body: JSON.stringify({ note }),
+    });
+  },
+
+  async updateCustomer(customerId, payload) {
+    return request(`/customers/${encodeURIComponent(customerId)}`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async deleteCustomer(customerId) {
+    return request(`/customers/${encodeURIComponent(customerId)}`, {
+      method: 'DELETE',
     });
   },
 
@@ -163,6 +216,25 @@ export const crmApi = {
     return request('/discounts', {
       method: 'POST',
       body: JSON.stringify(payload),
+    });
+  },
+
+  async updateDiscount(discountId, payload) {
+    return request(`/discounts/${encodeURIComponent(discountId)}`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async revokeDiscount(discountId) {
+    return request(`/discounts/${encodeURIComponent(discountId)}/revoke`, {
+      method: 'PATCH',
+    });
+  },
+
+  async deleteDiscount(discountId) {
+    return request(`/discounts/${encodeURIComponent(discountId)}`, {
+      method: 'DELETE',
     });
   },
 
@@ -197,6 +269,19 @@ export const crmApi = {
     return request('/coupons', {
       method: 'POST',
       body: JSON.stringify(payload),
+    });
+  },
+
+  async updateCoupon(couponId, payload) {
+    return request(`/coupons/${encodeURIComponent(couponId)}`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async deleteCoupon(couponId) {
+    return request(`/coupons/${encodeURIComponent(couponId)}`, {
+      method: 'DELETE',
     });
   },
 
@@ -260,6 +345,12 @@ export const crmApi = {
     });
   },
 
+  async deleteTicket(ticketId) {
+    return request(`/tickets/${encodeURIComponent(ticketId)}`, {
+      method: 'DELETE',
+    });
+  },
+
   // Staff Management
   async getStaffList() {
     return request('/staff');
@@ -279,6 +370,38 @@ export const crmApi = {
     });
   },
 
+  async updateStaff(staffId, payload) {
+    return request(`/staff/${encodeURIComponent(staffId)}`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async deleteStaff(staffId) {
+    return request(`/staff/${encodeURIComponent(staffId)}`, {
+      method: 'DELETE',
+    });
+  },
+
+  // Subscription Plans
+  async getPlans() {
+    return request('/plans');
+  },
+
+  async updatePlan(planId, payload) {
+    return request(`/plans/${encodeURIComponent(planId)}`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async createPlan(payload) {
+    return request('/plans', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
   // Audit Logs
   async getAuditLogs({ page = 1, limit = 25, targetType = '', action = '' } = {}) {
     const params = new URLSearchParams({
@@ -288,5 +411,24 @@ export const crmApi = {
       ...(action ? { action } : {}),
     });
     return request(`/audit-logs?${params.toString()}`);
+  },
+
+  // In-App Broadcasts & Cards
+  async getBroadcasts() {
+    return request('/broadcasts');
+  },
+
+  async updateMiddleCard(payload) {
+    return request('/broadcasts/middle-card', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async updateNotificationCard(payload) {
+    return request('/broadcasts/notification-card', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
   },
 };

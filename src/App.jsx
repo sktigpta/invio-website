@@ -80,11 +80,11 @@ export function App() {
                   <Route index element={<CrmDashboardPage />} />
                   <Route path="customers" element={<CrmCustomersPage />} />
                   <Route path="customers/:id" element={<CrmCustomerDetailPage />} />
-                  <Route path="discounts" element={<CrmDiscountsPage />} />
-                  <Route path="approvals" element={<CrmApprovalsPage />} />
-                  <Route path="coupons" element={<CrmCouponsPage />} />
-                  <Route path="tickets" element={<CrmTicketsPage />} />
-                  <Route path="tickets/:id" element={<CrmTicketDetailPage />} />
+                  <Route path="discounts" element={<CrmProtectedRoute requiredRoles={['admin', 'manager']}><CrmDiscountsPage /></CrmProtectedRoute>} />
+                  <Route path="approvals" element={<CrmProtectedRoute requiredRoles={['admin', 'manager']}><CrmApprovalsPage /></CrmProtectedRoute>} />
+                  <Route path="coupons" element={<CrmProtectedRoute requiredRoles={['admin', 'manager']}><CrmCouponsPage /></CrmProtectedRoute>} />
+                  <Route path="tickets" element={<CrmProtectedRoute requiredRoles={['admin', 'manager']}><CrmTicketsPage /></CrmProtectedRoute>} />
+                  <Route path="tickets/:id" element={<CrmProtectedRoute requiredRoles={['admin', 'manager']}><CrmTicketDetailPage /></CrmProtectedRoute>} />
                   <Route path="plans" element={<CrmPlansPage />} />
                   <Route
                     path="staff"
@@ -97,7 +97,7 @@ export function App() {
                   <Route
                     path="audit-logs"
                     element={
-                      <CrmProtectedRoute requiredRoles={['admin']}>
+                      <CrmProtectedRoute>
                         <CrmAuditLogsPage />
                       </CrmProtectedRoute>
                     }

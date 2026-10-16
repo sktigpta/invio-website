@@ -46,12 +46,52 @@ export function CrmAuthProvider({ children }) {
     return res;
   }, []);
 
+  const refreshStaff = useCallback(async () => {
+    const res = await crmApi.me();
+    if (res.staff) {
+      setStaff(res.staff);
+      try {
+        const remember = Boolean(localStorage.getItem('invio_crm_staff_token'));
+        if (remember) localStorage.setItem('invio_crm_staff_user', JSON.stringify(res.staff));
+        else sessionStorage.setItem('invio_crm_staff_user', JSON.stringify(res.staff));
+      } catch { /* storage best-effort */ }
+    }
+    return res.staff;
+  }, []);
+
   const logout = useCallback(() => {
     clearCrmAuth();
     setToken(null);
     setStaff(null);
     window.location.href = '/crm/login';
   }, []);
+
+  // Idle timeout — auto-logout after 10 minutes of inactivity
+  useEffect(() => {
+    if (!token) return;
+    let timer;
+    const idleFor = 10 * 60 * 1000;
+    const goIdle = () => {
+      try {
+        sessionStorage.setItem('crm_idle_logout', '1');
+      } catch { /* best-effort */ }
+      clearCrmAuth();
+      setToken(null);
+      setStaff(null);
+      window.location.href = '/crm/login?idle=1';
+    };
+    const reset = () => {
+      clearTimeout(timer);
+      timer = setTimeout(goIdle, idleFor);
+    };
+    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+    events.forEach((e) => window.addEventListener(e, reset, { passive: true }));
+    reset();
+    return () => {
+      clearTimeout(timer);
+      events.forEach((e) => window.removeEventListener(e, reset));
+    };
+  }, [token]);
 
   const hasRole = useCallback(
     (...roles) => {
@@ -67,17 +107,27 @@ export function CrmAuthProvider({ children }) {
       staff,
       loading,
       isAuthenticated: Boolean(token && staff),
-      isAdmin: staff?.role === 'admin',
+      mustChangePassword: Boolean(staff?.mustChangePassword),
+      isSuperAdmin: staff?.role === 'super_admin',
+      isAdmin: staff?.role === 'admin' || staff?.role === 'super_admin',
       isManager: staff?.role === 'manager',
       isSales: staff?.role === 'sales_executive',
       isSupport: staff?.role === 'support_executive',
-      isManagerOrAdmin: staff?.role === 'admin' || staff?.role === 'manager',
-      canViewUnmaskedPii: staff?.role === 'admin' || staff?.role === 'manager',
+      isExecutive: staff?.role === 'sales_executive' || staff?.role === 'support_executive',
+      isManagerOrAdmin: staff?.role === 'admin' || staff?.role === 'super_admin' || staff?.role === 'manager',
+      canViewUnmaskedPii: staff?.role === 'admin' || staff?.role === 'super_admin' || staff?.role === 'manager',
+      canViewDirectory: staff?.role === 'admin' || staff?.role === 'super_admin' || staff?.role === 'manager',
+      canViewTickets: staff?.role === 'admin' || staff?.role === 'super_admin' || staff?.role === 'manager',
+      canViewDiscounts: staff?.role === 'admin' || staff?.role === 'super_admin' || staff?.role === 'manager',
+      canViewCoupons: staff?.role === 'admin' || staff?.role === 'super_admin' || staff?.role === 'manager',
+      canViewApprovals: staff?.role === 'admin' || staff?.role === 'super_admin' || staff?.role === 'manager',
+      canViewStaff: staff?.role === 'admin' || staff?.role === 'super_admin' || staff?.role === 'manager',
       login,
       logout,
+      refreshStaff,
       hasRole,
     }),
-    [token, staff, loading, login, logout, hasRole]
+    [token, staff, loading, login, logout, refreshStaff, hasRole]
   );
 
   return <CrmAuthContext.Provider value={value}>{children}</CrmAuthContext.Provider>;
