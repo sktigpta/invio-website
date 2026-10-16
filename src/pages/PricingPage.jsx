@@ -6,7 +6,6 @@ import { DownloadCta } from '../components/DownloadCta';
 import { FaqAccordion } from '../components/FaqAccordion';
 import { useDownloadModal } from '../context/DownloadModalContext';
 import { fetchSubscriptionPlans } from '../services/paymentService';
-import { CouponTicket } from '../components/CouponTicket';
 
 // Default static fallback values if backend is unreachable or booting
 const DEFAULT_PLANS_STATE = {
@@ -359,42 +358,6 @@ export function PricingPage() {
         </div>
       </div>
 
-      {/* Active Promotional Vouchers Section */}
-      <section className="my-12 p-6 sm:p-8 rounded-squircle bg-linear-to-b from-slate-50/90 to-white border border-slate-200/90 shadow-2xs">
-        <div className="text-center max-w-xl mx-auto mb-8">
-          <span className="text-[10.5px] font-bold uppercase tracking-widest text-[#7C3AED] bg-purple-100 px-3 py-1 rounded-full">
-            Special Discounts
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mt-3">
-            Active Billing Coupons & Offers
-          </h2>
-          <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-            Apply these limited-edition vouchers directly at checkout to unlock instant discounts on your Invio Plus subscription.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto items-stretch">
-          <CouponTicket
-            code="WELCOME20"
-            discountText="20% OFF"
-            title="Invio Plus Welcome"
-            subtitle="Flat 20% off on your retail POS setup"
-            validity="Valid for Annual Plan"
-            leftTag="ENJOY YOUR GIFT"
-            variant="purple"
-          />
-
-          <CouponTicket
-            code="FESTIVE50"
-            discountText="FLAT ₹200"
-            title="Festive Saver"
-            subtitle="Instant ₹200 savings on annual activation"
-            validity="Limited Festive Window"
-            leftTag="EXCLUSIVE VOUCHER"
-            variant="gold"
-          />
-        </div>
-      </section>
 
       {/* Pricing FAQs - Single Column Accordion Stack matching FAQ page */}
       <section className="my-12">

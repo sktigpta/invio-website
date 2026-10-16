@@ -30,6 +30,7 @@ import {
   MailIcon,
 } from '../components/Icons';
 import { FEATURES_DATA } from '../data/featuresData';
+import { CouponTicket } from '../components/CouponTicket';
 
 // Computed once at module level — avoids re-randomizing on every render in React 18 Strict Mode.
 const CHECKOUT_FEATURE_INDEX = Math.floor(Math.random() * FEATURES_DATA.length);
@@ -1069,33 +1070,22 @@ export function CheckoutPage() {
 
                   {/* Coupon & Discount Code Toggle Section */}
                   {couponApplied ? (
-                    <div className="mb-4 p-3 rounded-2xl bg-purple-50/70 border border-purple-200/90 text-xs text-purple-950 flex items-center justify-between shadow-2xs">
-                      <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded-md bg-[#7C3AED] text-white font-mono font-bold text-[11px] tracking-wide">
-                          {couponApplied.code}
-                        </span>
-                        <span className="font-semibold text-purple-900">
-                          {couponApplied.discountType === 'percentage'
+                    <div className="mb-4">
+                      <CouponTicket
+                        mode="verified"
+                        variant="gold"
+                        code={couponApplied.code}
+                        discountText={
+                          couponApplied.discountType === 'percentage'
                             ? `${couponApplied.discountValue}% OFF`
-                            : `₹${couponApplied.discountValue} OFF`}{' '}
-                          discount applied
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-emerald-700">
-                          -₹{couponApplied.discountAmount}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={handleRemoveCoupon}
-                          className="text-[11px] font-semibold text-rose-600 hover:text-rose-700 underline cursor-pointer ml-1"
-                        >
-                          Remove
-                        </button>
-                      </div>
+                            : `₹${couponApplied.discountValue} OFF`
+                        }
+                        validity="Valid for Invio Plus"
+                        onRemove={handleRemoveCoupon}
+                      />
                     </div>
                   ) : !showCouponInput ? (
-                    <div className="mb-4">
+                    <div className="flex justify-end mt-2 mb-3">
                       <button
                         type="button"
                         onClick={() => {
@@ -1108,71 +1098,23 @@ export function CheckoutPage() {
                       </button>
                     </div>
                   ) : (
-                    <div className="mb-5 p-3 sm:p-3.5 rounded-2xl border border-purple-200/80 bg-purple-50/30 shadow-2xs">
-                      <div className="flex items-center justify-between gap-2 mb-2">
-                        <span className="text-xs font-semibold text-[#7C3AED]">
-                          Have a coupon or discount code?
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setShowCouponInput(false);
-                            setCouponError('');
-                          }}
-                          className="text-[11px] font-medium text-slate-400 hover:text-slate-600 cursor-pointer"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={couponInput}
-                          onChange={(e) => {
-                            setCouponInput(e.target.value.toUpperCase());
-                            setCouponError('');
-                          }}
-                          placeholder="Enter code (e.g. WELCOME20)"
-                          className="flex-1 px-3 py-1.5 text-xs font-mono tracking-wider rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 uppercase outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleApplyCoupon()}
-                          disabled={validatingCoupon || !couponInput.trim()}
-                          className="py-1.5 px-3.5 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:opacity-50 text-white rounded-xl font-semibold text-xs transition-colors cursor-pointer shrink-0 shadow-2xs flex items-center gap-1.5"
-                        >
-                          {validatingCoupon ? (
-                            <>
-                              <span className="size-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                              <span>Checking...</span>
-                            </>
-                          ) : (
-                            <span>Apply</span>
-                          )}
-                        </button>
-                      </div>
-
-                      <div className="mt-2.5 flex items-center gap-1.5 flex-wrap">
-                        <span className="text-[10.5px] text-slate-500 font-medium">Quick apply:</span>
-                        {['WELCOME20', 'FESTIVE50'].map((qc) => (
-                          <button
-                            key={qc}
-                            type="button"
-                            onClick={() => handleApplyCoupon(qc)}
-                            disabled={validatingCoupon}
-                            className="px-2 py-0.5 text-[10.5px] font-mono font-bold bg-white text-[#7C3AED] hover:bg-purple-100 rounded-md border border-purple-200/80 transition-colors cursor-pointer shadow-2xs"
-                          >
-                            {qc}
-                          </button>
-                        ))}
-                      </div>
-
-                      {couponError && (
-                        <p className="mt-2 text-[11px] text-rose-600 font-medium">
-                          {couponError}
-                        </p>
-                      )}
+                    <div className="mb-4">
+                      <CouponTicket
+                        mode="input"
+                        variant="gold"
+                        inputCode={couponInput}
+                        onInputChange={(val) => {
+                          setCouponInput(val);
+                          setCouponError('');
+                        }}
+                        onApply={(codeToApply) => handleApplyCoupon(codeToApply)}
+                        onCancel={() => {
+                          setShowCouponInput(false);
+                          setCouponError('');
+                        }}
+                        loading={validatingCoupon}
+                        error={couponError}
+                      />
                     </div>
                   )}
 
