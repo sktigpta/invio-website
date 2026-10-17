@@ -4,14 +4,22 @@ import { FiX, FiCheck } from 'react-icons/fi';
 /**
  * CouponTicket Component
  *
- * Implements user's updated specifications:
- * - Smaller overall card: compact 290px width, 135px height
- * - No background and no dashed border in center section
- * - No dashed borders in main (clean seamless transitions)
- * - Discount text using 'Libre Caslon Condensed' font (italic bold)
- * - Right section: pure white background with centered Invio logo and "INVIO" text, no hover bg change
+ * Visual specifications:
+ * - Ultra-compact size: 260px width, 116px height
  * - Yellow to red smooth gradient background
- * - Top-right cross button (FiX) 50% outside card
+ * - Cutout notches on left and right edges
+ * - Left stub: "ENJOY YOUR GIFT" rotated -90deg in bold red
+ * - Center section:
+ *    - Discount text with 'Libre Caslon Condensed' italic font, black, bold
+ *    - "Coupon" title with 'Libre Caslon Condensed'
+ *    - Validity text in deep red
+ *    - No background box, no dashed border
+ * - Right stub:
+ *    - Pure white background, no hover bg change
+ *    - Barcode using 'Libre Barcode 128 Text' rotated -90deg
+ *    - Bottom row: Invio logo + "INVIO" text horizontally side-by-side
+ *    - Clickable to copy coupon code
+ * - Remove cross button (FiX) positioned 50% outside top-right
  */
 export function CouponTicket({
   code = '87878521112',
@@ -32,16 +40,16 @@ export function CouponTicket({
   };
 
   return (
-    <div className="relative inline-block my-2 select-none">
+    <div className="relative inline-block my-1.5 select-none">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed:ital,wght@0,700;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&family=Libre+Caslon+Condensed:ital,wght@0,700;1,700&display=swap');
 
         .coupon-ticket-card {
-          width: 290px;
+          width: 260px;
           max-width: 100%;
-          height: 135px;
-          min-height: 135px;
-          border-radius: 10px;
+          height: 116px;
+          min-height: 116px;
+          border-radius: 8px;
           overflow: hidden;
           margin: auto;
           display: flex;
@@ -54,16 +62,16 @@ export function CouponTicket({
           box-shadow: none;
         }
 
-        /* Cutout masks */
+        /* Side cutout notches */
         .coupon-mask-left {
           position: absolute;
           left: -1px;
           top: 50%;
           transform: translateY(-50%);
-          width: 16px;
-          height: 32px;
+          width: 12px;
+          height: 24px;
           background-color: white;
-          border-radius: 0 32px 32px 0;
+          border-radius: 0 24px 24px 0;
           z-index: 5;
         }
 
@@ -72,10 +80,10 @@ export function CouponTicket({
           right: -1px;
           top: 50%;
           transform: translateY(-50%);
-          width: 16px;
-          height: 32px;
+          width: 12px;
+          height: 24px;
           background-color: white;
-          border-radius: 32px 0 0 32px;
+          border-radius: 24px 0 0 24px;
           z-index: 5;
         }
 
@@ -85,27 +93,32 @@ export function CouponTicket({
           justify-content: center;
         }
 
-        /* Left vertical stub - No dashed border */
+        /* Left vertical stub */
         .coupon-ticket-card .left {
-          width: 20%;
+          width: 17%;
           position: relative;
           z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
         }
 
         .coupon-ticket-card .left div {
           transform: rotate(-90deg);
           white-space: nowrap;
           font-weight: 800;
-          font-size: 0.6rem;
-          letter-spacing: 1.5px;
+          font-size: 0.52rem;
+          letter-spacing: 1.2px;
           color: #7f1d1d;
+          line-height: 1;
         }
 
-        /* Center details - No background box, No dashed border */
+        /* Center details */
         .coupon-ticket-card .center {
           flex-grow: 1;
           text-align: center;
-          padding: 6px 4px;
+          padding: 4px 2px;
           position: relative;
           z-index: 2;
           display: flex;
@@ -114,42 +127,44 @@ export function CouponTicket({
           justify-content: center;
         }
 
-        /* Discount text with Libre Caslon Condensed font */
+        /* Discount text with Libre Caslon Condensed italic font */
         .coupon-caslon-discount {
           font-family: 'Libre Caslon Condensed', Georgia, serif;
-          font-size: 2rem;
+          font-size: 1.65rem;
           font-weight: 700;
           font-style: italic;
-          line-height: 1;
+          line-height: 0.95;
           color: #000000;
           white-space: nowrap;
-          margin-bottom: 2px;
           letter-spacing: 0.5px;
+          margin: 0;
+          padding: 0;
         }
 
         .coupon-ticket-card .center h3 {
           font-family: 'Libre Caslon Condensed', Georgia, serif;
-          font-size: 1.4rem;
+          font-size: 1.15rem;
           font-weight: 700;
-          letter-spacing: 1px;
+          letter-spacing: 0.5px;
           color: #0f172a;
           line-height: 1;
-          margin: 0;
+          margin: 2px 0 0 0;
+          padding: 0;
         }
 
         .coupon-ticket-card .center small {
-          font-size: 0.52rem;
+          font-size: 0.46rem;
           font-weight: 700;
-          letter-spacing: 1.2px;
+          letter-spacing: 1px;
           color: #7f1d1d;
           display: block;
-          margin-top: 4px;
+          margin-top: 3px;
           line-height: 1;
         }
 
-        /* Right section: Centered Invio Logo and INVIO text, pure white, no hover color shift */
+        /* Right section: Barcode in top/center, Invio Logo and INVIO in bottom row */
         .coupon-ticket-card .right {
-          width: 90px;
+          width: 76px;
           background-color: #ffffff;
           position: relative;
           z-index: 2;
@@ -157,8 +172,19 @@ export function CouponTicket({
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          padding: 6px;
+          justify-content: space-between;
+          padding: 4px 2px 4px 2px;
+        }
+
+        .coupon-barcode {
+          font-family: "Libre Barcode 128 Text", cursive;
+          font-size: 1.45rem;
+          font-weight: 400;
+          line-height: 1;
+          color: #0f172a;
+          transform: rotate(-90deg);
+          white-space: nowrap;
+          user-select: none;
         }
 
         @media screen and (max-width: 500px) {
@@ -177,7 +203,10 @@ export function CouponTicket({
           }
           .coupon-ticket-card .right {
             width: 100%;
-            padding: 12px 10px;
+            padding: 10px 8px;
+          }
+          .coupon-barcode {
+            transform: rotate(0deg);
           }
           .coupon-mask-left,
           .coupon-mask-right {
@@ -191,15 +220,15 @@ export function CouponTicket({
         <button
           type="button"
           onClick={onRemove}
-          className="absolute -top-2.5 -right-2.5 z-30 size-6 rounded-full bg-slate-900 hover:bg-rose-600 active:scale-90 text-white flex items-center justify-center transition-colors cursor-pointer border-2 border-white shadow-xs"
+          className="absolute -top-2 -right-2 z-30 size-5 rounded-full bg-slate-900 hover:bg-rose-600 active:scale-90 text-white flex items-center justify-center transition-colors cursor-pointer border-2 border-white shadow-xs"
           title="Remove coupon"
           aria-label="Remove coupon"
         >
-          <FiX className="size-3 text-white" />
+          <FiX className="size-2.5 text-white" />
         </button>
       )}
 
-      {/* Coupon Ticket Card (Compact 290px, yellow-to-red, no shadow, no dashed borders, no hover bg change) */}
+      {/* Coupon Ticket Card */}
       <div className="coupon-ticket-card">
         {/* Semi-circular side cutouts */}
         <div className="coupon-mask-left" aria-hidden="true" />
@@ -219,33 +248,40 @@ export function CouponTicket({
           <small>{validity}</small>
         </div>
 
-        {/* Right stub: Logo and INVIO centered in white, no hover background change */}
+        {/* Right stub: Barcode + Logo and INVIO row at bottom, pure white, no hover bg change */}
         <div
           className="right"
           onClick={handleCopyCode}
           title="Click to copy coupon code"
         >
           {copied ? (
-            <div className="flex flex-col items-center justify-center gap-1 text-emerald-600 font-bold text-[10px] animate-fadeIn">
-              <FiCheck className="size-4" />
+            <div className="flex-1 flex flex-col items-center justify-center gap-1 text-emerald-600 font-bold text-[9px] animate-fadeIn">
+              <FiCheck className="size-3.5" />
               <span>COPIED!</span>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center text-center gap-1">
-              <img
-                src="/appLogo.png"
-                alt="Invio"
-                className="size-5 object-contain"
-                width="20"
-                height="20"
-              />
-              <span className="font-black text-[10px] tracking-widest text-slate-900 leading-none">
-                INVIO
-              </span>
-              <span className="font-mono font-bold text-[8.5px] tracking-wider text-slate-600 bg-slate-100 px-1 py-0.5 rounded leading-none mt-0.5">
-                {code}
-              </span>
-            </div>
+            <>
+              {/* Barcode section */}
+              <div className="flex-1 flex items-center justify-center overflow-hidden w-full">
+                <div className="coupon-barcode">
+                  {code || '87878521112'}
+                </div>
+              </div>
+
+              {/* Logo and INVIO in horizontal row at bottom */}
+              <div className="flex flex-row items-center justify-center gap-1 w-full pb-0.5">
+                <img
+                  src="/appLogo.png"
+                  alt="Invio"
+                  className="size-3.5 object-contain"
+                  width="14"
+                  height="14"
+                />
+                <span className="font-black text-[8.5px] tracking-widest text-slate-900 leading-none">
+                  INVIO
+                </span>
+              </div>
+            </>
           )}
         </div>
       </div>
