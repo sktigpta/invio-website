@@ -4,7 +4,7 @@ import { useCrmAuth } from '../context/CrmAuthContext';
 import { ShieldCheckIcon, RefreshCwIcon, AlertCircleIcon, PlusIcon } from '../components/CrmIcons';
 
 export function CrmStaffPage() {
-  const { staff: currentStaff, isAdmin, isManager, isManagerOrAdmin } = useCrmAuth();
+  const { staff: currentStaff, isAdmin, isManager, isManagerOrAdmin, isSuperAdmin } = useCrmAuth();
   const [staffList, setStaffList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -34,10 +34,18 @@ export function CrmStaffPage() {
     fetchStaff();
   }, [fetchStaff]);
 
+  const isSuperAdminAccount = (st) => st?.role === 'super_admin';
+  const amSuperAdmin = isSuperAdmin || currentStaff?.role === 'super_admin';
+
   async function handleToggleStatus(staffMember) {
-    if (!isManagerOrAdmin || staffMember.id === currentStaff.id) return;
-    if (isManager && staffMember.role !== 'sales_executive' && staffMember.role !== 'support_executive') {
-      alert('Managers can only toggle status for Sales and Support Executives.');
+    if (!isManagerOrAdmin || staffMember.id === currentStaff?.id) return;
+    if (isSuperAdminAccount(staffMember) && !amSuperAdmin) {
+      alert('Only a System Owner (Super Admin) account can change its own status.');
+      return;
+    }
+    const juniorRoles = ['sales_executive', 'support_executive', 'digital_marketer', 'billing_accountant'];
+    if (isManager && !juniorRoles.includes(staffMember.role)) {
+      alert('Managers can only toggle status for junior staff roles (Sales, Support, Marketing, Billing).');
       return;
     }
     const nextStatus = staffMember.status === 'active' ? 'suspended' : 'active';
@@ -140,50 +148,62 @@ export function CrmStaffPage() {
                   </td>
                 </tr>
               ) : (
-                staffList.map((st) => (
-                  <tr key={st.id} className="hover:bg-slate-50/70 transition">
-                    <td className="py-3.5 px-4 font-semibold text-slate-900">
-                      {st.fullName}
-                      {st.id === currentStaff.id && (
-                        <span className="ml-2 text-[10px] text-purple-600 font-bold">(You)</span>
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4 font-mono text-slate-700">{st.email}</td>
-                    <td className="py-3.5 px-4">
-                      <span className="capitalize font-semibold text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
-                        {st.role.replace('_', ' ')}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
-                        st.status === 'active' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
-                      }`}>
-                        {st.status}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-slate-500">
-                      {st.lastLogin ? new Date(st.lastLogin).toLocaleString() : 'Never'}
-                    </td>
-                    {isManagerOrAdmin && (
-                      <td className="py-3.5 px-4 text-right">
-                        {st.id !== currentStaff.id && (isAdmin || (isManager && (st.role === 'sales_executive' || st.role === 'support_executive'))) ? (
-                          <button
-                            onClick={() => handleToggleStatus(st)}
-                            className={`px-3 py-1 rounded-md text-xs font-semibold transition ${
-                              st.status === 'active'
-                                ? 'bg-red-50 hover:bg-red-100 text-red-700'
-                                : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700'
-                            }`}
-                          >
-                            {st.status === 'active' ? 'Suspend' : 'Activate'}
-                          </button>
-                        ) : (
-                          <span className="text-slate-400 text-xs">—</span>
+                staffList.map((st) => {
+                  const isCurrent = st.id === currentStaff?.id;
+                  const isOwnerRow = isSuperAdminAccount(st);
+                  const juniorRoles = ['sales_executive', 'support_executive', 'digital_marketer', 'billing_accountant'];
+                  const canToggle = !isCurrent && (isAdmin || (isManager && juniorRoles.includes(st.role))) && (!isOwnerRow || amSuperAdmin);
+
+                  return (
+                    <tr key={st.id} className="hover:bg-slate-50/70 transition">
+                      <td className="py-3.5 px-4 font-semibold text-slate-900">
+                        {st.fullName}
+                        {isCurrent && (
+                          <span className="ml-2 text-[10px] text-purple-600 font-bold">(You)</span>
+                        )}
+                        {st.role === 'super_admin' && (
+                          <span className="ml-2 text-[10px] text-indigo-700 bg-indigo-50 font-bold px-2 py-0.5 rounded-full border border-indigo-200">
+                            System Owner
+                          </span>
                         )}
                       </td>
-                    )}
-                  </tr>
-                ))
+                      <td className="py-3.5 px-4 font-mono text-slate-700">{st.email}</td>
+                      <td className="py-3.5 px-4">
+                        <span className="capitalize font-semibold text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
+                          {st.role.replace('_', ' ')}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
+                          st.status === 'active' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                          {st.status}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-500">
+                        {st.lastLogin ? new Date(st.lastLogin).toLocaleString() : 'Never'}
+                      </td>
+                      {isManagerOrAdmin && (
+                        <td className="py-3.5 px-4 text-right">
+                          {canToggle ? (
+                            <button
+                              onClick={() => handleToggleStatus(st)}
+                              className={`px-3 py-1 rounded-md text-xs font-semibold transition ${
+                                st.status === 'active'
+                                  ? 'bg-red-50 hover:bg-red-100 text-red-700'
+                                  : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700'
+                              }`}
+                            >
+                              {st.status === 'active' ? 'Suspend' : 'Activate'}
+                            </button>
+                          ) : (
+                            <span className="text-slate-400 text-xs">—</span>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>

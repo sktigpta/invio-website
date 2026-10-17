@@ -16,7 +16,7 @@ export function CrmLoginPage() {
   );
 
   if (isAuthenticated) {
-    navigate('/dashboard', { replace: true });
+    navigate('/crm', { replace: true });
     return null;
   }
 
@@ -32,7 +32,7 @@ export function CrmLoginPage() {
 
     try {
       await login(email, password, remember);
-      navigate('/dashboard', { replace: true });
+      navigate('/crm', { replace: true });
     } catch (err) {
       setError(err.message || 'Login failed.');
     } finally {

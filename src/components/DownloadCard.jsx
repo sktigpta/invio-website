@@ -45,10 +45,13 @@ export function DownloadCard({
   };
 
   const handleSelectPlatform = (selected) => {
-    // Tab click only updates the displayed platform — does not trigger a download.
-    // Download only fires on explicit retry or the initial autoTrigger.
     setPlatform(selected);
     setPhase('downloading');
+    triggerDirectDownload(selected);
+    if (downloadTimer.current) clearTimeout(downloadTimer.current);
+    downloadTimer.current = setTimeout(() => {
+      setPhase('thankyou');
+    }, 2500);
   };
 
   return (

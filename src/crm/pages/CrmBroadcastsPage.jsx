@@ -33,7 +33,7 @@ export function CrmBroadcastsPage() {
     setToast({ message, type });
     setTimeout(() => setToast(null), 4000);
   };
-  const { isManagerOrAdmin } = useCrmAuth();
+  const { isManagerOrAdmin, canViewBroadcasts } = useCrmAuth();
 
   const [activeTab, setActiveTab] = useState('middle'); // 'middle' | 'notification'
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -434,7 +434,7 @@ export function CrmBroadcastsPage() {
           </button>
 
           {/* Publish & Activate Button */}
-          {isManagerOrAdmin && (
+          {canViewBroadcasts && (
             <button
               type="button"
               onClick={handleSave}

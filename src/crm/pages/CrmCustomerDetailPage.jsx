@@ -141,7 +141,12 @@ export function CrmCustomerDetailPage() {
     );
   }
 
-  const { profile, payments, discounts, couponRedemptions, tickets, notes } = customerData;
+  const profile = customerData?.profile || {};
+  const payments = customerData?.payments || [];
+  const discounts = customerData?.discounts || [];
+  const couponRedemptions = customerData?.couponRedemptions || [];
+  const tickets = customerData?.tickets || [];
+  const notes = customerData?.notes || [];
 
   return (
     <div className="space-y-6">
@@ -153,18 +158,18 @@ export function CrmCustomerDetailPage() {
         >
           ← Back to Customers Directory
         </Link>
-        <span className="text-[11px] font-mono text-slate-400">ID: {profile.id}</span>
+        <span className="text-[11px] font-mono text-slate-400">ID: {profile.id || 'N/A'}</span>
       </div>
 
       {/* Customer Header Card */}
       <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-5">
         <div className="flex items-center gap-4">
           <div className="size-14 rounded-2xl bg-purple-100 text-purple-700 font-bold text-xl flex items-center justify-center flex-shrink-0">
-            {profile.fullName.charAt(0) || 'C'}
+            {(profile.fullName || 'Customer').charAt(0).toUpperCase() || 'C'}
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-lg font-bold text-slate-900">{profile.fullName}</h2>
+              <h2 className="text-lg font-bold text-slate-900">{profile.fullName || 'Unnamed Customer'}</h2>
               <span className="capitalize text-xs font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
                 {profile.currentPlan} Plan
               </span>

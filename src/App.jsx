@@ -30,21 +30,21 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ defa
 import { CrmAuthProvider } from './crm/context/CrmAuthContext';
 import { CrmLayout } from './crm/components/CrmLayout';
 import { CrmProtectedRoute } from './crm/components/CrmProtectedRoute';
-import { CrmLoginPage } from './crm/pages/CrmLoginPage';
-import { CrmDashboardPage } from './crm/pages/CrmDashboardPage';
-import { CrmCustomersPage } from './crm/pages/CrmCustomersPage';
-import { CrmCustomerDetailPage } from './crm/pages/CrmCustomerDetailPage';
-import { CrmDiscountsPage } from './crm/pages/CrmDiscountsPage';
-import { CrmApprovalsPage } from './crm/pages/CrmApprovalsPage';
-import { CrmCouponsPage } from './crm/pages/CrmCouponsPage';
-import { CrmTicketsPage } from './crm/pages/CrmTicketsPage';
-import { CrmTicketDetailPage } from './crm/pages/CrmTicketDetailPage';
-import { CrmBugsPage } from './crm/pages/CrmBugsPage';
-import { CrmContactsPage } from './crm/pages/CrmContactsPage';
-import { CrmBroadcastsPage } from './crm/pages/CrmBroadcastsPage';
-import { CrmPlansPage } from './crm/pages/CrmPlansPage';
-import { CrmStaffPage } from './crm/pages/CrmStaffPage';
-import { CrmAuditLogsPage } from './crm/pages/CrmAuditLogsPage';
+const CrmLoginPage = lazy(() => import('./crm/pages/CrmLoginPage').then(m => ({ default: m.CrmLoginPage })));
+const CrmDashboardPage = lazy(() => import('./crm/pages/CrmDashboardPage').then(m => ({ default: m.CrmDashboardPage })));
+const CrmCustomersPage = lazy(() => import('./crm/pages/CrmCustomersPage').then(m => ({ default: m.CrmCustomersPage })));
+const CrmCustomerDetailPage = lazy(() => import('./crm/pages/CrmCustomerDetailPage').then(m => ({ default: m.CrmCustomerDetailPage })));
+const CrmDiscountsPage = lazy(() => import('./crm/pages/CrmDiscountsPage').then(m => ({ default: m.CrmDiscountsPage })));
+const CrmApprovalsPage = lazy(() => import('./crm/pages/CrmApprovalsPage').then(m => ({ default: m.CrmApprovalsPage })));
+const CrmCouponsPage = lazy(() => import('./crm/pages/CrmCouponsPage').then(m => ({ default: m.CrmCouponsPage })));
+const CrmTicketsPage = lazy(() => import('./crm/pages/CrmTicketsPage').then(m => ({ default: m.CrmTicketsPage })));
+const CrmTicketDetailPage = lazy(() => import('./crm/pages/CrmTicketDetailPage').then(m => ({ default: m.CrmTicketDetailPage })));
+const CrmBugsPage = lazy(() => import('./crm/pages/CrmBugsPage').then(m => ({ default: m.CrmBugsPage })));
+const CrmContactsPage = lazy(() => import('./crm/pages/CrmContactsPage').then(m => ({ default: m.CrmContactsPage })));
+const CrmBroadcastsPage = lazy(() => import('./crm/pages/CrmBroadcastsPage').then(m => ({ default: m.CrmBroadcastsPage })));
+const CrmPlansPage = lazy(() => import('./crm/pages/CrmPlansPage').then(m => ({ default: m.CrmPlansPage })));
+const CrmStaffPage = lazy(() => import('./crm/pages/CrmStaffPage').then(m => ({ default: m.CrmStaffPage })));
+const CrmAuditLogsPage = lazy(() => import('./crm/pages/CrmAuditLogsPage').then(m => ({ default: m.CrmAuditLogsPage })));
 
 function PageFallback() {
   return (
