@@ -100,7 +100,7 @@ export function ContactPage() {
           </div>
         </div>
 
-        {/* Contact form -> API -> contact sheet -> Zoho auto-reply */}
+        {/* Contact form submission */}
         {sent ? (
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
             <div className="size-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3">

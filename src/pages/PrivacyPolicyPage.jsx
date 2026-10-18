@@ -26,8 +26,8 @@ export function PrivacyPolicyPage() {
       </h2>
       <p>
         <strong>Account &amp; license information.</strong> When you register or sign in, we collect your email address,
-        business or shop name, first and last name (if provided), and a bcrypt hash of your password — never the
-        password itself. New email registrations require a 4-digit one-time code sent to your address before the account
+        business or shop name, first and last name (if provided), and a salted cryptographic hash of your password — never the
+        plain password itself. New email registrations require a verification code sent to your address before the account
         is verified.
       </p>
       <p>
@@ -60,8 +60,8 @@ export function PrivacyPolicyPage() {
       </h2>
       <p>
         Your invoices, quotations, customer directory entries, product catalogues, inventory levels, and financial
-        ledgers are stored <strong>on your own computer</strong> in the app&rsquo;s embedded SQLite database by default,
-        or in a PostgreSQL database you choose and host yourself (for example on your main counter PC for
+        ledgers are stored <strong>on your own computer</strong> in the app&rsquo;s local database by default,
+        or in a local-network database you choose and host yourself (for example on your main counter PC for
         multi-terminal use over your shop&rsquo;s local network). You retain full ownership and control of these records.
       </p>
       <p>
@@ -94,8 +94,8 @@ export function PrivacyPolicyPage() {
       </h2>
       <p>
         <strong>Transactional emails from us.</strong> Verification codes, login security alerts, billing receipts,
-        contact-form replies, and bug-report acknowledgements are sent through our enterprise mail provider (Zoho),
-        which necessarily receives the recipient address and message content in order to deliver it.
+        contact-form replies, and bug-report acknowledgements are sent through our secure enterprise transactional email
+        infrastructure, which processes the recipient address and message content solely to deliver it.
       </p>
       <p>
         <strong>Invoice emails you send.</strong> When you email an invoice from the desktop app using your own Gmail or
@@ -132,11 +132,12 @@ export function PrivacyPolicyPage() {
         6. Security
       </h2>
       <p>
-        We apply reasonable safeguards: passwords stored only as bcrypt hashes; API sessions protected by signed tokens;
-        all traffic over TLS (HTTPS); email and SMTP credentials encrypted on your device with your operating
-        system&rsquo;s secure credential store (via Electron safeStorage / OS keychain) and never transmitted to Timrio;
-        one-time codes stored only as hashes; sign-in handoff sessions that expire within minutes and are deleted on
-        first use; and least-privilege database access on our servers.
+        We apply robust industry-standard safeguards: passwords stored only as salted cryptographic hashes; API sessions
+        protected by cryptographically signed tokens; all network traffic encrypted in transit via modern TLS (HTTPS);
+        email and SMTP credentials encrypted locally on your device using your operating system&rsquo;s native secure
+        credential store and never transmitted to our servers; one-time verification codes stored only as hashes;
+        temporary sign-in sessions that expire within minutes and are invalidated on first use; and strict
+        least-privilege access controls on all backend infrastructure.
       </p>
       <p>
         No method of transmission or storage is completely secure. You are responsible for keeping your device, operating
@@ -189,17 +190,20 @@ export function PrivacyPolicyPage() {
       </p>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">
-        10. Third Parties That Process Information
+        10. Third-Party Service Providers
       </h2>
       <p>
-        We use a small set of providers, each receiving only what it needs to perform its function:
+        We work only with vetted enterprise service providers who process information strictly as necessary to deliver our services under appropriate confidentiality and data protection standards:
       </p>
+      <ul className="list-disc pl-5 space-y-1 text-xs text-slate-700 leading-relaxed my-2">
+        <li><strong>Authentication:</strong> Google Sign-In (optional, used only when you choose to authenticate with Google).</li>
+        <li><strong>Payment Processing:</strong> PCI-DSS certified payment gateway (Razorpay) to securely process subscription purchases.</li>
+        <li><strong>Communications:</strong> Enterprise transactional email delivery services to transmit essential system notices, verification codes, and billing receipts.</li>
+        <li><strong>External Integrations:</strong> WhatsApp (Meta), when you voluntarily choose to share an invoice link through your browser.</li>
+        <li><strong>Cloud &amp; Hosting Infrastructure:</strong> Secure cloud infrastructure and content delivery networks for API availability, license validation, and software update distribution.</li>
+      </ul>
       <p>
-        Google (sign-in identity, Gmail sending you authorize, support-form storage, web fonts) • Zoho (transactional
-        email delivery) • Razorpay (payment processing) • WhatsApp/Meta (messages you choose to share) • GitHub (release
-        binaries, proxied through our download service so tokens stay server-side) • our hosting, PostgreSQL database,
-        and Redis/rate-limit infrastructure (account, license, and operational data). We do not list any provider we do
-        not use, and we update this section if our providers change.
+        We never sell, lease, or monetize your personal or business data to third parties.
       </p>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">

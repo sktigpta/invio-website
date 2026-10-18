@@ -31,7 +31,7 @@ export function EulaPage() {
         <strong>Core Free Edition:</strong> The core desktop invoicing edition is licensed free of charge for unlimited offline invoice generation, customer management, inventory cataloguing, and standard A4 printing on a standalone machine.
       </p>
       <p>
-        <strong>Commercial Plus &amp; Pro Editions:</strong> Commercial hardware features (such as secondary customer POS display screens, ESC/POS thermal receipt printing, email delivery, multi-counter PostgreSQL network mode, and priority engineering support) require an active commercial subscription or workstation activation.
+        <strong>Commercial Plus &amp; Pro Editions:</strong> Commercial hardware features (such as secondary customer POS display screens, ESC/POS thermal receipt printing, email delivery, multi-counter local network mode, and priority engineering support) require an active commercial subscription or workstation activation.
       </p>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">
@@ -57,7 +57,7 @@ export function EulaPage() {
         5. Local Data Sovereignty
       </h2>
       <p>
-        You retain absolute title and ownership over all customer information, product catalogues, tax numbers, and invoices stored in your local SQLite database file. The Software processes your records locally and does not claim ownership or access rights over your business data.
+        You retain absolute title and ownership over all customer information, product catalogues, tax numbers, and invoices stored in your local database on your device. The Software processes your records locally and does not claim ownership or access rights over your business data.
       </p>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">

@@ -31,7 +31,7 @@ export function CookiePolicyPage() {
         We employ a minimal, privacy-conscious approach to web storage:
       </p>
       <ul className="list-disc pl-5 space-y-1">
-        <li><strong>Strictly Necessary &amp; Security Cookies:</strong> Deployed ephemerally by our content delivery network and edge hosting infrastructure (such as Vercel) to protect against distributed denial-of-service (DDoS) attacks and ensure stable, secure HTTP transmission.</li>
+        <li><strong>Strictly Necessary &amp; Security Cookies:</strong> Deployed ephemerally by our content delivery network and edge hosting infrastructure to protect against distributed denial-of-service (DDoS) attacks and ensure stable, secure HTTP transmission.</li>
         <li><strong>Functional Browser Local Storage:</strong> Used strictly on your client browser to store non-identifying interface preferences, such as retaining your selected operating system download tab and preserving entered calculation parameters in our free online tax calculators.</li>
         <li><strong>Zero Cross-Site Advertising Trackers:</strong> We do not deploy third-party advertising cookies, behavioural profiling trackers, or retargeting pixels on this website.</li>
       </ul>

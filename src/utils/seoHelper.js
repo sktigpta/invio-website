@@ -143,9 +143,9 @@ export const PAGE_METADATA = {
   },
   'docs-security': {
     title: 'Security & Privacy Architecture – Invio Docs | Timrio',
-    description: 'Overview of Invio zero-cloud privacy, Electron safeStorage credential encryption, and contextIsolation architecture.',
+    description: 'Overview of Invio zero-cloud privacy, OS-level credential encryption, and isolated desktop application architecture.',
     canonical: `${BASE_URL}/docs/security`,
-    keywords: 'Invio security, offline privacy, zero cloud sync, safeStorage encryption',
+    keywords: 'Invio security, offline privacy, zero cloud sync, credential encryption, desktop security',
     schemaType: 'TechArticle',
   },
   'docs-troubleshooting': {

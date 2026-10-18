@@ -21,26 +21,26 @@ export function SecurityPage() {
         1. Desktop Architecture &amp; Process Isolation
       </h2>
       <ul className="list-disc pl-5 space-y-1">
-        <li><strong>Electron Context Isolation:</strong> The UI rendering layer operates with <code>contextIsolation: true</code> strictly enabled, ensuring complete separation between Web DOM execution and underlying native operating system primitives.</li>
-        <li><strong>Disabled Node Integration:</strong> <code>nodeIntegration: false</code> is strictly enforced across all application windows, preventing untrusted code from invoking Node.js runtime APIs.</li>
-        <li><strong>Narrow &amp; Validated IPC:</strong> Communication between the renderer interface and native background workers is restricted to explicit, validated Inter-Process Communication (IPC) channels with strict payload schemas and input sanitization.</li>
+        <li><strong>Sandboxed Interface Isolation:</strong> The desktop user interface runs within a strict isolated execution sandbox, ensuring complete separation between interface rendering and native operating system primitives.</li>
+        <li><strong>Restricted System Access:</strong> Direct low-level system execution is restricted; untrusted interface scripts cannot execute arbitrary native system commands.</li>
+        <li><strong>Narrow &amp; Validated IPC:</strong> Communication between the renderer interface and background workers is strictly restricted to typed, schema-validated internal communication channels with rigorous input sanitization.</li>
       </ul>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">
         2. Credential Encryption &amp; Key Storage
       </h2>
       <ul className="list-disc pl-5 space-y-1">
-        <li><strong>Native OS Keychain Encryption:</strong> User email secrets (such as Google OAuth refresh tokens and SMTP account passwords) are never stored in plain text, unencrypted JSON, or browser storage. All credentials are encrypted using the operating system&rsquo;s cryptographic key store via Electron&rsquo;s <code>safeStorage</code> API (Windows Data Protection API [DPAPI], macOS Keychain, or Linux Secret Service).</li>
-        <li><strong>Fail-Closed Security:</strong> Authentication handoffs are configured to fail closed; network or token failures never bypass authentication gates.</li>
+        <li><strong>Native OS Keychain Encryption:</strong> User email secrets (such as OAuth tokens and custom SMTP passwords) are never stored in plain text or browser storage. All sensitive credentials are cryptographically protected using your operating system&rsquo;s native secure key store (such as Windows DPAPI, macOS Keychain, or Linux Secret Service).</li>
+        <li><strong>Fail-Closed Security:</strong> Authentication handoffs are configured to fail closed; network disruptions or token errors never bypass authentication gates.</li>
       </ul>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">
         3. Local Database &amp; Zero Network Telemetry
       </h2>
       <ul className="list-disc pl-5 space-y-1">
-        <li><strong>Local SQLite Storage:</strong> Invoices, pricing catalogues, inventory tallies, and customer identities are stored exclusively inside a local SQLite file in your user application data path.</li>
+        <li><strong>Local Data Custody:</strong> Invoices, pricing catalogues, inventory tallies, and customer identities are stored securely inside a local database file in your user application data path on your device.</li>
         <li><strong>No Cloud Ledger Transmission:</strong> Timrio operates no background sync daemon that collects or reads your financial records. Your business documents never transit our servers.</li>
-        <li><strong>Transport Security:</strong> All external communication (such as checking the version update feed) enforces TLS 1.3 encryption over HTTPS.</li>
+        <li><strong>Transport Security:</strong> All external communication (such as checking the version update feed) enforces TLS encryption over HTTPS.</li>
       </ul>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">

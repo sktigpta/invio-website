@@ -74,7 +74,7 @@ export function TermsPage() {
         7. Data Ownership &amp; Local Custody
       </h2>
       <p>
-        You retain full ownership, title, and intellectual property rights in and to all data, customer profiles, product prices, and transaction records stored within your local SQLite database. Timrio claims no ownership or proprietary interest in your business data.
+        You retain full ownership, title, and intellectual property rights in and to all data, customer profiles, product prices, and transaction records stored within your local database files on your device. Timrio claims no ownership or proprietary interest in your business data.
       </p>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">

@@ -638,7 +638,7 @@ export function DocsPage() {
               Option B: Using Your Email with an App Password
             </h2>
             <p>
-              For security, email providers like Google, Yahoo, and Zoho require an <strong>App Password</strong> (a special 16-letter code) instead of your regular email password when sending emails through software:
+              For security, email providers like Google, Microsoft, and Yahoo require an <strong>App Password</strong> (a special 16-letter code) instead of your regular email password when sending emails through software:
             </p>
 
             <p className="font-semibold text-slate-900 pt-1">

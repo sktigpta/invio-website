@@ -481,7 +481,7 @@ export function ChangelogPage() {
           5. Binary Verification &amp; Security Baseline
         </h3>
         <p>
-          All Invio desktop installers enforce Electron <code>contextIsolation: true</code>, strictly disable <code>nodeIntegration: false</code>, validate all IPC payloads, and secure email credentials inside the OS cryptographic keychain via <code>safeStorage</code>.
+          All Invio desktop installers enforce strict process isolation, sandboxed interface execution, validated IPC payloads, and secure email credential protection inside the operating system cryptographic keychain.
         </p>
       </section>
     </A4DocLayout>
