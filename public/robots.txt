@@ -2,7 +2,6 @@
 User-agent: *
 Allow: /
 Disallow: /crm/
-Allow: /crm/login
 
 # Host & Sitemap
 Host: https://invio.timrio.com

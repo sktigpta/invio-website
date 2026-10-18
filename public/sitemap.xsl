@@ -446,7 +446,6 @@
                   <option value="branch-tools">🧮 Free Financial &amp; Tax Tools (10 URLs)</option>
                   <option value="branch-support">💬 Help, Support &amp; Feedback (3 URLs)</option>
                   <option value="branch-legal">⚖️ Legal, Security &amp; Compliance (5 URLs)</option>
-                  <option value="branch-admin">🔐 Administration &amp; Operations (1 URL)</option>
                 </select>
               </div>
               <button class="btn-action" onclick="toggleAllBranches(true)">Expand All</button>
@@ -639,40 +638,6 @@
                   sitemap:loc = 'https://invio.timrio.com/cookie-policy' or
                   sitemap:loc = 'https://invio.timrio.com/security'
                 ]">
-                  <div class="tree-row">
-                    <div class="tree-row-left">
-                      <span class="node-icon">📄</span>
-                      <a href="{sitemap:loc}" class="url-link" target="_blank">
-                        <xsl:value-of select="sitemap:loc"/>
-                      </a>
-                    </div>
-                    <div class="tree-row-right">
-                      <span class="changefreq-pill"><xsl:value-of select="sitemap:changefreq"/></span>
-                      <span class="priority-pill priority-low"><xsl:value-of select="sitemap:priority"/></span>
-                      <span class="lastmod-text"><xsl:value-of select="sitemap:lastmod"/></span>
-                    </div>
-                  </div>
-                </xsl:for-each>
-              </div>
-            </details>
-
-            <!-- ============================================== -->
-            <!-- 6. Administration & Operations Portal          -->
-            <!-- ============================================== -->
-            <details class="tree-branch" id="branch-admin" open="open">
-              <summary class="branch-header">
-                <div class="branch-left">
-                  <span class="chevron">▶</span>
-                  <span>🔐</span>
-                  <span class="category-title">Administration &amp; Operations Portal</span>
-                  <span class="branch-pattern">/crm/login</span>
-                </div>
-                <div>
-                  <span class="branch-count">1 Page</span>
-                </div>
-              </summary>
-              <div class="branch-tree-list">
-                <xsl:for-each select="sitemap:urlset/sitemap:url[starts-with(sitemap:loc, 'https://invio.timrio.com/crm')]">
                   <div class="tree-row">
                     <div class="tree-row-left">
                       <span class="node-icon">📄</span>
