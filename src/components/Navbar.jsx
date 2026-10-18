@@ -130,11 +130,11 @@ export function Navbar() {
               href="https://timrio.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[10px] text-slate-500 hover:text-[#7C3AED] font-medium tracking-wide leading-none mt-1 inline-flex items-center gap-0.5 transition-colors"
+              className="text-[11px] text-slate-600 hover:text-[#7C3AED] font-medium tracking-wide leading-none mt-1 inline-flex items-center gap-0.5 transition-colors py-0.5"
               title="Visit Timrio"
             >
               <span>by Timrio</span>
-              <svg className="size-2 text-slate-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <svg className="size-2.5 text-slate-500" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
             </a>

@@ -6,12 +6,12 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
-// Primary pages loaded eagerly
+// Primary home page loaded eagerly; other pages code-split for minimal initial bundle
 import { HomePage } from './pages/HomePage';
-import { FeaturesPage } from './pages/FeaturesPage';
-import { PricingPage } from './pages/PricingPage';
-import { CheckoutPage } from './pages/CheckoutPage';
-import { DownloadPage } from './pages/DownloadPage';
+const FeaturesPage = lazy(() => import('./pages/FeaturesPage').then(m => ({ default: m.FeaturesPage })));
+const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ default: m.PricingPage })));
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage').then(m => ({ default: m.CheckoutPage })));
+const DownloadPage = lazy(() => import('./pages/DownloadPage').then(m => ({ default: m.DownloadPage })));
 
 // Secondary pages loaded on demand (reduces initial bundle size)
 const DocsPage = lazy(() => import('./pages/DocsPage').then(m => ({ default: m.DocsPage })));

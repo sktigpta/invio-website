@@ -28,7 +28,7 @@ export function Footer() {
                 <MailIcon className="size-3.5 text-[#7C3AED] shrink-0" />
                 <span>support@timrio.com</span>
               </a>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-600 font-medium">
                 Mon – Fri • Response within 24h
               </p>
             </div>
@@ -36,7 +36,7 @@ export function Footer() {
 
           {/* Software */}
           <div className="lg:col-span-2">
-            <h4 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Software</h4>
+            <h3 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Software</h3>
             <ul className="space-y-1.5 text-xs">
               <li><Link to="/features" className="hover:text-[#7C3AED] transition-colors">Features</Link></li>
               <li><button type="button" onClick={() => openDownloadModal()} className="hover:text-[#7C3AED] transition-colors cursor-pointer text-left">Download App</button></li>
@@ -47,7 +47,7 @@ export function Footer() {
 
           {/* Resources */}
           <div className="lg:col-span-2">
-            <h4 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Resources</h4>
+            <h3 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Resources</h3>
             <ul className="space-y-1.5 text-xs">
               <li><Link to="/docs" className="hover:text-[#7C3AED] transition-colors font-medium text-slate-700">Documentation</Link></li>
               <li><Link to="/faq" className="hover:text-[#7C3AED] transition-colors">FAQ</Link></li>
@@ -59,7 +59,7 @@ export function Footer() {
 
           {/* Free Tools */}
           <div className="lg:col-span-2">
-            <h4 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Free Tools</h4>
+            <h3 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Free Tools</h3>
             <ul className="space-y-1.5 text-xs">
               <li><Link to="/tools/gst-calculator" className="hover:text-[#7C3AED] transition-colors">GST Calculator</Link></li>
               <li><Link to="/tools/income-tax-india" className="hover:text-[#7C3AED] transition-colors">Income Tax</Link></li>
@@ -71,7 +71,7 @@ export function Footer() {
 
           {/* Legal & Trust */}
           <div className="lg:col-span-2">
-            <h4 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Legal &amp; Trust</h4>
+            <h3 className="font-semibold text-[11px] text-slate-900 uppercase tracking-wider mb-2.5">Legal &amp; Trust</h3>
             <ul className="space-y-1.5 text-xs">
               <li><Link to="/privacy-policy" className="hover:text-[#7C3AED] transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-[#7C3AED] transition-colors">Terms of Use</Link></li>

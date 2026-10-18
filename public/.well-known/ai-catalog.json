@@ -1,0 +1,47 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ards-project/ard-spec/main/spec/schemas/ai-catalog.schema.json",
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Invio",
+    "identifier": "https://invio.timrio.com",
+    "documentationUrl": "https://invio.timrio.com/docs"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:invio.timrio.com:api:download",
+      "displayName": "Invio Desktop Installer Download API",
+      "type": "application/openapi+json",
+      "url": "https://api.invio.timrio.com/api/download/meta/latest",
+      "description": "Public release endpoint providing current version, installer URLs, and checksums for Windows, macOS, and Linux desktop builds.",
+      "representativeQueries": [
+        "download Invio desktop app",
+        "latest Invio version",
+        "offline GST invoice software installer"
+      ]
+    },
+    {
+      "identifier": "urn:air:invio.timrio.com:tools:finance",
+      "displayName": "Free GST and Financial Calculation Tools",
+      "type": "text/html",
+      "url": "https://invio.timrio.com/tools",
+      "description": "Collection of calculators for Indian GST, Income Tax (New vs Old Regime), UK VAT, UAE VAT, and Payroll.",
+      "representativeQueries": [
+        "calculate GST in India",
+        "compare new vs old tax regime",
+        "generate salary slip online free"
+      ]
+    },
+    {
+      "identifier": "urn:air:invio.timrio.com:docs:hub",
+      "displayName": "Invio Documentation and Hardware Setup Guides",
+      "type": "text/html",
+      "url": "https://invio.timrio.com/docs",
+      "description": "Complete guides for offline SQLite setup, ESC/POS thermal printer configuration, barcode scanners, and data backup.",
+      "representativeQueries": [
+        "setup 58mm thermal printer for billing",
+        "configure offline SQLite invoice database",
+        "barcode scanner invoice integration"
+      ]
+    }
+  ]
+}

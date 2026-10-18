@@ -85,6 +85,7 @@ html {
 
 .animate-fadeIn {
   animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
 }
 
 @keyframes slideDown {
@@ -100,6 +101,7 @@ html {
 
 .animate-slideDown {
   animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
 }
 
 /* High-precision Slip Print Stylesheet */

@@ -74,7 +74,7 @@ export function Hero() {
 
               {/* Platform Selector Buttons in a Row */}
               <div
-                className="inline-flex items-center gap-1 bg-slate-100/90 p-1 rounded-full border border-slate-200/80 text-slate-600 shadow-2xs"
+                className="inline-flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-full border border-slate-200/90 text-slate-700 shadow-2xs"
                 role="radiogroup"
                 aria-label="Select desktop operating system"
               >
@@ -87,10 +87,10 @@ export function Hero() {
                   onClick={() => setSelectedOSId('mac')}
                   role="radio"
                   aria-checked={selectedOSId === 'mac'}
-                  className={`px-3.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                  className={`px-4 py-2 min-h-[36px] rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
                     selectedOSId === 'mac'
                       ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                      : 'hover:text-slate-900'
+                      : 'text-slate-700 hover:text-slate-900'
                   }`}
                 >
                   <AppleIcon className="size-3.5" />
@@ -102,10 +102,10 @@ export function Hero() {
                   onClick={() => setSelectedOSId('windows')}
                   role="radio"
                   aria-checked={selectedOSId === 'windows'}
-                  className={`px-3.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                  className={`px-4 py-2 min-h-[36px] rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
                     selectedOSId === 'windows'
                       ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                      : 'hover:text-slate-900'
+                      : 'text-slate-700 hover:text-slate-900'
                   }`}
                 >
                   <WindowsIcon className="size-3.5" />
@@ -117,10 +117,10 @@ export function Hero() {
                   onClick={() => setSelectedOSId('linux')}
                   role="radio"
                   aria-checked={selectedOSId === 'linux'}
-                  className={`px-3.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
+                  className={`px-4 py-2 min-h-[36px] rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
                     selectedOSId === 'linux'
                       ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
-                      : 'hover:text-slate-900'
+                      : 'text-slate-700 hover:text-slate-900'
                   }`}
                 >
                   <LinuxIcon className="size-3.5" />

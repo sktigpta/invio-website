@@ -42,10 +42,14 @@
     <!-- Preload Critical LCP Hero Image Placeholder (360p ultra-fast WebP) -->
     <link rel="preload" as="image" href="/screenshots/hero-360p.webp" type="image/webp" fetchpriority="high" />
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Non-Render-Blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Libre+Barcode+128+Text&family=Libre+Caslon+Condensed:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Libre+Barcode+128+Text&amp;family=Libre+Caslon+Condensed:ital,wght@0,700;1,700&amp;display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Libre+Barcode+128+Text&amp;family=Libre+Caslon+Condensed:ital,wght@0,700;1,700&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Libre+Barcode+128+Text&amp;family=Libre+Caslon+Condensed:ital,wght@0,700;1,700&amp;display=swap" rel="stylesheet" />
+    </noscript>
 
     <!-- JSON-LD Structured Data for SoftwareApplication, WebSite & Organization -->
     <script type="application/ld+json">
