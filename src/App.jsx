@@ -28,6 +28,8 @@ const ToolsPage = lazy(() => import('./pages/ToolsPage').then(m => ({ default: m
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 // CRM System Components
 import { CrmAuthProvider } from './crm/context/CrmAuthContext';
+import { CrmToastProvider } from './crm/context/CrmToastContext';
+import { CrmToaster } from './crm/components/CrmToaster';
 import { CrmLayout } from './crm/components/CrmLayout';
 import { CrmProtectedRoute } from './crm/components/CrmProtectedRoute';
 const CrmLoginPage = lazy(() => import('./crm/pages/CrmLoginPage').then(m => ({ default: m.CrmLoginPage })));
@@ -64,7 +66,9 @@ export function App() {
   return (
     <DownloadModalProvider>
       <CrmAuthProvider>
-        <div className="min-h-screen flex flex-col bg-[#f8fafc] text-slate-800">
+        <CrmToastProvider>
+          {isCrmPage && <CrmToaster />}
+          <div className="min-h-screen flex flex-col bg-[#f8fafc] text-slate-800">
           {!isCrmPage && <Navbar />}
 
           <div className={`flex-1 flex flex-col ${isToolsPage || isDocsPage || isCrmPage ? '' : 'pt-16'}`}>
@@ -221,6 +225,7 @@ export function App() {
           {/* Global Multi-Platform Download Modal */}
           <DownloadModal />
         </div>
+        </CrmToastProvider>
       </CrmAuthProvider>
     </DownloadModalProvider>
   );

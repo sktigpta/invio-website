@@ -2,10 +2,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { crmApi } from '../services/crmApi';
 import { useCrmAuth } from '../context/CrmAuthContext';
-import { TicketIcon, RefreshCwIcon, AlertCircleIcon, PlusIcon, SearchIcon } from '../components/CrmIcons';
+import { useCrmToast } from '../context/CrmToastContext';
+import { useDebouncedValue, isRateLimitError } from '../hooks/useDebouncedValue';
+import { RefreshCwIcon, AlertCircleIcon, PlusIcon, SearchIcon } from '../components/CrmIcons';
 
 export function CrmTicketsPage() {
   const { isManagerOrAdmin } = useCrmAuth();
+  const { toast } = useCrmToast();
   const [tickets, setTickets] = useState([]);
   const [status, setStatus] = useState('all');
   const [category, setCategory] = useState('all');
@@ -23,18 +26,29 @@ export function CrmTicketsPage() {
   const [ticketMessage, setTicketMessage] = useState('');
   const [createLoading, setCreateLoading] = useState(false);
 
+  // Delete state
+  const [deletingTicket, setDeletingTicket] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const debouncedSearch = useDebouncedValue(search, 600);
+
   const fetchTickets = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
-      const res = await crmApi.getTickets({ status, category, priority, search });
+      const res = await crmApi.getTickets({ status, category, priority, search: debouncedSearch });
       setTickets(res.tickets || []);
     } catch (err) {
-      setError(err.message || 'Failed to fetch tickets.');
+      if (isRateLimitError(err)) {
+        toast.warning('Too many requests — pausing briefly, then try again.');
+        return;
+      }
+      const msg = err.message || 'Failed to fetch tickets.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
-  }, [status, category, priority, search]);
+  }, [status, category, priority, debouncedSearch, toast]);
 
   useEffect(() => {
     fetchTickets();
@@ -55,11 +69,27 @@ export function CrmTicketsPage() {
       setTicketEmail('');
       setTicketSubject('');
       setTicketMessage('');
+      toast.success('Support ticket opened successfully.');
       fetchTickets();
     } catch (err) {
-      alert(err.message || 'Failed to create support ticket.');
+      toast.error(err.message || 'Failed to create support ticket.');
     } finally {
       setCreateLoading(false);
+    }
+  }
+
+  async function handleDeleteTicket() {
+    if (!deletingTicket) return;
+    setDeleteLoading(true);
+    try {
+      await crmApi.deleteTicket(deletingTicket.id);
+      setDeletingTicket(null);
+      toast.success(`Ticket ${deletingTicket.ticketNumber || ''} deleted.`);
+      fetchTickets();
+    } catch (err) {
+      toast.error(err.message || 'Failed to delete ticket.');
+    } finally {
+      setDeleteLoading(false);
     }
   }
 
@@ -100,73 +130,67 @@ export function CrmTicketsPage() {
         </div>
       )}
 
-      {/* Filter Bar */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-3 items-center justify-between text-xs">
-        <div className="relative w-full md:w-72">
-          <input
-            type="text"
-            placeholder="Search tickets, subject, email..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-purple-600"
-          />
-          <SearchIcon className="size-4 text-slate-400 absolute left-3 top-2.5" />
-        </div>
+      {/* Filters */}
+      <div className="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1">
+            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search by ticket #, subject, or customer email..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition"
+            />
+          </div>
 
-        <div className="flex items-center gap-3 w-full md:w-auto flex-wrap">
-          <div>
+          <div className="flex items-center gap-2 overflow-x-auto">
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700"
+              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
             >
               <option value="all">All Statuses</option>
               <option value="open">Open</option>
               <option value="in_progress">In Progress</option>
-              <option value="waiting_customer">Waiting on Customer</option>
-              <option value="escalated">Escalated</option>
               <option value="resolved">Resolved</option>
               <option value="closed">Closed</option>
             </select>
-          </div>
 
-          <div>
-            <select
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700"
-            >
-              <option value="all">All Priorities</option>
-              <option value="urgent">Urgent</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
-            </select>
-          </div>
-
-          <div>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700"
+              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
             >
               <option value="all">All Categories</option>
-              <option value="billing">Billing</option>
-              <option value="technical">Technical</option>
-              <option value="license">License</option>
-              <option value="discount">Discount</option>
-              <option value="general">General</option>
+              <option value="billing">Billing & Invoices</option>
+              <option value="technical">Technical Support</option>
+              <option value="license">License Activation</option>
+              <option value="discount">Discount Request</option>
+              <option value="general">General Inquiry</option>
+            </select>
+
+            <select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+            >
+              <option value="all">All Priorities</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
             </select>
           </div>
         </div>
       </div>
 
-      {/* Tickets Table */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+      {/* Ticket Table */}
+      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold text-[10px] uppercase">
-              <tr>
+            <thead>
+              <tr className="border-b border-slate-100 bg-slate-50/75 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                 <th className="py-3 px-4">Ticket</th>
                 <th className="py-3 px-4">Subject</th>
                 <th className="py-3 px-4">Category</th>
@@ -177,29 +201,28 @@ export function CrmTicketsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {loading ? (
+              {loading && !tickets.length ? (
                 <tr>
                   <td colSpan="7" className="py-12 text-center text-slate-400">
                     <div className="size-6 border-2 border-slate-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-2" />
-                    Loading support tickets...
+                    <span>Loading tickets...</span>
                   </td>
                 </tr>
-              ) : tickets.length === 0 ? (
+              ) : !tickets.length ? (
                 <tr>
                   <td colSpan="7" className="py-12 text-center text-slate-400">
-                    No tickets found matching current filters.
+                    No tickets found matching the filter criteria.
                   </td>
                 </tr>
               ) : (
                 tickets.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-50/70 transition">
+                  <tr key={t.id} className="hover:bg-slate-50/50 transition">
                     <td className="py-3.5 px-4">
-                      <div className="font-mono font-bold text-purple-700">{t.ticketNumber}</div>
-                      <div className="text-[10px] text-slate-400">{new Date(t.createdAt).toLocaleDateString()}</div>
+                      <div className="font-mono font-bold text-slate-900">{t.ticketNumber}</div>
+                      <div className="text-[11px] text-slate-400">{t.customerEmail}</div>
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="font-semibold text-slate-900 max-w-sm truncate">{t.subject}</div>
-                      <div className="text-[10px] text-slate-500 font-mono">{t.customerEmail}</div>
                     </td>
                     <td className="py-3.5 px-4 capitalize text-slate-600 font-medium">
                       {t.category}
@@ -221,9 +244,9 @@ export function CrmTicketsPage() {
                           ? 'bg-blue-100 text-blue-800'
                           : t.status === 'resolved'
                           ? 'bg-emerald-100 text-emerald-800'
-                          : t.status === 'escalated'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-slate-100 text-slate-700'
+                          : t.status === 'closed'
+                          ? 'bg-slate-100 text-slate-700'
+                          : 'bg-amber-100 text-amber-800'
                       }`}>
                         {t.status.replace('_', ' ')}
                       </span>
@@ -231,13 +254,23 @@ export function CrmTicketsPage() {
                     <td className="py-3.5 px-4 text-slate-600">
                       {t.assignedStaffName || <span className="text-slate-400 italic">Unassigned</span>}
                     </td>
-                    <td className="py-3.5 px-4 text-right">
-                      <Link
-                        to={`/crm/tickets/${encodeURIComponent(t.id)}`}
-                        className="inline-flex px-3 py-1 rounded-md bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold transition"
-                      >
-                        Discussion →
-                      </Link>
+                    <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <Link
+                          to={`/crm/tickets/${encodeURIComponent(t.id)}`}
+                          className="inline-flex px-3 py-1 rounded-md bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold transition"
+                        >
+                          Discussion →
+                        </Link>
+                        {isManagerOrAdmin && (
+                          <button
+                            onClick={() => setDeletingTicket(t)}
+                            className="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-xs rounded-md transition cursor-pointer"
+                          >
+                            Delete
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -294,7 +327,7 @@ export function CrmTicketsPage() {
                     onChange={(e) => setTicketCategory(e.target.value)}
                     className="w-full p-2.5 rounded-lg border border-slate-200 bg-white"
                   >
-                    <option value="billing">Billing & Payments</option>
+                    <option value="billing">Billing & Invoices</option>
                     <option value="technical">Technical Support</option>
                     <option value="license">License Activation</option>
                     <option value="discount">Discount Request</option>
@@ -345,6 +378,33 @@ export function CrmTicketsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Ticket Confirm */}
+      {deletingTicket && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4">
+          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-red-100 space-y-3">
+            <h3 className="font-bold text-slate-900 text-sm">Delete Ticket {deletingTicket.ticketNumber}?</h3>
+            <p className="text-xs text-slate-600">This permanently removes the ticket thread. This action cannot be undone.</p>
+            <div className="flex justify-end gap-2 pt-2 border-t border-slate-100 text-xs">
+              <button
+                type="button"
+                onClick={() => setDeletingTicket(null)}
+                className="px-3.5 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteTicket}
+                disabled={deleteLoading}
+                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition disabled:opacity-50"
+              >
+                {deleteLoading ? 'Deleting...' : 'Delete Permanently'}
+              </button>
+            </div>
           </div>
         </div>
       )}
