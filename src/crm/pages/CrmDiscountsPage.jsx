@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { crmApi } from '../services/crmApi';
 import { useCrmAuth } from '../context/CrmAuthContext';
 import { PercentIcon, RefreshCwIcon, AlertCircleIcon, PlusIcon } from '../components/CrmIcons';
+import { TableSkeleton } from '../../components/common/Skeleton';
 
 export function CrmDiscountsPage() {
   const { staff, isSales, isSupport } = useCrmAuth();
@@ -120,12 +121,7 @@ export function CrmDiscountsPage() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {loading ? (
-                <tr>
-                  <td colSpan="7" className="py-12 text-center text-slate-400">
-                    <div className="size-6 border-2 border-slate-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-2" />
-                    Loading discounts...
-                  </td>
-                </tr>
+                <TableSkeleton rows={5} cols={7} />
               ) : discounts.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="py-12 text-center text-slate-400">

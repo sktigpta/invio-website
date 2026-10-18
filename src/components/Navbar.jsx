@@ -81,6 +81,7 @@ export function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'Features', path: '/features' },
     { name: 'Pricing', path: '/pricing' },
+    { name: 'Docs', path: '/docs' },
     { name: 'FAQ', path: '/faq' },
     { name: 'Free Tools', path: '/tools' },
   ];

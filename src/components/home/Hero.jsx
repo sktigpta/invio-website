@@ -62,7 +62,7 @@ export function Hero() {
 
           {/* Subtitle */}
           <p className="text-sm sm:text-base lg:text-[17px] text-slate-600 font-normal leading-relaxed mb-8 max-w-xl text-center">
-            Create professional invoices in a few clicks. 60+ templates or customize your own. Easily add logo, rates, and photos. Let clients pay online. Automatically send receipts.
+            Create professional GST invoices and retail bills in seconds. Print thermal receipts with dynamic UPI QR codes, scan barcodes, track inventory, and keep your business data 100% private in local SQLite storage.
           </p>
 
           {/* Platform Selector & Download Controls (Centered relative to each other) */}

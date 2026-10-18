@@ -4,161 +4,261 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Core Product & Conversion Pages -->
+  <!-- ========================================== -->
+  <!-- 1. Core Product & Conversion Pages        -->
+  <!-- ========================================== -->
   <url>
     <loc>https://invio.timrio.com/</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.00</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/features</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/pricing</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/download</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://invio.timrio.com/checkout</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
     <loc>https://invio.timrio.com/changelog</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
-  <url>
-    <loc>https://invio.timrio.com/system-requirements</loc>
-    <lastmod>2026-10-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
 
-  <!-- Guides, Documentation & Support -->
+  <!-- ========================================== -->
+  <!-- 2. Documentation Hub & Hardware Guides     -->
+  <!-- ========================================== -->
+  <url>
+    <loc>https://invio.timrio.com/docs</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/download</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
   <url>
     <loc>https://invio.timrio.com/docs/installation</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://invio.timrio.com/faq</loc>
-    <lastmod>2026-10-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://invio.timrio.com/support</loc>
-    <lastmod>2026-10-11</lastmod>
+    <loc>https://invio.timrio.com/docs/system</loc>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://invio.timrio.com/contact</loc>
-    <lastmod>2026-10-11</lastmod>
+    <loc>https://invio.timrio.com/docs/thermal-printer</loc>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/standard-printer</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/quickstart</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/barcode-hardware</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/pos-display</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/whatsapp</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/email-setup</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/backups</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/security</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/docs/troubleshooting</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
 
-  <!-- Legal & Trust Policies -->
-  <url>
-    <loc>https://invio.timrio.com/privacy-policy</loc>
-    <lastmod>2026-10-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://invio.timrio.com/terms</loc>
-    <lastmod>2026-10-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://invio.timrio.com/eula</loc>
-    <lastmod>2026-10-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.50</priority>
-  </url>
-  <url>
-    <loc>https://invio.timrio.com/cookie-policy</loc>
-    <lastmod>2026-10-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.50</priority>
-  </url>
-  <url>
-    <loc>https://invio.timrio.com/security</loc>
-    <lastmod>2026-10-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-
-  <!-- Free Financial, Tax & Payroll Tools Suite -->
+  <!-- ========================================== -->
+  <!-- 3. Free Financial & Tax Tools Suite        -->
+  <!-- ========================================== -->
   <url>
     <loc>https://invio.timrio.com/tools</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/tools/gst-calculator</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/tools/income-tax-india</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/tools/vat-uk</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/tools/vat-uae</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/tools/payslip-generator</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/tools/paycheck-calc</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/tools/hra-exemption</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/tools/gratuity-calc</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://invio.timrio.com/tools/project-estimate</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- 4. Help, Support & Feedback                -->
+  <!-- ========================================== -->
+  <url>
+    <loc>https://invio.timrio.com/faq</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/contact</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/report-bug</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- 5. Legal & Trust Policies                  -->
+  <!-- ========================================== -->
+  <url>
+    <loc>https://invio.timrio.com/privacy-policy</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/terms</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/eula</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/cookie-policy</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://invio.timrio.com/security</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- 6. Administration & Operations Portal      -->
+  <!-- ========================================== -->
+  <url>
+    <loc>https://invio.timrio.com/crm/login</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.40</priority>
   </url>
 </urlset>

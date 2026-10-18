@@ -1,6 +1,62 @@
 {
   "headers": [
     {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, s-maxage=86400"
+        }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=3600"
+        }
+      ]
+    },
+    {
+      "source": "/sitemap.xsl",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/xsl; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, s-maxage=86400"
+        }
+      ]
+    },
+    {
       "source": "/feeds/(.*)",
       "headers": [
         {
@@ -16,6 +72,87 @@
           "value": "public, max-age=3600, s-maxage=3600"
         }
       ]
+    },
+    {
+      "source": "/crm/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/products/invio",
+      "destination": "/features",
+      "permanent": true
+    },
+    {
+      "source": "/product",
+      "destination": "/features",
+      "permanent": true
+    },
+    {
+      "source": "/product-overview",
+      "destination": "/features",
+      "permanent": true
+    },
+    {
+      "source": "/subscription",
+      "destination": "/pricing",
+      "permanent": true
+    },
+    {
+      "source": "/version",
+      "destination": "/changelog",
+      "permanent": true
+    },
+    {
+      "source": "/releases",
+      "destination": "/changelog",
+      "permanent": true
+    },
+    {
+      "source": "/system-requirements",
+      "destination": "/docs/system",
+      "permanent": true
+    },
+    {
+      "source": "/installation-guide",
+      "destination": "/docs/installation",
+      "permanent": true
+    },
+    {
+      "source": "/support",
+      "destination": "/docs/troubleshooting",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy-policy",
+      "permanent": true
+    },
+    {
+      "source": "/terms-of-service",
+      "destination": "/terms",
+      "permanent": true
+    },
+    {
+      "source": "/bugs",
+      "destination": "/report-bug",
+      "permanent": true
+    },
+    {
+      "source": "/bug-report",
+      "destination": "/report-bug",
+      "permanent": true
+    },
+    {
+      "source": "/sitemap",
+      "destination": "/sitemap.xml",
+      "permanent": true
     }
   ],
   "rewrites": [

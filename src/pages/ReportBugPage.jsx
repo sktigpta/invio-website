@@ -30,7 +30,7 @@ export function ReportBugPage() {
   const [ticketDetails, setTicketDetails] = useState(null);
 
   useEffect(() => {
-    applySEO('contact');
+    applySEO('report-bug');
     window.scrollTo(0, 0);
 
     const detected = detectDeviceOS();

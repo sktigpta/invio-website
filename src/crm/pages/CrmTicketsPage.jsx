@@ -5,6 +5,7 @@ import { useCrmAuth } from '../context/CrmAuthContext';
 import { useCrmToast } from '../context/CrmToastContext';
 import { useDebouncedValue, isRateLimitError } from '../hooks/useDebouncedValue';
 import { RefreshCwIcon, AlertCircleIcon, PlusIcon, SearchIcon } from '../components/CrmIcons';
+import { TableSkeleton } from '../../components/common/Skeleton';
 
 export function CrmTicketsPage() {
   const { isManagerOrAdmin } = useCrmAuth();
@@ -202,12 +203,7 @@ export function CrmTicketsPage() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {loading && !tickets.length ? (
-                <tr>
-                  <td colSpan="7" className="py-12 text-center text-slate-400">
-                    <div className="size-6 border-2 border-slate-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-2" />
-                    <span>Loading tickets...</span>
-                  </td>
-                </tr>
+                <TableSkeleton rows={6} cols={7} />
               ) : !tickets.length ? (
                 <tr>
                   <td colSpan="7" className="py-12 text-center text-slate-400">

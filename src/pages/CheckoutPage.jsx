@@ -31,6 +31,7 @@ import {
 } from '../components/Icons';
 import { FEATURES_DATA } from '../data/featuresData';
 import { CouponTicket } from '../components/CouponTicket';
+import { CheckoutMembershipSkeleton, Skeleton } from '../components/common/Skeleton';
 
 // Computed once at module level — avoids re-randomizing on every render in React 18 Strict Mode.
 const CHECKOUT_FEATURE_INDEX = Math.floor(Math.random() * FEATURES_DATA.length);
@@ -966,13 +967,8 @@ export function CheckoutPage() {
               </div>
 
               {checkingMembership ? (
-                /* Checking Membership Loader */
-                <div className="py-8 text-center space-y-3">
-                  <div className="size-6 border-2 border-[#7C3AED] border-t-transparent rounded-full animate-spin mx-auto" />
-                  <p className="text-xs font-medium text-slate-500">
-                    Checking account license status...
-                  </p>
-                </div>
+                /* Checking Membership Skeleton Loader */
+                <CheckoutMembershipSkeleton />
               ) : membershipInfo?.hasMembership && !allowReorder ? (
                 /* Already has Active Membership State */
                 <div className="space-y-5 text-center">

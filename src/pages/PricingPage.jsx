@@ -6,6 +6,7 @@ import { DownloadCta } from '../components/DownloadCta';
 import { FaqAccordion } from '../components/FaqAccordion';
 import { useDownloadModal } from '../context/DownloadModalContext';
 import { fetchSubscriptionPlans } from '../services/paymentService';
+import { PricingCardSkeleton } from '../components/common/Skeleton';
 
 // Default static fallback values if backend is unreachable or booting
 const DEFAULT_PLANS_STATE = {
@@ -87,6 +88,7 @@ export function PricingPage() {
     paramCycle === 'monthly' ? 'monthly' : 'yearly'
   );
   const [plansData, setPlansData] = useState(DEFAULT_PLANS_STATE);
+  const [loadingPlans, setLoadingPlans] = useState(true);
 
   useEffect(() => {
     applySEO('pricing');
@@ -128,6 +130,8 @@ export function PricingPage() {
         }
       } catch (err) {
         console.debug('[Pricing] Using standard catalog pricing defaults:', err);
+      } finally {
+        setLoadingPlans(false);
       }
     };
 
@@ -213,6 +217,13 @@ export function PricingPage() {
       </div>
 
       {/* 3-Column Pricing Grid (Free, Plus, Pro) */}
+      {loadingPlans ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-8 items-stretch" aria-busy="true" aria-label="Loading pricing plans">
+          <PricingCardSkeleton />
+          <PricingCardSkeleton isFeatured={true} />
+          <PricingCardSkeleton />
+        </div>
+      ) : (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-8 items-stretch">
         {/* 1. Free Plan */}
         <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between shadow-2xs hover:shadow-xs transition-shadow">
@@ -357,6 +368,7 @@ export function PricingPage() {
           </button>
         </div>
       </div>
+      )}
 
 
       {/* Pricing FAQs - Single Column Accordion Stack matching FAQ page */}

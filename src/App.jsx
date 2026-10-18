@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { DownloadModalProvider } from './context/DownloadModalContext';
 import { DownloadModal } from './components/DownloadModal';
@@ -54,6 +54,13 @@ function PageFallback() {
       <div className="size-8 rounded-full border-2 border-slate-200 border-t-[#7C3AED] animate-spin" />
     </div>
   );
+}
+
+function SitemapRedirect() {
+  useEffect(() => {
+    window.location.replace('/sitemap.xml');
+  }, []);
+  return null;
 }
 
 export function App() {
@@ -211,6 +218,8 @@ export function App() {
                 <Route path="/report-bug" element={<ReportBugPage />} />
                 <Route path="/bugs" element={<Navigate to="/report-bug" replace />} />
                 <Route path="/bug-report" element={<Navigate to="/report-bug" replace />} />
+                <Route path="/sitemap" element={<SitemapRedirect />} />
+                <Route path="/sitemap.xml" element={<SitemapRedirect />} />
 
                 {/* Fallback & 404 */}
                 <Route path="/404" element={<NotFoundPage />} />

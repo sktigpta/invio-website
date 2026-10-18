@@ -77,6 +77,7 @@ export function Footer() {
               <li><Link to="/terms" className="hover:text-[#7C3AED] transition-colors">Terms of Use</Link></li>
               <li><Link to="/eula" className="hover:text-[#7C3AED] transition-colors">EULA</Link></li>
               <li><Link to="/security" className="hover:text-[#7C3AED] transition-colors">Security</Link></li>
+              <li><a href="/sitemap.xml" className="hover:text-[#7C3AED] transition-colors">Sitemap</a></li>
             </ul>
           </div>
         </div>

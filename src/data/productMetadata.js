@@ -191,6 +191,31 @@ export const PRODUCT_TIERS = [
       'Priority customer support & 44% annual savings',
     ],
   },
+  {
+    id: 'invio-desktop-pro-yearly',
+    name: 'Invio Pro Enterprise — Desktop Invoicing Software',
+    shortName: 'Invio Pro Enterprise',
+    planType: 'pro',
+    planPeriod: 'yearly',
+    price: '4999.00',
+    currency: 'INR',
+    priceString: '4999.00 INR',
+    pricingDisplay: '₹4,999 / year',
+    availability: 'pre_order',
+    canonicalUrl: 'https://invio.timrio.com/pricing',
+    description:
+      'Invio Pro Enterprise Plan by Timrio for multi-counter retailers, wholesalers, and growing enterprises. Multi-user cashier and manager permission roles, networked terminals, advanced profit margin & GSTR-1 audit reports, and dedicated remote deployment.',
+    features: [
+      'Everything in Invio Plus Plan',
+      'Multi-user cashier & manager permission roles',
+      'Unlimited multi-counter networked terminals',
+      'Advanced profit margin & GSTR-1 tax audit reports',
+      'Automated low-inventory reorder alerts & bulk CSV catalog tools',
+      'Dedicated remote deployment engineer',
+      'Custom invoice branding, templates & receipt headers',
+      'Direct priority WhatsApp & telephone support',
+    ],
+  },
 ];
 
 export const PRODUCT_METADATA = {

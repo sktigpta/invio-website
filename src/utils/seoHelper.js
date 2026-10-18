@@ -6,11 +6,12 @@
 import { FAQ_ITEMS } from '../data/faqData';
 
 export const BASE_URL = 'https://invio.timrio.com';
+export const CURRENT_VERSION = '1.0.6';
 
 export const PAGE_METADATA = {
   home: {
     title: 'Invio – Free Invoice Generator App & Offline Billing Software | Timrio',
-    description: 'Invio is a free offline invoice generator app & desktop billing software for Windows and Mac. Create GST invoices, print thermal receipts with UPI QR codes, scan barcodes, and keep records in 100% private local SQLite.',
+    description: 'Invio is a free offline invoice generator app & desktop billing software for Windows, Mac & Linux. Create GST invoices, print thermal receipts with UPI QR codes, scan barcodes, and keep records in 100% private local SQLite.',
     canonical: `${BASE_URL}/`,
     keywords: 'Invio, invoice generator app, free invoice software, free invoice generator, offline invoice software, GST billing software, desktop invoice app, Windows invoice app, Mac invoice maker, retail billing software, store billing app, UPI QR invoice generator, Timrio',
     schemaType: 'SoftwareApplication',
@@ -45,7 +46,7 @@ export const PAGE_METADATA = {
   },
   download: {
     title: 'Download Invio – Free Invoice Software & Generator App for Windows & Mac',
-    description: 'Download Invio v1.0.2 for Windows 10/11 and macOS. Free offline desktop invoice generator app with local SQLite data storage, instant thermal printing, and zero cloud lock-in.',
+    description: `Download Invio v${CURRENT_VERSION} for Windows 10/11, macOS, and Linux. Free offline desktop invoice generator app with local SQLite data storage, instant thermal printing, and zero cloud lock-in.`,
     canonical: `${BASE_URL}/download`,
     keywords: 'Download Invio, Invio Windows download, Invio Mac download, desktop invoicing installer, download billing software',
     schemaType: 'SoftwareApplication',
@@ -62,7 +63,7 @@ export const PAGE_METADATA = {
     description: 'Verify system requirements for Invio: Supported Windows and macOS versions, minimum RAM, processor architecture (Apple Silicon M-series, Intel, x64), and disk space.',
     canonical: `${BASE_URL}/docs/system`,
     keywords: 'Invio system requirements, minimum requirements, Windows 10 compatibility, macOS Apple Silicon compatibility, disk space',
-    schemaType: 'WebPage',
+    schemaType: 'TechArticle',
   },
   docs: {
     title: 'Documentation Hub & Guides – Invio Desktop Invoicing | Timrio',
@@ -73,10 +74,12 @@ export const PAGE_METADATA = {
   },
   'docs-download': {
     title: 'How to Download Invio – Official Desktop Packages | Timrio',
-    description: 'Download Invio v1.0.2 for Windows, macOS Apple Silicon & Intel, and Linux with SHA-256 integrity verification.',
+    description: `Download Invio v${CURRENT_VERSION} for Windows, macOS Apple Silicon & Intel, and Linux with SHA-256 integrity verification.`,
     canonical: `${BASE_URL}/docs/download`,
     keywords: 'download Invio desktop, Invio installer, verify SHA-256 Invio, Windows exe, macOS dmg',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-system': {
     title: 'System & Printer Requirements – Invio Docs | Timrio',
@@ -84,6 +87,8 @@ export const PAGE_METADATA = {
     canonical: `${BASE_URL}/docs/system`,
     keywords: 'Invio system requirements, minimum specs, thermal printer compatibility, ESC/POS, Windows 10, macOS Sequoia',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-installation': {
     title: 'Installation Guide & Setup Instructions – Invio Docs | Timrio',
@@ -91,6 +96,8 @@ export const PAGE_METADATA = {
     canonical: `${BASE_URL}/docs/installation`,
     keywords: 'Invio installation guide, install Invio Mac, install Invio Windows, installation walkthrough, desktop app setup',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-quickstart': {
     title: 'Quickstart & First Invoice Setup – Invio Docs | Timrio',
@@ -98,13 +105,26 @@ export const PAGE_METADATA = {
     canonical: `${BASE_URL}/docs/quickstart`,
     keywords: 'Invio quickstart, first invoice setup, UPI QR billing, store profile setup, retail billing',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
+  },
+  'docs-standard-printer': {
+    title: 'A4 & A5 Office Printers Setup – Invio Docs | Timrio',
+    description: 'Configure standard office inkjet and laser printers for full-page A4 and A5 GST invoices with authorized signatures and bank details.',
+    canonical: `${BASE_URL}/docs/standard-printer`,
+    keywords: 'A4 GST invoice printing, A5 bill printer, laser printer invoice, office printer setup Invio, PDF print',
+    schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-printing': {
-    title: 'Thermal & A4 Receipt Printing Guide – Invio Docs | Timrio',
-    description: 'Configure 58mm and 80mm ESC/POS thermal receipt printers, silent printing, automatic paper cutting, and A4 GST invoices.',
-    canonical: `${BASE_URL}/docs/printing`,
-    keywords: 'thermal receipt printing, ESC/POS configuration, 58mm printer, 80mm printer, silent print Invio',
+    title: 'A4 & A5 Office Printers Setup – Invio Docs | Timrio',
+    description: 'Configure standard office inkjet and laser printers for full-page A4 and A5 GST invoices with authorized signatures and bank details.',
+    canonical: `${BASE_URL}/docs/standard-printer`,
+    keywords: 'A4 GST invoice printing, A5 bill printer, laser printer invoice, office printer setup Invio, PDF print',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-thermal-printer': {
     title: 'Thermal Receipt Printer Setup Guide – Invio Docs | Timrio',
@@ -112,13 +132,35 @@ export const PAGE_METADATA = {
     canonical: `${BASE_URL}/docs/thermal-printer`,
     keywords: 'thermal printer setup, ESC/POS, 58mm receipt, 80mm POS receipt, silent print, cash drawer kick',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
+  },
+  'docs-barcode-hardware': {
+    title: 'Barcode Scanners & Cash Drawers Hardware Setup – Invio Docs | Timrio',
+    description: 'Plug-and-play USB and wireless barcode scanner integration and automatic cash drawer kick trigger on invoice print in Invio.',
+    canonical: `${BASE_URL}/docs/barcode-hardware`,
+    keywords: 'barcode scanner billing, retail POS scanner, USB barcode reader, cash drawer RJ11 setup, point and scan checkout',
+    schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-email': {
     title: 'Email & SMTP Outbox Configuration – Invio Docs | Timrio',
     description: 'Connect Google Gmail via one-click OAuth or custom SMTP (ports 587/465, App Passwords) for automated PDF invoice delivery.',
-    canonical: `${BASE_URL}/docs/email`,
+    canonical: `${BASE_URL}/docs/email-setup`,
     keywords: 'Invio email setup, SMTP configuration, Gmail OAuth, invoice email, app password, email outbox',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
+  },
+  'docs-email-setup': {
+    title: 'Email & SMTP Outbox Configuration – Invio Docs | Timrio',
+    description: 'Connect Google Gmail via one-click OAuth or custom SMTP (ports 587/465, App Passwords) for automated PDF invoice delivery.',
+    canonical: `${BASE_URL}/docs/email-setup`,
+    keywords: 'Invio email setup, SMTP configuration, Gmail OAuth, invoice email, app password, email outbox',
+    schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-whatsapp': {
     title: 'How to Share Invoices on WhatsApp – Invio Docs | Timrio',
@@ -126,6 +168,8 @@ export const PAGE_METADATA = {
     canonical: `${BASE_URL}/docs/whatsapp`,
     keywords: 'WhatsApp invoice sharing, send bill WhatsApp, WhatsApp billing, free invoice sharing',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-pos-display': {
     title: 'Customer POS Display Screen Setup – Invio Docs | Timrio',
@@ -133,6 +177,8 @@ export const PAGE_METADATA = {
     canonical: `${BASE_URL}/docs/pos-display`,
     keywords: 'customer POS display, dual screen billing, counter screen, customer monitor POS, scan to pay screen',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-backups': {
     title: 'Offline Data Storage & Backup Management – Invio Docs | Timrio',
@@ -140,6 +186,8 @@ export const PAGE_METADATA = {
     canonical: `${BASE_URL}/docs/backups`,
     keywords: 'Invio database location, SQLite backup, export backup Invio, restore store data',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-security': {
     title: 'Security & Privacy Architecture – Invio Docs | Timrio',
@@ -147,6 +195,8 @@ export const PAGE_METADATA = {
     canonical: `${BASE_URL}/docs/security`,
     keywords: 'Invio security, offline privacy, zero cloud sync, credential encryption, desktop security',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   'docs-troubleshooting': {
     title: 'Troubleshooting & Support Guide – Invio Docs | Timrio',
@@ -154,11 +204,13 @@ export const PAGE_METADATA = {
     canonical: `${BASE_URL}/docs/troubleshooting`,
     keywords: 'Invio troubleshooting, printer not printing, LAN billing mode, antivirus false positive, Invio support',
     schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
   },
   support: {
     title: 'Support & Help Center – Customer Assistance | Invio',
     description: 'Get help with Invio desktop invoicing app: Troubleshooting common issues, thermal printer setup, database backups, and direct contact with the Timrio support team.',
-    canonical: `${BASE_URL}/support`,
+    canonical: `${BASE_URL}/docs/troubleshooting`,
     keywords: 'Invio support, help center, billing software assistance, contact support, troubleshooting',
     schemaType: 'ContactPage',
   },
@@ -211,6 +263,13 @@ export const PAGE_METADATA = {
     keywords: 'Contact Invio, Timrio contact, support email, developer contact',
     schemaType: 'ContactPage',
   },
+  'report-bug': {
+    title: 'Report a Bug or Hardware Issue – Issue Escalation | Invio',
+    description: 'Submit technical bug reports, thermal printer compatibility issues, or application glitches directly to the Invio engineering team.',
+    canonical: `${BASE_URL}/report-bug`,
+    keywords: 'report bug Invio, issue escalation, support ticket, printer glitch, desktop crash log',
+    schemaType: 'ContactPage',
+  },
   tools: {
     title: 'Free Financial, Tax & Payroll Calculators Suite | Invio',
     description: 'Suite of 100% free online business tools: India GST calculator, FY 25-26 Income Tax calculator, UK and UAE VAT calculators, Payslip generator, HRA exemption, and Gratuity calculators.',
@@ -223,54 +282,72 @@ export const PAGE_METADATA = {
     description: 'Calculate intra-state CGST & SGST splits, inter-state IGST, and reverse GST inclusive extractions across 0%, 5%, 12%, 18%, 28%, and 40% slabs.',
     canonical: `${BASE_URL}/tools/gst-calculator`,
     schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   'income-tax-india': {
     title: 'Income Tax Calculator India FY 2025-26 (New vs Old Regime) | Invio',
     description: 'Calculate income tax liability comparing New Tax Regime (with ₹75,000 standard deduction) vs Old Tax Regime with instant tax slab and rebate comparison.',
     canonical: `${BASE_URL}/tools/income-tax-india`,
     schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   'vat-uk': {
     title: 'UK VAT Calculator (HMRC Standard 20% & Reduced 5%) | Invio',
     description: 'Calculate HMRC standard 20%, reduced 5%, and zero-rated VAT or reverse extract net prices from gross totals.',
     canonical: `${BASE_URL}/tools/vat-uk`,
     schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   'vat-uae': {
     title: 'UAE VAT Calculator (FTA 5%) – Online Tax Calculator | Invio',
     description: 'Calculate 5% UAE Federal Tax Authority VAT or reverse calculate net amounts from inclusive invoice totals.',
     canonical: `${BASE_URL}/tools/vat-uae`,
     schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   'payslip-generator': {
     title: 'Free Payslip Generator – Monthly Employee Pay Slip Maker | Invio',
     description: 'Generate, customize, and print formal monthly employee salary pay slips for free with earnings, deductions, and net salary calculations.',
     canonical: `${BASE_URL}/tools/payslip-generator`,
     schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   'paycheck-calc': {
     title: 'Take-Home Paycheck Calculator – Gross to Net Pay | Invio',
     description: 'Calculate net take-home salary after taxes, withholdings, and pre-tax deductions.',
     canonical: `${BASE_URL}/tools/paycheck-calc`,
     schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   'hra-exemption': {
     title: 'HRA Exemption Calculator (Section 10(13A)) – Income Tax | Invio',
     description: 'Calculate tax-exempt House Rent Allowance under Section 10(13A) of the Income Tax Act for metro and non-metro cities.',
     canonical: `${BASE_URL}/tools/hra-exemption`,
     schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   'gratuity-calc': {
     title: 'Gratuity Calculator India – Payment of Gratuity Act 1972 | Invio',
     description: 'Calculate statutory employee gratuity payout using the 15/26 formula under the Payment of Gratuity Act 1972.',
     canonical: `${BASE_URL}/tools/gratuity-calc`,
     schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   'project-estimate': {
     title: 'Project Cost Estimator – Hourly Billing & Contingency | Invio',
     description: 'Estimate project costs, labor hours, direct costs, and contingency risk buffers for client proposals.',
     canonical: `${BASE_URL}/tools/project-estimate`,
     schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   '404': {
     title: '404 - Page Not Found | Invio',
@@ -324,12 +401,16 @@ export function applySEO(pageKey, overrides = {}) {
   setMetaTag('meta[property="og:url"]', 'property', 'og:url', meta.canonical || (typeof window !== 'undefined' ? window.location.href : ''));
   setMetaTag('meta[property="og:type"]', 'property', 'og:type', 'website');
   setMetaTag('meta[property="og:image"]', 'property', 'og:image', `${BASE_URL}/og-image.jpg`);
+  setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Invio');
+  setMetaTag('meta[property="og:locale"]', 'property', 'og:locale', 'en_US');
 
   // 4. Twitter Card
+  setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
   setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', meta.title);
   setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', meta.description);
   setMetaTag('meta[name="twitter:url"]', 'name', 'twitter:url', meta.canonical || (typeof window !== 'undefined' ? window.location.href : ''));
   setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', `${BASE_URL}/og-image.jpg`);
+  setMetaTag('meta[name="twitter:site"]', 'name', 'twitter:site', '@timriocorp');
 
   // 5. Canonical Link
   if (typeof document !== 'undefined') {
@@ -356,16 +437,17 @@ export function applySEO(pageKey, overrides = {}) {
       document.head.appendChild(scriptEl);
     }
 
-    let jsonLd;
+    let graph = [];
 
+    // Main Entity Schema
     if (meta.schemaType === 'SoftwareApplication') {
-      jsonLd = {
+      graph.push({
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
         name: 'Invio',
         operatingSystem: 'Windows 10, Windows 11, macOS 11.0+, Linux 64-bit',
         applicationCategory: 'BusinessApplication',
-        softwareVersion: '1.0.2',
+        softwareVersion: CURRENT_VERSION,
         description: meta.description,
         url: meta.canonical || BASE_URL,
         downloadUrl: `${BASE_URL}/download`,
@@ -391,9 +473,9 @@ export function applySEO(pageKey, overrides = {}) {
           name: 'Timrio',
           url: 'https://timrio.com/'
         }
-      };
+      });
     } else if (meta.schemaType === 'FAQPage') {
-      jsonLd = {
+      graph.push({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
         mainEntity: FAQ_ITEMS.map((item) => ({
@@ -404,9 +486,9 @@ export function applySEO(pageKey, overrides = {}) {
             text: item.answer,
           },
         })),
-      };
+      });
     } else {
-      jsonLd = {
+      graph.push({
         '@context': 'https://schema.org',
         '@type': meta.schemaType,
         name: meta.title.split('–')[0].split('|')[0].trim(),
@@ -417,9 +499,37 @@ export function applySEO(pageKey, overrides = {}) {
           name: 'Timrio',
           url: 'https://timrio.com/',
         },
-      };
+      });
     }
 
-    scriptEl.textContent = JSON.stringify(jsonLd);
+    // Add BreadcrumbList Schema for subpages
+    if (meta.parentCategory && meta.parentUrl && meta.canonical) {
+      graph.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: BASE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: meta.parentCategory,
+            item: meta.parentUrl,
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: meta.title.split('–')[0].split('|')[0].trim(),
+            item: meta.canonical,
+          },
+        ],
+      });
+    }
+
+    scriptEl.textContent = JSON.stringify(graph.length === 1 ? graph[0] : { '@context': 'https://schema.org', '@graph': graph });
   }
 }

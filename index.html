@@ -20,9 +20,12 @@
     <meta property="og:description" content="Invio is a free offline invoice generator app &amp; desktop billing software for Windows, Mac &amp; Linux. Create GST invoices, print thermal receipts with UPI QR codes, scan barcodes, and store business records in 100% private local SQLite." />
     <meta property="og:image" content="https://invio.timrio.com/og-image.jpg" />
     <meta property="og:site_name" content="Invio" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@timriocorp" />
+    <meta name="twitter:creator" content="@timriocorp" />
     <meta name="twitter:url" content="https://invio.timrio.com/" />
     <meta name="twitter:title" content="Invio – Free Invoice Generator App &amp; Offline Billing Software | Timrio" />
     <meta name="twitter:description" content="Invio is a free offline invoice generator app &amp; desktop billing software for Windows, Mac &amp; Linux. Create GST invoices, print thermal receipts with UPI QR codes, scan barcodes, and store business records in 100% private local SQLite." />
@@ -44,40 +47,72 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Libre+Barcode+128+Text&family=Libre+Caslon+Condensed:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
 
-    <!-- JSON-LD Structured Data for SoftwareApplication & Organization -->
+    <!-- JSON-LD Structured Data for SoftwareApplication, WebSite & Organization -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Invio",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Windows 10, Windows 11, macOS 11.0+, Linux 64-bit",
-      "softwareVersion": "1.0.2",
-      "description": "Free offline invoice generator app and desktop billing software for creating GST invoices, printing thermal receipts with UPI QR codes, and managing inventory with private local SQLite storage.",
-      "url": "https://invio.timrio.com/",
-      "downloadUrl": "https://invio.timrio.com/download",
-      "image": "https://invio.timrio.com/og-image.jpg",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "INR",
-        "availability": "https://schema.org/InStock"
-      },
-      "featureList": [
-        "100% Offline SQLite Database Storage",
-        "Automated GST Intra-state (CGST+SGST) & Inter-state (IGST) Tax Splits",
-        "ESC/POS Thermal Receipt Printing (58mm and 80mm roll widths)",
-        "Dynamic Offline UPI Payment QR Codes on Paper Slips",
-        "Hardware USB & Bluetooth Barcode Scanner Integration",
-        "Real-time Inventory & Stock Tracking with Alerts",
-        "Customer Directory and Purchase Credit Ledgers",
-        "Secondary Customer POS Display Monitor Support"
-      ],
-      "author": {
-        "@type": "Organization",
-        "name": "Timrio",
-        "url": "https://timrio.com/"
-      }
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "Invio",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Windows 10, Windows 11, macOS 11.0+, Linux 64-bit",
+          "softwareVersion": "1.0.6",
+          "description": "Free offline invoice generator app and desktop billing software for creating GST invoices, printing thermal receipts with UPI QR codes, and managing inventory with private local SQLite storage.",
+          "url": "https://invio.timrio.com/",
+          "downloadUrl": "https://invio.timrio.com/download",
+          "image": "https://invio.timrio.com/og-image.jpg",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR",
+            "availability": "https://schema.org/InStock"
+          },
+          "featureList": [
+            "100% Offline SQLite Database Storage",
+            "Automated GST Intra-state (CGST+SGST) & Inter-state (IGST) Tax Splits",
+            "ESC/POS Thermal Receipt Printing (58mm and 80mm roll widths)",
+            "Dynamic Offline UPI Payment QR Codes on Paper Slips",
+            "Hardware USB & Bluetooth Barcode Scanner Integration",
+            "Real-time Inventory & Stock Tracking with Alerts",
+            "Customer Directory and Purchase Credit Ledgers",
+            "Secondary Customer POS Display Monitor Support"
+          ],
+          "author": {
+            "@type": "Organization",
+            "name": "Timrio",
+            "url": "https://timrio.com/"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "name": "Invio",
+          "url": "https://invio.timrio.com/",
+          "description": "Official website and documentation for Invio offline billing and GST invoice desktop software.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Timrio",
+            "url": "https://timrio.com/"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://invio.timrio.com/docs?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "Timrio",
+          "url": "https://timrio.com/",
+          "logo": "https://invio.timrio.com/appLogo.png",
+          "sameAs": [
+            "https://twitter.com/timriocorp"
+          ]
+        }
+      ]
     }
     </script>
   </head>

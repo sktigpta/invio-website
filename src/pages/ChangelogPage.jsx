@@ -10,6 +10,7 @@ import {
   WindowsIcon,
   LinuxIcon,
 } from '../components/Icons';
+import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
 
 const RELEASES_METADATA = [
   {
@@ -344,10 +345,7 @@ export function ChangelogPage() {
           {/* Dynamic Release Notes Content */}
           <div className="text-xs leading-relaxed text-slate-800 space-y-1">
             {loadingTag === rel.tag && !notesCache[rel.tag] ? (
-              <div className="py-4 flex items-center gap-2 text-slate-400 text-xs">
-                <div className="size-4 rounded-full border-2 border-slate-300 border-t-[#7C3AED] animate-spin" />
-                <span>Loading release notes...</span>
-              </div>
+              <ReleaseNotesSkeleton />
             ) : (
               renderMarkdown(notesCache[rel.tag] || rel.fallbackNotes)
             )}

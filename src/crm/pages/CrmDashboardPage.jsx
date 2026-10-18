@@ -11,6 +11,7 @@ import {
   RefreshCwIcon,
   AlertCircleIcon,
 } from '../components/CrmIcons';
+import { Skeleton } from '../../components/common/Skeleton';
 
 export function CrmDashboardPage() {
   const { staff, isManagerOrAdmin } = useCrmAuth();
@@ -104,7 +105,7 @@ export function CrmDashboardPage() {
             </div>
           </div>
           <div className="text-2xl font-bold text-slate-900">
-            {loading ? '...' : (overview.totalCustomers ?? 0).toLocaleString()}
+            {loading ? <Skeleton className="h-7 w-20 my-0.5" /> : (overview.totalCustomers ?? 0).toLocaleString()}
           </div>
           <p className="text-[11px] text-slate-500 mt-1">
             {overview.newCustomersLast30Days ?? 0} new in past 30 days
@@ -120,7 +121,7 @@ export function CrmDashboardPage() {
             </div>
           </div>
           <div className="text-2xl font-bold text-slate-900">
-            {loading ? '...' : (overview.verifiedCustomers ?? 0).toLocaleString()}
+            {loading ? <Skeleton className="h-7 w-20 my-0.5" /> : (overview.verifiedCustomers ?? 0).toLocaleString()}
           </div>
           <p className="text-[11px] text-emerald-600 font-medium mt-1">
             Email verification completed
@@ -136,7 +137,7 @@ export function CrmDashboardPage() {
             </div>
           </div>
           <div className="text-2xl font-bold text-slate-900">
-            {loading ? '...' : overview.pendingApprovals ?? 0}
+            {loading ? <Skeleton className="h-7 w-16 my-0.5" /> : overview.pendingApprovals ?? 0}
           </div>
           <p className="text-[11px] text-slate-500 mt-1">
             Awaiting manager/admin review
@@ -152,7 +153,7 @@ export function CrmDashboardPage() {
             </div>
           </div>
           <div className="text-2xl font-bold text-slate-900">
-            {loading ? '...' : `₹${(overview.totalRevenue ?? 0).toLocaleString()}`}
+            {loading ? <Skeleton className="h-7 w-24 my-0.5" /> : `₹${(overview.totalRevenue ?? 0).toLocaleString()}`}
           </div>
           <p className="text-[11px] text-slate-500 mt-1">
             {overview.totalTransactions ?? 0} total transactions
