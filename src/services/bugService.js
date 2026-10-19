@@ -36,7 +36,7 @@ export async function submitBugReport(report) {
 
 /**
  * Check the status of an existing bug ticket.
- * @param {string} ticketId - e.g. BUG-20261016-1234
+ * @param {string} ticketId - e.g. INV-BUG-ABCD-123456
  */
 export async function checkBugStatus(ticketId) {
   const cleanedTicket = String(ticketId || '').trim();

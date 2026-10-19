@@ -338,7 +338,7 @@ export function ReportBugPage() {
             <div>
               <h3 className="text-base font-bold text-slate-900">Check Issue Status</h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Enter your ticket reference code (e.g. BUG-20261016-1234) to see current engineering progress.
+                Enter your ticket reference code (e.g. INV-BUG-ABCD-123456) to see current engineering progress.
               </p>
             </div>
 
@@ -348,7 +348,7 @@ export function ReportBugPage() {
                 required
                 value={lookupTicketId}
                 onChange={(e) => setLookupTicketId(e.target.value)}
-                placeholder="Enter Ticket ID (e.g. BUG-20261016-1234)"
+                placeholder="Enter Ticket ID (e.g. INV-BUG-ABCD-123456)"
                 className="flex-1 px-3.5 py-2 text-xs font-mono border border-slate-200 rounded-lg focus:outline-none focus:border-[#7C3AED] text-slate-800"
               />
               <button
