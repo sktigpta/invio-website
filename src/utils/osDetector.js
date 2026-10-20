@@ -4,7 +4,7 @@
  * Supports both local server binary streaming and direct GitHub release assets.
  */
 
-export const APP_VERSION = import.meta.env.VITE_APP_VERSION || '1.0.8';
+export const APP_VERSION = import.meta.env.VITE_APP_VERSION || '1.0.9';
 
 const ENV_API_URL = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL
