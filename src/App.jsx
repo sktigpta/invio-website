@@ -26,7 +26,7 @@ const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ defaul
 const ReportBugPage = lazy(() => import('./pages/ReportBugPage').then(m => ({ default: m.ReportBugPage })));
 const ToolsPage = lazy(() => import('./pages/ToolsPage').then(m => ({ default: m.ToolsPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
-// CRM System Components
+// CRM System Components (only mounted when VITE_ENABLE_EMBEDDED_CRM === 'true')
 import { CrmAuthProvider } from './crm/context/CrmAuthContext';
 import { CrmToastProvider } from './crm/context/CrmToastContext';
 import { CrmToaster } from './crm/components/CrmToaster';
@@ -48,6 +48,11 @@ const CrmPlansPage = lazy(() => import('./crm/pages/CrmPlansPage').then(m => ({ 
 const CrmStaffPage = lazy(() => import('./crm/pages/CrmStaffPage').then(m => ({ default: m.CrmStaffPage })));
 const CrmAuditLogsPage = lazy(() => import('./crm/pages/CrmAuditLogsPage').then(m => ({ default: m.CrmAuditLogsPage })));
 
+const ENABLE_EMBEDDED_CRM =
+  typeof import.meta !== 'undefined' &&
+  import.meta.env &&
+  String(import.meta.env.VITE_ENABLE_EMBEDDED_CRM).toLowerCase() === 'true';
+
 function PageFallback() {
   return (
     <div className="flex-1 flex items-center justify-center min-h-[50vh]">
@@ -65,7 +70,7 @@ function SitemapRedirect() {
 
 export function App() {
   const location = useLocation();
-  const isCrmPage = location.pathname.startsWith('/crm');
+  const isCrmPage = ENABLE_EMBEDDED_CRM && location.pathname.startsWith('/crm');
   const isToolsPage = location.pathname.startsWith('/tools');
   const isDocsPage = location.pathname.startsWith('/docs') || location.pathname.startsWith('/doc');
   const isCheckoutPage = location.pathname.startsWith('/checkout');
@@ -82,101 +87,126 @@ export function App() {
             <ErrorBoundary>
             <Suspense fallback={<PageFallback />}>
               <Routes>
-                {/* CRM Administration & Customer Management Routes */}
-                <Route path="/crm/login" element={<CrmLoginPage />} />
-                <Route
-                  path="/crm"
-                  element={
-                    <CrmProtectedRoute>
-                      <CrmLayout />
-                    </CrmProtectedRoute>
-                  }
-                >
-                  <Route index element={<CrmDashboardPage />} />
-                  <Route path="customers" element={<CrmCustomersPage />} />
-                  <Route path="customers/:id" element={<CrmCustomerDetailPage />} />
-                  <Route
-                    path="discounts"
-                    element={
-                      <CrmProtectedRoute requiredRoles={['admin', 'manager', 'sales_executive', 'billing_accountant']}>
-                        <CrmDiscountsPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="approvals"
-                    element={
-                      <CrmProtectedRoute requiredRoles={['admin', 'manager', 'sales_executive']}>
-                        <CrmApprovalsPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="coupons"
-                    element={
-                      <CrmProtectedRoute requiredRoles={['admin', 'manager', 'sales_executive', 'digital_marketer', 'billing_accountant']}>
-                        <CrmCouponsPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="tickets"
-                    element={
-                      <CrmProtectedRoute requiredRoles={['admin', 'manager', 'support_executive']}>
-                        <CrmTicketsPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="tickets/:id"
-                    element={
-                      <CrmProtectedRoute requiredRoles={['admin', 'manager', 'support_executive']}>
-                        <CrmTicketDetailPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="bugs"
-                    element={
-                      <CrmProtectedRoute requiredRoles={['admin', 'manager', 'support_executive']}>
-                        <CrmBugsPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="contacts"
-                    element={
-                      <CrmProtectedRoute requiredRoles={['admin', 'manager', 'support_executive', 'sales_executive', 'digital_marketer']}>
-                        <CrmContactsPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="broadcasts"
-                    element={
-                      <CrmProtectedRoute requiredRoles={['admin', 'manager', 'digital_marketer']}>
-                        <CrmBroadcastsPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                  <Route path="plans" element={<CrmPlansPage />} />
-                  <Route
-                    path="staff"
-                    element={
-                      <CrmProtectedRoute requiredRoles={['admin', 'manager']}>
-                        <CrmStaffPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="audit-logs"
-                    element={
-                      <CrmProtectedRoute>
-                        <CrmAuditLogsPage />
-                      </CrmProtectedRoute>
-                    }
-                  />
-                </Route>
+                {/* Embedded CRM Routes (disabled by default on public marketing builds; use dedicated CRM origin) */}
+                {ENABLE_EMBEDDED_CRM && (
+                  <>
+                    <Route path="/crm/login" element={<CrmLoginPage />} />
+                    <Route
+                      path="/crm"
+                      element={
+                        <CrmProtectedRoute>
+                          <CrmLayout />
+                        </CrmProtectedRoute>
+                      }
+                    >
+                      <Route index element={<CrmDashboardPage />} />
+                      <Route
+                        path="customers"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'sales_executive', 'support_executive', 'billing_accountant']}>
+                            <CrmCustomersPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="customers/:id"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'sales_executive', 'support_executive', 'billing_accountant']}>
+                            <CrmCustomerDetailPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="discounts"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'sales_executive', 'billing_accountant']}>
+                            <CrmDiscountsPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="approvals"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'sales_executive']}>
+                            <CrmApprovalsPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="coupons"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'sales_executive', 'digital_marketer', 'billing_accountant']}>
+                            <CrmCouponsPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="tickets"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'support_executive']}>
+                            <CrmTicketsPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="tickets/:id"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'support_executive']}>
+                            <CrmTicketDetailPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="bugs"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'support_executive']}>
+                            <CrmBugsPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="contacts"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'support_executive', 'sales_executive', 'digital_marketer']}>
+                            <CrmContactsPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="broadcasts"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager', 'digital_marketer']}>
+                            <CrmBroadcastsPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="plans"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager']}>
+                            <CrmPlansPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="staff"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager']}>
+                            <CrmStaffPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="audit-logs"
+                        element={
+                          <CrmProtectedRoute requiredRoles={['admin', 'manager']}>
+                            <CrmAuditLogsPage />
+                          </CrmProtectedRoute>
+                        }
+                      />
+                    </Route>
+                  </>
+                )}
 
                 {/* Main Brand & Conversion Routes */}
                 <Route path="/" element={<HomePage />} />

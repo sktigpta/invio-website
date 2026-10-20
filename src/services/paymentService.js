@@ -55,13 +55,16 @@ export async function validateDiscount(code, planId = 'plus', validity = 'yearly
   }
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 6000);
+  const token = getStoredToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
   try {
     const response = await fetch(`${apiBase()}/api/payment/validate-discount`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+      headers,
       body: JSON.stringify({
         code: cleanCode,
         planId: String(planId).toLowerCase(),
@@ -107,13 +110,16 @@ export async function createSubscriptionOrder(planId, validity, couponCode = nul
   const term = String(validity || '').trim().toLowerCase();
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 8000);
+  const token = getStoredToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
   try {
     const response = await fetch(`${apiBase()}/api/payment/create-subscription-order`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+      headers,
       body: JSON.stringify({
         planId: plan,
         validity: term,
