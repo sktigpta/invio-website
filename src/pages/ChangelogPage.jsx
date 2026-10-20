@@ -18,7 +18,25 @@ import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
  * these structured release notes provide the complete changelog.
  */
 const CURATED_RELEASE_NOTES = {
-  'v1.0.7': `## Invio v1.0.7 (Latest Production Release)
+  'v1.0.8': `## Invio v1.0.8 (Latest Production Release)
+
+Invio Desktop v1.0.8 is an essential security and stability release introducing native DOM tree-walking HTML sanitization, guest checkout takeover protection, constant-time authentication latency normalization, download proxy SSRF guards, and distributed per-email rate limiting.
+
+---
+
+### What's Changed
+
+#### 🛡️ Native DOM Tree-Walking Sanitizer
+- **Native DOMParser Tree Walking**: Replaced string/regex parsing with native DOMParser allowlist tree walking across desktop notes, email previews, and customer notices, completely neutralizing malformed or unclosed tag XSS exploits.
+- **Consolidated QR SVG Architecture**: Eliminated page-local duplicate sanitizer in POS display, standardizing all vector markup on the canonical shared sanitizer.
+
+#### 🔐 Authentication & Session Hardening
+- **Guest Checkout Takeover Prevention**: Enforced cryptographic random token generation on guest checkouts, requiring out-of-band email verification before account claiming.
+- **Constant-Time Latency Defense**: Normalized bcrypt execution latency across valid and non-existent users with constant-time dummy comparisons, closing timing-based user enumeration.
+- **Download Proxy SSRF Guards**: Enforced strict origin and HTTPS protocol allowlisting for all release downloads and updater metadata proxies.
+- **Distributed Contact Form Throttling**: Implemented dual-window rate limiting (1 submission per minute, 3 per day) backed by Redis distributed counters.`,
+
+  'v1.0.7': `## Invio v1.0.7 (Previous Production Release)
 
 Invio Desktop v1.0.7 delivers full compliance with Microsoft Store Certification Policy 10.1.1.11 (On Device Tiles) with 75 custom visual tile assets, dedicated Windows master icons, and high-DPI system tray integration.
 
@@ -164,12 +182,32 @@ Invio Desktop v1.0.0 is the foundational release of the privacy-first desktop bi
  */
 const INITIAL_RELEASES = [
   {
+    tag: 'v1.0.8',
+    version: '1.0.8',
+    anchorId: 'v1-0-8',
+    name: 'Version 1.0.8 (Latest Production Release)',
+    date: 'October 20, 2026',
+    isLatest: true,
+    assets: [
+      { name: 'Invio-1.0.8-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.8-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.8-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.8-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.8-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.8-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.8-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.8-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.0.8-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+    ],
+    notes: CURATED_RELEASE_NOTES['v1.0.8']
+  },
+  {
     tag: 'v1.0.7',
     version: '1.0.7',
     anchorId: 'v1-0-7',
-    name: 'Version 1.0.7 (Latest Production Release)',
+    name: 'Version 1.0.7 (Previous Production Release)',
     date: 'October 19, 2026',
-    isLatest: true,
+    isLatest: false,
     assets: [
       { name: 'Invio-1.0.7-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
       { name: 'Invio-1.0.7-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
