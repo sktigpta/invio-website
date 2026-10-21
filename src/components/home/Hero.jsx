@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { AppleIcon, WindowsIcon, LinuxIcon } from '../Icons';
-import { detectDeviceOS, PLATFORM_DOWNLOADS } from '../../utils/osDetector';
+import { AppleIcon, WindowsIcon, LinuxIcon, MicrosoftStoreIcon, DownloadIcon } from '../Icons';
+import { detectDeviceOS, PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL } from '../../utils/osDetector';
 import { useDownloadModal } from '../../context/DownloadModalContext';
 import { ProgressiveImage } from '../common/ProgressiveImage';
 
@@ -129,14 +129,44 @@ export function Hero() {
               </div>
 
               {/* Download CTA Button */}
-              <button
-                type="button"
-                onClick={handleDownload}
-                className="h-12 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer mt-1"
-              >
-                {getOsIcon(selectedOSId)}
-                <span>Download for {currentOS.name} ({currentOS.extension})</span>
-              </button>
+              {selectedOSId === 'windows' ? (
+                <div className="flex flex-col items-center gap-2 mt-1">
+                  <div className="flex flex-wrap items-center justify-center gap-2.5">
+                    <a
+                      href={MICROSOFT_STORE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-12 px-7 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                      title="Get from Microsoft Store — Safe, Certified & Bypasses Firewall Warnings"
+                    >
+                      <MicrosoftStoreIcon className="size-4 shrink-0" />
+                      <span>Get from Microsoft Store</span>
+                    </a>
+
+                    <button
+                      type="button"
+                      onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
+                      className="h-12 px-5 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs sm:text-sm font-medium rounded-full shadow-2xs hover:shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      title="Download Standalone Offline Setup (.exe)"
+                    >
+                      <DownloadIcon className="size-3.5 text-slate-500" />
+                      <span>Standalone .exe</span>
+                    </button>
+                  </div>
+                  <span className="text-[11px] text-slate-500">
+                    Microsoft Store version bypasses Windows SmartScreen &amp; firewall alerts
+                  </span>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleDownload}
+                  className="h-12 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer mt-1"
+                >
+                  {getOsIcon(selectedOSId)}
+                  <span>Download for {currentOS.name} ({currentOS.extension})</span>
+                </button>
+              )}
             </div>
           </div>
 

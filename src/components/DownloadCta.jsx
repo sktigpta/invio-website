@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { detectDeviceOS } from '../utils/osDetector';
+import { detectDeviceOS, PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL, APP_VERSION } from '../utils/osDetector';
 import { useDownloadModal } from '../context/DownloadModalContext';
-import { AppleIcon, WindowsIcon, LinuxIcon, DownloadIcon } from './Icons';
+import { AppleIcon, WindowsIcon, LinuxIcon, DownloadIcon, MicrosoftStoreIcon } from './Icons';
 
 export function DownloadCta({
   title = "Download Invio for Desktop",
-  subtitle = "Version 1.0.2 for Windows and macOS. Free forever for core billing with 100% local SQLite storage.",
+  subtitle = `Version ${APP_VERSION} for Windows, macOS, and Linux. Free forever for core billing with 100% local SQLite storage.`,
   showAllLinks = true,
   className = ""
 }) {
@@ -32,14 +32,38 @@ export function DownloadCta({
         </div>
 
         <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={() => openDownloadModal(activeOS)}
-            className="h-10 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-semibold rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm hover:shadow-purple-200"
-          >
-            {getOsIcon(activeOS.id)}
-            <span>Download for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
-          </button>
+          {activeOS.id === 'windows' ? (
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href={MICROSOFT_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-10 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-semibold rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm hover:shadow-purple-200"
+                title="Get Invio from Microsoft Store — Certified to bypass firewall & SmartScreen warnings"
+              >
+                <MicrosoftStoreIcon className="size-3.5" />
+                <span>Get from Microsoft Store</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
+                className="h-10 px-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-full transition-all cursor-pointer"
+                title="Download Standalone Offline Setup (.exe)"
+              >
+                Offline .exe
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => openDownloadModal(activeOS)}
+              className="h-10 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-semibold rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm hover:shadow-purple-200"
+            >
+              {getOsIcon(activeOS.id)}
+              <span>Download for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
+            </button>
+          )}
 
           {showAllLinks && (
             <Link

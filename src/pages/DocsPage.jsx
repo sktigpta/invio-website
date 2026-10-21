@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { A4DocLayout } from '../components/A4DocLayout';
 import { applySEO } from '../utils/seoHelper';
-import { detectDeviceOS } from '../utils/osDetector';
+import { detectDeviceOS, MICROSOFT_STORE_URL } from '../utils/osDetector';
 import { useDownloadModal } from '../context/DownloadModalContext';
 import { SearchIcon, ChevronDownIcon } from '../components/tools/ToolIcons';
 
@@ -260,22 +260,41 @@ export function DocsPage() {
                 </thead>
                 <tbody className="text-slate-700">
                   <tr>
-                    <td className="py-2 px-3 font-medium text-slate-900">Windows (10 or 11)</td>
-                    <td className="py-2 px-3">Setup file (.exe)</td>
-                    <td className="py-2 px-3">
-                      <button
-                        type="button"
-                        onClick={() => openDownloadModal('windows')}
-                        className="text-[#7C3AED] underline font-semibold hover:text-[#6D28D9] cursor-pointer"
-                      >
-                        Download for Windows
-                      </button>
+                    <td className="py-2.5 px-3 font-medium text-slate-900">
+                      <div>Windows (10 or 11)</div>
+                      <span className="text-[10px] text-emerald-600 font-semibold block">Official Microsoft Store release</span>
+                    </td>
+                    <td className="py-2.5 px-3">
+                      <div>Microsoft Store (Recommended)</div>
+                      <div className="text-[10px] text-slate-400">or Standalone Setup (.exe)</div>
+                    </td>
+                    <td className="py-2.5 px-3 space-y-1">
+                      <div>
+                        <a
+                          href={MICROSOFT_STORE_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#7C3AED] underline font-semibold hover:text-[#6D28D9] cursor-pointer inline-flex items-center gap-1"
+                        >
+                          <span>Get from Microsoft Store</span>
+                          <span aria-hidden="true">&rarr;</span>
+                        </a>
+                      </div>
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => openDownloadModal('windows')}
+                          className="text-slate-500 hover:text-slate-800 text-[11px] underline cursor-pointer"
+                        >
+                          Download Standalone .exe
+                        </button>
+                      </div>
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-2 px-3 font-medium text-slate-900">Apple Mac (MacBook / iMac)</td>
-                    <td className="py-2 px-3">Disk image (.dmg)</td>
-                    <td className="py-2 px-3">
+                    <td className="py-2.5 px-3 font-medium text-slate-900">Apple Mac (MacBook / iMac)</td>
+                    <td className="py-2.5 px-3">Disk image (.dmg)</td>
+                    <td className="py-2.5 px-3">
                       <button
                         type="button"
                         onClick={() => openDownloadModal('mac')}
@@ -286,9 +305,9 @@ export function DocsPage() {
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-2 px-3 font-medium text-slate-900">Linux PC</td>
-                    <td className="py-2 px-3">AppImage / .deb</td>
-                    <td className="py-2 px-3">
+                    <td className="py-2.5 px-3 font-medium text-slate-900">Linux PC</td>
+                    <td className="py-2.5 px-3">AppImage / .deb</td>
+                    <td className="py-2.5 px-3">
                       <button
                         type="button"
                         onClick={() => openDownloadModal('linux')}
@@ -321,16 +340,35 @@ export function DocsPage() {
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
               1. Installing on Windows
             </h2>
-            <ol className="list-decimal pl-5 space-y-2 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Open your computer&apos;s <strong>Downloads</strong> folder and double-click the file named <code>Invio-1.0.2-win-x64.exe</code>.</li>
-              <li>
-                <strong>If you see a blue screen saying &ldquo;Windows protected your PC&rdquo;:</strong>
-                <div className="pl-3 py-1.5 my-1.5 text-xs text-slate-600 bg-slate-50 rounded">
-                  Don&apos;t worry! This is normal for newly released desktop apps. Just click the underlined link that says <strong>&ldquo;More info&rdquo;</strong>, and then click the button that says <strong>&ldquo;Run anyway&rdquo;</strong>.
-                </div>
-              </li>
-              <li>The setup will take about 15 seconds. An Invio icon will appear on your desktop, and the app will open ready to use.</li>
-            </ol>
+            <div className="space-y-3 my-2 text-xs text-slate-700 leading-relaxed">
+              <div className="p-3 bg-purple-50/70 border border-purple-200/90 rounded-lg">
+                <strong className="text-slate-900 block font-semibold mb-1">
+                  Option A (Recommended): Install via Microsoft Store
+                </strong>
+                <ol className="list-decimal pl-5 space-y-1 text-slate-600">
+                  <li>Open the official <a href={MICROSOFT_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-[#7C3AED] font-semibold underline">Invio Microsoft Store Listing</a>.</li>
+                  <li>Click <strong>&ldquo;Get in Store app&rdquo;</strong> (or <strong>&ldquo;Install&rdquo;</strong>).</li>
+                  <li>Windows automatically installs Invio with official Microsoft Store certification. <strong>Zero SmartScreen warnings or firewall risk alerts</strong> will appear.</li>
+                  <li>Invio launches immediately and works 100% offline with your private local SQLite database.</li>
+                </ol>
+              </div>
+
+              <div className="p-3 bg-slate-50 border border-slate-200/90 rounded-lg">
+                <strong className="text-slate-900 block font-semibold mb-1">
+                  Option B: Standalone Setup (.exe) Installer
+                </strong>
+                <ol className="list-decimal pl-5 space-y-1 text-slate-600">
+                  <li>Open your <strong>Downloads</strong> folder and double-click the file named <code>Invio-win-x64.exe</code>.</li>
+                  <li>
+                    <strong>If you see &ldquo;Windows protected your PC&rdquo; (SmartScreen):</strong>
+                    <div className="pl-3 py-1 my-1 text-xs text-slate-600 bg-white border border-slate-200 rounded">
+                      This is normal for direct .exe downloads from the web. Click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
+                    </div>
+                  </li>
+                  <li>The setup will take about 15 seconds. An Invio icon will appear on your desktop, and the app will open ready to use.</li>
+                </ol>
+              </div>
+            </div>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
               2. Installing on Apple Mac
@@ -772,7 +810,10 @@ export function DocsPage() {
               4. Windows Antivirus / SmartScreen Warning on Install
             </h2>
             <p>
-              Because Invio is an independently distributed offline desktop software, Windows Defender may show a &ldquo;Windows protected your PC&rdquo; banner on initial download. Invio is completely secure and contains zero tracking or adware. Simply click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
+              To completely bypass Windows Defender SmartScreen and firewall risk alerts, install Invio directly from the <a href={MICROSOFT_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-[#7C3AED] underline font-semibold">official Microsoft Store</a>. Because it is digitally certified by Microsoft, Windows trusts it automatically.
+            </p>
+            <p className="mt-2">
+              If you downloaded the standalone <code>.exe</code> installer, Windows Defender may show a &ldquo;Windows protected your PC&rdquo; banner because the file was downloaded directly from the web. Invio is completely secure, runs 100% offline, and contains zero tracking or telemetry. Simply click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
             </p>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">

@@ -20,6 +20,15 @@ export function DownloadPage() {
         <DownloadCard autoTrigger={true} className="w-full" />
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs">
+          <a
+            href="https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-emerald-600 hover:underline inline-flex items-center gap-1"
+          >
+            <span>✓ Microsoft Store Listing</span>
+          </a>
+          <span className="text-slate-300">•</span>
           <Link
             to="/changelog"
             className="font-semibold text-[#7C3AED] hover:underline"

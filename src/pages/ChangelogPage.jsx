@@ -9,6 +9,7 @@ import {
   AppleIcon,
   WindowsIcon,
   LinuxIcon,
+  ExternalLinkIcon,
 } from '../components/Icons';
 import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
 
@@ -984,14 +985,38 @@ export function ChangelogPage() {
                             {asset.size}
                           </td>
                           <td className="py-2 px-3 text-right whitespace-nowrap">
-                            <button
-                              type="button"
-                              onClick={() => openDownloadModal(PLATFORM_DOWNLOADS[asset.platform])}
-                              className="text-[#7C3AED] hover:text-[#6D28D9] font-semibold hover:underline cursor-pointer inline-flex items-center gap-1"
-                            >
-                              <span>Download</span>
-                              <DownloadIcon className="size-2.5" />
-                            </button>
+                            {asset.platform === 'windows' ? (
+                              <div className="flex items-center justify-end gap-2">
+                                <a
+                                  href="https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-emerald-600 hover:text-emerald-700 font-semibold hover:underline cursor-pointer inline-flex items-center gap-1 text-[11px]"
+                                  title="Get from Microsoft Store (Safe & Verified)"
+                                >
+                                  <span>Store</span>
+                                  <ExternalLinkIcon className="size-2.5" />
+                                </a>
+                                <span className="text-slate-300">|</span>
+                                <button
+                                  type="button"
+                                  onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
+                                  className="text-[#7C3AED] hover:text-[#6D28D9] font-semibold hover:underline cursor-pointer inline-flex items-center gap-1"
+                                >
+                                  <span>Download</span>
+                                  <DownloadIcon className="size-2.5" />
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => openDownloadModal(PLATFORM_DOWNLOADS[asset.platform])}
+                                className="text-[#7C3AED] hover:text-[#6D28D9] font-semibold hover:underline cursor-pointer inline-flex items-center gap-1"
+                              >
+                                <span>Download</span>
+                                <DownloadIcon className="size-2.5" />
+                              </button>
+                            )}
                           </td>
                         </tr>
                       );

@@ -15,6 +15,9 @@ export const API_BASE_URL = ENV_API_URL
     ? ''
     : 'https://api.invio.timrio.com');
 
+export const MICROSOFT_STORE_URL = 'https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN';
+export const MICROSOFT_STORE_ID = '9nd42tj7n976';
+
 export const PLATFORM_DOWNLOADS = {
   mac: {
     id: 'mac',
@@ -53,11 +56,12 @@ export const PLATFORM_DOWNLOADS = {
     extension: '.exe',
     filename: `Invio-${APP_VERSION}-win-x64.exe`,
     downloadEndpoint: `${API_BASE_URL}/api/download?platform=windows`,
-    archLabel: 'Windows Setup (.exe)',
-    minRequirement: 'Windows 10 or Windows 11',
+    microsoftStoreUrl: MICROSOFT_STORE_URL,
+    archLabel: 'Windows 10 / 11 (64-bit)',
+    minRequirement: 'Windows 10 version 17763.0 or Windows 11',
     sizeEstimate: '99 MB',
-    installInstruction: `Double-click the downloaded setup file (Invio-${APP_VERSION}-win-x64.exe) and follow the quick 1-step installer`,
-    securityTip: 'If Windows shows "Windows protected your PC", click "More info" and then click "Run anyway".',
+    installInstruction: 'Install via Microsoft Store for verified, 1-click installation without firewall or SmartScreen alerts, or run the standalone installer.',
+    securityTip: 'Installing from the Microsoft Store bypasses Windows Defender SmartScreen and firewall risk alerts.',
   },
   linux: {
     id: 'linux',
@@ -126,4 +130,49 @@ export function triggerDirectDownload(platformMeta) {
     a.remove();
   }
   return targetUrl;
+}
+
+/**
+ * Returns platform-specific rating & review link.
+ * If using Windows: redirects to official Microsoft Store listing.
+ * macOS & Linux: structured with TODO for when submitted to their respective app stores.
+ */
+export function getPlatformRatingUrl(platformId) {
+  const targetId = platformId || detectDeviceOS().id;
+
+  if (targetId === 'windows') {
+    return {
+      name: 'Microsoft Store',
+      url: MICROSOFT_STORE_URL,
+      isStoreSubmitted: true,
+      label: 'Rate on Microsoft Store ★',
+    };
+  }
+
+  if (targetId === 'mac' || targetId === 'macIntel') {
+    // TODO: Mac App Store rating once published (e.g. macappstore://apps.apple.com/app/id... or web URL)
+    return {
+      name: 'Mac App Store',
+      url: 'https://invio.timrio.com/docs/troubleshooting?source=rate-mac',
+      isStoreSubmitted: false,
+      label: 'Share Feedback',
+    };
+  }
+
+  if (targetId === 'linux') {
+    // TODO: Linux Flathub / Snap store rating once published
+    return {
+      name: 'Linux Software Center',
+      url: 'https://invio.timrio.com/docs/troubleshooting?source=rate-linux',
+      isStoreSubmitted: false,
+      label: 'Share Feedback',
+    };
+  }
+
+  return {
+    name: 'Invio Community',
+    url: 'https://invio.timrio.com/docs/troubleshooting?source=rate',
+    isStoreSubmitted: false,
+    label: 'Share Feedback',
+  };
 }

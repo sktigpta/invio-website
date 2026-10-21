@@ -42,6 +42,18 @@ export function Footer() {
               <li><button type="button" onClick={() => openDownloadModal()} className="hover:text-[#7C3AED] transition-colors cursor-pointer text-left">Download App</button></li>
               <li><Link to="/pricing" className="hover:text-[#7C3AED] transition-colors">Pricing</Link></li>
               <li><Link to="/changelog" className="hover:text-[#7C3AED] transition-colors">Changelog</Link></li>
+              <li>
+                <a
+                  href="https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#7C3AED] transition-colors inline-flex items-center gap-1"
+                  title="Rate Invio on Microsoft Store"
+                >
+                  <span>Rate on Store</span>
+                  <span className="text-amber-500">★</span>
+                </a>
+              </li>
             </ul>
           </div>
 

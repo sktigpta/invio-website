@@ -62,7 +62,8 @@ Data is stored directly on your computer in an SQLite database file (`invio.sqli
 
 ## 5. Official Distribution Links
 - **Website**: https://invio.timrio.com/
-- **Windows Download (64-bit)**: https://api.invio.timrio.com/api/download?platform=windows
+- **Microsoft Store (Windows 10 / 11)**: https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN
+- **Windows Download (64-bit Direct .exe)**: https://api.invio.timrio.com/api/download?platform=windows
 - **macOS Download (DMG)**: https://api.invio.timrio.com/api/download?platform=mac
 - **Linux Download (AppImage / DEB)**: https://api.invio.timrio.com/api/download?platform=linux
 - **Desktop App Repository**: https://github.com/sktigpta/invio-desktop

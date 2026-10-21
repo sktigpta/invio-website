@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { detectDeviceOS } from '../../utils/osDetector';
-import { AppleIcon, WindowsIcon, LinuxIcon, CalculatorIcon, DownloadIcon } from '../Icons';
+import { detectDeviceOS, PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL } from '../../utils/osDetector';
+import { AppleIcon, WindowsIcon, LinuxIcon, CalculatorIcon, DownloadIcon, MicrosoftStoreIcon } from '../Icons';
 import { useDownloadModal } from '../../context/DownloadModalContext';
 
 export function ReadyCta() {
@@ -51,16 +51,41 @@ export function ReadyCta() {
             Download Invio for free. No credit card required, no account setup, and works 100% offline on your computer with private local SQLite storage.
           </p>
 
-          {/* Download button - Identical pill button style as navbar */}
-          <button
-            type="button"
-            onClick={() => openDownloadModal(activeOS)}
-            className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs select-none"
-            title={`Download Invio for ${activeOS.name}`}
-          >
-            {getOsIcon(activeOS.id)}
-            <span>Download Free for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
-          </button>
+          {/* Download button - Windows gets Microsoft Store option to bypass firewall & risk alerts */}
+          {activeOS.id === 'windows' ? (
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href={MICROSOFT_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs select-none"
+                title="Get Invio from Microsoft Store — Safe, Certified & Bypasses Firewall Warnings"
+              >
+                <MicrosoftStoreIcon className="size-4 shrink-0" />
+                <span>Get Free from Microsoft Store</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
+                className="h-10 px-5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-medium flex items-center justify-center gap-2 cursor-pointer transition-colors border border-slate-700 select-none"
+                title="Download Standalone Offline Setup (.exe)"
+              >
+                <WindowsIcon className="size-3.5 shrink-0" />
+                <span>Standalone .exe</span>
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => openDownloadModal(activeOS)}
+              className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs select-none"
+              title={`Download Invio for ${activeOS.name}`}
+            >
+              {getOsIcon(activeOS.id)}
+              <span>Download Free for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
+            </button>
+          )}
         </div>
       </div>
     </section>

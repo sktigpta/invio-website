@@ -45,6 +45,7 @@ export const RELEASES_DATA = [
         size: '~85 MB',
         kind: 'NSIS Installer',
         primary: true,
+        microsoftStoreUrl: 'https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN',
       },
       {
         platform: 'Windows Portable',
@@ -59,6 +60,7 @@ export const RELEASES_DATA = [
         filename: 'Invio-1.0.9-win-x64.appx',
         size: '~165 MB',
         kind: 'AppX Package',
+        microsoftStoreUrl: 'https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN',
       },
       {
         platform: 'Linux 64-bit (AppImage)',
