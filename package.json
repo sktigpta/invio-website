@@ -2,7 +2,7 @@
   "name": "invio-website",
   "description": "Official product website for Invio Desktop invoicing application by Timrio",
   "private": true,
-  "version": "1.0.9",
+  "version": "1.0.10",
   "homepage": "https://invio.timrio.com",
   "repository": {
     "type": "git",

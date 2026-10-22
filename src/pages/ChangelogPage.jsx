@@ -19,7 +19,29 @@ import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
  * these structured release notes provide the complete changelog.
  */
 const CURATED_RELEASE_NOTES = {
-  'v1.0.9': `## Invio v1.0.9 (Latest Production Release)
+  'v1.0.10': `## Invio v1.0.10 (Latest Production Release)
+
+Invio Desktop v1.0.10 delivers a seamless cross-platform in-app auto-update and restart engine, one-click manual installer download links, PostgreSQL settings synchronization, and session authentication expiration hardening.
+
+---
+
+### What's Changed
+
+#### 🔄 In-App Auto-Update & Automatic Restart
+- **Cross-Platform Auto-Restart**: Triggering "Update" on the update bar automatically downloads, verifies, unpacks, and restarts into the updated app version on macOS, Windows, and Linux.
+- **Direct Manual Download Route**: Added a dedicated "Manual" action in the update notification bar pointing straight to \`/api/download/{platform}\`.
+- **macOS Ditto Unpack Engine**: Replaced fragile updater restrictions with native \`/usr/bin/ditto\` bundle swapping and automated quarantine flag removal.
+
+#### 💾 Storage & Data Consistency
+- **PostgreSQL Settings Sync**: Aligned PostgreSQL adapter's \`saveSettings()\` to re-read and return canonical database state directly matching SQLite behavior.
+
+#### 🔒 Authentication & Session Security
+- **Strict Token Expiry Checks**: Discards expired legacy and safeStorage JWT tokens upon initialization to prevent flashes of unauthenticated states.
+
+#### 🌐 Web Download Flow Refinement
+- **Preview Isolation**: Decoupled platform switcher tabs from direct download triggers to prevent unintended file downloads.`,
+
+  'v1.0.9': `## Invio v1.0.9 (Previous Production Release)
 
 Invio Desktop v1.0.9 delivers critical connectivity and stability enhancements, restoring uninterrupted Google OAuth sign-in, bundling cloud PostgreSQL project CAs, and fixing external database storage accuracy.
 
@@ -205,12 +227,32 @@ Invio Desktop v1.0.0 is the foundational release of the privacy-first desktop bi
  */
 const INITIAL_RELEASES = [
   {
+    tag: 'v1.0.10',
+    version: '1.0.10',
+    anchorId: 'v1-0-10',
+    name: 'Version 1.0.10 (Latest Production Release)',
+    date: 'October 22, 2026',
+    isLatest: true,
+    assets: [
+      { name: 'Invio-1.0.10-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.10-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.10-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.10-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.10-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.10-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.10-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.10-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.0.10-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+    ],
+    notes: CURATED_RELEASE_NOTES['v1.0.10']
+  },
+  {
     tag: 'v1.0.9',
     version: '1.0.9',
     anchorId: 'v1-0-9',
-    name: 'Version 1.0.9 (Latest Production Release)',
+    name: 'Version 1.0.9 (Previous Production Release)',
     date: 'October 20, 2026',
-    isLatest: true,
+    isLatest: false,
     assets: [
       { name: 'Invio-1.0.9-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
       { name: 'Invio-1.0.9-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
