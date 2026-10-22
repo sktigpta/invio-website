@@ -71,10 +71,6 @@ export function DownloadCard({
     } else {
       setPhase('downloading');
       setDownloadMethod('direct');
-      triggerDirectDownload(selected);
-      downloadTimer.current = setTimeout(() => {
-        setPhase('thankyou');
-      }, 2500);
     }
   };
 
