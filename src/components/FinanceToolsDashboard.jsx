@@ -70,10 +70,11 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
   }, [selectedToolId]);
 
   useEffect(() => {
-    if (activeTool) {
+    // If mounted standalone (not through ToolsPage route handler), apply tool SEO directly
+    if (activeTool && typeof onSelectTool !== 'function') {
       applySEO(activeTool.id);
     }
-  }, [activeTool]);
+  }, [activeTool, onSelectTool]);
 
   const handleSelectTool = (toolId) => {
     setSelectedToolId(toolId);

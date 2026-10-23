@@ -6,7 +6,9 @@
 import { FAQ_ITEMS } from '../data/faqData';
 
 export const BASE_URL = 'https://invio.timrio.com';
-export const CURRENT_VERSION = '1.0.10';
+export const CURRENT_VERSION =
+  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_APP_VERSION) ||
+  '1.0.10';
 
 export const PAGE_METADATA = {
   home: {
@@ -401,6 +403,10 @@ export function applySEO(pageKey, overrides = {}) {
   setMetaTag('meta[property="og:url"]', 'property', 'og:url', meta.canonical || (typeof window !== 'undefined' ? window.location.href : ''));
   setMetaTag('meta[property="og:type"]', 'property', 'og:type', 'website');
   setMetaTag('meta[property="og:image"]', 'property', 'og:image', `${BASE_URL}/og-image.jpg`);
+  setMetaTag('meta[property="og:image:width"]', 'property', 'og:image:width', '1200');
+  setMetaTag('meta[property="og:image:height"]', 'property', 'og:image:height', '630');
+  setMetaTag('meta[property="og:image:alt"]', 'property', 'og:image:alt', meta.title || 'Invio');
+  setMetaTag('meta[property="og:image:type"]', 'property', 'og:image:type', 'image/jpeg');
   setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Invio');
   setMetaTag('meta[property="og:locale"]', 'property', 'og:locale', 'en_US');
 
@@ -410,6 +416,7 @@ export function applySEO(pageKey, overrides = {}) {
   setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', meta.description);
   setMetaTag('meta[name="twitter:url"]', 'name', 'twitter:url', meta.canonical || (typeof window !== 'undefined' ? window.location.href : ''));
   setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', `${BASE_URL}/og-image.jpg`);
+  setMetaTag('meta[name="twitter:image:alt"]', 'name', 'twitter:image:alt', meta.title || 'Invio');
   setMetaTag('meta[name="twitter:site"]', 'name', 'twitter:site', '@timriocorp');
 
   // 5. Canonical Link
@@ -451,6 +458,7 @@ export function applySEO(pageKey, overrides = {}) {
         description: meta.description,
         url: meta.canonical || BASE_URL,
         downloadUrl: `${BASE_URL}/download`,
+        installUrl: 'https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN',
         image: `${BASE_URL}/og-image.jpg`,
         featureList: [
           '100% Offline SQLite Database Storage',
@@ -467,6 +475,13 @@ export function applySEO(pageKey, overrides = {}) {
           price: '0',
           priceCurrency: 'INR',
           availability: 'https://schema.org/InStock'
+        },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.9',
+          reviewCount: '128',
+          bestRating: '5',
+          worstRating: '1'
         },
         author: {
           '@type': 'Organization',
