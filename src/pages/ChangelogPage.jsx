@@ -19,7 +19,23 @@ import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
  * these structured release notes provide the complete changelog.
  */
 const CURATED_RELEASE_NOTES = {
-  'v1.0.10': `## Invio v1.0.10 (Latest Production Release)
+  'v1.1.0': `## Invio v1.1.0 (Latest Production Release)
+
+Invio Desktop v1.1.0 brings comprehensive security hardening, a fully audited and patched dependency graph across all platforms, and enhanced privilege isolation for macOS in-app updates.
+
+---
+
+### What's Changed
+
+#### 🛡️ Security Hardening & Update Isolation
+- **macOS Updater Command Execution Hardening**: Completely eliminated string-interpolated shell commands during in-app updates. Upgrades now generate an isolated executable updater script with strictly validated semver versioning and POSIX positional argument passing for both standard and root-privileged operations.
+- **Strict Version Format Validation**: Added strict semver pattern enforcement on updater packages, neutralizing shell metacharacters and untrusted update inputs.
+
+#### 📦 Ecosystem-Wide Dependency Audit & Zero Vulnerabilities
+- **Audited and Patched Dependencies**: Updated packages across Desktop, Backend, CRM, and Web portals to eliminate all known security advisories (resolving CVEs in \`shell-quote\`, \`electron\`, \`vite\`, \`body-parser\`, \`brace-expansion\`, and \`postcss-selector-parser\`).
+- **Clean Audit Status**: Achieved 0 security vulnerabilities across all production and development dependency manifests.`,
+
+  'v1.0.10': `## Invio v1.0.10 (Previous Production Release)
 
 Invio Desktop v1.0.10 delivers a seamless cross-platform in-app auto-update and restart engine, one-click manual installer download links, PostgreSQL settings synchronization, and session authentication expiration hardening.
 
@@ -227,12 +243,32 @@ Invio Desktop v1.0.0 is the foundational release of the privacy-first desktop bi
  */
 const INITIAL_RELEASES = [
   {
+    tag: 'v1.1.0',
+    version: '1.1.0',
+    anchorId: 'v1-1-0',
+    name: 'Version 1.1.0 (Latest Production Release)',
+    date: 'October 26, 2026',
+    isLatest: true,
+    assets: [
+      { name: 'Invio-1.1.0-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.0-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.0-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.0-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.0-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.0-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.0-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.0-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.0-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+    ],
+    notes: CURATED_RELEASE_NOTES['v1.1.0']
+  },
+  {
     tag: 'v1.0.10',
     version: '1.0.10',
     anchorId: 'v1-0-10',
-    name: 'Version 1.0.10 (Latest Production Release)',
+    name: 'Version 1.0.10 (Previous Production Release)',
     date: 'October 22, 2026',
-    isLatest: true,
+    isLatest: false,
     assets: [
       { name: 'Invio-1.0.10-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
       { name: 'Invio-1.0.10-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
