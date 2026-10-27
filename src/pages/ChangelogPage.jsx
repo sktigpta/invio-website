@@ -19,7 +19,23 @@ import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
  * these structured release notes provide the complete changelog.
  */
 const CURATED_RELEASE_NOTES = {
-  'v1.1.0': `## Invio v1.1.0 (Latest Production Release)
+  'v1.1.1': `## Invio v1.1.1 (Latest Production Release)
+
+Invio Desktop v1.1.1 delivers essential security patches, offline entitlement protection, and authentication pipeline parity across desktop and cloud services.
+
+---
+
+### What's Changed
+
+#### 🛡️ Authentication & Account Email Security
+- **Strict Account Email Preservation**: Guaranteed that the user's authentic login email cannot be overwritten when updating invoice merchant contact details in Settings.
+- **Unified Subscription Resolution**: Aligned Google OAuth authentication with the backend subscription expiration policy, preventing expired entitlements from lingering in sessions.
+
+#### ⚙️ Desktop Offline Protection & Reliability
+- **Offline Max-Stale Entitlement Enforcement**: Corrected the offline cache staleness evaluation logic so that unverified installations past the 7-day stale window strictly fall back to the safe Free tier.
+- **Calendar Month-End Clamping**: Prevented date math overflows when computing plan validity dates on the 31st of months.`,
+
+  'v1.1.0': `## Invio v1.1.0 (Previous Production Release)
 
 Invio Desktop v1.1.0 brings comprehensive security hardening, a fully audited and patched dependency graph across all platforms, and enhanced privilege isolation for macOS in-app updates.
 
@@ -243,12 +259,32 @@ Invio Desktop v1.0.0 is the foundational release of the privacy-first desktop bi
  */
 const INITIAL_RELEASES = [
   {
+    tag: 'v1.1.1',
+    version: '1.1.1',
+    anchorId: 'v1-1-1',
+    name: 'Version 1.1.1 (Latest Production Release)',
+    date: 'October 27, 2026',
+    isLatest: true,
+    assets: [
+      { name: 'Invio-1.1.1-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.1-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.1-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.1-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.1-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.1-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.1-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.1-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.1-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+    ],
+    notes: CURATED_RELEASE_NOTES['v1.1.1']
+  },
+  {
     tag: 'v1.1.0',
     version: '1.1.0',
     anchorId: 'v1-1-0',
-    name: 'Version 1.1.0 (Latest Production Release)',
+    name: 'Version 1.1.0 (Previous Production Release)',
     date: 'October 26, 2026',
-    isLatest: true,
+    isLatest: false,
     assets: [
       { name: 'Invio-1.1.0-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
       { name: 'Invio-1.1.0-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },

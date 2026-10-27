@@ -9,7 +9,7 @@ export function CrmLoginPage() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(true);
+  const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(
     location.search.includes('expired=1') ? 'Your CRM staff session expired. Please sign in again.' : ''

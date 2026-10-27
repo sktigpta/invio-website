@@ -8,7 +8,7 @@ import { FAQ_ITEMS } from '../data/faqData';
 export const BASE_URL = 'https://invio.timrio.com';
 export const CURRENT_VERSION =
   (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_APP_VERSION) ||
-  '1.1.0';
+  '1.1.1';
 
 export const PAGE_METADATA = {
   home: {
