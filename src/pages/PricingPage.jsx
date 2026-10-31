@@ -8,7 +8,25 @@ import { useDownloadModal } from '../context/DownloadModalContext';
 import { fetchSubscriptionPlans } from '../services/paymentService';
 import { PricingCardSkeleton } from '../components/common/Skeleton';
 
-// Default static fallback values if backend is unreachable or booting
+function parsePrice(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
+}
+
+function formatPrice(value) {
+  return Number(value).toLocaleString('en-IN', {
+    maximumFractionDigits: 2,
+  });
+}
+
+function getYearlySavings(monthly, yearly) {
+  if (!(monthly > 0) || !(yearly > 0) || yearly >= monthly * 12) return null;
+  return Math.round((1 - yearly / (monthly * 12)) * 100);
+}
+
+// Static copy is used only while the live catalog is loading. Paid prices
+// must come from the backend catalog and are never guessed locally.
 const DEFAULT_PLANS_STATE = {
   free: {
     id: 'free',
@@ -33,8 +51,8 @@ const DEFAULT_PLANS_STATE = {
     id: 'plus',
     name: 'Invio Plus',
     description: 'For retail counters, grocery stores, and traders that need fast POS checkout, thermal printing, and dynamic UPI QR collections.',
-    priceMonthly: 149,
-    priceYearly: 999,
+    priceMonthly: null,
+    priceYearly: null,
     badge: 'Most Popular',
     ctaText: 'Get Invio Plus',
     ctaLink: '/download',
@@ -53,8 +71,8 @@ const DEFAULT_PLANS_STATE = {
     id: 'pro',
     name: 'Pro Enterprise',
     description: 'For multi-store retailers, wholesalers, and growing enterprises requiring advanced analytics, audit trails, and multi-user team access.',
-    priceMonthly: 499,
-    priceYearly: 4999,
+    priceMonthly: null,
+    priceYearly: null,
     badge: 'Coming Soon',
     ctaText: 'Coming Soon',
     ctaLink: '#',
@@ -89,6 +107,11 @@ export function PricingPage() {
   );
   const [plansData, setPlansData] = useState(DEFAULT_PLANS_STATE);
   const [loadingPlans, setLoadingPlans] = useState(true);
+  const [plansError, setPlansError] = useState('');
+  const plusSavings = getYearlySavings(
+    plansData.plus.priceMonthly,
+    plansData.plus.priceYearly
+  );
 
   useEffect(() => {
     applySEO('pricing');
@@ -120,16 +143,19 @@ export function PricingPage() {
                   ...updated[planKey],
                   name: p.name || updated[planKey].name,
                   description: p.description || updated[planKey].description,
-                  priceMonthly: typeof mPrice === 'number' ? mPrice : updated[planKey].priceMonthly,
-                  priceYearly: typeof yPrice === 'number' ? yPrice : updated[planKey].priceYearly,
+                  priceMonthly: parsePrice(mPrice),
+                  priceYearly: parsePrice(yPrice),
                 };
               }
             });
             return updated;
           });
+          setPlansError('');
+        } else {
+          setPlansError(res.error || 'Live pricing is temporarily unavailable.');
         }
       } catch (err) {
-        console.debug('[Pricing] Using standard catalog pricing defaults:', err);
+        setPlansError('Live pricing is temporarily unavailable. Please try again.');
       } finally {
         setLoadingPlans(false);
       }
@@ -145,7 +171,7 @@ export function PricingPage() {
     },
     {
       q: 'How does billing work between monthly and yearly cycles?',
-      a: 'Yearly billing offers significant discounts (over 40% off). You pay once for the full year and receive continuous updates and feature enhancements.'
+      a: 'Yearly billing offers plan-specific discounts. You pay once for the full year and receive continuous updates and feature enhancements. The exact annual price and effective monthly equivalent are shown on each plan.'
     },
     {
       q: 'Are there any hidden cloud or synchronization fees?',
@@ -210,7 +236,7 @@ export function PricingPage() {
             <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
               billingCycle === 'yearly' ? 'bg-white/20 text-white' : 'bg-purple-100 text-[#7C3AED]'
             }`}>
-              Save 40%+
+              {plusSavings === null ? 'Annual pricing' : `Save ${plusSavings}%`}
             </span>
           </button>
         </div>
@@ -222,6 +248,13 @@ export function PricingPage() {
           <PricingCardSkeleton />
           <PricingCardSkeleton isFeatured={true} />
           <PricingCardSkeleton />
+        </div>
+      ) : plansError || plansData.plus.priceMonthly === null || plansData.plus.priceYearly === null ? (
+        <div className="my-8 rounded-2xl border border-amber-200 bg-amber-50 p-6 text-center">
+          <p className="text-sm font-semibold text-amber-900">
+            {plansError || 'Live pricing is temporarily unavailable.'}
+          </p>
+          <p className="mt-1 text-xs text-amber-800">Refresh the page to load the latest prices.</p>
         </div>
       ) : (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-8 items-stretch">
@@ -283,14 +316,17 @@ export function PricingPage() {
 
             <div className="mb-3" aria-live="polite" aria-atomic="true">
               <span className="text-3xl sm:text-4xl font-extrabold text-[#7C3AED]">
-                ₹{billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly}
+                ₹{formatPrice(billingCycle === 'yearly' ? plansData.plus.priceYearly : plansData.plus.priceMonthly)}
               </span>
               <span className="text-xs text-slate-500 ml-1">
                 {billingCycle === 'yearly' ? '/ year' : '/ month'}
               </span>
               {billingCycle === 'yearly' && (
                 <span className="block text-[11px] font-semibold text-emerald-600 mt-1">
-                  Effective ₹{Math.round(plansData.plus.priceYearly / 12)}/month
+                  Effective ₹{formatPrice(plansData.plus.priceYearly / 12)}/month
+                  {getYearlySavings(plansData.plus.priceMonthly, plansData.plus.priceYearly) !== null && (
+                    <> · Save {getYearlySavings(plansData.plus.priceMonthly, plansData.plus.priceYearly)}%</>
+                  )}
                 </span>
               )}
             </div>
@@ -331,14 +367,17 @@ export function PricingPage() {
 
             <div className="mb-3">
               <span className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-                ₹{billingCycle === 'yearly' ? plansData.pro.priceYearly : plansData.pro.priceMonthly}
+                ₹{formatPrice(billingCycle === 'yearly' ? plansData.pro.priceYearly : plansData.pro.priceMonthly)}
               </span>
               <span className="text-xs text-slate-500 ml-1">
                 {billingCycle === 'yearly' ? '/ year' : '/ month'}
               </span>
               {billingCycle === 'yearly' && (
                 <span className="block text-[11px] font-semibold text-emerald-600 mt-1">
-                  Effective ₹{Math.round(plansData.pro.priceYearly / 12)}/month
+                  Effective ₹{formatPrice(plansData.pro.priceYearly / 12)}/month
+                  {getYearlySavings(plansData.pro.priceMonthly, plansData.pro.priceYearly) !== null && (
+                    <> · Save {getYearlySavings(plansData.pro.priceMonthly, plansData.pro.priceYearly)}%</>
+                  )}
                 </span>
               )}
             </div>

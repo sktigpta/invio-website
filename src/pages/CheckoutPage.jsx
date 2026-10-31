@@ -36,10 +36,11 @@ import { CheckoutMembershipSkeleton, Skeleton } from '../components/common/Skele
 // Computed once at module level — avoids re-randomizing on every render in React 18 Strict Mode.
 const CHECKOUT_FEATURE_INDEX = Math.floor(Math.random() * FEATURES_DATA.length);
 
-const DEFAULT_PLUS_PRICE = {
-  monthly: 149,
-  yearly: 999,
-};
+function parsePrice(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+}
 
 export function CheckoutPage() {
   const [searchParams] = useSearchParams();
@@ -53,7 +54,9 @@ export function CheckoutPage() {
   const [billingCycle, setBillingCycle] = useState(
     paramCycle === 'monthly' ? 'monthly' : 'yearly'
   );
-  const [prices, setPrices] = useState(DEFAULT_PLUS_PRICE);
+  const [prices, setPrices] = useState({ monthly: null, yearly: null });
+  const [pricingLoading, setPricingLoading] = useState(true);
+  const [pricingError, setPricingError] = useState('');
 
   // Discount & Coupon State
   const [couponInput, setCouponInput] = useState(paramCoupon);
@@ -95,11 +98,17 @@ export function CheckoutPage() {
   const [resendCooldownSeconds, setResendCooldownSeconds] = useState(0);
 
   const basePrice = billingCycle === 'yearly' ? prices.yearly : prices.monthly;
-  const currentPrice = couponApplied
+  const currentPrice = basePrice === null
+    ? null
+    : couponApplied
     ? Math.max(0, basePrice - (couponApplied.discountAmount || 0))
     : basePrice;
 
   const handleApplyCoupon = async (codeToApply = couponInput) => {
+    if (basePrice === null) {
+      setCouponError('Live pricing is still loading. Please try again shortly.');
+      return;
+    }
     const clean = String(codeToApply || '').trim().toUpperCase();
     if (!clean) {
       setCouponError('Please enter a coupon code.');
@@ -174,14 +183,26 @@ export function CheckoutPage() {
         if (res.success && Array.isArray(res.plans)) {
           const plusPlan = res.plans.find((p) => String(p.id).toLowerCase() === 'plus');
           if (plusPlan?.prices) {
+            const monthly = parsePrice(plusPlan.prices.monthly);
+            const yearly = parsePrice(plusPlan.prices.yearly);
+            if (monthly !== null && yearly !== null) {
             setPrices({
-              monthly: plusPlan.prices.monthly || DEFAULT_PLUS_PRICE.monthly,
-              yearly: plusPlan.prices.yearly || DEFAULT_PLUS_PRICE.yearly,
+              monthly,
+              yearly,
             });
+              setPricingError('');
+            } else {
+              setPricingError('Live pricing is unavailable for Invio Plus.');
+            }
+          } else {
+            setPricingError('Live pricing is unavailable for Invio Plus.');
           }
+        } else {
+          setPricingError(res.error || 'Live pricing is temporarily unavailable.');
         }
       })
-      .catch(() => {});
+      .catch(() => setPricingError('Live pricing is temporarily unavailable. Please try again.'))
+      .finally(() => setPricingLoading(false));
 
     // If an account is already stored, check its active membership status
     if (currentUser) {
@@ -558,6 +579,10 @@ export function CheckoutPage() {
   };
 
   const handleStartPayment = () => {
+    if (basePrice === null) {
+      setPayError('Live pricing is still loading. Please try again shortly.');
+      return;
+    }
     if (!currentUser) {
       setAuthTab('login');
       return;
@@ -1142,11 +1167,16 @@ export function CheckoutPage() {
                       {payError}
                     </div>
                   )}
+                  {pricingError && !payError && (
+                    <div className="mb-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800">
+                      {pricingError} Refresh the page to try again.
+                    </div>
+                  )}
 
                   {/* Payment Button */}
                   <button
                     type="button"
-                    disabled={paying}
+                    disabled={paying || pricingLoading || basePrice === null}
                     onClick={handleStartPayment}
                     className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2"
                   >
@@ -1155,6 +1185,10 @@ export function CheckoutPage() {
                         <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         <span>Opening Payment Gateway...</span>
                       </>
+                    ) : pricingLoading ? (
+                      <span>Loading latest price...</span>
+                    ) : pricingError || basePrice === null ? (
+                      <span>Pricing unavailable</span>
                     ) : (
                       <span className="flex items-center gap-1.5">
                         <span>Pay</span>
