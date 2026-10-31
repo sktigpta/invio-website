@@ -31,10 +31,7 @@ export async function fetchSubscriptionPlans() {
     const response = await fetch(`${apiBase()}/api/account/plans`, {
       method: 'GET',
       cache: 'no-store',
-      headers: {
-        Accept: 'application/json',
-        'Cache-Control': 'no-cache',
-      },
+      headers: { Accept: 'application/json' },
       signal: controller.signal,
     });
     const data = await response.json().catch(() => ({}));
