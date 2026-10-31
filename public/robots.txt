@@ -1,8 +1,6 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
-Disallow: /crm/
-
 # Host & Sitemap
 Host: https://invio.timrio.com
 Sitemap: https://invio.timrio.com/sitemap.xml

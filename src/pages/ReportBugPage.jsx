@@ -22,6 +22,7 @@ export function ReportBugPage() {
   const [submitError, setSubmitError] = useState('');
   const [createdTicket, setCreatedTicket] = useState(null);
   const [copiedTicket, setCopiedTicket] = useState(false);
+  const [copyError, setCopyError] = useState('');
 
   // Status Lookup state
   const [lookupTicketId, setLookupTicketId] = useState('');
@@ -82,13 +83,13 @@ export function ReportBugPage() {
     }
   }
 
-  function handleCopyTicket(ticketId) {
+  async function handleCopyTicket(ticketId) {
     try {
-      navigator.clipboard.writeText(ticketId);
+      await navigator.clipboard.writeText(ticketId);
       setCopiedTicket(true);
       setTimeout(() => setCopiedTicket(false), 2000);
     } catch {
-      // Fallback
+      setCopyError('Unable to copy the ticket ID. Please select it manually.');
     }
   }
 
@@ -136,7 +137,7 @@ export function ReportBugPage() {
                 Our core engineering team has received your diagnostic report and scheduled an investigation.
               </p>
 
-              <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-xl px-4 py-2.5 font-mono text-sm text-slate-800 font-bold mb-6">
+              <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-xl px-4 py-2.5 font-mono text-sm text-slate-800 font-bold mb-2">
                 <span>{createdTicket}</span>
                 <button
                   type="button"
@@ -147,6 +148,7 @@ export function ReportBugPage() {
                   {copiedTicket ? <CheckIcon className="size-4 text-emerald-600" /> : <CopyIcon className="size-4" />}
                 </button>
               </div>
+              {copyError && <p className="text-xs text-red-600 mb-4">{copyError}</p>}
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <button

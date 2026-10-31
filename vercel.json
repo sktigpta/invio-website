@@ -106,18 +106,19 @@
           "value": "public, max-age=86400, s-maxage=86400"
         }
       ]
-    },
-    {
-      "source": "/crm/(.*)",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
     }
   ],
   "redirects": [
+    {
+      "source": "/crm",
+      "destination": "https://crm.inv.timrio.com",
+      "permanent": true
+    },
+    {
+      "source": "/crm/:path*",
+      "destination": "https://crm.inv.timrio.com/:path*",
+      "permanent": true
+    },
     {
       "source": "/products/invio",
       "destination": "/features",

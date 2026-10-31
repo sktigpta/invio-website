@@ -8,8 +8,18 @@ function apiBase() {
   }
 }
 
+async function fetchWithTimeout(url, options, timeoutMs = 15000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function submitContactMessage({ name, email, subject, message }) {
-  const res = await fetch(`${apiBase()}/api/contact`, {
+  const res = await fetchWithTimeout(`${apiBase()}/api/contact`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, subject, message }),

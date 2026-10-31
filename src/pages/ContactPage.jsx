@@ -20,13 +20,13 @@ export function ContactPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleCopyEmail = () => {
+  const handleCopyEmail = async () => {
     try {
-      navigator.clipboard.writeText('support@timrio.com');
+      await navigator.clipboard.writeText('support@timrio.com');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback
+      setFormError('Unable to copy the support address. Please select it manually.');
     }
   };
 

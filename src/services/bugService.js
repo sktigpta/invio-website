@@ -8,6 +8,16 @@ function apiBase() {
   }
 }
 
+async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 /**
  * Submit a public bug report to the Invio issue tracking engine.
  * @param {Object} report
@@ -22,7 +32,7 @@ function apiBase() {
  * @param {string} [report.logs]
  */
 export async function submitBugReport(report) {
-  const res = await fetch(`${apiBase()}/api/bugs`, {
+  const res = await fetchWithTimeout(`${apiBase()}/api/bugs`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(report),
@@ -44,7 +54,7 @@ export async function checkBugStatus(ticketId) {
     throw new Error('Please enter a ticket ID.');
   }
 
-  const res = await fetch(`${apiBase()}/api/bugs/status/${encodeURIComponent(cleanedTicket)}`);
+  const res = await fetchWithTimeout(`${apiBase()}/api/bugs/status/${encodeURIComponent(cleanedTicket)}`);
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     throw new Error(data.error || 'Ticket not found or lookup failed.');
