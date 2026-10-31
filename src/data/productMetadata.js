@@ -197,10 +197,10 @@ export const PRODUCT_TIERS = [
     shortName: 'Invio Pro Enterprise',
     planType: 'pro',
     planPeriod: 'yearly',
-    price: '4999.00',
+    price: '9999.00',
     currency: 'INR',
-    priceString: '4999.00 INR',
-    pricingDisplay: '₹4,999 / year',
+    priceString: '9999.00 INR',
+    pricingDisplay: '₹9,999 / year',
     availability: 'pre_order',
     canonicalUrl: 'https://invio.timrio.com/pricing',
     description:

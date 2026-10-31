@@ -30,8 +30,8 @@ function getYearlySavings(monthly, yearly) {
 const DEFAULT_PLANS_STATE = {
   free: {
     id: 'free',
-    name: 'Free Core',
-    description: 'Lifetime starter plan for freelancers, solo professionals, and small shops needing simple, dependable offline billing.',
+    name: 'Free',
+    description: 'Starter plan with core invoicing.',
     priceMonthly: 0,
     priceYearly: 0,
     badge: 'Free Forever',
@@ -49,8 +49,8 @@ const DEFAULT_PLANS_STATE = {
   },
   plus: {
     id: 'plus',
-    name: 'Invio Plus',
-    description: 'For retail counters, grocery stores, and traders that need fast POS checkout, thermal printing, and dynamic UPI QR collections.',
+    name: 'Plus',
+    description: 'Enhanced plan with access to all features.',
     priceMonthly: 149,
     priceYearly: 999,
     badge: 'Most Popular',
@@ -69,10 +69,10 @@ const DEFAULT_PLANS_STATE = {
   },
   pro: {
     id: 'pro',
-    name: 'Pro Enterprise',
-    description: 'For multi-store retailers, wholesalers, and growing enterprises requiring advanced analytics, audit trails, and multi-user team access.',
-    priceMonthly: 499,
-    priceYearly: 4999,
+    name: 'Pro',
+    description: 'Premium plan. Pro-only features will be added here later.',
+    priceMonthly: 1299,
+    priceYearly: 9999,
     badge: 'Coming Soon',
     ctaText: 'Coming Soon',
     ctaLink: '#',
@@ -106,7 +106,7 @@ export function PricingPage() {
     paramCycle === 'monthly' ? 'monthly' : 'yearly'
   );
   const [plansData, setPlansData] = useState(DEFAULT_PLANS_STATE);
-  const [loadingPlans, setLoadingPlans] = useState(false);
+  const [loadingPlans, setLoadingPlans] = useState(true);
   const [plansError, setPlansError] = useState('');
   const plusSavings = getYearlySavings(
     plansData.plus.priceMonthly,
