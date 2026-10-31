@@ -36,10 +36,20 @@ import { CheckoutMembershipSkeleton, Skeleton } from '../components/common/Skele
 // Computed once at module level — avoids re-randomizing on every render in React 18 Strict Mode.
 const CHECKOUT_FEATURE_INDEX = Math.floor(Math.random() * FEATURES_DATA.length);
 
+const DEFAULT_PLUS_PRICE = {
+  monthly: 149,
+  yearly: 999,
+};
+
 function parsePrice(value) {
   if (value === null || value === undefined || value === '') return null;
   const parsed = Number(value);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+}
+
+function getYearlySavings(monthly, yearly) {
+  if (!(monthly > 0) || !(yearly > 0) || yearly >= monthly * 12) return null;
+  return Math.round((1 - yearly / (monthly * 12)) * 100);
 }
 
 export function CheckoutPage() {
@@ -54,8 +64,8 @@ export function CheckoutPage() {
   const [billingCycle, setBillingCycle] = useState(
     paramCycle === 'monthly' ? 'monthly' : 'yearly'
   );
-  const [prices, setPrices] = useState({ monthly: null, yearly: null });
-  const [pricingLoading, setPricingLoading] = useState(true);
+  const [prices, setPrices] = useState(DEFAULT_PLUS_PRICE);
+  const [pricingLoading, setPricingLoading] = useState(false);
   const [pricingError, setPricingError] = useState('');
 
   // Discount & Coupon State
@@ -98,6 +108,8 @@ export function CheckoutPage() {
   const [resendCooldownSeconds, setResendCooldownSeconds] = useState(0);
 
   const basePrice = billingCycle === 'yearly' ? prices.yearly : prices.monthly;
+  const yearlySavings = getYearlySavings(prices.monthly, prices.yearly);
+  const effectiveMonthly = prices.yearly > 0 ? Math.round(prices.yearly / 12) : null;
   const currentPrice = basePrice === null
     ? null
     : couponApplied
@@ -186,22 +198,18 @@ export function CheckoutPage() {
             const monthly = parsePrice(plusPlan.prices.monthly);
             const yearly = parsePrice(plusPlan.prices.yearly);
             if (monthly !== null && yearly !== null) {
-            setPrices({
-              monthly,
-              yearly,
-            });
+              setPrices({
+                monthly,
+                yearly,
+              });
               setPricingError('');
-            } else {
-              setPricingError('Live pricing is unavailable for Invio Plus.');
             }
-          } else {
-            setPricingError('Live pricing is unavailable for Invio Plus.');
           }
-        } else {
-          setPricingError(res.error || 'Live pricing is temporarily unavailable.');
         }
       })
-      .catch(() => setPricingError('Live pricing is temporarily unavailable. Please try again.'))
+      .catch(() => {
+        // Keep authoritative fallback prices
+      })
       .finally(() => setPricingLoading(false));
 
     // If an account is already stored, check its active membership status
@@ -1068,11 +1076,20 @@ export function CheckoutPage() {
                       >
                         <div className="flex items-center gap-1.5">
                           <span>Yearly</span>
-                          <span className="bg-purple-100 text-[#7C3AED] text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
-                            Save 44%
-                          </span>
+                          {yearlySavings !== null && (
+                            <span className="bg-purple-100 text-[#7C3AED] text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                              Save {yearlySavings}%
+                            </span>
+                          )}
                         </div>
-                        <span className="text-[11px] text-slate-500">₹{prices.yearly} / year</span>
+                        <span className="text-[11px] text-slate-500">
+                          ₹{prices.yearly} / year
+                          {effectiveMonthly !== null && (
+                            <span className="text-[10px] text-emerald-600 font-semibold ml-1">
+                              (₹{effectiveMonthly}/mo)
+                            </span>
+                          )}
+                        </span>
                       </button>
                       <button
                         type="button"

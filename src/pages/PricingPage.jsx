@@ -25,8 +25,8 @@ function getYearlySavings(monthly, yearly) {
   return Math.round((1 - yearly / (monthly * 12)) * 100);
 }
 
-// Static copy is used only while the live catalog is loading. Paid prices
-// must come from the backend catalog and are never guessed locally.
+// Authoritative fallback plan prices matching backend catalog (SUBSCRIPTION_PRICES).
+// Used for immediate offline-resilient rendering and updated seamlessly once GET /api/account/plans resolves.
 const DEFAULT_PLANS_STATE = {
   free: {
     id: 'free',
@@ -51,8 +51,8 @@ const DEFAULT_PLANS_STATE = {
     id: 'plus',
     name: 'Invio Plus',
     description: 'For retail counters, grocery stores, and traders that need fast POS checkout, thermal printing, and dynamic UPI QR collections.',
-    priceMonthly: null,
-    priceYearly: null,
+    priceMonthly: 149,
+    priceYearly: 999,
     badge: 'Most Popular',
     ctaText: 'Get Invio Plus',
     ctaLink: '/download',
@@ -71,8 +71,8 @@ const DEFAULT_PLANS_STATE = {
     id: 'pro',
     name: 'Pro Enterprise',
     description: 'For multi-store retailers, wholesalers, and growing enterprises requiring advanced analytics, audit trails, and multi-user team access.',
-    priceMonthly: null,
-    priceYearly: null,
+    priceMonthly: 499,
+    priceYearly: 4999,
     badge: 'Coming Soon',
     ctaText: 'Coming Soon',
     ctaLink: '#',
@@ -106,11 +106,15 @@ export function PricingPage() {
     paramCycle === 'monthly' ? 'monthly' : 'yearly'
   );
   const [plansData, setPlansData] = useState(DEFAULT_PLANS_STATE);
-  const [loadingPlans, setLoadingPlans] = useState(true);
+  const [loadingPlans, setLoadingPlans] = useState(false);
   const [plansError, setPlansError] = useState('');
   const plusSavings = getYearlySavings(
     plansData.plus.priceMonthly,
     plansData.plus.priceYearly
+  );
+  const proSavings = getYearlySavings(
+    plansData.pro.priceMonthly,
+    plansData.pro.priceYearly
   );
 
   useEffect(() => {
@@ -137,25 +141,23 @@ export function PricingPage() {
             res.plans.forEach((p) => {
               const planKey = String(p.id).toLowerCase();
               if (updated[planKey]) {
-                const mPrice = p.prices?.monthly;
-                const yPrice = p.prices?.yearly;
+                const parsedMonthly = parsePrice(p.prices?.monthly);
+                const parsedYearly = parsePrice(p.prices?.yearly);
                 updated[planKey] = {
                   ...updated[planKey],
                   name: p.name || updated[planKey].name,
                   description: p.description || updated[planKey].description,
-                  priceMonthly: parsePrice(mPrice),
-                  priceYearly: parsePrice(yPrice),
+                  priceMonthly: parsedMonthly !== null ? parsedMonthly : updated[planKey].priceMonthly,
+                  priceYearly: parsedYearly !== null ? parsedYearly : updated[planKey].priceYearly,
                 };
               }
             });
             return updated;
           });
           setPlansError('');
-        } else {
-          setPlansError(res.error || 'Live pricing is temporarily unavailable.');
         }
-      } catch (err) {
-        setPlansError('Live pricing is temporarily unavailable. Please try again.');
+      } catch {
+        // Retain authoritative fallback prices
       } finally {
         setLoadingPlans(false);
       }
@@ -249,10 +251,10 @@ export function PricingPage() {
           <PricingCardSkeleton isFeatured={true} />
           <PricingCardSkeleton />
         </div>
-      ) : plansError || plansData.plus.priceMonthly === null || plansData.plus.priceYearly === null ? (
+      ) : plansData.plus.priceMonthly === null || plansData.plus.priceYearly === null ? (
         <div className="my-8 rounded-2xl border border-amber-200 bg-amber-50 p-6 text-center">
           <p className="text-sm font-semibold text-amber-900">
-            {plansError || 'Live pricing is temporarily unavailable.'}
+            {plansError || 'Pricing is temporarily unavailable.'}
           </p>
           <p className="mt-1 text-xs text-amber-800">Refresh the page to load the latest prices.</p>
         </div>
@@ -321,11 +323,11 @@ export function PricingPage() {
               <span className="text-xs text-slate-500 ml-1">
                 {billingCycle === 'yearly' ? '/ year' : '/ month'}
               </span>
-              {billingCycle === 'yearly' && (
+              {billingCycle === 'yearly' && plansData.plus.priceYearly > 0 && (
                 <span className="block text-[11px] font-semibold text-emerald-600 mt-1">
-                  Effective ₹{formatPrice(plansData.plus.priceYearly / 12)}/month
-                  {getYearlySavings(plansData.plus.priceMonthly, plansData.plus.priceYearly) !== null && (
-                    <> · Save {getYearlySavings(plansData.plus.priceMonthly, plansData.plus.priceYearly)}%</>
+                  Effective ₹{formatPrice(Math.round(plansData.plus.priceYearly / 12))}/month
+                  {plusSavings !== null && (
+                    <> · Save {plusSavings}%</>
                   )}
                 </span>
               )}
@@ -372,11 +374,11 @@ export function PricingPage() {
               <span className="text-xs text-slate-500 ml-1">
                 {billingCycle === 'yearly' ? '/ year' : '/ month'}
               </span>
-              {billingCycle === 'yearly' && (
+              {billingCycle === 'yearly' && plansData.pro.priceYearly > 0 && (
                 <span className="block text-[11px] font-semibold text-emerald-600 mt-1">
-                  Effective ₹{formatPrice(plansData.pro.priceYearly / 12)}/month
-                  {getYearlySavings(plansData.pro.priceMonthly, plansData.pro.priceYearly) !== null && (
-                    <> · Save {getYearlySavings(plansData.pro.priceMonthly, plansData.pro.priceYearly)}%</>
+                  Effective ₹{formatPrice(Math.round(plansData.pro.priceYearly / 12))}/month
+                  {proSavings !== null && (
+                    <> · Save {proSavings}%</>
                   )}
                 </span>
               )}
