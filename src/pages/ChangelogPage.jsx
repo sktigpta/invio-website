@@ -19,6 +19,28 @@ import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
  * these structured release notes provide the complete changelog.
  */
 const CURATED_RELEASE_NOTES = {
+  'v1.1.3': `## Invio v1.1.3 (Latest Production Release)
+
+Invio Desktop v1.1.3 is a major production hardening and compatibility release bringing Windows 11 Microsoft Store Centennial architecture support (\`TargetDeviceFamily 10.0.22621.0\`), live Kitchen Display System (KDS) rolling 6-digit verification OTP and timer UI synchronization, official Extension Platform catalog navigation integration, and comprehensive cross-platform performance optimizations.
+
+---
+
+### What's Changed
+
+#### 🪟 Microsoft Store Windows 11 Architecture Hardening
+- **Windows 11 TargetDeviceFamily Standard**: Configured \`MinVersion 10.0.17763.0\` and \`MaxVersionTested 10.0.22621.0\` in modern Store packaging, eliminating the Windows 11 *"App is not available on your device"* filtering issue.
+- **Store Container Sandboxing Integrity**: Gated background auto-updater checks inside Windows Store containers (\`process.windowsStore\`), preventing container permission alerts and ensuring compliance with Microsoft Store certification policies.
+- **Optimized Store Visual Package**: Included all required Windows tile assets, high-contrast badges, dynamic splash screen scaling, and bundled high-res store screenshots.
+
+#### 🍽️ Restaurant POS & Live KDS Verification Portal
+- **Rolling Kitchen Verification OTP**: Added rolling 6-digit verification code with 60-second expiration countdown timers for kitchen tablet and smartphone logins.
+- **Active Kitchen Screen Session Monitor**: Cashiers can see connected kitchen screens and tablet count in real-time.
+- **1-Click OTP Copying & Navigation**: Added instant clipboard copying and direct browser link integration.
+
+#### 🧩 Official Extension Platform Navigation Sync
+- **Email Dispatch Navigation Item**: Registered \`views\` contribution for the Email Dispatch interface in official catalog and marketplace packages.
+- **Verified Cloudflare R2 Distribution**: All 25 extension objects cryptographically signed with Ed25519 and synced to Cloudflare R2.
+`,
   'v1.1.2': `## Invio v1.1.2 (Latest Production Release)
 
 Invio Desktop v1.1.2 is a major release introducing the official Invio Extension Ecosystem, Cloudflare R2 / S3-compatible verified package repository, Ed25519 digital signature security, Restaurant & QR tabletop ordering, Dual-Screen POS display, automated email/WhatsApp dispatch, and an ultra-lean 7MB desktop app binary (>91% size reduction).
@@ -296,12 +318,32 @@ Invio Desktop v1.0.0 is the foundational release of the privacy-first desktop bi
  */
 const INITIAL_RELEASES = [
   {
+    tag: 'v1.1.3',
+    version: '1.1.3',
+    anchorId: 'v1-1-3',
+    name: 'Version 1.1.3 (Latest Production Release)',
+    date: 'November 1, 2026',
+    isLatest: true,
+    assets: [
+      { name: 'Invio-1.1.3-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.3-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.3-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.3-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.3-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.3-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.3-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.3-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '65.2 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.3-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
+    ],
+    notes: CURATED_RELEASE_NOTES['v1.1.3']
+  },
+  {
     tag: 'v1.1.2',
     version: '1.1.2',
     anchorId: 'v1-1-2',
-    name: 'Version 1.1.2 (Latest Production Release)',
+    name: 'Version 1.1.2 (Previous Production Release)',
     date: 'November 1, 2026',
-    isLatest: true,
+    isLatest: false,
     assets: [
       { name: 'Invio-1.1.2-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
       { name: 'Invio-1.1.2-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
