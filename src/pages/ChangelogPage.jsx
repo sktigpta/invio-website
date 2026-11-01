@@ -678,10 +678,13 @@ function renderMarkdown(mdText) {
       }
       const linkMatch = tok.match(/^\[(.*?)\]\((.*?)\)$/);
       if (linkMatch) {
+        const rawHref = (linkMatch[2] || '').trim();
+        const isSafe = /^(https?:\/\/|mailto:|\/)/i.test(rawHref);
+        const safeHref = isSafe ? rawHref : '#';
         return (
           <a
             key={idx}
-            href={linkMatch[2]}
+            href={safeHref}
             target="_blank"
             rel="noopener noreferrer"
             className="text-[#7C3AED] hover:underline font-medium inline-flex items-center gap-0.5"
