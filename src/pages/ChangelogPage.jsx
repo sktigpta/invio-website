@@ -19,7 +19,44 @@ import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
  * these structured release notes provide the complete changelog.
  */
 const CURATED_RELEASE_NOTES = {
-  'v1.1.1': `## Invio v1.1.1 (Latest Production Release)
+  'v1.2.0': `## Invio v1.2.0 (Latest Production Release)
+
+Invio Desktop v1.2.0 is a major milestone release introducing the official Invio Extension Ecosystem, Cloudflare R2 / S3-compatible verified package repository, Ed25519 digital signature security, Restaurant & QR tabletop ordering, Dual-Screen POS display, automated email/WhatsApp dispatch, and an ultra-lean 7MB desktop app binary (>91% size reduction).
+
+---
+
+### What's Changed
+
+#### 🧩 Official Extension Platform & Modular Architecture
+- **In-App Extension Manager & Store**: Discover, install, enable, disable, and configure certified extensions from the new left-sidebar 🧩 Extensions tab.
+- **Strict Server Authority**: Extension catalog fetches fail closed without falling back to stale mock data when unreachable, maintaining full database integrity for locally installed packages.
+- **Cloudflare R2 / S3 Storage Distribution**: Official extension packages and manifests are distributed via zero-egress Cloudflare R2 with automatic local S3 bucket fallback.
+- **Ed25519 Cryptographic Verification**: Packages are digitally signed with author private keys (\`timrio-ext-prod-2026\`) and verified against SHA-256 integrity hashes prior to extraction.
+- **Dynamic Decoupled Stylesheets**: Core application CSS is completely unpolluted; extension CSS is dynamically mounted into \`<style id="invio-ext-style-<id>">\` on enable and removed on disable.
+- **Non-Blocking Streaming Downloads**: Real-time progress tracking reporting transfer speeds and stage status across Electron IPC (\`extensions:download-progress\`).
+
+#### 🍽️ Restaurant POS & QR Tabletop Ordering Extension
+- **Dine-In Table Management**: Configure table counts and dining areas with live visual occupancy cards (Vacant, Dining, Bill Requested).
+- **Standalone SVG QR Table Standees**: Generate high-resolution tabletop QR stands for customer self-ordering.
+- **Customer Mobile Wi-Fi Ordering**: Guests scan table QR codes to view live menus and submit orders directly over local Wi-Fi without internet or app installation.
+- **Live Kitchen Display System (KDS)**: Kitchen staff receive order tickets with chime notifications, cooking countdown timers, and order status transitions (Queued → Cooking → Ready).
+- **1-Click GST Bill Settlement**: Instantly transfer dine-in orders into Invio's checkout cart for cashier settlement and thermal printing.
+
+#### 🖥️ Dual-Screen POS Customer Display Extension
+- **High-Performance Cart Mirroring**: Mirrors cashier cart line items, quantities, and totals to a customer-facing monitor with under 16ms latency.
+- **Dynamic On-Screen UPI QR Code**: Renders a crisp payment QR code encoded with the exact bill total for instant scanning via GPay, PhonePe, or Paytm.
+- **Branded Idle Screen**: Shows store logo, greeting messages, and promotional banners when billing is idle.
+
+#### ✉️ Automated Email & WhatsApp Invoicing Extension
+- **Gmail OAuth & Custom SMTP**: Connect store Google accounts or business SMTP with credentials safely encrypted in OS Credential Manager.
+- **Resilient Offline Outbox**: Automatically queues invoices locally when disconnected from the internet and dispatches with backoff retry upon reconnection.
+- **1-Click WhatsApp Invoicing**: Automatically drafts itemized invoice receipts and sends via WhatsApp Web/Desktop without saving customer phone contacts.
+
+#### ⚡ Extreme Binary Optimization (>91% Reduction)
+- **Ultra-Lean Packaged Archive**: Application archive (\`app.asar\`) optimized from >80 MB down to 7.05 MB via tree-shaking, CSS code splitting, comment stripping, and maximum compression.
+- **Sub-Second Cold Startup**: Instant boot times and minimal RAM footprint across macOS, Windows, and Linux.`,
+
+  'v1.1.1': `## Invio v1.1.1 (Previous Production Release)
 
 Invio Desktop v1.1.1 delivers essential security patches, offline entitlement protection, and authentication pipeline parity across desktop and cloud services.
 
@@ -259,12 +296,32 @@ Invio Desktop v1.0.0 is the foundational release of the privacy-first desktop bi
  */
 const INITIAL_RELEASES = [
   {
+    tag: 'v1.2.0',
+    version: '1.2.0',
+    anchorId: 'v1-2-0',
+    name: 'Version 1.2.0 (Latest Production Release)',
+    date: 'November 1, 2026',
+    isLatest: true,
+    assets: [
+      { name: 'Invio-1.2.0-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.2.0-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.2.0-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.2.0-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.2.0-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.2.0-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.2.0-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.2.0-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '65.2 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.2.0-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
+    ],
+    notes: CURATED_RELEASE_NOTES['v1.2.0']
+  },
+  {
     tag: 'v1.1.1',
     version: '1.1.1',
     anchorId: 'v1-1-1',
-    name: 'Version 1.1.1 (Latest Production Release)',
+    name: 'Version 1.1.1 (Previous Production Release)',
     date: 'October 27, 2026',
-    isLatest: true,
+    isLatest: false,
     assets: [
       { name: 'Invio-1.1.1-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
       { name: 'Invio-1.1.1-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },

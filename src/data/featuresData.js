@@ -8,6 +8,7 @@ import {
   ReceiptIcon,
   SparklesIcon,
   ShieldCheckIcon,
+  PuzzleIcon,
 } from '../components/Icons';
 
 export const FEATURES_DATA = [
@@ -163,5 +164,23 @@ export const FEATURES_DATA = [
       'Automated daily backup reminders to ensure business continuity',
     ],
     imageType: 'backup',
+  },
+  {
+    id: 'extensions-marketplace',
+    title: 'Modular Extensions & Add-ons',
+    category: 'Modular Platform',
+    tagline: 'Supercharge your business with Restaurant QR Ordering, Dual-Screen POS Display, and Automations',
+    description: 'Expand Invio with modular official add-ons. Run a complete restaurant with local Wi-Fi QR table ordering and Kitchen Display (KDS), connect customer-facing POS screens, automate email dispatch, and send WhatsApp receipts—all 100% sandboxed, private, and secure.',
+    icon: PuzzleIcon,
+    imageUrl: null,
+    imageAlt: 'Official Invio modular extensions marketplace with restaurant QR ordering and POS display',
+    bullets: [
+      'Official Timrio Store: 1-click install with cryptographic Ed25519 signature & SHA-256 integrity verification',
+      'Restaurant & QR Ordering: Local Wi-Fi mobile food ordering web app, live KDS, dynamic table QR stands, and 1-click invoice billing',
+      'Customer Dual-Screen POS Display: Customer-facing monitor controller with live billing mirror and dynamic UPI scan-to-pay QR',
+      'Email & WhatsApp Automation: Automated PDF invoice emailing with background delivery outbox and 1-click WhatsApp sharing',
+      'Decoupled Architecture: Zero core stylesheet pollution, sandboxed iframe execution, and dedicated sidebar navigation',
+    ],
+    imageType: 'extensions',
   },
 ];

@@ -8,7 +8,7 @@ import { FAQ_ITEMS } from '../data/faqData';
 export const BASE_URL = 'https://invio.timrio.com';
 export const CURRENT_VERSION =
   (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_APP_VERSION) ||
-  '1.1.1';
+  '1.2.0';
 
 export const PAGE_METADATA = {
   home: {
@@ -178,6 +178,42 @@ export const PAGE_METADATA = {
     description: 'Setup a second customer-facing monitor at your checkout counter to show live items, bill total, and UPI payment QR code.',
     canonical: `${BASE_URL}/docs/pos-display`,
     keywords: 'customer POS display, dual screen billing, counter screen, customer monitor POS, scan to pay screen',
+    schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
+  },
+  'docs-extensions-guide': {
+    title: 'Extension Manager & Official Store Guide – Invio Docs | Timrio',
+    description: 'Learn how to discover, 1-click install, and manage cryptographically signed official extensions in Invio desktop app.',
+    canonical: `${BASE_URL}/docs/extensions-guide`,
+    keywords: 'Invio extensions, extension manager, Invio store, plugins, add-ons, modular billing extensions',
+    schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
+  },
+  'docs-restaurant-extension': {
+    title: 'Restaurant POS & Dine-In QR Ordering Extension – Invio Docs | Timrio',
+    description: 'Turn Invio into a restaurant Point-of-Sale with table floor maps, local Wi-Fi QR code tabletop ordering, live KDS kitchen display, and 1-click GST billing.',
+    canonical: `${BASE_URL}/docs/restaurant-extension`,
+    keywords: 'restaurant POS, QR ordering, KDS, kitchen display system, table management, dine-in billing, restaurant billing software',
+    schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
+  },
+  'docs-pos-display-extension': {
+    title: 'Dual-Screen POS Customer Display Extension – Invio Docs | Timrio',
+    description: 'Connect a second monitor to show a live cart mirror, instant on-screen dynamic UPI QR codes, and promotional store branding.',
+    canonical: `${BASE_URL}/docs/pos-display-extension`,
+    keywords: 'customer display extension, dual screen POS, second monitor billing, UPI QR customer screen, pole display',
+    schemaType: 'TechArticle',
+    parentCategory: 'Documentation',
+    parentUrl: `${BASE_URL}/docs`,
+  },
+  'docs-email-whatsapp-extensions': {
+    title: 'Automated Email & WhatsApp Invoicing Extension – Invio Docs | Timrio',
+    description: 'Deliver GST invoice PDFs automatically via Gmail or custom SMTP, queue offline receipts safely, and send 1-click customer WhatsApp summaries.',
+    canonical: `${BASE_URL}/docs/email-whatsapp-extensions`,
+    keywords: 'automated email invoice, WhatsApp billing, offline email outbox, send PDF invoice, retail email automation',
     schemaType: 'TechArticle',
     parentCategory: 'Documentation',
     parentUrl: `${BASE_URL}/docs`,
