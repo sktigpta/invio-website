@@ -5,17 +5,17 @@
 
 export const RELEASES_DATA = [
   {
-    version: '1.2.0',
-    tag: 'v1.2.0',
-    name: 'Invio v1.2.0 — Official Extension Platform, Restaurant POS, Dual-Screen POS Display & Binary Optimization',
+    version: '1.1.2',
+    tag: 'v1.1.2',
+    name: 'Invio v1.1.2 — Official Extension Platform, Restaurant POS, Dual-Screen POS Display & Binary Optimization',
     date: 'November 2026',
     publishedAt: '2026-11-01T12:00:00Z',
     isLatest: true,
     badge: 'Latest Release',
-    githubUrl: 'https://github.com/sktigpta/invio-desktop/releases/tag/v1.2.0',
-    commitCompareUrl: 'https://github.com/sktigpta/invio-desktop/compare/v1.1.1...v1.2.0',
+    githubUrl: 'https://github.com/sktigpta/invio-desktop/releases/tag/v1.1.2',
+    commitCompareUrl: 'https://github.com/sktigpta/invio-desktop/compare/v1.1.1...v1.1.2',
     summary:
-      'Major feature release introducing the official Invio Extension Ecosystem, Cloudflare R2 / S3-compatible verified package repository, Ed25519 digital signature security, Restaurant & QR tabletop ordering, Dual-Screen POS display, automated email/WhatsApp dispatch, and an ultra-lean 7MB desktop app binary.',
+      'Feature and performance release introducing the official Invio Extension Ecosystem, Cloudflare R2 / S3-compatible verified package repository, Ed25519 digital signature security, Restaurant & QR tabletop ordering, Dual-Screen POS display, automated email/WhatsApp dispatch, and an ultra-lean 7MB desktop app binary.',
     highlights: [
       'Official Extension Platform: Discover, 1-click install, and manage certified add-ons with non-blocking streaming downloads and Ed25519 cryptographic signatures.',
       'Restaurant POS & KDS: Full dine-in table maps, single store QR standee generation, customer Wi-Fi mobile ordering, live kitchen display prep timers, and 1-click GST invoice conversion.',
@@ -27,7 +27,7 @@ export const RELEASES_DATA = [
       {
         platform: 'macOS Apple Silicon (M1/M2/M3/M4)',
         arch: 'arm64',
-        filename: 'Invio-1.2.0-mac-arm64.dmg',
+        filename: 'Invio-1.1.2-mac-arm64.dmg',
         size: '~68 MB',
         kind: 'DMG Installer',
         primary: true,
@@ -35,14 +35,14 @@ export const RELEASES_DATA = [
       {
         platform: 'macOS Intel',
         arch: 'x64',
-        filename: 'Invio-1.2.0-mac-x64.dmg',
+        filename: 'Invio-1.1.2-mac-x64.dmg',
         size: '~72 MB',
         kind: 'DMG Installer',
       },
       {
         platform: 'Windows 10 / 11 (64-bit)',
         arch: 'x64',
-        filename: 'Invio-1.2.0-win-x64.exe',
+        filename: 'Invio-1.1.2-win-x64.exe',
         size: '~62 MB',
         kind: 'NSIS Installer',
         primary: true,
@@ -51,21 +51,21 @@ export const RELEASES_DATA = [
       {
         platform: 'Windows Portable (64-bit)',
         arch: 'x64',
-        filename: 'Invio-1.2.0-win-x64-portable.exe',
+        filename: 'Invio-1.1.2-win-x64-portable.exe',
         size: '~61 MB',
         kind: 'Portable Executable',
       },
       {
         platform: 'Windows Store AppX (64-bit)',
         arch: 'x64',
-        filename: 'Invio-1.2.0-win-x64.appx',
+        filename: 'Invio-1.1.2-win-x64.appx',
         size: '~78 MB',
         kind: 'Store Package (.appx)',
       },
       {
         platform: 'Linux Universal AppImage',
         arch: 'x64',
-        filename: 'Invio-1.2.0-linux-x86_64.AppImage',
+        filename: 'Invio-1.1.2-linux-x86_64.AppImage',
         size: '~65 MB',
         kind: 'AppImage',
         primary: true,
@@ -73,7 +73,7 @@ export const RELEASES_DATA = [
       {
         platform: 'Linux Debian / Ubuntu (deb)',
         arch: 'x64',
-        filename: 'Invio-1.2.0-linux-amd64.deb',
+        filename: 'Invio-1.1.2-linux-amd64.deb',
         size: '~58 MB',
         kind: 'Debian Package (.deb)',
       },

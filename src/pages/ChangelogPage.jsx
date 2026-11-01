@@ -19,9 +19,9 @@ import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
  * these structured release notes provide the complete changelog.
  */
 const CURATED_RELEASE_NOTES = {
-  'v1.2.0': `## Invio v1.2.0 (Latest Production Release)
+  'v1.1.2': `## Invio v1.1.2 (Latest Production Release)
 
-Invio Desktop v1.2.0 is a major milestone release introducing the official Invio Extension Ecosystem, Cloudflare R2 / S3-compatible verified package repository, Ed25519 digital signature security, Restaurant & QR tabletop ordering, Dual-Screen POS display, automated email/WhatsApp dispatch, and an ultra-lean 7MB desktop app binary (>91% size reduction).
+Invio Desktop v1.1.2 is a major release introducing the official Invio Extension Ecosystem, Cloudflare R2 / S3-compatible verified package repository, Ed25519 digital signature security, Restaurant & QR tabletop ordering, Dual-Screen POS display, automated email/WhatsApp dispatch, and an ultra-lean 7MB desktop app binary (>91% size reduction).
 
 ---
 
@@ -296,24 +296,24 @@ Invio Desktop v1.0.0 is the foundational release of the privacy-first desktop bi
  */
 const INITIAL_RELEASES = [
   {
-    tag: 'v1.2.0',
-    version: '1.2.0',
-    anchorId: 'v1-2-0',
-    name: 'Version 1.2.0 (Latest Production Release)',
+    tag: 'v1.1.2',
+    version: '1.1.2',
+    anchorId: 'v1-1-2',
+    name: 'Version 1.1.2 (Latest Production Release)',
     date: 'November 1, 2026',
     isLatest: true,
     assets: [
-      { name: 'Invio-1.2.0-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.2.0-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.2.0-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.2.0-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.2.0-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.2.0-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.2.0-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.2.0-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '65.2 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.2.0-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.2-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.2-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.2-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.2-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.2-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.2-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.2-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.2-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '65.2 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.2-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
     ],
-    notes: CURATED_RELEASE_NOTES['v1.2.0']
+    notes: CURATED_RELEASE_NOTES['v1.1.2']
   },
   {
     tag: 'v1.1.1',
