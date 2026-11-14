@@ -4,7 +4,7 @@
  * Supports both local server binary streaming and direct GitHub release assets.
  */
 
-export const APP_VERSION = import.meta.env.VITE_APP_VERSION || '1.1.3';
+export const APP_VERSION = import.meta.env.VITE_APP_VERSION || '1.1.4';
 
 const ENV_API_URL = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL
@@ -21,31 +21,31 @@ export const MICROSOFT_STORE_ID = '9nd42tj7n976';
 export const PLATFORM_DOWNLOADS = {
   mac: {
     id: 'mac',
-    name: 'macOS (Apple Silicon)',
-    shortName: 'Mac (M1/M2/M3)',
+    name: 'Mac',
+    shortName: 'Mac',
     badge: 'Apple Silicon (M1/M2/M3/M4)',
     extension: '.dmg',
     filename: `Invio-${APP_VERSION}-mac-arm64.dmg`,
     downloadEndpoint: `${API_BASE_URL}/api/download?platform=mac&arch=arm64`,
-    archLabel: 'Apple Silicon (.dmg)',
+    archLabel: 'Apple Silicon',
     minRequirement: 'macOS 11.0 or later (Apple Silicon)',
     sizeEstimate: '119 MB',
-    installInstruction: 'Open the downloaded Invio file (.dmg) and drag the Invio icon into your Applications folder. Open Invio to start billing.',
+    installInstruction: 'Open the downloaded Invio file and drag the Invio icon into your Applications folder. Open Invio to start billing.',
     securityTip: 'On first launch, if macOS asks for confirmation, simply click "Open" to start billing.',
   },
   macIntel: {
     id: 'macIntel',
     platformQuery: 'mac',
-    name: 'macOS (Intel)',
+    name: 'Mac (Intel)',
     shortName: 'Mac (Intel)',
     badge: 'Intel Mac (x64)',
     extension: '.dmg',
     filename: `Invio-${APP_VERSION}-mac-x64.dmg`,
     downloadEndpoint: `${API_BASE_URL}/api/download?platform=mac&arch=x64`,
-    archLabel: 'Intel Mac (.dmg)',
+    archLabel: 'Intel Mac',
     minRequirement: 'macOS 10.15 or later (Intel x64)',
     sizeEstimate: '124 MB',
-    installInstruction: 'Open the downloaded Invio file (.dmg) and drag the Invio icon into your Applications folder. Open Invio to start billing.',
+    installInstruction: 'Open the downloaded Invio file and drag the Invio icon into your Applications folder. Open Invio to start billing.',
     securityTip: 'On first launch, if macOS asks for confirmation, simply click "Open" to start billing.',
   },
   windows: {
@@ -57,10 +57,10 @@ export const PLATFORM_DOWNLOADS = {
     filename: `Invio-${APP_VERSION}-win-x64.exe`,
     downloadEndpoint: `${API_BASE_URL}/api/download?platform=windows`,
     microsoftStoreUrl: MICROSOFT_STORE_URL,
-    archLabel: 'Windows 10 / 11 (64-bit)',
+    archLabel: 'Windows 10 / 11',
     minRequirement: 'Windows 10 version 17763.0 or Windows 11',
     sizeEstimate: '99 MB',
-    installInstruction: 'Install via Microsoft Store for verified, 1-click installation without firewall or SmartScreen alerts, or run the standalone installer.',
+    installInstruction: 'Install via Microsoft Store for verified, 1-click installation without firewall or SmartScreen alerts, or run the installer.',
     securityTip: 'Installing from the Microsoft Store bypasses Windows Defender SmartScreen and firewall risk alerts.',
   },
   linux: {
@@ -69,12 +69,12 @@ export const PLATFORM_DOWNLOADS = {
     shortName: 'Linux',
     badge: 'Ubuntu, Debian, Fedora & Linux',
     extension: '.AppImage',
-    filename: `Invio-${APP_VERSION}-linux-x64.AppImage`,
+    filename: `Invio-${APP_VERSION}-linux-x86_64.AppImage`,
     downloadEndpoint: `${API_BASE_URL}/api/download?platform=linux`,
-    archLabel: 'Linux Package (.AppImage)',
+    archLabel: 'Linux 64-bit',
     minRequirement: 'Standard 64-bit Linux',
     sizeEstimate: '124 MB',
-    installInstruction: 'Right-click the downloaded AppImage file > Properties > Permissions > Enable "Allow executing file as program", then double-click to launch.',
+    installInstruction: 'Right-click the downloaded file > Properties > Permissions > Enable "Allow executing file as program", then double-click to launch.',
     securityTip: 'Works completely standalone without extra setup.',
   },
 };

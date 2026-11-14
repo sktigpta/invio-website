@@ -93,7 +93,7 @@ export function FeaturesPage() {
                         />
                       ) : (
                         <div className="w-full h-full p-8 flex flex-col items-center justify-center text-center select-none bg-gradient-to-br from-purple-50/50 via-white to-slate-50">
-                          <div className="size-16 rounded-squircle bg-white border border-slate-200/90 shadow-2xs flex items-center justify-center mb-4 text-[#7C3AED] group-hover:scale-110 transition-transform duration-300">
+                          <div className="size-16 rounded-squircle bg-purple-50/90 shadow-2xs flex items-center justify-center mb-4 text-[#7C3AED] group-hover:scale-110 transition-transform duration-300">
                             {feature.icon ? <feature.icon className="size-8" /> : null}
                           </div>
                           <span className="text-xs font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-100/70 px-3 py-1 rounded-full mb-2">

@@ -47,9 +47,9 @@ export const SHARED_PRODUCT_SPECS = {
   },
 
   installationInstructions: {
-    windows: 'Download Invio for Windows (.exe installer). Double-click the downloaded setup file and follow the quick 1-step installer. Invio will launch automatically and create a desktop shortcut.',
-    mac: 'Download Invio for macOS (.dmg). Open the .dmg file and drag the Invio icon into your Applications folder. Open Invio from Applications or Spotlight to begin billing.',
-    linux: 'Download the Invio AppImage (.AppImage). Make the file executable via terminal (chmod +x Invio-*.AppImage) or File Properties > Permissions > "Allow executing file as program", then double-click to run.',
+    windows: 'Download Invio for Windows. Double-click the downloaded setup file and follow the quick 1-step installer, or install directly from Microsoft Store. Invio will launch automatically and create a desktop shortcut.',
+    mac: 'Download Invio for Mac. Open the downloaded file and drag the Invio icon into your Applications folder. Open Invio from Applications or Spotlight to begin billing.',
+    linux: 'Download Invio for Linux. Make the file executable via terminal (chmod +x Invio-*.AppImage) or File Properties > Permissions > "Allow executing file as program", then double-click to run.',
   },
 
   keyFeatures: [

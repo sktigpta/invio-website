@@ -147,10 +147,10 @@ export function Hero() {
                       type="button"
                       onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
                       className="h-12 px-5 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs sm:text-sm font-medium rounded-full shadow-2xs hover:shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      title="Download Standalone Offline Setup (.exe)"
+                      title="Download for Windows"
                     >
                       <DownloadIcon className="size-3.5 text-slate-500" />
-                      <span>Standalone .exe</span>
+                      <span>Download for Windows</span>
                     </button>
                   </div>
                   <span className="text-[11px] text-slate-500">
@@ -164,7 +164,7 @@ export function Hero() {
                   className="h-12 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer mt-1"
                 >
                   {getOsIcon(selectedOSId)}
-                  <span>Download for {currentOS.name} ({currentOS.extension})</span>
+                  <span>Download for {selectedOSId === 'mac' ? 'Mac' : currentOS.name}</span>
                 </button>
               )}
             </div>

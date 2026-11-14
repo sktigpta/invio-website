@@ -5,13 +5,87 @@
 
 export const RELEASES_DATA = [
   {
+    version: '1.1.4',
+    tag: 'v1.1.4',
+    name: 'Invio v1.1.4 — Production Hardening, Clean Multi-Platform CTAs, SEO & Ecosystem Enhancements',
+    date: 'November 2026',
+    publishedAt: '2026-11-14T18:00:00Z',
+    isLatest: true,
+    badge: 'Latest Release',
+    githubUrl: 'https://github.com/sktigpta/invio-desktop/releases/tag/v1.1.4',
+    commitCompareUrl: 'https://github.com/sktigpta/invio-desktop/compare/v1.1.3...v1.1.4',
+    summary:
+      'Production release delivering comprehensive ecosystem hardening, clean multi-platform download actions, full search engine indexation, upgraded security controls, and cross-platform desktop binary distributions.',
+    highlights: [
+      'Multi-Platform Download Flow: Clean, intuitive OS installer CTAs across web and documentation without unwanted technical file extension labels.',
+      'Comprehensive SEO & Sitemap: Complete search engine coverage with structured metadata and sitemap indexing for all documentation and extension guides.',
+      'Ecosystem Security Hardening: Strict sanitization, input validation, and fail-closed permission checks across backend, CRM, and desktop components.',
+      'Automated Multi-Platform Binary Verification: Verified release distributions for macOS Apple Silicon & Intel, Windows 10/11, and Linux 64-bit.',
+    ],
+    assets: [
+      {
+        platform: 'macOS Apple Silicon (M1/M2/M3/M4)',
+        arch: 'arm64',
+        filename: 'Invio-1.1.4-mac-arm64.dmg',
+        size: '~68 MB',
+        kind: 'Mac Installer',
+        primary: true,
+      },
+      {
+        platform: 'macOS Intel',
+        arch: 'x64',
+        filename: 'Invio-1.1.4-mac-x64.dmg',
+        size: '~72 MB',
+        kind: 'Mac Installer',
+      },
+      {
+        platform: 'Windows 10 / 11 (64-bit)',
+        arch: 'x64',
+        filename: 'Invio-1.1.4-win-x64.exe',
+        size: '~62 MB',
+        kind: 'Windows Installer',
+        primary: true,
+        microsoftStoreUrl: 'https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN',
+      },
+      {
+        platform: 'Windows Portable (64-bit)',
+        arch: 'x64',
+        filename: 'Invio-1.1.4-win-x64-portable.exe',
+        size: '~61 MB',
+        kind: 'Portable Windows App',
+      },
+      {
+        platform: 'Windows Store AppX (64-bit)',
+        arch: 'x64',
+        filename: 'Invio-1.1.4-win-x64.appx',
+        size: '~78 MB',
+        kind: 'Microsoft Store Package',
+      },
+      {
+        platform: 'Linux Universal AppImage',
+        arch: 'x64',
+        filename: 'Invio-1.1.4-linux-x86_64.AppImage',
+        size: '~65 MB',
+        kind: 'Linux AppImage',
+        primary: true,
+      },
+      {
+        platform: 'Linux Debian / Ubuntu (deb)',
+        arch: 'x64',
+        filename: 'Invio-1.1.4-linux-amd64.deb',
+        size: '~58 MB',
+        kind: 'Debian Package',
+      },
+    ],
+  },
+  {
     version: '1.1.3',
     tag: 'v1.1.3',
     name: 'Invio v1.1.3 — Microsoft Store Windows 11 Native Architecture, Live Restaurant KDS OTP Sync & Extension Ecosystem',
     date: 'November 2026',
     publishedAt: '2026-11-01T17:30:00Z',
-    isLatest: true,
-    badge: 'Latest Release',
+    isLatest: false,
+    badge: 'Previous Release',
     githubUrl: 'https://github.com/sktigpta/invio-desktop/releases/tag/v1.1.3',
     commitCompareUrl: 'https://github.com/sktigpta/invio-desktop/compare/v1.1.2...v1.1.3',
     summary:
@@ -781,7 +855,7 @@ export const RELEASES_DATA = [
       {
         platform: 'windows',
         name: 'Invio-1.0.2-win-x64.exe',
-        type: 'Installer (.exe)',
+        type: 'Windows Installer',
         size: '113.9 MB',
         arch: 'x64 (64-bit)',
         recommended: true,
@@ -789,7 +863,7 @@ export const RELEASES_DATA = [
       {
         platform: 'windows',
         name: 'Invio-1.0.2-win-x64-portable.exe',
-        type: 'Portable (.exe)',
+        type: 'Portable Windows App',
         size: '113.8 MB',
         arch: 'x64 (64-bit)',
         recommended: false,
@@ -797,7 +871,7 @@ export const RELEASES_DATA = [
       {
         platform: 'mac',
         name: 'Invio-1.0.2-mac-arm64.dmg',
-        type: 'Disk Image (.dmg)',
+        type: 'Mac Disk Image',
         size: '133.3 MB',
         arch: 'Apple Silicon (M1/M2/M3/M4)',
         recommended: true,
@@ -805,7 +879,7 @@ export const RELEASES_DATA = [
       {
         platform: 'macIntel',
         name: 'Invio-1.0.2-mac-x64.dmg',
-        type: 'Disk Image (.dmg)',
+        type: 'Mac Disk Image',
         size: '139.6 MB',
         arch: 'Intel 64-bit',
         recommended: false,
@@ -821,7 +895,7 @@ export const RELEASES_DATA = [
       {
         platform: 'linux',
         name: 'Invio-1.0.2-linux-amd64.deb',
-        type: 'Debian (.deb)',
+        type: 'Debian Package',
         size: '102.3 MB',
         arch: 'Debian / Ubuntu',
         recommended: false,
@@ -854,7 +928,7 @@ export const RELEASES_DATA = [
       {
         platform: 'windows',
         name: 'Invio-1.0.1-win-x64.exe',
-        type: 'Installer (.exe)',
+        type: 'Windows Installer',
         size: '113.9 MB',
         arch: 'x64 (64-bit)',
         recommended: true,
@@ -862,7 +936,7 @@ export const RELEASES_DATA = [
       {
         platform: 'windows',
         name: 'Invio-1.0.1-win-x64-portable.exe',
-        type: 'Portable (.exe)',
+        type: 'Portable Windows App',
         size: '113.8 MB',
         arch: 'x64 (64-bit)',
         recommended: false,
@@ -870,7 +944,7 @@ export const RELEASES_DATA = [
       {
         platform: 'mac',
         name: 'Invio-1.0.1-mac-arm64.dmg',
-        type: 'Disk Image (.dmg)',
+        type: 'Mac Disk Image',
         size: '133.3 MB',
         arch: 'Apple Silicon (M1/M2/M3/M4)',
         recommended: true,
@@ -878,7 +952,7 @@ export const RELEASES_DATA = [
       {
         platform: 'mac',
         name: 'Invio-1.0.1-mac-x64.dmg',
-        type: 'Disk Image (.dmg)',
+        type: 'Mac Disk Image',
         size: '139.6 MB',
         arch: 'Intel 64-bit',
         recommended: false,
@@ -894,7 +968,7 @@ export const RELEASES_DATA = [
       {
         platform: 'linux',
         name: 'Invio-1.0.1-linux-amd64.deb',
-        type: 'Debian / Ubuntu (.deb)',
+        type: 'Debian / Ubuntu Package',
         size: '102.3 MB',
         arch: 'Debian 64-bit',
         recommended: false,

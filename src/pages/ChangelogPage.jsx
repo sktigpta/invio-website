@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useMemo } from 'react';
 import { applySEO } from '../utils/seoHelper';
 import { A4DocLayout } from '../components/A4DocLayout';
 import { useDownloadModal } from '../context/DownloadModalContext';
-import { PLATFORM_DOWNLOADS, API_BASE_URL } from '../utils/osDetector';
+import { PLATFORM_DOWNLOADS, API_BASE_URL, detectDeviceOS } from '../utils/osDetector';
 import {
   DownloadIcon,
   PrinterIcon,
@@ -19,7 +19,25 @@ import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
  * these structured release notes provide the complete changelog.
  */
 const CURATED_RELEASE_NOTES = {
-  'v1.1.3': `## Invio v1.1.3 (Latest Production Release)
+  'v1.1.4': `## Invio v1.1.4 (Latest Production Release)
+
+Invio Desktop v1.1.4 delivers comprehensive ecosystem hardening, clean multi-platform download actions, full search engine indexation, upgraded security controls, and cross-platform desktop binary distributions.
+
+---
+
+### What's Changed
+
+#### 🌐 Web & Download Experience Polish
+- **Clean OS Installer CTAs**: Simplified all download buttons across landing, features, documentation, and pricing pages into clean, professional labels: **Download for Mac**, **Download for Windows**, and **Download for Linux**.
+- **Search Engine Optimization & Indexation**: Added full sitemap entries and structured JSON-LD metadata for all newly added documentation and extension guides.
+- **Direct Installer Flow**: Cleaned up Windows and macOS direct installation guides and removed legacy version references.
+
+#### 🛡️ Platform Security & Validation
+- **Unified Input Sanitization**: Applied comprehensive HTML sanitization and input validation across web, CRM, and desktop components.
+- **Strict Permission Enforcement**: Hardened fail-closed access controls and role-based checks for administrative features.
+- **Cross-Platform Binary Delivery**: Verified release distributions across macOS Apple Silicon & Intel, Windows 10/11, and Linux.
+`,
+  'v1.1.3': `## Invio v1.1.3 (Previous Production Release)
 
 Invio Desktop v1.1.3 is a major production hardening and compatibility release bringing Windows 11 Microsoft Store Centennial architecture support (\`TargetDeviceFamily 10.0.22621.0\`), live Kitchen Display System (KDS) rolling 6-digit verification OTP and timer UI synchronization, official Extension Platform catalog navigation integration, and comprehensive cross-platform performance optimizations.
 
@@ -318,22 +336,42 @@ Invio Desktop v1.0.0 is the foundational release of the privacy-first desktop bi
  */
 const INITIAL_RELEASES = [
   {
+    tag: 'v1.1.4',
+    version: '1.1.4',
+    anchorId: 'v1-1-4',
+    name: 'Version 1.1.4 (Latest Production Release)',
+    date: 'November 14, 2026',
+    isLatest: true,
+    assets: [
+      { name: 'Invio-1.1.4-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.4-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.4-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.4-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.4-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.4-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.4-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.4-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '65.2 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.4-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
+    ],
+    notes: CURATED_RELEASE_NOTES['v1.1.4']
+  },
+  {
     tag: 'v1.1.3',
     version: '1.1.3',
     anchorId: 'v1-1-3',
-    name: 'Version 1.1.3 (Latest Production Release)',
+    name: 'Version 1.1.3 (Previous Production Release)',
     date: 'November 1, 2026',
-    isLatest: true,
+    isLatest: false,
     assets: [
-      { name: 'Invio-1.1.3-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.3-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.3-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.3-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.3-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.1.3-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.1.3-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.3-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.3-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.3-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.3-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.3-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.3-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.3-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.1.3-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '65.2 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.1.3-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.3-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.1.3']
   },
@@ -345,15 +383,15 @@ const INITIAL_RELEASES = [
     date: 'November 1, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.1.2-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.2-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.2-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.2-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.2-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.1.2-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.1.2-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.2-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.2-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.2-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.2-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.2-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.2-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.2-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.1.2-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '65.2 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.1.2-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.2-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.1.2']
   },
@@ -365,15 +403,15 @@ const INITIAL_RELEASES = [
     date: 'October 27, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.1.1-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.1-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.1-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.1-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.1-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.1.1-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.1.1-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.1-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.1-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.1-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.1-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.1-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.1-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.1-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.1.1-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.1.1-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.1-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.1.1']
   },
@@ -385,15 +423,15 @@ const INITIAL_RELEASES = [
     date: 'October 26, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.1.0-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.0-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.0-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.0-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.1.0-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.1.0-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.1.0-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.0-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.0-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.0-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.0-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.0-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.0-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.0-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.1.0-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.1.0-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.0-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.1.0']
   },
@@ -405,15 +443,15 @@ const INITIAL_RELEASES = [
     date: 'October 22, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.10-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.10-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.10-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.10-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.10-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.10-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.10-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.10-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.10-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.10-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.10-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.10-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.10-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.10-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.10-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.0.10-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.0.10-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.10']
   },
@@ -425,15 +463,15 @@ const INITIAL_RELEASES = [
     date: 'October 20, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.9-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.9-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.9-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.9-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.9-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.9-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.9-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.9-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.9-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.9-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.9-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.9-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.9-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.9-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.9-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.0.9-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.0.9-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.9']
   },
@@ -445,15 +483,15 @@ const INITIAL_RELEASES = [
     date: 'October 20, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.8-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.8-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.8-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.8-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.8-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.8-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.8-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.8-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.8-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.8-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.8-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.8-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.8-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.8-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.8-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.0.8-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.0.8-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.8']
   },
@@ -465,15 +503,15 @@ const INITIAL_RELEASES = [
     date: 'October 19, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.7-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.7-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.7-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.7-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.7-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.7-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.7-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.7-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.7-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '131.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.7-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '139.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.7-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '137.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.7-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '114.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.7-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '114.0 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.7-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '167.5 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.7-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.3 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.0.7-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.0.7-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '102.5 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.7']
   },
@@ -485,15 +523,15 @@ const INITIAL_RELEASES = [
     date: 'October 18, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.6-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '133.3 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.6-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '131.4 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.6-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '139.6 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.6-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '137.7 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.6-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '113.9 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.6-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '113.8 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.6-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '167.3 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.6-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '133.3 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.6-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '131.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.6-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '139.6 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.6-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '137.7 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.6-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '113.9 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.6-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '113.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.6-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '167.3 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.6-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '130.1 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.0.6-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '102.3 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.0.6-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '102.3 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.6']
   },
@@ -505,9 +543,9 @@ const INITIAL_RELEASES = [
     date: 'October 17, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.5-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '132.8 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.5-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '113.5 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.5-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Windows Store (.appx)', size: '166.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.5-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '132.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.5-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '113.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.5-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '166.8 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.5-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '129.5 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.5']
@@ -520,8 +558,8 @@ const INITIAL_RELEASES = [
     date: 'October 14, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.4-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '131.2 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.4-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '112.4 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.4-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '131.2 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.4-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '112.4 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.4-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '128.1 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.4']
@@ -534,8 +572,8 @@ const INITIAL_RELEASES = [
     date: 'October 14, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.3-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '130.5 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.3-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '111.9 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.3-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '130.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.3-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '111.9 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.3-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '127.2 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.3']
@@ -548,14 +586,14 @@ const INITIAL_RELEASES = [
     date: 'October 12, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.2-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '128.8 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.2-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update (.zip)', size: '126.9 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.2-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Disk Image (.dmg)', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.2-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update (.zip)', size: '131.5 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.2-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '111.1 MB', platform: 'windows', icon: WindowsIcon },
-      { name: 'Invio-1.0.2-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable (.exe)', size: '110.9 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.2-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '128.8 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.2-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '126.9 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.2-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '133.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.2-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '131.5 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.2-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '111.1 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.2-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '110.9 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.2-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '125.4 MB', platform: 'linux', icon: LinuxIcon },
-      { name: 'Invio-1.0.2-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package (.deb)', size: '100.2 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.0.2-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '100.2 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.2']
   },
@@ -567,8 +605,8 @@ const INITIAL_RELEASES = [
     date: 'October 7, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.1-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '127.4 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.1-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '109.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.1-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '127.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.1-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '109.8 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.1-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '124.1 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.1']
@@ -581,8 +619,8 @@ const INITIAL_RELEASES = [
     date: 'October 2, 2026',
     isLatest: false,
     assets: [
-      { name: 'Invio-1.0.0-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Disk Image (.dmg)', size: '126.1 MB', platform: 'mac', icon: AppleIcon },
-      { name: 'Invio-1.0.0-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'NSIS Setup (.exe)', size: '108.2 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.0.0-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '126.1 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.0.0-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '108.2 MB', platform: 'windows', icon: WindowsIcon },
       { name: 'Invio-1.0.0-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '122.9 MB', platform: 'linux', icon: LinuxIcon },
     ],
     notes: CURATED_RELEASE_NOTES['v1.0.0']
@@ -601,56 +639,61 @@ function formatFileSize(bytes) {
 /**
  * Infer platform, architecture, package format and icon from filename.
  */
-function inferAssetMetadata(name, size) {
+function inferAssetMetadata(name, size, downloadUrl = null) {
   let platform = 'windows';
+  let platformKey = 'windows';
   let icon = WindowsIcon;
   let arch = 'Windows 64-bit (x64)';
-  let format = 'Setup Installer (.exe)';
+  let format = 'Windows Installer';
 
   if (name.endsWith('.dmg')) {
     platform = 'mac';
+    platformKey = name.includes('arm64') ? 'mac' : 'macIntel';
     icon = AppleIcon;
-    format = 'Apple Disk Image (.dmg)';
+    format = 'Apple Disk Image';
     arch = name.includes('arm64') ? 'Apple Silicon (M1/M2/M3/M4)' : 'Intel Mac (x64)';
   } else if (name.endsWith('.zip')) {
     platform = 'mac';
+    platformKey = name.includes('arm64') ? 'mac' : 'macIntel';
     icon = AppleIcon;
-    format = 'Auto-Update Archive (.zip)';
+    format = 'Auto-Update Package';
     arch = name.includes('arm64') ? 'Apple Silicon (M1/M2/M3/M4)' : 'Intel Mac (x64)';
   } else if (name.endsWith('.appx')) {
     platform = 'windows';
     icon = WindowsIcon;
-    format = 'Microsoft Store (.appx)';
+    format = 'Microsoft Store Package';
     arch = 'Windows 64-bit (x64)';
   } else if (name.includes('-portable.exe')) {
     platform = 'windows';
     icon = WindowsIcon;
-    format = 'Standalone Portable (.exe)';
+    format = 'Standalone Portable';
     arch = 'Windows 64-bit (x64)';
   } else if (name.endsWith('.exe')) {
     platform = 'windows';
     icon = WindowsIcon;
-    format = 'NSIS Setup Installer (.exe)';
+    format = 'Windows Setup Installer';
     arch = 'Windows 64-bit (x64)';
   } else if (name.endsWith('.AppImage')) {
     platform = 'linux';
     icon = LinuxIcon;
-    format = 'Universal AppImage';
+    format = 'Linux AppImage';
     arch = 'Linux 64-bit (x86_64)';
   } else if (name.endsWith('.deb')) {
     platform = 'linux';
     icon = LinuxIcon;
-    format = 'Debian / Ubuntu (.deb)';
+    format = 'Debian / Ubuntu Package';
     arch = 'Debian Package (amd64)';
   }
 
   return {
     name,
     platform,
+    platformKey,
     icon,
     arch,
     format,
     size: formatFileSize(size),
+    downloadUrl: downloadUrl || null,
   };
 }
 
@@ -673,7 +716,7 @@ function filterInstallableAssets(rawAssets) {
           name.endsWith('.deb'))
       );
     })
-    .map((a) => inferAssetMetadata(a.name, a.size));
+    .map((a) => inferAssetMetadata(a.name, a.size, a.browser_download_url || a.downloadUrl || a.url || null));
 }
 
 /**
@@ -1140,7 +1183,17 @@ export function ChangelogPage() {
 
             <button
               type="button"
-              onClick={() => openDownloadModal()}
+              onClick={() => {
+                const defaultOs = detectDeviceOS();
+                const matchingAsset = (rel.assets || []).find(
+                  (a) => a.platformKey === defaultOs.id || a.platform === defaultOs.id
+                );
+                openDownloadModal({
+                  ...defaultOs,
+                  filename: matchingAsset?.name || defaultOs.filename,
+                  ...(matchingAsset?.downloadUrl ? { downloadEndpoint: matchingAsset.downloadUrl } : {}),
+                });
+              }}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded shadow-2xs transition-colors cursor-pointer"
             >
               <DownloadIcon className="size-3.5" />
@@ -1216,7 +1269,13 @@ export function ChangelogPage() {
                                 <span className="text-slate-300">|</span>
                                 <button
                                   type="button"
-                                  onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
+                                  onClick={() =>
+                                    openDownloadModal({
+                                      ...PLATFORM_DOWNLOADS.windows,
+                                      filename: asset.name || PLATFORM_DOWNLOADS.windows.filename,
+                                      ...(asset.downloadUrl ? { downloadEndpoint: asset.downloadUrl } : {}),
+                                    })
+                                  }
                                   className="text-[#7C3AED] hover:text-[#6D28D9] font-semibold hover:underline cursor-pointer inline-flex items-center gap-1"
                                 >
                                   <span>Download</span>
@@ -1226,7 +1285,15 @@ export function ChangelogPage() {
                             ) : (
                               <button
                                 type="button"
-                                onClick={() => openDownloadModal(PLATFORM_DOWNLOADS[asset.platform])}
+                                onClick={() => {
+                                  const basePlatform =
+                                    PLATFORM_DOWNLOADS[asset.platformKey || asset.platform] || PLATFORM_DOWNLOADS.windows;
+                                  openDownloadModal({
+                                    ...basePlatform,
+                                    filename: asset.name || basePlatform.filename,
+                                    ...(asset.downloadUrl ? { downloadEndpoint: asset.downloadUrl } : {}),
+                                  });
+                                }}
                                 className="text-[#7C3AED] hover:text-[#6D28D9] font-semibold hover:underline cursor-pointer inline-flex items-center gap-1"
                               >
                                 <span>Download</span>

@@ -95,7 +95,7 @@ export async function loginUser(email, password) {
   }
 }
 
-export async function registerUser({ email, password, businessName }) {
+export async function registerUser({ email, password, businessName, fullName }) {
   try {
     const res = await fetch(`${apiBase()}/api/auth/register`, {
       method: 'POST',
@@ -107,6 +107,7 @@ export async function registerUser({ email, password, businessName }) {
         email: email.trim().toLowerCase(),
         password,
         businessName: businessName?.trim() || '',
+        ...(fullName?.trim() ? { fullName: fullName.trim() } : {}),
       }),
     });
     const data = await res.json().catch(() => ({}));
@@ -171,6 +172,7 @@ export function triggerGoogleSignIn({ businessName = '', mode = 'signin', onSucc
     pollInterval = setInterval(async () => {
       if (resolved || pollInFlight) return;
       if (popup && popup.closed) {
+        pollInFlight = true;
         // Run a final poll before treating closure as cancellation in case user closed after success
         try {
           const res = await fetch(`${base}/api/auth/google/poll?sessionId=${encodeURIComponent(sessionId)}`, {
@@ -187,6 +189,8 @@ export function triggerGoogleSignIn({ businessName = '', mode = 'signin', onSucc
           }
         } catch {
           // ignore final attempt error
+        } finally {
+          pollInFlight = false;
         }
         cleanup();
         if (onError) onError('Google sign-in window was closed.');
@@ -260,7 +264,13 @@ export async function resendVerification(email) {
       body: JSON.stringify({ email: email.trim().toLowerCase() }),
     });
     const data = await res.json().catch(() => ({}));
-    return { success: res.ok && Boolean(data.success), message: data.message, retryAfterSeconds: data.retryAfterSeconds };
+    const ok = res.ok && Boolean(data.success);
+    return {
+      success: ok,
+      message: data.message,
+      error: ok ? undefined : (data.error || data.message || 'Could not resend verification code.'),
+      retryAfterSeconds: data.retryAfterSeconds,
+    };
   } catch {
     return { success: false, error: 'Could not connect to verification server.' };
   }

@@ -48,10 +48,10 @@ export function DownloadCta({
               <button
                 type="button"
                 onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
-                className="h-10 px-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-full transition-all cursor-pointer"
-                title="Download Standalone Offline Setup (.exe)"
+                className="h-10 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-full transition-all cursor-pointer"
+                title="Download for Windows"
               >
-                Offline .exe
+                Download for Windows
               </button>
             </div>
           ) : (
@@ -61,7 +61,7 @@ export function DownloadCta({
               className="h-10 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-semibold rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm hover:shadow-purple-200"
             >
               {getOsIcon(activeOS.id)}
-              <span>Download for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
+              <span>Download for {activeOS.isMobileFallback ? 'Desktop' : (activeOS.id === 'mac' || activeOS.id === 'macIntel' ? 'Mac' : activeOS.name)}</span>
             </button>
           )}
 

@@ -69,10 +69,10 @@ export function ReadyCta() {
                 type="button"
                 onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
                 className="h-10 px-5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-medium flex items-center justify-center gap-2 cursor-pointer transition-colors border border-slate-700 select-none"
-                title="Download Standalone Offline Setup (.exe)"
+                title="Download for Windows"
               >
                 <WindowsIcon className="size-3.5 shrink-0" />
-                <span>Standalone .exe</span>
+                <span>Download for Windows</span>
               </button>
             </div>
           ) : (
@@ -80,10 +80,10 @@ export function ReadyCta() {
               type="button"
               onClick={() => openDownloadModal(activeOS)}
               className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs select-none"
-              title={`Download Invio for ${activeOS.name}`}
+              title={`Download Invio for ${activeOS.id === 'mac' || activeOS.id === 'macIntel' ? 'Mac' : activeOS.name}`}
             >
               {getOsIcon(activeOS.id)}
-              <span>Download Free for {activeOS.isMobileFallback ? 'Desktop' : activeOS.name}</span>
+              <span>Download Free for {activeOS.isMobileFallback ? 'Desktop' : (activeOS.id === 'mac' || activeOS.id === 'macIntel' ? 'Mac' : activeOS.name)}</span>
             </button>
           )}
         </div>

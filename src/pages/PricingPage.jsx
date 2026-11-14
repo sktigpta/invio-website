@@ -121,10 +121,11 @@ export function PricingPage() {
     applySEO('pricing');
     window.scrollTo(0, 0);
 
-    // If query params specified auto-checkout or plus plan, redirect to dedicated /checkout page
-    if (isAutoCheckout || (paramPlan && paramPlan.toLowerCase() === 'plus')) {
+    // If query params specified auto-checkout or a purchasable plan, redirect to dedicated /checkout page
+    if (isAutoCheckout || (paramPlan && (paramPlan.toLowerCase() === 'plus' || paramPlan.toLowerCase() === 'enterprise' || paramPlan.toLowerCase() === 'pro'))) {
       const redirectParams = new URLSearchParams(searchParams);
-      redirectParams.set('plan', 'plus');
+      const targetPlan = paramPlan && ['enterprise', 'pro', 'plus'].includes(paramPlan.toLowerCase()) ? paramPlan.toLowerCase() : 'plus';
+      redirectParams.set('plan', targetPlan);
       redirectParams.set('cycle', paramCycle || 'yearly');
       if (paramEmail) redirectParams.set('email', paramEmail);
       navigate(`/checkout?${redirectParams.toString()}`, { replace: true });

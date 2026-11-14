@@ -36,9 +36,10 @@ import { CheckoutMembershipSkeleton, Skeleton } from '../components/common/Skele
 // Computed once at module level — avoids re-randomizing on every render in React 18 Strict Mode.
 const CHECKOUT_FEATURE_INDEX = Math.floor(Math.random() * FEATURES_DATA.length);
 
-const DEFAULT_PLUS_PRICE = {
-  monthly: 149,
-  yearly: 999,
+const DEFAULT_PRICES_BY_PLAN = {
+  plus: { monthly: 149, yearly: 999 },
+  pro: { monthly: 1299, yearly: 9999 },
+  enterprise: { monthly: 1299, yearly: 9999 },
 };
 
 function parsePrice(value) {
@@ -58,13 +59,23 @@ export function CheckoutPage() {
 
   const paramEmail = searchParams.get('email') || '';
   const paramCycle = searchParams.get('cycle') || 'yearly';
+  const paramPlan = (searchParams.get('plan') || 'plus').toLowerCase();
+  const selectedPlanId = ['enterprise', 'pro', 'plus'].includes(paramPlan) ? paramPlan : 'plus';
+  const selectedPlanName =
+    selectedPlanId === 'enterprise'
+      ? 'Invio Enterprise'
+      : selectedPlanId === 'pro'
+      ? 'Invio Pro'
+      : 'Invio Plus';
   const paramCoupon = searchParams.get('coupon') || searchParams.get('discount') || searchParams.get('promo') || '';
   const isFromDesktop = Boolean(paramEmail || searchParams.get('source') === 'desktop');
 
   const [billingCycle, setBillingCycle] = useState(
     paramCycle === 'monthly' ? 'monthly' : 'yearly'
   );
-  const [prices, setPrices] = useState(DEFAULT_PLUS_PRICE);
+  const [prices, setPrices] = useState(
+    DEFAULT_PRICES_BY_PLAN[selectedPlanId] || DEFAULT_PRICES_BY_PLAN.plus
+  );
   const [pricingLoading, setPricingLoading] = useState(false);
   const [pricingError, setPricingError] = useState('');
 
@@ -94,6 +105,7 @@ export function CheckoutPage() {
   // Status & error states
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState('');
+  const [authSuccess, setAuthSuccess] = useState('');
   const [paying, setPaying] = useState(false);
   const [payError, setPayError] = useState('');
   const [successData, setSuccessData] = useState(null);
@@ -107,13 +119,18 @@ export function CheckoutPage() {
   const [isVerifyingCode, setIsVerifyingCode] = useState(false);
   const [resendCooldownSeconds, setResendCooldownSeconds] = useState(0);
 
+  const PLAN_RANKS = { free: 0, plus: 1, pro: 2, enterprise: 3 };
+  const userPlanRank = PLAN_RANKS[membershipInfo?.planId || 'free'] || 0;
+  const targetPlanRank = PLAN_RANKS[selectedPlanId] || 1;
+  const isAlreadyCovered = userPlanRank >= targetPlanRank;
+
   const basePrice = billingCycle === 'yearly' ? prices.yearly : prices.monthly;
   const yearlySavings = getYearlySavings(prices.monthly, prices.yearly);
   const effectiveMonthly = prices.yearly > 0 ? Math.round(prices.yearly / 12) : null;
   const currentPrice = basePrice === null
     ? null
     : couponApplied
-    ? Math.max(0, basePrice - (couponApplied.discountAmount || 0))
+    ? Math.max(basePrice > 0 ? 1 : 0, basePrice - (couponApplied.discountAmount || 0))
     : basePrice;
 
   const handleApplyCoupon = async (codeToApply = couponInput) => {
@@ -129,7 +146,7 @@ export function CheckoutPage() {
     setValidatingCoupon(true);
     setCouponError('');
     try {
-      const res = await validateDiscount(clean, 'plus', billingCycle, currentUser?.id);
+      const res = await validateDiscount(clean, selectedPlanId, billingCycle, currentUser?.id);
       if (res.valid) {
         setCouponApplied(res);
         setCouponInput(clean);
@@ -170,14 +187,15 @@ export function CheckoutPage() {
       // Fall back to user.plan
     }
 
-    const isPaid = plan === 'plus' || plan === 'pro';
+    const isPaid = plan === 'plus' || plan === 'pro' || plan === 'enterprise';
     const isActive = status === 'active' || status === 'trialing';
     const isNotExpired = !expiresAt || new Date(expiresAt).getTime() > Date.now();
 
     if (isPaid && isActive && isNotExpired) {
       return {
         hasMembership: true,
-        plan: plan === 'pro' ? 'Pro' : 'Plus',
+        plan: plan === 'enterprise' ? 'Enterprise' : plan === 'pro' ? 'Pro' : 'Plus',
+        planId: plan,
         status,
         expiresAt,
       };
@@ -186,17 +204,20 @@ export function CheckoutPage() {
   };
 
   useEffect(() => {
-    applySEO('checkout');
-    window.scrollTo(0, 0);
+    let active = true;
+    setPrices(DEFAULT_PRICES_BY_PLAN[selectedPlanId] || DEFAULT_PRICES_BY_PLAN.plus);
+    setCouponApplied(null);
+    setCouponError('');
+    setPricingLoading(true);
 
-    // Fetch dynamic plan catalog from backend
     fetchSubscriptionPlans()
       .then((res) => {
+        if (!active) return;
         if (res.success && Array.isArray(res.plans)) {
-          const plusPlan = res.plans.find((p) => String(p.id).toLowerCase() === 'plus');
-          if (plusPlan?.prices) {
-            const monthly = parsePrice(plusPlan.prices.monthly);
-            const yearly = parsePrice(plusPlan.prices.yearly);
+          const targetPlan = res.plans.find((p) => String(p.id).toLowerCase() === selectedPlanId);
+          if (targetPlan?.prices) {
+            const monthly = parsePrice(targetPlan.prices.monthly);
+            const yearly = parsePrice(targetPlan.prices.yearly);
             if (monthly !== null && yearly !== null) {
               setPrices({
                 monthly,
@@ -210,7 +231,18 @@ export function CheckoutPage() {
       .catch(() => {
         // Keep authoritative fallback prices
       })
-      .finally(() => setPricingLoading(false));
+      .finally(() => {
+        if (active) setPricingLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [selectedPlanId]);
+
+  useEffect(() => {
+    applySEO('checkout');
+    window.scrollTo(0, 0);
 
     // If an account is already stored, check its active membership status
     if (currentUser) {
@@ -258,7 +290,7 @@ export function CheckoutPage() {
 
     try {
       const order = await createSubscriptionOrder(
-        'plus',
+        selectedPlanId,
         billingCycle,
         couponApplied?.code || null,
         user?.id || currentUser?.id
@@ -284,14 +316,14 @@ export function CheckoutPage() {
         amountRupees: order.amount,
         customerEmail: targetEmail,
         customerPhone: undefined,
-        description: `Invio Plus — ${billingCycle === 'yearly' ? 'Yearly' : 'Monthly'} Subscription`,
+        description: `${selectedPlanName} — ${billingCycle === 'yearly' ? 'Yearly' : 'Monthly'} Subscription`,
         onSuccess: async ({ orderId, paymentId, signature }) => {
           const result = await verifyPayment({
             orderId,
             paymentId,
             signature,
             email: targetEmail,
-            planId: 'plus',
+            planId: selectedPlanId,
             validity: billingCycle,
             businessName: effectiveBiz,
             firstName: effectiveName || undefined,
@@ -371,9 +403,11 @@ export function CheckoutPage() {
       } else {
         setPendingVerificationEmail('');
         setAuthTab('login');
-        setAuthError('Email verified successfully! Please sign in with your password to continue.');
+        setAuthError('');
+        setAuthSuccess('Email verified successfully! Please sign in with your password to continue.');
       }
     } else {
+      setAuthSuccess('');
       setAuthError(res.error || 'Verification code failed. Please check the code and try again.');
     }
   };
@@ -381,10 +415,11 @@ export function CheckoutPage() {
   const handleResendCode = async () => {
     if (!pendingVerificationEmail || resendCooldownSeconds > 0) return;
     setAuthError('');
+    setAuthSuccess('');
     const res = await resendVerification(pendingVerificationEmail);
     if (res.success) {
       setResendCooldownSeconds(60);
-      setAuthError('A fresh verification code was sent to your email.');
+      setAuthSuccess('A fresh verification code was sent to your email.');
     } else {
       setAuthError(res.error || 'Could not resend code. Please try again shortly.');
     }
@@ -495,10 +530,12 @@ export function CheckoutPage() {
       }
 
       setAuthLoading(true);
+      setAuthSuccess('');
       const regRes = await registerUser({
         email: cleanEmail,
         password,
         businessName: cleanBiz,
+        fullName: cleanName,
       });
 
       if (!regRes.success) {
@@ -611,17 +648,17 @@ export function CheckoutPage() {
             Payment Confirmed
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
-            Payment of <strong className="text-slate-900">₹{successData.amount}</strong> confirmed for Invio Plus ({successData.validity}).
+            Payment of <strong className="text-slate-900">₹{successData.amount}</strong> confirmed for {selectedPlanName} ({successData.validity}).
             Payment ID: <span className="font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-800 text-xs font-semibold">{successData.paymentId}</span>.
           </p>
 
           <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-100 text-left mb-6 space-y-1.5 text-xs text-slate-700">
             <p className="font-bold text-[#7C3AED] uppercase tracking-wider text-[11px]">
-              How to access your Plus license:
+              How to access your {selectedPlanName} license:
             </p>
             <p>1. Open the Invio desktop application.</p>
             <p>2. Sign in with <strong className="text-slate-900 font-mono">{successData.email}</strong>.</p>
-            <p>3. Your Plus features unlock automatically!</p>
+            <p>3. Your {selectedPlanName} features unlock automatically!</p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -692,6 +729,12 @@ export function CheckoutPage() {
                     />
                   </div>
 
+                  {authSuccess && (
+                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 leading-snug">
+                      {authSuccess}
+                    </div>
+                  )}
+
                   {authError && (
                     <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 leading-snug">
                       {authError}
@@ -740,7 +783,7 @@ export function CheckoutPage() {
                   <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
                     {authTab === 'login'
                       ? 'Sign in to your Invio account to continue to checkout and license activation.'
-                      : 'Set up your business account to proceed with your Invio Plus license.'}
+                      : `Set up your business account to proceed with your ${selectedPlanName} license.`}
                   </p>
                 </div>
 
@@ -859,6 +902,12 @@ export function CheckoutPage() {
                       </button>
                     </div>
                   </div>
+
+                  {authSuccess && (
+                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 leading-snug">
+                      {authSuccess}
+                    </div>
+                  )}
 
                   {authError && (
                     <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 leading-snug">
@@ -1002,7 +1051,7 @@ export function CheckoutPage() {
               {checkingMembership ? (
                 /* Checking Membership Skeleton Loader */
                 <CheckoutMembershipSkeleton />
-              ) : membershipInfo?.hasMembership && !allowReorder ? (
+              ) : membershipInfo?.hasMembership && isAlreadyCovered && !allowReorder ? (
                 /* Already has Active Membership State */
                 <div className="space-y-5 text-center">
                   <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-left space-y-2">
@@ -1055,10 +1104,10 @@ export function CheckoutPage() {
                 <div>
                   <div className="mb-5">
                     <h2 className="text-xl font-bold text-slate-900 tracking-tight">
-                      Invio Plus Checkout
+                      {selectedPlanName} Checkout
                     </h2>
                     <p className="text-xs text-slate-500 mt-1">
-                      Choose your billing plan and complete checkout to activate Invio Plus immediately.
+                      Choose your billing plan and complete checkout to activate {selectedPlanName} immediately.
                     </p>
                   </div>
 
@@ -1117,7 +1166,7 @@ export function CheckoutPage() {
                             : `₹${couponApplied.discountValue} OFF`
                         }
                         title="Coupon"
-                        validity="Valid for Invio Plus"
+                        validity={`Valid for ${selectedPlanName}`}
                         leftTag="Enjoy Your Gift"
                         onRemove={handleRemoveCoupon}
                       />

@@ -68,7 +68,7 @@ export function StickyFeatures() {
 
                     <div className="relative z-10 flex flex-col justify-between h-full">
                       {/* Top: Icon / Logo */}
-                      <div className="size-11 rounded-squircle-sm bg-purple-50/90 backdrop-blur-xs border border-purple-100 flex items-center justify-center text-[#7C3AED] group-hover:bg-[#7C3AED] group-hover:text-white group-hover:scale-105 transition-all duration-200 shrink-0 shadow-2xs">
+                      <div className="size-11 rounded-squircle-sm bg-purple-50/90 backdrop-blur-xs flex items-center justify-center text-[#7C3AED] group-hover:bg-[#7C3AED] group-hover:text-white group-hover:scale-105 transition-all duration-200 shrink-0 shadow-2xs">
                         <Icon className="size-5 text-[#7C3AED] group-hover:text-white transition-colors duration-200" />
                       </div>
 

@@ -4,6 +4,7 @@ import { A4DocLayout } from '../components/A4DocLayout';
 import { applySEO } from '../utils/seoHelper';
 import { detectDeviceOS, MICROSOFT_STORE_URL } from '../utils/osDetector';
 import { useDownloadModal } from '../context/DownloadModalContext';
+import { useDebounce } from '../hooks/useDebounce';
 import { SearchIcon, ChevronDownIcon } from '../components/tools/ToolIcons';
 
 export const DOC_CATEGORIES = [
@@ -258,9 +259,11 @@ export function DocsPage() {
     navigate(`/docs/${id}`);
   };
 
+  const debouncedSearchQuery = useDebounce(searchQuery, 200);
+
   const filteredCategories = useMemo(() => {
-    if (!searchQuery.trim()) return DOC_CATEGORIES;
-    const q = searchQuery.toLowerCase();
+    if (!debouncedSearchQuery.trim()) return DOC_CATEGORIES;
+    const q = debouncedSearchQuery.toLowerCase();
     return DOC_CATEGORIES.map((cat) => ({
       ...cat,
       steps: cat.steps.filter(
@@ -270,7 +273,7 @@ export function DocsPage() {
           s.id.toLowerCase().includes(q)
       ),
     })).filter((cat) => cat.steps.length > 0);
-  }, [searchQuery]);
+  }, [debouncedSearchQuery]);
 
   const renderDocContent = () => {
     switch (activeDoc.id) {
@@ -305,7 +308,7 @@ export function DocsPage() {
                     </td>
                     <td className="py-2.5 px-3">
                       <div>Microsoft Store (Recommended)</div>
-                      <div className="text-[10px] text-slate-400">or Standalone Setup (.exe)</div>
+                      <div className="text-[10px] text-slate-400">or Direct Windows Setup</div>
                     </td>
                     <td className="py-2.5 px-3 space-y-1">
                       <div>
@@ -325,14 +328,14 @@ export function DocsPage() {
                           onClick={() => openDownloadModal('windows')}
                           className="text-slate-500 hover:text-slate-800 text-[11px] underline cursor-pointer"
                         >
-                          Download Standalone .exe
+                          Download for Windows
                         </button>
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <td className="py-2.5 px-3 font-medium text-slate-900">Apple Mac (MacBook / iMac)</td>
-                    <td className="py-2.5 px-3">Disk image (.dmg)</td>
+                    <td className="py-2.5 px-3">macOS Installer</td>
                     <td className="py-2.5 px-3">
                       <button
                         type="button"
@@ -345,7 +348,7 @@ export function DocsPage() {
                   </tr>
                   <tr>
                     <td className="py-2.5 px-3 font-medium text-slate-900">Linux PC</td>
-                    <td className="py-2.5 px-3">AppImage / .deb</td>
+                    <td className="py-2.5 px-3">Linux Package</td>
                     <td className="py-2.5 px-3">
                       <button
                         type="button"
@@ -394,14 +397,14 @@ export function DocsPage() {
 
               <div className="p-3 bg-slate-50 border border-slate-200/90 rounded-lg">
                 <strong className="text-slate-900 block font-semibold mb-1">
-                  Option B: Standalone Setup (.exe) Installer
+                  Option B: Direct Windows Setup Installer
                 </strong>
                 <ol className="list-decimal pl-5 space-y-1 text-slate-600">
                   <li>Open your <strong>Downloads</strong> folder and double-click the file named <code>Invio-win-x64.exe</code>.</li>
                   <li>
                     <strong>If you see &ldquo;Windows protected your PC&rdquo; (SmartScreen):</strong>
                     <div className="pl-3 py-1 my-1 text-xs text-slate-600 bg-white border border-slate-200 rounded">
-                      This is normal for direct .exe downloads from the web. Click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
+                      This is normal for direct installer downloads from the web. Click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
                     </div>
                   </li>
                   <li>The setup will take about 15 seconds. An Invio icon will appear on your desktop, and the app will open ready to use.</li>
@@ -413,7 +416,7 @@ export function DocsPage() {
               2. Installing on Apple Mac
             </h2>
             <ol className="list-decimal pl-5 space-y-2 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Open your <strong>Downloads</strong> folder and double-click the file named <code>Invio-1.0.2.dmg</code>.</li>
+              <li>Open your <strong>Downloads</strong> folder and double-click the downloaded Invio setup file.</li>
               <li>A window will open. Drag the purple <strong>Invio</strong> icon into your <strong>Applications</strong> folder.</li>
               <li>Open your Applications folder (or press Cmd + Space and type Invio) and click on Invio to open.</li>
               <li>If your Mac asks &ldquo;Invio was downloaded from the internet. Are you sure you want to open it?&rdquo;, simply click <strong>Open</strong>.</li>
@@ -753,7 +756,7 @@ export function DocsPage() {
               1. Opening the Extension Manager
             </h2>
             <p>
-              In Invio Desktop, click the <strong>🧩 Extensions</strong> icon located on the left-hand navigation sidebar. You will see two primary views:
+              In Invio Desktop, click the <strong>Extensions</strong> icon located on the left-hand navigation sidebar. You will see two primary views:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
               <li><strong>Store Catalog:</strong> Browse official, certified extensions available from the Timrio Extension Registry.</li>

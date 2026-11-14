@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { APP_VERSION } from '../utils/osDetector';
 import { applySEO } from '../utils/seoHelper';
 import { PageContainer } from '../components/PageContainer';
 import { FaqAccordion } from '../components/FaqAccordion';
@@ -49,7 +50,7 @@ export function FaqPage() {
       <div className="max-w-3xl mx-auto">
         <DownloadCta
           title="Ready to Try Invio?"
-          subtitle="Version 1.0.2 is free forever for core desktop billing. Zero cloud setup required."
+          subtitle={`Version ${APP_VERSION} is free forever for core desktop billing. Zero cloud setup required.`}
         />
       </div>
     </PageContainer>

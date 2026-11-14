@@ -167,10 +167,10 @@ export function DownloadCard({
             <div className="h-px bg-slate-200 flex-1" />
           </div>
 
-          {/* Secondary Alternative: Standalone Offline Setup */}
+          {/* Secondary Alternative: Direct Windows Setup */}
           <div className="rounded-xl border border-slate-200/80 p-3.5 text-left hover:border-slate-300 transition-colors">
             <h4 className="text-xs font-bold text-slate-800">
-              Standalone Offline Setup (.exe)
+              Direct Windows Installer
             </h4>
             <p className="text-[11px] text-slate-500 mt-0.5 leading-normal">
               Direct installer ({platform.sizeEstimate || '99 MB'}) for offline computers without Microsoft Store.
@@ -182,7 +182,7 @@ export function DownloadCard({
               className="mt-2.5 w-full py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 rounded-full font-semibold text-xs text-center transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <DownloadIcon className="size-3.5 text-slate-600" />
-              <span>Download Standalone Setup (.exe)</span>
+              <span>Download for Windows</span>
             </button>
 
             <p className="text-[10px] text-slate-400 mt-1.5 text-center leading-normal">
@@ -249,7 +249,7 @@ export function DownloadCard({
                   onClick={handleDirectExeDownload}
                   className="underline text-slate-600 hover:text-slate-900 cursor-pointer"
                 >
-                  download standalone .exe
+                  download direct installer
                 </button>
                 .
               </p>
