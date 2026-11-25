@@ -49,7 +49,7 @@ export function ModularPlatformSection() {
 
         {/* Official Extensions Overview Grid */}
         <div className="rounded-squircle border border-slate-200 bg-gradient-to-br from-[#fbf9fe] via-white to-slate-50/60 p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-200/80">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
               <h3 className="text-lg sm:text-xl font-extrabold text-slate-900">
                 Official Timrio Extensions
@@ -78,8 +78,15 @@ export function ModularPlatformSection() {
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <div className="flex items-center gap-2.5">
-                        <div className="size-9 rounded-squircle-sm bg-purple-50 text-[#7C3AED] flex items-center justify-center shrink-0">
-                          <Icon className="size-4.5" />
+                        <div className="size-9 rounded-squircle-sm bg-slate-50 border border-slate-200/70 flex items-center justify-center shrink-0 overflow-hidden p-1">
+                          <img
+                            src={ext.logoUrl}
+                            alt={`${ext.name} extension logo`}
+                            className="size-7 object-contain"
+                            width="28"
+                            height="28"
+                            loading="lazy"
+                          />
                         </div>
                         <div>
                           <h4 className="text-sm font-bold text-slate-900 leading-tight">{ext.name}</h4>
@@ -102,7 +109,7 @@ export function ModularPlatformSection() {
                     </p>
                   </div>
 
-                  <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-100">
+                  <div className="flex flex-wrap gap-1.5 pt-2">
                     {ext.capabilities.map((cap) => (
                       <span
                         key={cap}

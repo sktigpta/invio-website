@@ -163,8 +163,15 @@ export function FeaturesPage() {
                   <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
                     <div className="lg:w-5/12 space-y-3">
                       <div className="flex items-center gap-3">
-                        <div className="size-11 rounded-squircle-sm bg-purple-50 text-[#7C3AED] flex items-center justify-center shrink-0">
-                          <Icon className="size-5" />
+                        <div className="size-11 rounded-squircle-sm bg-slate-50 border border-slate-200/70 flex items-center justify-center shrink-0 overflow-hidden p-1.5">
+                          <img
+                            src={ext.logoUrl}
+                            alt={`${ext.name} extension logo`}
+                            className="size-8 object-contain"
+                            width="32"
+                            height="32"
+                            loading="lazy"
+                          />
                         </div>
                         <div>
                           <div className="flex items-center gap-2 flex-wrap">

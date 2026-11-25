@@ -38,6 +38,7 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     status: 'Ready',
     category: 'Point of Sale',
     icon: CalculatorIcon,
+    logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.pos-tiles',
     summary:
       'High-speed touch-friendly visual counter billing for retail stores, cafes, and receptions with instant thermal tokens and live Customer POS Display sync.',
     capabilities: ['Navigation', 'Printing', 'Settings', 'Local Storage'],
@@ -57,6 +58,7 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     status: 'Ready',
     category: 'Point of Sale',
     icon: SparklesIcon,
+    logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.pos-display',
     summary:
       'Turn any secondary monitor, counter tablet, or TV into a live customer-facing billing screen with real-time itemization and dynamic UPI QR payments.',
     capabilities: ['Navigation', 'Multi-Monitor', 'Local Storage'],
@@ -76,6 +78,7 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     status: 'Ready',
     category: 'Hospitality',
     icon: ReceiptIcon,
+    logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.restaurant',
     summary:
       'Complete restaurant operations inside Invio: local Wi-Fi QR table ordering web app, live Kitchen Display System (KDS), and 1-click invoice conversion.',
     capabilities: ['Navigation', 'Restaurant Server', 'Printing', 'Reports', 'Local Storage'],
@@ -95,6 +98,7 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     status: 'Ready',
     category: 'Communication',
     icon: MailIcon,
+    logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.email',
     summary:
       'Automated PDF invoice delivery via 1-click Gmail OAuth or Custom SMTP, backed by an offline-resilient outbox queue and custom HTML templates.',
     capabilities: ['Email Dispatch', 'Settings', 'Printing', 'Local Storage'],
@@ -114,6 +118,7 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     status: 'Beta',
     category: 'Communication',
     icon: PrinterIcon,
+    logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.whatsapp',
     summary:
       '1-click customer WhatsApp billing dispatch with customizable message templates, dynamic invoice totals, and embedded UPI payment instructions.',
     capabilities: ['Settings', 'Local Storage'],
