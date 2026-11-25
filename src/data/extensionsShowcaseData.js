@@ -11,21 +11,21 @@ import {
 
 export const MODULARITY_PILLARS = [
   {
-    title: 'Lean Core, Zero Bloat',
+    title: 'Simple & Fast Core',
     description:
-      'Invio Core stays fast and focused on GST billing, inventory, barcode scanning, customer ledgers, and reports. Heavy workflows only load when you enable them.',
+      'Invio starts clean with everything a shop needs every day: fast GST bills, stock tracking, barcode scanning, customer dues, and sales reports.',
     icon: ZapIcon,
   },
   {
-    title: 'Signed & Sandboxed',
+    title: 'Official & Safe Add-ons',
     description:
-      'Every official extension is Ed25519 signed and SHA-256 verified, running inside an isolated sandbox with capability-checked bridges and dedicated local storage.',
+      'Every add-on is built and checked by Timrio. Your shop bills and customer records stay safe on your computer and never mix or break.',
     icon: ShieldCheckIcon,
   },
   {
-    title: 'Enable or Remove Anytime',
+    title: 'Turn On or Off Anytime',
     description:
-      'Turn extensions on or off in one click without touching your SQLite or PostgreSQL business data. Stylesheets and background services mount and unmount cleanly.',
+      'Add or remove any tool in one click without losing a single bill, customer, or product. Only keep what your shop uses.',
     icon: PuzzleIcon,
   },
 ];
@@ -36,19 +36,19 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     name: 'POS',
     tier: 'Free',
     status: 'Ready',
-    category: 'Point of Sale',
+    category: 'Counter Billing',
     icon: CalculatorIcon,
     logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.pos-tiles',
     summary:
-      'High-speed touch-friendly visual counter billing for retail stores, cafes, and receptions with instant thermal tokens and live Customer POS Display sync.',
-    capabilities: ['Navigation', 'Printing', 'Settings', 'Local Storage'],
+      'Fast touch-friendly picture billing for retail counters, cafes, and bakeries with quick token receipts and live customer screen updates.',
+    capabilities: ['Quick Tiles', 'Token Printing', 'Customer Screen', 'Offline Ready'],
     integration:
-      'Syncs live cart & UPI QR directly to Customer POS Display, prints tight thermal tokens, and records paid invoices with automatic stock deduction.',
+      'Sends live items and UPI QR code straight to your Customer POS Display, prints small token slips, and updates your stock automatically.',
     highlights: [
-      'Visual item tile grid with shared product/dish photos, live search, and stock guards',
-      'On-tile quantity controls (+, −, badge) for rapid touch or mouse checkout',
-      '1-click thermal receipt token printing with auto-incrementing token numbers (#1–#999)',
-      'Automatically pushes cart totals, UPI QR, and Paid confirmation to Customer POS Display',
+      'Visual item cards with product photos, quick search, and out-of-stock checks',
+      'Tap + or − right on each item card to build bills in seconds',
+      '1-click small token slip printing with automatic token numbers (#1 to #999)',
+      'Shows the live bill, UPI QR code, and Paid checkmark on the customer screen',
     ],
   },
   {
@@ -56,19 +56,19 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     name: 'Customer POS Display',
     tier: 'Free',
     status: 'Ready',
-    category: 'Point of Sale',
+    category: 'Customer Screen',
     icon: SparklesIcon,
     logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.pos-display',
     summary:
-      'Turn any secondary monitor, counter tablet, or TV into a live customer-facing billing screen with real-time itemization and dynamic UPI QR payments.',
-    capabilities: ['Navigation', 'Multi-Monitor', 'Local Storage'],
+      'Turn any second monitor, counter tablet, or TV into a live customer-facing billing screen with itemized totals and scan-and-pay UPI QR.',
+    capabilities: ['Second Screen', 'Live Bill', 'UPI QR Pay', 'Shop Branding'],
     integration:
-      'Receives zero-lag IPC updates from both the core Invoice Editor and the POS extension, including live payment status and countdown timers.',
+      'Updates instantly from both your main Invoice screen and POS counter, showing the exact bill and payment status in real time.',
     highlights: [
-      'Multi-monitor detection with 1-click launch, move-to-display, and fullscreen support',
-      'Real-time itemized cart, tax breakdown, discount, and grand total display',
-      'Dynamic exact-amount UPI QR code for GPay, PhonePe, Paytm, and BHIM scan-to-pay',
-      'Customizable idle welcome banner and shop branding when no bill is active',
+      'Finds your second screen automatically with 1-click launch and full-screen view',
+      'Shows customers every item, tax, discount, and final total clearly as you bill',
+      'Displays a ready-to-scan UPI QR code for GPay, PhonePe, Paytm, and BHIM',
+      'Shows your shop name and welcome message when no customer is at the counter',
     ],
   },
   {
@@ -76,19 +76,19 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     name: 'Restaurant',
     tier: 'Plus',
     status: 'Ready',
-    category: 'Hospitality',
+    category: 'Food & Hospitality',
     icon: ReceiptIcon,
     logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.restaurant',
     summary:
-      'Complete restaurant operations inside Invio: local Wi-Fi QR table ordering web app, live Kitchen Display System (KDS), and 1-click invoice conversion.',
-    capabilities: ['Navigation', 'Restaurant Server', 'Printing', 'Reports', 'Local Storage'],
+      'Run your restaurant or cafe smoothly: table QR ordering on your shop Wi-Fi, a live kitchen screen for cooks, and 1-click GST billing.',
+    capabilities: ['Table QR Menu', 'Kitchen Screen', 'Order Tracking', '1-Click Bill'],
     integration:
-      'Runs an embedded local Wi-Fi server for table QR ordering, syncs KDS tickets, and converts completed orders into official core GST invoices.',
+      'Takes customer table orders over your shop Wi-Fi, sends them straight to the kitchen, and turns finished orders into GST bills in one click.',
     highlights: [
-      'Local Wi-Fi mobile menu & ordering portal—customers scan table QR codes with no internet needed',
-      'Live Kitchen Display (KDS) with rotating OTP access and real-time order status tracking',
-      'Menu availability toggles, veg/non-veg badges, dish photo management, and QR stand generator',
-      '1-click order-to-invoice conversion supporting Cash, UPI, and Card payment sync',
+      'Customers scan a table QR code to browse your menu and order—works without internet',
+      'Live Kitchen Screen so chefs and staff see new orders and mark them ready right away',
+      'Easy controls to mark dishes in/out of stock, add food photos, and print table QR stands',
+      'Turn any table order into a paid Cash, UPI, or Card bill in one click',
     ],
   },
   {
@@ -96,19 +96,19 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     name: 'Email',
     tier: 'Plus',
     status: 'Ready',
-    category: 'Communication',
+    category: 'Customer Sharing',
     icon: MailIcon,
     logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.email',
     summary:
-      'Automated PDF invoice delivery via 1-click Gmail OAuth or Custom SMTP, backed by an offline-resilient outbox queue and custom HTML templates.',
-    capabilities: ['Email Dispatch', 'Settings', 'Printing', 'Local Storage'],
+      'Send neat PDF bills to customers automatically using your Gmail or business email—even if your shop internet goes down for a while.',
+    capabilities: ['1-Click Gmail', 'Auto Retry', 'PDF Bills', 'Safe Password Lock'],
     integration:
-      'Generates PDF invoices from core billing, encrypts SMTP/OAuth credentials in the OS keychain, and retries queued emails automatically when online.',
+      'Creates PDF bills from your normal invoicing screen, keeps your email login locked safely on your computer, and sends queued emails once internet returns.',
     highlights: [
-      '1-click Gmail OAuth authorization or Custom SMTP (host, port, TLS/SSL) with connection test',
-      'Offline-resilient background delivery outbox with automatic retries and health status',
-      'Customizable branded HTML invoice templates with shop logo, greeting, and tax summary',
-      'Secure OS keychain / safeStorage credential protection—never stored in plain text',
+      'Connect your Gmail in 1 click, or enter your own business email settings with a quick test',
+      'If internet disconnects, unsent emails wait safely and send automatically when you are back online',
+      'Clean branded email bills with your shop logo, thank-you note, and tax summary',
+      'Your email password is locked safely inside your computer—never saved as plain text',
     ],
   },
   {
@@ -116,19 +116,19 @@ export const OFFICIAL_EXTENSIONS_SHOWCASE = [
     name: 'WhatsApp',
     tier: 'Plus',
     status: 'Beta',
-    category: 'Communication',
+    category: 'Customer Sharing',
     icon: PrinterIcon,
     logoUrl: 'https://api.invio.timrio.com/api/extensions/logo/timrio.whatsapp',
     summary:
-      '1-click customer WhatsApp billing dispatch with customizable message templates, dynamic invoice totals, and embedded UPI payment instructions.',
-    capabilities: ['Settings', 'Local Storage'],
+      'Send bills on WhatsApp in one click with your own custom message, exact bill total, and your UPI payment ID included.',
+    capabilities: ['1-Click Send', 'Custom Message', 'UPI Payment ID', 'Paperless'],
     integration:
-      'Reads your configured template and UPI settings to launch pre-filled WhatsApp Web or Desktop drafts directly from any core invoice.',
+      'Picks up the customer phone number, bill total, and your UPI ID straight from your invoice to open a ready-to-send WhatsApp message.',
     highlights: [
-      '1-click invoice & receipt dispatch from Invoice View or directly after checkout',
-      'Customizable message template supporting {customer_name}, {invoice_id}, {amount_due}, and {upiId}',
-      'Optional automatic UPI payment ID inclusion for instant customer settlement',
-      'International phone formatting with automatic country-code normalization',
+      'Send bills straight to WhatsApp right after saving or printing a bill',
+      'Write your own friendly greeting message with customer name, bill number, and amount',
+      'Include your UPI ID automatically so customers can pay from their phone right away',
+      'Handles phone numbers and country codes automatically with zero extra cost per message',
     ],
   },
 ];

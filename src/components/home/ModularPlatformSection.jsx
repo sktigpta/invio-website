@@ -16,13 +16,13 @@ export function ModularPlatformSection() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <span className="text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-100/70 border border-purple-200/80 px-3 py-1 rounded-full inline-flex items-center gap-1.5 mb-4">
             <PuzzleIcon className="size-3.5 text-[#7C3AED]" />
-            <span>MODULAR ARCHITECTURE</span>
+            <span>ADD-ONS &amp; MODULES</span>
           </span>
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 mb-4 leading-tight">
-            Start with a fast core. <span className="text-[#7C3AED]">Add modules as you grow.</span>
+            Start simple with billing. <span className="text-[#7C3AED]">Add tools as you grow.</span>
           </h2>
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Invio separates essential billing from specialized workflows. Keep your counter fast with Invio Core, and plug in verified, sandboxed extensions only when your business needs them.
+            Keep your billing counter fast and clutter-free. Start with Invio for everyday bills and stock, and turn on extra tools like POS, Restaurant, or Email only when your shop needs them.
           </p>
         </div>
 
@@ -55,14 +55,14 @@ export function ModularPlatformSection() {
                 Official Timrio Extensions
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                Every module integrates directly with Invio Core data while running in its own isolated sandbox.
+                Every add-on works smoothly with your existing bills, products, and customers without slowing down your computer.
               </p>
             </div>
             <Link
               to="/features#extensions"
               className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#7C3AED] hover:underline shrink-0"
             >
-              <span>Deep-Dive Every Extension</span>
+              <span>See All Add-ons</span>
               <span aria-hidden="true">→</span>
             </Link>
           </div>
@@ -78,13 +78,11 @@ export function ModularPlatformSection() {
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <div className="flex items-center gap-2.5">
-                        <div className="size-9 rounded-squircle-sm bg-slate-50 border border-slate-200/70 flex items-center justify-center shrink-0 overflow-hidden p-1">
+                        <div className="size-10 rounded-squircle-sm overflow-hidden shrink-0">
                           <img
                             src={ext.logoUrl}
-                            alt={`${ext.name} extension logo`}
-                            className="size-7 object-contain"
-                            width="28"
-                            height="28"
+                            alt={`${ext.name} logo`}
+                            className="w-full h-full object-contain"
                             loading="lazy"
                           />
                         </div>

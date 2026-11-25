@@ -2,7 +2,7 @@ export const FAQ_ITEMS = [
   {
     id: 'offline-storage',
     question: 'Where are my invoices and customer records stored?',
-    answer: 'All your invoices, products, customer records, and financial summaries are stored 100% locally on your computer in an embedded SQLite database file. No business records or invoice contents are ever uploaded to Timrio cloud servers.',
+    answer: 'All your bills, products, customer records, and sales summaries stay 100% on your own computer. None of your business records or bills are ever uploaded to the internet.',
   },
   {
     id: 'internet-connection',
@@ -17,7 +17,7 @@ export const FAQ_ITEMS = [
   {
     id: 'printers',
     question: 'Which printers and paper formats are supported?',
-    answer: 'Invio supports standard ESC/POS thermal receipt printers in 58mm (2-inch) and 80mm (3-inch) roll widths. It also supports standard laser and inkjet desktop printers in full A4 and A5 document formats with custom letterhead.',
+    answer: 'Invio works with standard 58mm (2-inch) and 80mm (3-inch) paper roll receipt printers. It also works with normal office printers for A4 and A5 bills with your shop letterhead.',
   },
   {
     id: 'upi-qr',
@@ -27,12 +27,12 @@ export const FAQ_ITEMS = [
   {
     id: 'barcode-scanners',
     question: 'Can I connect a hardware barcode scanner?',
-    answer: 'Yes! Invio functions out of the box with any standard 1D or 2D USB/Bluetooth barcode scanner running keyboard emulation mode. Scanning an item at the counter immediately adds it to the active invoice.',
+    answer: 'Yes! Plug in any normal USB or Bluetooth barcode scanner and start scanning right away. Scanning an item at the counter adds it straight to the customer bill.',
   },
   {
     id: 'backup-transfer',
     question: 'How do I back up or transfer my database to another PC?',
-    answer: 'In Invio, navigate to Settings > Database and click "Export SQLite Backup". Copy the backup file to your new computer, install Invio, and select "Import Backup". Your entire product catalogue, customer ledger, and invoice history will be restored.',
+    answer: 'Open Settings in Invio and click "Export Backup". Copy that backup file to a pen drive or your new computer, install Invio, and click "Import Backup". All your products, customers, and old bills will be restored.',
   },
   {
     id: 'os-support',

@@ -12,24 +12,24 @@ export const CURRENT_VERSION =
 
 export const PAGE_METADATA = {
   home: {
-    title: 'Invio – Free Modular Offline Invoice, POS & Billing Software | Timrio',
-    description: 'Invio is a free, modular offline desktop billing & GST invoice software for Windows, Mac & Linux. Start with private local SQLite invoicing and add signed extensions for POS, Customer POS Display, Restaurant QR & KDS, Email, and WhatsApp.',
+    title: 'Invio – Free Offline Billing, POS & Invoice Software | Timrio',
+    description: 'Invio is a free offline billing & GST invoice software for Windows, Mac & Linux. Create bills in seconds, keep all shop records safely on your computer, and add tools for POS, Customer POS Display, Restaurant, Email, and WhatsApp.',
     canonical: `${BASE_URL}/`,
-    keywords: 'Invio, modular billing software, offline invoice software, GST billing software, desktop POS app, customer POS display, restaurant KDS QR ordering, thermal receipt printing, UPI QR invoice generator, Windows Mac Linux billing app, Timrio',
+    keywords: 'Invio, offline billing software, free invoice software, GST billing app, POS billing software, customer POS display, restaurant QR ordering, kitchen screen, receipt printing, UPI QR billing, Timrio',
     schemaType: 'SoftwareApplication',
   },
   product: {
-    title: 'Invio Desktop Invoicing App – Free Billing & GST Software for PC & Mac',
-    description: 'Invio desktop invoice generator app: Fast retail checkout, thermal receipts, automated GST calculations, barcode scanner support, and private local SQLite storage with zero cloud dependencies.',
+    title: 'Invio Desktop Billing App – Free Invoicing & GST Software for PC & Mac',
+    description: 'Invio desktop billing app: Fast counter checkout, paper receipts, automatic GST calculations, barcode scanner support, and safe offline storage on your own computer.',
     canonical: `${BASE_URL}/features`,
     keywords: 'Invio product, offline invoice software, desktop billing app, retail POS software, GST invoice software, Timrio Invio, invoice maker for Mac, free invoice app for Windows',
     schemaType: 'SoftwareApplication',
   },
   features: {
-    title: 'Features & Official Extensions – Modular Offline Billing, POS, Restaurant & Email | Invio',
-    description: 'Explore Invio Core capabilities and official signed extensions: offline GST invoicing, thermal receipts with UPI QR, POS tile checkout, Customer POS Display, Restaurant Wi-Fi QR & KDS, Gmail OAuth Email outbox, and WhatsApp billing dispatch.',
+    title: 'Features & Add-ons – Offline Billing, POS, Restaurant & Email | Invio',
+    description: 'See everything Invio can do: offline GST billing, paper receipts with UPI QR, picture-tile POS, Customer POS Display, Restaurant table QR & kitchen screen, Email bills, and WhatsApp sharing.',
     canonical: `${BASE_URL}/features`,
-    keywords: 'Invio features, Invio extensions, POS billing tiles, customer POS display, restaurant QR ordering KDS, offline GST invoice software, thermal receipt printing, Gmail OAuth invoice email, WhatsApp invoice dispatch, modular desktop POS',
+    keywords: 'Invio features, Invio add-ons, POS billing tiles, customer POS display, restaurant QR ordering, kitchen display screen, offline GST billing, receipt printing, email bills, WhatsApp bills',
     schemaType: 'SoftwareApplication',
   },
   pricing: {
@@ -497,15 +497,15 @@ export function applySEO(pageKey, overrides = {}) {
         installUrl: 'https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN',
         image: `${BASE_URL}/og-image.jpg`,
         featureList: [
-          '100% Offline SQLite Database Storage with Zero Cloud Lock-in',
-          'Automated GST Intra-state (CGST+SGST) & Inter-state (IGST) Tax Splits',
-          'ESC/POS Thermal Receipt Printing (58mm and 80mm roll widths)',
-          'Dynamic Offline UPI Payment QR Codes on Paper Slips',
-          'Hardware USB & Bluetooth Barcode Scanner Integration',
-          'Modular Signed Extension Marketplace (SHA-256 & Ed25519 Verified)',
-          'POS Touch Tile Checkout & Multi-Monitor Customer POS Display',
-          'Restaurant Local Wi-Fi QR Ordering & Kitchen Display System (KDS)',
-          'Automated Email PDF Dispatch (Gmail OAuth / Custom SMTP) & WhatsApp Billing'
+          '100% Offline Billing Saved Safely on Your Computer',
+          'Automatic GST (CGST+SGST & IGST) Tax Calculations',
+          'Paper Receipt Printing (58mm and 80mm rolls) & A4/A5 PDFs',
+          'UPI Payment QR Codes on Every Bill',
+          'USB & Bluetooth Barcode Scanner Support',
+          'Official 1-Click Add-ons & Tools',
+          'Picture-Tile POS Counter & Second-Screen Customer POS Display',
+          'Restaurant Table QR Menu Ordering & Live Kitchen Screen',
+          '1-Click Email PDF Bills & WhatsApp Bill Sharing'
         ],
         offers: {
           '@type': 'Offer',

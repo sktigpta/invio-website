@@ -48,7 +48,7 @@ export function ReadyCta() {
             Ready to simplify your shop&rsquo;s invoicing?
           </h2>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 max-w-xl font-normal">
-            Download Invio for free. No credit card required, no account setup, and works 100% offline on your computer with private local SQLite storage.
+            Download Invio for free. No credit card needed, no sign-up required, and works 100% offline with all your records saved safely on your computer.
           </p>
 
           {/* Download button - Windows gets Microsoft Store option to bypass firewall & risk alerts */}

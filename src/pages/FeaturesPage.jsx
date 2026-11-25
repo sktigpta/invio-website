@@ -128,7 +128,7 @@ export function FeaturesPage() {
               Modular by design. <span className="text-[#7C3AED]">Built for real counters.</span>
             </h2>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-              Every Invio extension is signed, sandboxed, and decoupled from Invio Core—so you can install only the capabilities your shop needs without slowing down daily billing.
+              Every add-on is checked by Timrio and works neatly alongside your billing—so you only turn on the tools your shop actually needs.
             </p>
           </div>
 
@@ -163,13 +163,11 @@ export function FeaturesPage() {
                   <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
                     <div className="lg:w-5/12 space-y-3">
                       <div className="flex items-center gap-3">
-                        <div className="size-11 rounded-squircle-sm bg-slate-50 border border-slate-200/70 flex items-center justify-center shrink-0 overflow-hidden p-1.5">
+                        <div className="size-12 rounded-squircle-sm overflow-hidden shrink-0">
                           <img
                             src={ext.logoUrl}
-                            alt={`${ext.name} extension logo`}
-                            className="size-8 object-contain"
-                            width="32"
-                            height="32"
+                            alt={`${ext.name} logo`}
+                            className="w-full h-full object-contain"
                             loading="lazy"
                           />
                         </div>
@@ -195,7 +193,7 @@ export function FeaturesPage() {
                       </p>
 
                       <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 leading-relaxed">
-                        <strong className="text-slate-900">Core Integration:</strong> {ext.integration}
+                        <strong className="text-slate-900">Works with your bills:</strong> {ext.integration}
                       </div>
 
                       <div className="flex flex-wrap gap-1.5 pt-1">
@@ -212,7 +210,7 @@ export function FeaturesPage() {
 
                     <div className="lg:w-7/12 lg:pl-6 lg:border-l lg:border-slate-100">
                       <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
-                        Included Capabilities &amp; Workflows
+                        What You Can Do
                       </h4>
                       <ul className="space-y-3">
                         {ext.highlights.map((item) => (

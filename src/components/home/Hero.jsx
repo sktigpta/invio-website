@@ -63,7 +63,7 @@ export function Hero() {
 
           {/* Subtitle */}
           <p className="text-sm sm:text-base lg:text-[17px] text-slate-600 font-normal leading-relaxed mb-8 max-w-xl text-center">
-            Create professional GST invoices and retail bills in seconds. Print thermal receipts with dynamic UPI QR codes, scan barcodes, track inventory, and keep your business data 100% private in local SQLite storage.
+            Create GST bills and shop receipts in seconds. Print paper receipts with UPI QR codes, scan barcodes, track your stock, and keep all your shop records safely on your own computer.
           </p>
 
           {/* Platform Selector & Download Controls (Centered relative to each other) */}
