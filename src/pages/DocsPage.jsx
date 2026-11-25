@@ -104,34 +104,41 @@ export const DOC_CATEGORIES = [
   },
   {
     id: 'extensions-platform',
-    name: 'Extensions & Store Add-Ons',
+    name: 'Add-Ons & Extra Tools',
     steps: [
       {
         id: 'extensions-guide',
         stepNumber: 11,
-        title: 'Extension Manager & Store',
-        shortDesc: 'Discover, 1-click install & manage verified add-ons',
+        title: 'Add-Ons Store',
+        shortDesc: 'Turn extra shop tools on or off in 1 click',
         seoKey: 'docs-extensions-guide',
       },
       {
-        id: 'restaurant-extension',
+        id: 'pos-extension',
         stepNumber: 12,
-        title: 'Restaurant POS & QR Menus',
-        shortDesc: 'Table ordering, live KDS kitchen display & auto-billing',
+        title: 'POS (Counter Tile Billing)',
+        shortDesc: 'Tap product photos to bill & print tokens fast',
+        seoKey: 'docs-pos-extension',
+      },
+      {
+        id: 'restaurant-extension',
+        stepNumber: 13,
+        title: 'Restaurant & Table QR Ordering',
+        shortDesc: 'Table QR menus, kitchen screen & 1-click billing',
         seoKey: 'docs-restaurant-extension',
       },
       {
         id: 'pos-display-extension',
-        stepNumber: 13,
-        title: 'Dual-Screen POS Customer Display',
-        shortDesc: 'Customer-facing live cart, UPI QR & store branding',
+        stepNumber: 14,
+        title: 'Customer POS Display',
+        shortDesc: 'Show live bill & UPI QR on a second screen',
         seoKey: 'docs-pos-display-extension',
       },
       {
         id: 'email-whatsapp-extensions',
-        stepNumber: 14,
-        title: 'Automated Email & WhatsApp Invoicing',
-        shortDesc: 'Dispatch PDF invoices, offline retry outbox & WhatsApp',
+        stepNumber: 15,
+        title: 'Email & WhatsApp Bills',
+        shortDesc: 'Send PDF bills by email or share on WhatsApp',
         seoKey: 'docs-email-whatsapp-extensions',
       },
     ],
@@ -142,14 +149,14 @@ export const DOC_CATEGORIES = [
     steps: [
       {
         id: 'backups',
-        stepNumber: 15,
+        stepNumber: 16,
         title: 'Saving Backups of Your Data',
         shortDesc: 'Keep copies on a pen drive & move to new PC',
         seoKey: 'docs-backups',
       },
       {
         id: 'security',
-        stepNumber: 16,
+        stepNumber: 17,
         title: 'Privacy & Offline Safety',
         shortDesc: 'Your shop data stays 100% on your computer',
         seoKey: 'docs-security',
@@ -162,9 +169,9 @@ export const DOC_CATEGORIES = [
     steps: [
       {
         id: 'troubleshooting',
-        stepNumber: 17,
+        stepNumber: 18,
         title: 'Support Center & Troubleshooting',
-        shortDesc: 'Direct support, database recovery & hardware fixes',
+        shortDesc: 'Direct support, backup recovery & printer fixes',
         seoKey: 'docs-troubleshooting',
       },
     ],
@@ -188,6 +195,7 @@ export function DocsPage() {
     if (docId === 'notifications') return 'whatsapp';
     if (docId === 'display' || docId === 'screen') return 'pos-display';
     if (docId === 'extensions' || docId === 'marketplace' || docId === 'plugins') return 'extensions-guide';
+    if (docId === 'pos' || docId === 'pos-tiles') return 'pos-extension';
     if (docId === 'restaurant' || docId === 'kds' || docId === 'dining' || docId === 'qr-menu') return 'restaurant-extension';
     if (docId === 'second-screen' || docId === 'customer-screen') return 'pos-display-extension';
     if (docId === 'dispatch' || docId === 'email-automation') return 'email-whatsapp-extensions';
@@ -767,33 +775,60 @@ export function DocsPage() {
               2. 1-Click Installation &amp; Cryptographic Verification
             </h2>
             <p>
-              Installing an extension is instant and safe:
+              Installing an add-on is quick and safe:
             </p>
             <ol className="list-decimal pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Click <strong>&ldquo;Install&rdquo;</strong> on any extension card in the Store view.</li>
-              <li>Invio streams the lightweight package with real-time download progress and speed metrics.</li>
-              <li>Before any code is extracted, Invio verifies the SHA-256 integrity hash and confirms the author&apos;s Ed25519 digital signature (<code>timrio-ext-prod-2026</code>). Any tampered or unsigned package is rejected automatically.</li>
-              <li>The package is extracted into your local extensions sandbox.</li>
+              <li>Click <strong>&ldquo;Install&rdquo;</strong> on any add-on card in the Store view.</li>
+              <li>Invio downloads it quickly with a live progress bar.</li>
+              <li>Every official add-on is checked by Timrio so only safe tools can be installed.</li>
+              <li>Once finished, you can turn it on right away.</li>
             </ol>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              3. Enabling, Disabling &amp; Modular Styles
+              3. Turning Add-ons On or Off
             </h2>
             <p>
-              Each extension has an independent toggle switch:
+              Each add-on has its own simple switch:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li>When you toggle an extension <strong>Enabled</strong>, its dedicated stylesheet is dynamically mounted and its navigation buttons appear in Invio.</li>
-              <li>When you toggle an extension <strong>Disabled</strong>, its stylesheet and hooks are cleanly unmounted from memory without requiring an app restart.</li>
-              <li>You can uninstall extensions at any time to free up disk space.</li>
+              <li>Turn an add-on <strong>On</strong> and its buttons appear inside Invio right away.</li>
+              <li>Turn an add-on <strong>Off</strong> anytime without restarting the app or losing any bills.</li>
+              <li>You can uninstall add-ons anytime to keep your app light.</li>
             </ul>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              4. 100% Offline-First Architecture
+              4. Works 100% Offline
             </h2>
             <p>
-              Installed extensions operate 100% locally from your computer&apos;s disk and communicate directly with your local SQLite database. Even if your store loses internet connection completely, your enabled extensions continue running without interruption.
+              Once installed, add-ons stay on your own computer and work directly with your saved products, customers, and bills—even when your internet is down.
             </p>
+          </>
+        );
+
+      case 'pos-extension':
+        return (
+          <>
+            <p>
+              The <strong>POS</strong> add-on gives you a fast, picture-tile counter screen for retail shops, cafes, and bakeries so you can tap items to bill and print token slips in seconds.
+            </p>
+
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+              1. Quick Picture-Tile Checkout
+            </h2>
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
+              <li>See your products and dishes as big, easy-to-tap tiles with photos and live stock counts.</li>
+              <li>Tap <strong>+</strong> or <strong>−</strong> directly on a tile to add or remove items from the bill.</li>
+              <li>Search items instantly by name or category when your counter gets busy.</li>
+            </ul>
+
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
+              2. Token Slips &amp; Customer Screen Sync
+            </h2>
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
+              <li>Print small paper token slips with automatic token numbers (#1 to #999) in one click.</li>
+              <li>If you also use <strong>Customer POS Display</strong>, the customer screen updates live with items, UPI QR code, and Paid status.</li>
+              <li>Every completed sale saves to your main Invio bills and reduces your stock automatically.</li>
+            </ul>
           </>
         );
 
@@ -801,50 +836,50 @@ export function DocsPage() {
         return (
           <>
             <p>
-              The Restaurant &amp; QR Ordering extension transforms Invio into a full restaurant Point-of-Sale (POS) with table management, touchless diner QR ordering over local Wi-Fi, and a live Kitchen Display System (KDS).
+              The Restaurant add-on turns Invio into an easy restaurant billing system with table management, phone QR ordering over your shop Wi-Fi, and a live kitchen screen for cooks.
             </p>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
               1. Setting Up Tables &amp; Dining Areas
             </h2>
             <p>
-              Once installed and enabled from the Extensions store, open the <strong>Restaurant POS</strong> section:
+              Once installed and turned on from the Store, open the <strong>Restaurant</strong> section:
             </p>
             <ol className="list-decimal pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Navigate to <strong>Restaurant POS &gt; Settings</strong>.</li>
-              <li>Set your total table count (e.g. 1 to 30 tables) and configure dining areas such as <em>Main Hall</em>, <em>AC Dining</em>, or <em>Outdoor Patio</em>.</li>
-              <li>Each table displays real-time occupancy status: <strong>Vacant</strong> (green), <strong>Occupied / Dining</strong> (amber), or <strong>Bill Requested</strong> (blue).</li>
+              <li>Open <strong>Restaurant &gt; Settings</strong>.</li>
+              <li>Set how many tables you have and group them into areas like <em>Main Hall</em>, <em>AC Dining</em>, or <em>Outdoor</em>.</li>
+              <li>Each table shows its live status: <strong>Vacant</strong> (green), <strong>Dining</strong> (amber), or <strong>Bill Requested</strong> (blue).</li>
             </ol>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              2. Dine-In QR Stand &amp; Mobile Wi-Fi Ordering
+              2. Table QR Code Ordering (Works Over Shop Wi-Fi)
             </h2>
             <p>
-              Eliminate paper menu printing and order miscommunications:
+              Let guests view your menu and order right from their table phone:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Click <strong>&ldquo;Export Table QR Stand&rdquo;</strong> to print high-resolution SVG acrylic standee inserts for your dining tables.</li>
-              <li>Guests scan the QR code using any smartphone camera—no app download or customer registration required.</li>
-              <li>The customer browses your visual menu, selects portion sizes, adds notes (e.g., <em>&ldquo;medium spicy&rdquo;</em>), and places the order directly over your local Wi-Fi.</li>
+              <li>Click <strong>&ldquo;Export Table QR Stand&rdquo;</strong> to print ready-to-place QR cards for every table.</li>
+              <li>Guests scan the QR code with their phone camera—no app download or login needed.</li>
+              <li>Customers browse food photos, add cooking notes (like <em>&ldquo;less spicy&rdquo;</em>), and send the order over your shop Wi-Fi.</li>
             </ul>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              3. Live Kitchen Display System (KDS)
+              3. Live Kitchen Screen
             </h2>
             <p>
-              Keep your kitchen cooks coordinated without yelling across the counter:
+              Keep your kitchen staff organized without shouting across the counter:
             </p>
             <ol className="list-decimal pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Open the <strong>Kitchen Display</strong> view on a kitchen tablet or monitor.</li>
-              <li>New customer orders pop up instantly with an audible chime, displaying table number, item list, and special cooking notes.</li>
-              <li>Live preparation timers track elapsed cooking time. Chefs tap to transition orders: <strong>Queued &rarr; Cooking &rarr; Ready to Serve</strong>.</li>
+              <li>Open the <strong>Kitchen Screen</strong> on a kitchen tablet or monitor.</li>
+              <li>New orders appear right away with a sound chime, table number, items, and cooking notes.</li>
+              <li>Cooks tap an order to update it: <strong>Queued &rarr; Cooking &rarr; Ready</strong>.</li>
             </ol>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              4. 1-Click Bill Settlement &amp; GST Invoicing
+              4. 1-Click GST Billing
             </h2>
             <p>
-              When guests ask for their bill, tap their table card on your Invio counter screen and click <strong>&ldquo;Convert to GST Bill&rdquo;</strong>. All ordered items, quantities, and GST rates are instantly transferred into the Invio billing checkout. Accept Cash, Card, or UPI, print your 3-inch thermal receipt, and the table resets to Vacant automatically!
+              When guests are ready to pay, tap their table and click <strong>&ldquo;Convert to Bill&rdquo;</strong>. Every item and GST rate loads into your bill automatically. Take Cash, Card, or UPI, print the receipt, and the table becomes free again.
             </p>
           </>
         );
@@ -853,28 +888,28 @@ export function DocsPage() {
         return (
           <>
             <p>
-              The Dual-Screen POS Customer Display extension connects a customer-facing monitor to your billing counter. It builds shopper confidence with a live cart mirror and speeds up checkout with dynamic on-screen UPI QR codes.
+              <strong>Customer POS Display</strong> turns any second monitor, tablet, or TV at your counter into a live customer screen showing every item and a ready-to-scan UPI QR code.
             </p>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              1. Connecting Your Second Monitor
+              1. Connecting Your Second Screen
             </h2>
             <ol className="list-decimal pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Plug any secondary monitor or small TV into your billing laptop or PC using HDMI or VGA.</li>
-              <li>On Windows, press <strong>Windows Key + P</strong> and choose <strong>&ldquo;Extend&rdquo;</strong>. On Mac, go to <em>System Settings &gt; Displays</em> and select <em>&ldquo;Extended Display&rdquo;</em>.</li>
-              <li>In Invio, go to <strong>Extensions &gt; Dual-Screen POS Display</strong>. Select the second display number and click <strong>&ldquo;Launch Customer Display&rdquo;</strong>.</li>
+              <li>Plug any second monitor or TV into your billing computer.</li>
+              <li>On Windows, press <strong>Windows Key + P</strong> and choose <strong>&ldquo;Extend&rdquo;</strong>. On Mac, open <em>System Settings &gt; Displays</em> and choose <em>&ldquo;Extended Display&rdquo;</em>.</li>
+              <li>In Invio, open <strong>Customer POS Display</strong>, pick the second screen, and click <strong>&ldquo;Launch Customer Display&rdquo;</strong>.</li>
             </ol>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              2. Real-Time Cart Mirroring (&lt;16ms Latency)
+              2. Live Item &amp; Total View
             </h2>
             <p>
-              As the cashier scans items with a barcode scanner or types products into Invio, the customer display mirrors the shopping cart in real time:
+              As you scan barcodes or tap POS tiles, customers see their bill build live on their screen:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Clear item names, quantities, and individual prices.</li>
-              <li>Applied discounts, tax breakdowns, and final payable total.</li>
-              <li>Zero cashier latency—updates happen instantaneously over local IPC.</li>
+              <li>Clear item names, quantities, and prices.</li>
+              <li>Discounts, taxes, and the final amount to pay.</li>
+              <li>Updates right away with zero delay while you bill.</li>
             </ul>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
@@ -897,48 +932,48 @@ export function DocsPage() {
         return (
           <>
             <p>
-              The Automated Email &amp; WhatsApp Invoicing extensions streamline customer receipt delivery. Send professional GST tax invoice PDFs directly to customer email inboxes and share instant bill summaries on WhatsApp with zero manual typing.
+              The <strong>Email</strong> and <strong>WhatsApp</strong> add-ons make it effortless to send neat PDF bills to your customer&rsquo;s inbox or share instant bill summaries on WhatsApp with one click.
             </p>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
               1. Connecting Your Email Account
             </h2>
             <p>
-              Open <strong>Extensions &gt; Email Dispatch</strong> to configure your sender details:
+              Open <strong>Email</strong> in Invio to connect your sender account:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li><strong>Gmail OAuth (Recommended):</strong> Click <em>&ldquo;Sign in with Google&rdquo;</em> for 1-click authorized connection without managing app passwords.</li>
-              <li><strong>Custom SMTP:</strong> Enter your custom business email server (Zoho, Outlook, or cPanel SMTP). Passwords are encrypted inside the OS hardware keychain (Windows Credential Manager / macOS Keychain).</li>
+              <li><strong>Gmail (Recommended):</strong> Click <em>&ldquo;Sign in with Google&rdquo;</em> to connect your Gmail in one click.</li>
+              <li><strong>Custom Business Email:</strong> Enter your shop&rsquo;s email settings (like Zoho or Outlook). Your password is locked safely on your computer and never saved as plain text.</li>
             </ul>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              2. Automatic &amp; Manual PDF Invoice Emailing
+              2. Automatic &amp; Manual PDF Bill Emailing
             </h2>
             <p>
-              Choose your preferred dispatch workflow:
+              Choose how you want to send bills:
             </p>
             <ol className="list-decimal pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li><strong>Auto-Send on Checkout:</strong> Check <em>&ldquo;Auto-send email when billing&rdquo;</em>. Whenever you enter a customer email at checkout, Invio attaches the rendered PDF invoice and sends it automatically upon bill completion.</li>
-              <li><strong>Manual Send:</strong> From <strong>Invoices History</strong>, click the <em>&ldquo;Email&rdquo;</em> button on any invoice to deliver a copy anytime.</li>
+              <li><strong>Auto-Send on Billing:</strong> Turn on automatic sending so whenever you enter a customer email, Invio sends their PDF bill right after you save it.</li>
+              <li><strong>Manual Send:</strong> Open any past bill in <strong>Invoices</strong> and click <em>&ldquo;Email&rdquo;</em> anytime.</li>
             </ol>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              3. Resilient Offline Outbox Queue
+              3. Never Lose an Email When Internet Drops
             </h2>
             <p>
-              If your store internet drops, invoices are never lost. Invio automatically queues outgoing messages in a secure, local offline outbox. As soon as your internet connectivity returns, queued emails are dispatched in the background with automatic retry backoff.
+              If your shop internet goes down, unsent emails wait safely in a queue on your computer and are sent automatically as soon as your internet comes back.
             </p>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              4. 1-Click WhatsApp Invoicing
+              4. 1-Click WhatsApp Bill Sharing
             </h2>
             <p>
-              To send invoices via WhatsApp:
+              To send bills on WhatsApp:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-700 leading-relaxed my-2">
-              <li>Click the <strong>WhatsApp</strong> button on any completed invoice.</li>
-              <li>Invio automatically formats a polite message with your store name, invoice number, itemized summary, total paid, and balance due.</li>
-              <li>Opens directly into WhatsApp Web or the WhatsApp Desktop application without needing to save the customer&apos;s phone number to your contact list.</li>
+              <li>Click the <strong>WhatsApp</strong> button on any bill.</li>
+              <li>Invio prepares a polite message with your shop name, bill number, total amount, and your UPI payment ID.</li>
+              <li>Opens straight in WhatsApp Web or WhatsApp Desktop without even saving the customer&apos;s number first.</li>
             </ul>
           </>
         );
