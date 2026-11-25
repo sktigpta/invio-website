@@ -51,7 +51,7 @@ export function StickyFeatures() {
                 return (
                   <div
                     key={feature.title}
-                    className="group relative p-6 rounded-squircle bg-white border border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-300 flex flex-col justify-between min-h-[240px] sm:h-[250px] overflow-hidden cursor-default shadow-xs"
+                    className="group relative p-6 rounded-squircle bg-white border border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-300 flex flex-col justify-between min-h-[240px] sm:min-h-[250px] h-full overflow-hidden cursor-default shadow-xs"
                   >
                     {/* Feature Background Image */}
                     {feature.imageUrl && (

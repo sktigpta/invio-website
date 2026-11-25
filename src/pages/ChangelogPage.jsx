@@ -1103,10 +1103,6 @@ export function ChangelogPage() {
     fetchLiveReleases();
   }, [fetchLiveReleases]);
 
-  const latestTag = useMemo(() => {
-    return releases.find((r) => r.isLatest)?.tag || 'v1.0.6';
-  }, [releases]);
-
   return (
     <A4DocLayout
       title="Invio Desktop Release Notes &amp; Version History"

@@ -55,18 +55,11 @@ function getYearlySavings(monthly, yearly) {
 
 export function CheckoutPage() {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const paramEmail = searchParams.get('email') || '';
   const paramCycle = searchParams.get('cycle') || 'yearly';
-  const paramPlan = (searchParams.get('plan') || 'plus').toLowerCase();
-  const selectedPlanId = ['enterprise', 'pro', 'plus'].includes(paramPlan) ? paramPlan : 'plus';
-  const selectedPlanName =
-    selectedPlanId === 'enterprise'
-      ? 'Invio Enterprise'
-      : selectedPlanId === 'pro'
-      ? 'Invio Pro'
-      : 'Invio Plus';
+  const selectedPlanId = 'plus';
+  const selectedPlanName = 'Invio Plus';
   const paramCoupon = searchParams.get('coupon') || searchParams.get('discount') || searchParams.get('promo') || '';
   const isFromDesktop = Boolean(paramEmail || searchParams.get('source') === 'desktop');
 

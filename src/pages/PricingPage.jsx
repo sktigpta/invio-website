@@ -122,10 +122,10 @@ export function PricingPage() {
     window.scrollTo(0, 0);
 
     // If query params specified auto-checkout or a purchasable plan, redirect to dedicated /checkout page
-    if (isAutoCheckout || (paramPlan && (paramPlan.toLowerCase() === 'plus' || paramPlan.toLowerCase() === 'enterprise' || paramPlan.toLowerCase() === 'pro'))) {
+    // Pro / Enterprise are marked Coming Soon on PricingPage, so only Plus is purchasable.
+    if (isAutoCheckout || (paramPlan && paramPlan.toLowerCase() === 'plus')) {
       const redirectParams = new URLSearchParams(searchParams);
-      const targetPlan = paramPlan && ['enterprise', 'pro', 'plus'].includes(paramPlan.toLowerCase()) ? paramPlan.toLowerCase() : 'plus';
-      redirectParams.set('plan', targetPlan);
+      redirectParams.set('plan', 'plus');
       redirectParams.set('cycle', paramCycle || 'yearly');
       if (paramEmail) redirectParams.set('email', paramEmail);
       navigate(`/checkout?${redirectParams.toString()}`, { replace: true });

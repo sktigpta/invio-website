@@ -113,7 +113,7 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
   };
 
   return (
-    <div className="w-full h-[calc(100vh-64px)] mt-16 bg-[#f8fafc] flex overflow-hidden print:mt-0 print:h-auto print:overflow-visible print:block">
+    <div className="w-full h-[calc(100dvh-64px)] mt-16 bg-[#f8fafc] flex overflow-hidden print:mt-0 print:h-auto print:overflow-visible print:block">
       {/* Mobile Tool Selector Header (< 1024px) */}
       <div className="lg:hidden fixed top-16 left-0 right-0 z-30 bg-white border-b border-slate-200 px-4 py-2.5 flex items-center justify-between shadow-xs no-print print:hidden">
         <div className="flex items-center gap-2">
@@ -136,7 +136,7 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
       <aside
         id="finance-tools-navigation"
         className={`w-full lg:w-72 xl:w-80 lg:h-full border-r border-slate-200 bg-white flex flex-col shrink-0 z-20 transition-all duration-200 no-print print:hidden ${
-          mobileMenuOpen ? 'fixed inset-x-0 top-[112px] bottom-0 h-[calc(100dvh-112px)] w-full bg-white block' : 'hidden lg:flex'
+          mobileMenuOpen ? 'fixed inset-x-0 top-[112px] bottom-0 h-[calc(100dvh-112px)] w-full bg-white flex' : 'hidden lg:flex'
         }`}
       >
         {/* Search Header - Exact h-14 matching middle and right headers */}

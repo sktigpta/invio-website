@@ -8,9 +8,9 @@ export function Footer() {
   return (
     <footer className="mt-auto border-t border-slate-200 bg-white text-slate-600 text-sm">
       <div className="max-w-[1200px] mx-auto px-6 sm:px-8 py-8 sm:py-10">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-12 gap-6 sm:gap-8 mb-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-6 sm:gap-8 mb-4">
           {/* Brand Info with increased width */}
-          <div className="col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-4">
+          <div className="col-span-2 sm:col-span-2 md:col-span-4 lg:col-span-4">
             <div className="flex items-center gap-2 mb-2">
               <img src="/appLogo.png" alt="Invio Logo" className="size-5 object-contain" width="20" height="20" />
               <span className="font-bold text-slate-900 text-sm">Invio</span>

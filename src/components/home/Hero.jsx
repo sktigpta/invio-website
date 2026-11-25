@@ -29,7 +29,7 @@ export function Hero() {
     <section className="relative w-full min-h-[80vh] flex items-center overflow-hidden bg-white border-b border-slate-100">
       {/* Background Software Hero Image (Desktop Only: hidden on mobile and tablet) */}
       <div
-        className="hidden lg:flex absolute inset-0 w-full h-full overflow-hidden pointer-events-none justify-end z-30"
+        className="hidden lg:flex absolute inset-0 w-full h-full overflow-hidden pointer-events-none justify-end z-0"
         aria-hidden="true"
       >
         <ProgressiveImage
@@ -44,6 +44,7 @@ export function Hero() {
           imgClassName="h-full w-auto max-w-none object-contain object-right"
           style={{ height: '100%', width: 'auto' }}
         />
+        <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-white via-white/80 to-transparent" />
       </div>
 
       {/* Soft Ambient Radial Violet Glow */}
