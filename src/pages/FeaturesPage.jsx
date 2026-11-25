@@ -2,6 +2,10 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { applySEO } from '../utils/seoHelper';
 import { FEATURES_DATA } from '../data/featuresData';
+import {
+  MODULARITY_PILLARS,
+  OFFICIAL_EXTENSIONS_SHOWCASE,
+} from '../data/extensionsShowcaseData';
 import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function FeaturesPage() {
@@ -113,7 +117,114 @@ export function FeaturesPage() {
         })}
       </div>
 
-      {/* 3. Bottom CTA Section (Timrio Style) */}
+      {/* 3. Comprehensive Modular Extensions & Capabilities Deep-Dive */}
+      <section id="extensions" className="w-full py-16 sm:py-24 bg-gradient-to-b from-purple-50/35 via-white to-white border-t border-slate-200 scroll-mt-20">
+        <div className="container mx-auto px-6 sm:px-8 max-w-[1200px]">
+          <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-100/70 border border-purple-200/80 px-3 py-1 rounded-full inline-block mb-4">
+              Every Extension Explained
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-tight">
+              Modular by design. <span className="text-[#7C3AED]">Built for real counters.</span>
+            </h2>
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+              Every Invio extension is signed, sandboxed, and decoupled from Invio Core—so you can install only the capabilities your shop needs without slowing down daily billing.
+            </p>
+          </div>
+
+          {/* Architecture Pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 mb-12">
+            {MODULARITY_PILLARS.map((pillar) => {
+              const Icon = pillar.icon;
+              return (
+                <div
+                  key={pillar.title}
+                  className="p-6 rounded-squircle bg-white border border-slate-200/90 shadow-2xs flex flex-col gap-3"
+                >
+                  <div className="size-10 rounded-squircle-sm bg-purple-50 text-[#7C3AED] flex items-center justify-center">
+                    <Icon className="size-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-900">{pillar.title}</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">{pillar.description}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Full Extension Breakdown Cards */}
+          <div className="space-y-6">
+            {OFFICIAL_EXTENSIONS_SHOWCASE.map((ext) => {
+              const Icon = ext.icon;
+              return (
+                <article
+                  key={ext.id}
+                  className="p-6 sm:p-8 rounded-squircle bg-white border border-slate-200/90 shadow-xs"
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                    <div className="lg:w-5/12 space-y-3">
+                      <div className="flex items-center gap-3">
+                        <div className="size-11 rounded-squircle-sm bg-purple-50 text-[#7C3AED] flex items-center justify-center shrink-0">
+                          <Icon className="size-5" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="text-xl font-extrabold text-slate-900">{ext.name}</h3>
+                            <span
+                              className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border ${
+                                ext.tier === 'Free'
+                                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                  : 'bg-purple-50 text-[#7C3AED] border-purple-200'
+                              }`}
+                            >
+                              {ext.tier}{ext.status === 'Beta' ? ' · Beta' : ''}
+                            </span>
+                          </div>
+                          <span className="text-xs font-medium text-slate-500">{ext.category}</span>
+                        </div>
+                      </div>
+
+                      <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                        {ext.summary}
+                      </p>
+
+                      <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 leading-relaxed">
+                        <strong className="text-slate-900">Core Integration:</strong> {ext.integration}
+                      </div>
+
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {ext.capabilities.map((cap) => (
+                          <span
+                            key={cap}
+                            className="text-[11px] font-medium text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md"
+                          >
+                            {cap}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="lg:w-7/12 lg:pl-6 lg:border-l lg:border-slate-100">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
+                        Included Capabilities &amp; Workflows
+                      </h4>
+                      <ul className="space-y-3">
+                        {ext.highlights.map((item) => (
+                          <li key={item} className="flex items-start gap-3 text-sm text-slate-700">
+                            <span className="size-2 rounded-full bg-[#7C3AED] mt-2 shrink-0" />
+                            <span className="leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Bottom CTA Section (Timrio Style) */}
       <section className="w-full bg-slate-50 text-center py-20 sm:py-28 relative overflow-hidden">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#7C3AED]/10 rounded-full blur-[120px] pointer-events-none"

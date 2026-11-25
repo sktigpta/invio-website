@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { applySEO } from '../utils/seoHelper';
 import { Hero } from '../components/home/Hero';
 import { StickyFeatures } from '../components/home/StickyFeatures';
+import { ModularPlatformSection } from '../components/home/ModularPlatformSection';
 import { ReadyCta } from '../components/home/ReadyCta';
 
 export function HomePage() {
@@ -18,7 +19,10 @@ export function HomePage() {
       {/* 2. Explore Our Features (Sticky Left Column & Identical Size Cards) */}
       <StickyFeatures />
 
-      {/* 3. Merged Section: Invoicing Ready CTA + Free Online Finance Suite (Stuck to footer with identical buttons) */}
+      {/* 3. Modularity & Official Extensions Overview */}
+      <ModularPlatformSection />
+
+      {/* 4. Merged Section: Invoicing Ready CTA + Free Online Finance Suite (Stuck to footer with identical buttons) */}
       <ReadyCta />
     </main>
   );
