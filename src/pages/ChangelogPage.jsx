@@ -19,7 +19,36 @@ import { ReleaseNotesSkeleton } from '../components/common/Skeleton';
  * these structured release notes provide the complete changelog.
  */
 const CURATED_RELEASE_NOTES = {
-  'v1.1.4': `## Invio v1.1.4 (Latest Production Release)
+  'v1.1.6': `## Invio v1.1.6 (Latest Production Release)
+
+Invio Desktop v1.1.6 adds live integration between the Picture-Tile POS Add-on and Customer POS Display, refines the top toolbar layout, and delivers speed improvements across the app.
+
+---
+
+### What's Changed
+
+#### 🖥️ POS & Customer Screen Integration
+- **Live POS Tile Sync**: Tapping product tiles in POS updates the second-screen Customer POS Display in real time with items, UPI QR code, and Paid status.
+- **UI & Toolbar Polish**: Kept the header search bar and counter toolbar actions cleanly aligned in a single row.
+- **Official POS Add-on Logo**: Added high-resolution Store branding for the POS Add-on.
+`,
+  'v1.1.5': `## Invio v1.1.5 (Previous Production Release)
+
+Invio Desktop v1.1.5 introduces the Picture-Tile POS Add-on with token slip printing, isolated add-on asset storage, and stability improvements across Windows, macOS, and Linux.
+
+---
+
+### What's Changed
+
+#### 🧾 Picture-Tile POS & Token Printing
+- **POS Counter Tiles**: Tap product photos with quick \`+\` and \`-\` buttons for instant counter checkout.
+- **Compact Token Slips**: Print quick token receipts with automatic token numbering.
+
+#### 🛡️ Reliability & Storage
+- **Isolated Extension Storage**: Stored add-on images and assets safely in isolated folders per add-on.
+- **Cross-Platform Polish**: Resolved database, account context, and Restaurant QR ordering edge cases.
+`,
+  'v1.1.4': `## Invio v1.1.4 (Previous Production Release)
 
 Invio Desktop v1.1.4 delivers comprehensive ecosystem hardening, clean multi-platform download actions, full search engine indexation, upgraded security controls, and cross-platform desktop binary distributions.
 
@@ -321,12 +350,52 @@ Invio Desktop v1.0.0 is the foundational release of the privacy-first desktop bi
  */
 const INITIAL_RELEASES = [
   {
+    tag: 'v1.1.6',
+    version: '1.1.6',
+    anchorId: 'v1-1-6',
+    name: 'Version 1.1.6 (Latest Production Release)',
+    date: 'November 26, 2026',
+    isLatest: true,
+    assets: [
+      { name: 'Invio-1.1.6-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.6-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.6-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.6-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.6-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.6-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.6-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.6-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '65.2 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.6-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
+    ],
+    notes: CURATED_RELEASE_NOTES['v1.1.6']
+  },
+  {
+    tag: 'v1.1.5',
+    version: '1.1.5',
+    anchorId: 'v1-1-5',
+    name: 'Version 1.1.5 (Previous Production Release)',
+    date: 'November 25, 2026',
+    isLatest: false,
+    assets: [
+      { name: 'Invio-1.1.5-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.5-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.5-mac-x64.dmg', arch: 'Intel Mac (x64)', format: 'Mac Disk Image', size: '72.1 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.5-mac-x64.zip', arch: 'Intel Mac (x64)', format: 'Auto-Update Package', size: '70.3 MB', platform: 'mac', icon: AppleIcon },
+      { name: 'Invio-1.1.5-win-x64.exe', arch: 'Windows 64-bit (x64)', format: 'Windows Installer', size: '62.5 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.5-win-x64-portable.exe', arch: 'Windows 64-bit (x64)', format: 'Portable Windows App', size: '61.8 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.5-win-x64.appx', arch: 'Windows 64-bit (x64)', format: 'Microsoft Store Package', size: '78.4 MB', platform: 'windows', icon: WindowsIcon },
+      { name: 'Invio-1.1.5-linux-x86_64.AppImage', arch: 'Linux 64-bit (x86_64)', format: 'Universal AppImage', size: '65.2 MB', platform: 'linux', icon: LinuxIcon },
+      { name: 'Invio-1.1.5-linux-amd64.deb', arch: 'Debian / Ubuntu (amd64)', format: 'Debian Package', size: '58.1 MB', platform: 'linux', icon: LinuxIcon },
+    ],
+    notes: CURATED_RELEASE_NOTES['v1.1.5']
+  },
+  {
     tag: 'v1.1.4',
     version: '1.1.4',
     anchorId: 'v1-1-4',
-    name: 'Version 1.1.4 (Latest Production Release)',
+    name: 'Version 1.1.4 (Previous Production Release)',
     date: 'November 14, 2026',
-    isLatest: true,
+    isLatest: false,
     assets: [
       { name: 'Invio-1.1.4-mac-arm64.dmg', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Mac Disk Image', size: '68.2 MB', platform: 'mac', icon: AppleIcon },
       { name: 'Invio-1.1.4-mac-arm64.zip', arch: 'Apple Silicon (M1/M2/M3/M4)', format: 'Auto-Update Package', size: '66.4 MB', platform: 'mac', icon: AppleIcon },
@@ -913,15 +982,15 @@ function renderMarkdown(mdText) {
       continue;
     }
 
-    // 7. Level 1 Heading (# )
+    // 7. Level 1 Markdown Heading (# ) rendered as h2 to preserve single document H1
     if (trimmed.startsWith('# ')) {
       elements.push(
-        <h1
+        <h2
           key={`h1-${i}`}
           className="text-base font-bold text-slate-900 pt-3 pb-1.5 border-b border-slate-200"
         >
           {formatInline(trimmed.slice(2))}
-        </h1>
+        </h2>
       );
       i++;
       continue;

@@ -4,6 +4,7 @@ import { Hero } from '../components/home/Hero';
 import { StickyFeatures } from '../components/home/StickyFeatures';
 import { HowItWorksSection } from '../components/home/HowItWorksSection';
 import { ModularPlatformSection } from '../components/home/ModularPlatformSection';
+import { WhyInvioAndFaqSection } from '../components/home/WhyInvioAndFaqSection';
 import { ReadyCta } from '../components/home/ReadyCta';
 
 export function HomePage() {
@@ -26,7 +27,10 @@ export function HomePage() {
       {/* 4. Modularity & Official Extensions Overview */}
       <ModularPlatformSection />
 
-      {/* 5. Merged Section: Invoicing Ready CTA + Free Online Finance Suite (Stuck to footer with identical buttons) */}
+      {/* 5. Why Invio Invoice & Top Frequently Asked Questions */}
+      <WhyInvioAndFaqSection />
+
+      {/* 6. Merged Section: Free Online Finance Suite + Invoicing Ready CTA */}
       <ReadyCta />
     </main>
   );

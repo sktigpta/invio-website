@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { detectDeviceOS, PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL, APP_VERSION } from '../utils/osDetector';
+import { PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL, APP_VERSION } from '../utils/osDetector';
+import { useDeviceOS } from '../hooks/useDeviceOS';
 import { useDownloadModal } from '../context/DownloadModalContext';
 import { AppleIcon, WindowsIcon, LinuxIcon, DownloadIcon, MicrosoftStoreIcon } from './Icons';
 
@@ -9,7 +10,7 @@ export function DownloadCta({
   showAllLinks = true,
   className = ""
 }) {
-  const activeOS = detectDeviceOS();
+  const activeOS = useDeviceOS();
   const { openDownloadModal } = useDownloadModal();
 
   const getOsIcon = (id, sizeClass = "size-4") => {

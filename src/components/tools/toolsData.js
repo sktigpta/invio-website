@@ -1,5 +1,29 @@
 export const TOOL_CATEGORIES = [
   {
+    id: 'business-billing',
+    name: 'Invoice & Business Billing',
+    icon: 'BriefcaseIcon',
+    tools: [
+      {
+        id: 'invoice-generator',
+        name: 'Free Invoice Generator',
+        shortDesc: 'Create, customize, and print GST or tax invoices online for free.',
+        category: 'business-billing',
+        region: 'Global / India',
+        icon: 'FileTextIcon',
+        badge: 'Free',
+      },
+      {
+        id: 'project-estimate',
+        name: 'Project Cost Estimator',
+        shortDesc: 'Estimate total project budget, hourly billing & contingency buffer.',
+        category: 'business-billing',
+        region: 'Global',
+        icon: 'BriefcaseIcon',
+      },
+    ],
+  },
+  {
     id: 'tax-vat',
     name: 'Tax & VAT Calculators',
     icon: 'PercentIcon',
@@ -77,21 +101,6 @@ export const TOOL_CATEGORIES = [
         category: 'payroll-salary',
         region: 'India & UAE',
         icon: 'AwardIcon',
-      },
-    ],
-  },
-  {
-    id: 'business-billing',
-    name: 'Business & Project Billing',
-    icon: 'BriefcaseIcon',
-    tools: [
-      {
-        id: 'project-estimate',
-        name: 'Project Cost Estimator',
-        shortDesc: 'Estimate total project budget, hourly billing & contingency buffer.',
-        category: 'business-billing',
-        region: 'Global',
-        icon: 'BriefcaseIcon',
       },
     ],
   },

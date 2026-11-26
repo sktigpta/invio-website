@@ -1,17 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { AppleIcon, WindowsIcon, LinuxIcon, MicrosoftStoreIcon, DownloadIcon } from '../Icons';
-import { detectDeviceOS, PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL } from '../../utils/osDetector';
+import { PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL } from '../../utils/osDetector';
+import { useDeviceOS } from '../../hooks/useDeviceOS';
 import { useDownloadModal } from '../../context/DownloadModalContext';
 import { ProgressiveImage } from '../common/ProgressiveImage';
 
 export function Hero() {
-  const initialOS = detectDeviceOS();
+  const detectedOS = useDeviceOS();
   const { openDownloadModal } = useDownloadModal();
-  const [selectedOSId, setSelectedOSId] = useState(
-    initialOS.id === 'linux' ? 'linux' : initialOS.id === 'windows' ? 'windows' : 'mac'
-  );
+  const [selectedOSId, setSelectedOSId] = useState('mac');
 
-  const currentOS = PLATFORM_DOWNLOADS[selectedOSId] || initialOS;
+  useEffect(() => {
+    if (detectedOS?.id === 'linux' || detectedOS?.id === 'windows' || detectedOS?.id === 'mac') {
+      setSelectedOSId(detectedOS.id);
+    }
+  }, [detectedOS?.id]);
+
+  const currentOS = PLATFORM_DOWNLOADS[selectedOSId] || detectedOS;
 
   const getOsIcon = (id, sizeClass = 'size-4 shrink-0') => {
     if (id === 'mac') return <AppleIcon className={sizeClass} />;
@@ -35,7 +41,7 @@ export function Hero() {
         <ProgressiveImage
           srcLow="/screenshots/hero-360p.webp"
           srcHigh="/screenshots/hero.webp"
-          alt="Invio Free Offline Invoice Generator App & GST Billing Software Hero Screenshot"
+          alt="Invio Invoice – Free Invoice Software and Offline GST Billing App Screenshot"
           width={1920}
           height={1301}
           aspectRatio="1920 / 1301"
@@ -56,14 +62,18 @@ export function Hero() {
       {/* Hero Foreground Content */}
       <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 sm:px-8 py-16 sm:py-24">
         <div className="max-w-2xl text-center flex flex-col items-center">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-100/70 border border-purple-200/80 px-3 py-1 rounded-full inline-block mb-4">
+            Invio Invoice • Free Forever for Windows, Mac &amp; Linux
+          </span>
+
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-slate-900 leading-[1.12] mb-5">
-            Create &amp; Send Customer Invoices in Seconds
+            Free Invoice Software &amp; Offline Billing App
           </h1>
 
           {/* Subtitle */}
           <p className="text-sm sm:text-base lg:text-[17px] text-slate-600 font-normal leading-relaxed mb-8 max-w-xl text-center">
-            Offline GST billing, paper receipts with UPI QR, barcode scanning, and stock tracking—saved safely on your own computer.
+            Invio Invoice helps you create GST bills in seconds, print paper receipts with UPI QR codes, scan barcodes, and track stock—100% free forever for everyday billing, saved safely on your own computer.
           </p>
 
           {/* Platform Selector & Download Controls */}
@@ -159,6 +169,16 @@ export function Hero() {
                   <span>Download for {selectedOSId === 'mac' ? 'Mac' : currentOS.name}</span>
                 </button>
               )}
+
+              <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500">
+                <Link to="/download" className="hover:text-[#7C3AED] font-medium underline-offset-4 hover:underline">
+                  All desktop installers
+                </Link>
+                <span aria-hidden="true">•</span>
+                <Link to="/tools/invoice-generator" className="hover:text-[#7C3AED] font-medium underline-offset-4 hover:underline">
+                  Try free online invoice maker
+                </Link>
+              </div>
             </div>
           </div>
         </div>

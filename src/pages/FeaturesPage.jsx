@@ -57,12 +57,13 @@ export function FeaturesPage() {
                     <div className={isLastOdd ? 'lg:w-5/12 space-y-3' : 'space-y-3'}>
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3.5">
-                          <div className="size-11 rounded-squircle-sm overflow-hidden shrink-0 border border-slate-100">
+                          <div className="size-11 rounded-squircle-sm overflow-hidden shrink-0 border border-slate-100 bg-slate-50">
                             <img
                               src={ext.logoUrl}
                               alt={`${ext.name} logo`}
                               className="w-full h-full object-cover"
                               loading="lazy"
+                              onError={(e) => { e.currentTarget.style.display = 'none'; }}
                             />
                           </div>
                           <div>

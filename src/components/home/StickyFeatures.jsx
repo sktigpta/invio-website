@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FEATURES_DATA } from '../../data/featuresData';
 import { InteractiveTabs } from '../common/InteractiveTabs';
-import { useInView } from '../../hooks/useInView';
 
 const ICON_ACCENTS = [
   'bg-purple-50/90 text-[#7C3AED]',
@@ -35,7 +34,6 @@ const FEATURE_FILTERS = [
 export function StickyFeatures() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [expandedId, setExpandedId] = useState(null);
-  const { ref, inView } = useInView();
 
   const coreFeatures = FEATURES_DATA.filter((f) => f.id !== 'extensions-marketplace');
   const activeGroup = FEATURE_FILTERS.find((f) => f.id === activeFilter);
@@ -46,11 +44,8 @@ export function StickyFeatures() {
 
   return (
     <section
-      ref={ref}
       id="features"
-      className={`w-full bg-gradient-to-br from-[#fbf9fe] via-white to-purple-50/25 py-16 sm:py-24 px-6 sm:px-8 border-y border-slate-200 relative scroll-mt-24 transition-all duration-700 ${
-        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
+      className="w-full bg-gradient-to-br from-[#fbf9fe] via-white to-purple-50/25 py-16 sm:py-24 px-6 sm:px-8 border-y border-slate-200 relative scroll-mt-24"
     >
       {/* Decorative ambient blurred orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
@@ -60,7 +55,7 @@ export function StickyFeatures() {
 
       <div className="max-w-[1200px] mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-stretch">
-          {/* Left Side: Sticky Intro (stays pinned as feature cards scroll past smoothly) */}
+          {/* Left Side: Sticky Intro */}
           <div className="relative h-full">
             <div className="lg:sticky lg:top-28 flex flex-col gap-4 sm:gap-6">
               <div>
@@ -103,12 +98,10 @@ export function StickyFeatures() {
                 const accentClass = ICON_ACCENTS[idx % ICON_ACCENTS.length];
                 const isExpanded = expandedId === feature.id;
                 return (
-                  <button
+                  <article
                     key={feature.id || feature.title}
-                    type="button"
                     onClick={() => setExpandedId(isExpanded ? null : feature.id)}
-                    aria-expanded={isExpanded}
-                    className={`group text-left relative p-6 rounded-squircle bg-white border transition-all duration-300 flex flex-col justify-between min-h-[240px] sm:min-h-[250px] h-full overflow-hidden cursor-pointer shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] ${
+                    className={`group text-left relative p-6 rounded-squircle bg-white border transition-all duration-300 flex flex-col justify-between min-h-[240px] sm:min-h-[250px] h-full overflow-hidden cursor-pointer shadow-sm ${
                       isExpanded
                         ? 'border-[#7C3AED] shadow-xl shadow-purple-900/10 ring-1 ring-[#7C3AED]/15'
                         : 'border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/10'
@@ -130,18 +123,27 @@ export function StickyFeatures() {
                     )}
 
                     <div className="relative z-10 flex flex-col justify-between h-full w-full">
-                      {/* Top: Icon & Expand indicator */}
+                      {/* Top: Icon & Accessible Expand button */}
                       <div className="flex items-center justify-between gap-2 w-full">
                         <div className={`size-11 rounded-squircle-sm backdrop-blur-sm flex items-center justify-center group-hover:bg-[#7C3AED] group-hover:text-white group-hover:scale-105 transition-all duration-200 shrink-0 shadow-sm ${accentClass}`}>
                           <Icon className="size-5 transition-colors duration-200" />
                         </div>
-                        <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border transition-colors ${
-                          isExpanded
-                            ? 'bg-purple-50 text-[#7C3AED] border-purple-200'
-                            : 'bg-white/80 text-slate-500 border-slate-200/80 group-hover:text-[#7C3AED] group-hover:border-purple-200'
-                        }`}>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedId(isExpanded ? null : feature.id);
+                          }}
+                          aria-expanded={isExpanded}
+                          aria-label={`${isExpanded ? 'Hide details for' : 'Show details for'} ${feature.title}`}
+                          className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] ${
+                            isExpanded
+                              ? 'bg-purple-50 text-[#7C3AED] border-purple-200'
+                              : 'bg-white/80 text-slate-500 border-slate-200/80 group-hover:text-[#7C3AED] group-hover:border-purple-200'
+                          }`}
+                        >
                           {isExpanded ? 'Less' : 'Details'}
-                        </span>
+                        </button>
                       </div>
 
                       {/* Bottom: Title & Description or Expanded Highlights */}
@@ -167,7 +169,7 @@ export function StickyFeatures() {
                         )}
                       </div>
                     </div>
-                  </button>
+                  </article>
                 );
               })}
             </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AppleIcon, WindowsIcon, LinuxIcon, DownloadIcon } from './Icons';
-import { detectDeviceOS } from '../utils/osDetector';
+import { useDeviceOS } from '../hooks/useDeviceOS';
 import { useDownloadModal } from '../context/DownloadModalContext';
 
 export function Navbar() {
@@ -10,7 +10,7 @@ export function Navbar() {
   const [hidden, setHidden] = useState(false);
   const location = useLocation();
   const { openDownloadModal } = useDownloadModal();
-  const activeOS = detectDeviceOS();
+  const activeOS = useDeviceOS();
 
   const isFullWidthPage = location.pathname.startsWith('/tools') || location.pathname.startsWith('/docs') || location.pathname.startsWith('/doc');
 

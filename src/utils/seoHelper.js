@@ -1,6 +1,8 @@
+import { FAQ_ITEMS } from '../data/faqData';
+
 /**
- * Dynamic SEO & Structured Data Registry for Invio Website
- * Manages route-specific metadata: title, description, canonical, OG, Twitter, and JSON-LD structured data.
+ * Dynamic & SSG SEO Metadata + JSON-LD Registry for Invio Website
+ * Pure computation works identically in Node build-time prerendering and browser runtime.
  */
 
 export const BASE_URL = 'https://invio.timrio.com';
@@ -8,75 +10,121 @@ export const CURRENT_VERSION =
   (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_APP_VERSION) ||
   '1.1.6';
 
+export const MICROSOFT_STORE_INSTALL_URL =
+  'https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN';
+
 export const PAGE_METADATA = {
   home: {
-    title: 'Invio – Free Invoice Software & Offline Billing Software | Timrio',
-    description: 'Invio is free invoice software and offline billing software for Windows, Mac & Linux. Make bills in seconds, keep all shop records safely on your computer, and add tools for POS, Customer Screen, Restaurant, Email, and WhatsApp.',
+    title: 'Invio Invoice – Free Invoice Software & Billing App | Timrio',
+    description:
+      'Invio Invoice is free invoice software and offline billing app for Windows, Mac & Linux. Make GST bills in seconds, print paper receipts with UPI QR codes, scan barcodes, track stock, and keep all records safely on your own computer.',
     canonical: `${BASE_URL}/`,
-    keywords: 'Invio, Invio software, free software, free invoice software, free billing software, offline billing software, GST billing app, shop billing software, POS billing software, customer POS display, restaurant QR ordering, receipt printing, UPI QR billing, Timrio',
+    keywords:
+      'Invio invoice, Invio, Invio software, free invoice software, free invoice app, free invoice maker, free billing software, offline billing software, GST invoice software, shop billing software, retail POS software, Timrio',
     schemaType: 'SoftwareApplication',
-  },
-  product: {
-    title: 'Invio Software – Free Invoice & Billing App for PC & Mac',
-    description: 'Invio billing app: Fast counter checkout, paper receipts, automatic GST calculations, barcode scanner support, and safe offline storage on your own computer.',
-    canonical: `${BASE_URL}/features`,
-    keywords: 'Invio software, free software, free invoice software, offline invoice software, desktop billing app, retail POS software, GST invoice software, Timrio Invio, invoice maker for Mac, free invoice app for Windows',
-    schemaType: 'SoftwareApplication',
+    includeHomeFaqSchema: true,
   },
   features: {
     title: 'Features & Add-ons – Free Invoice Software, POS & Restaurant | Invio',
-    description: 'See everything Invio can do: free offline GST billing, paper receipts with UPI QR, picture-tile POS, Customer POS Display, Restaurant table QR & kitchen screen, Email bills, and WhatsApp sharing.',
+    description:
+      'See everything Invio Invoice can do: free offline GST billing, A4/A5 PDFs, paper receipts with UPI QR, picture-tile POS, Customer POS Display, Restaurant table QR & kitchen screen, Email bills, and WhatsApp sharing.',
     canonical: `${BASE_URL}/features`,
-    keywords: 'Invio features, Invio add-ons, free invoice software, POS billing tiles, customer POS display, restaurant QR ordering, kitchen display screen, offline GST billing, receipt printing, email bills, WhatsApp bills',
+    keywords:
+      'Invio features, Invio invoice features, free invoice software, POS billing tiles, customer POS display, restaurant QR ordering, kitchen display screen, offline GST billing, receipt printing, email bills, WhatsApp bills',
     schemaType: 'SoftwareApplication',
   },
   pricing: {
-    title: 'Pricing – Free Forever Plan & Plus Shop Plans | Invio',
-    description: 'Simple pricing for Invio: Free forever for offline computer billing, Plus plan for small paper receipts and UPI QR, and Pro coming soon for bigger teams.',
+    title: 'Pricing – Free Forever Invoice Plan & Invio Plus | Invio',
+    description:
+      'Transparent pricing for Invio Invoice: ₹0 Free forever for offline computer billing, Plus plan (₹149/mo or ₹999/yr) for small paper receipts, UPI QR on slips, Restaurant mode, and Email/WhatsApp sharing.',
     canonical: `${BASE_URL}/pricing`,
-    keywords: 'Invio pricing, free billing software, free invoice software, Invio Plus price, shop billing plan, retail POS plans',
+    keywords:
+      'Invio pricing, free billing software, free invoice software, Invio Plus price, shop billing plan, retail POS plans',
     schemaType: 'WebPage',
   },
   checkout: {
     title: 'Checkout & Subscription – Upgrade to Invio Plus | Invio',
-    description: 'Upgrade to Invio Plus for small receipt printing, UPI QR codes on slips, Email & WhatsApp bills, and extra counter tools.',
+    description:
+      'Upgrade to Invio Plus for small receipt printing, UPI QR codes on slips, Email & WhatsApp bills, and extra counter tools.',
     canonical: `${BASE_URL}/checkout`,
     keywords: 'Invio checkout, Invio Plus subscription, billing software upgrade, secure checkout',
     schemaType: 'WebPage',
+    noindex: true,
+    noindexFollow: true,
   },
   download: {
-    title: 'Download Invio – Free Invoice Software for Windows, Mac & Linux',
-    description: `Download Invio v${CURRENT_VERSION} free for Windows 10/11, Mac, and Linux. Free offline invoice software with safe storage on your own computer, fast receipt printing, and no monthly cloud fees.`,
+    title: 'Download Invio – Free Invoice App for Windows, Mac & Linux',
+    description: `Download Invio v${CURRENT_VERSION} free for Windows 10/11 (Microsoft Store or .exe), Apple Mac (.dmg), and Linux. Free offline invoice software with safe local storage and no monthly cloud fees.`,
     canonical: `${BASE_URL}/download`,
-    keywords: 'Download Invio, Invio software download, free invoice software download, Invio Windows download, Invio Mac download, free billing software',
+    keywords:
+      'Download Invio, Invio invoice download, free invoice software download, free invoice app Windows Mac, Invio Windows download, Invio Mac download, free billing software',
     schemaType: 'SoftwareApplication',
+  },
+  'free-invoice-software': {
+    title: 'Free Invoice Software for PC, Mac & Linux (Free Forever) | Invio',
+    description:
+      'Looking for free invoice software with no trial expiry? Invio Invoice lets shops and freelancers create unlimited GST and normal invoices offline on Windows, Mac, and Linux—free forever.',
+    canonical: `${BASE_URL}/free-invoice-software`,
+    keywords:
+      'free invoice software, free invoice app, free invoice maker, invio invoice, free billing software for PC, free invoice software for Mac, offline invoice software',
+    schemaType: 'SoftwareApplication',
+    parentCategory: 'Solutions',
+    parentUrl: `${BASE_URL}/features`,
+  },
+  'offline-billing-software': {
+    title: 'Free Offline Billing Software Without Internet | Invio',
+    description:
+      'Run your billing counter 100% offline with Invio. Save all invoices, stock, and customer credit records safely on your own computer with zero cloud fees or internet downtime.',
+    canonical: `${BASE_URL}/offline-billing-software`,
+    keywords:
+      'offline billing software, offline invoice software, free offline billing app, billing software without internet, local shop billing software, Invio offline',
+    schemaType: 'SoftwareApplication',
+    parentCategory: 'Solutions',
+    parentUrl: `${BASE_URL}/features`,
+  },
+  'gst-billing-software': {
+    title: 'Free GST Billing Software & Tax Invoice Maker | Invio',
+    description:
+      'Create GST-compliant tax invoices in seconds with automatic CGST, SGST, and IGST splits, HSN/SAC codes, A4/A5 PDF printing, and monthly CA summary reports—free forever offline.',
+    canonical: `${BASE_URL}/gst-billing-software`,
+    keywords:
+      'free GST billing software, GST invoice software, GST billing app, GST invoice maker, CGST SGST IGST billing software, Invio GST billing',
+    schemaType: 'SoftwareApplication',
+    parentCategory: 'Solutions',
+    parentUrl: `${BASE_URL}/features`,
+  },
+  'pos-billing-software': {
+    title: 'Free POS Billing Software, Receipt Printer & Restaurant QR | Invio',
+    description:
+      'Fast picture-tile POS billing, 58mm & 80mm thermal receipt printing with UPI QR, USB barcode scanners, Customer POS Display second screen, and Restaurant Table QR & Kitchen Screen.',
+    canonical: `${BASE_URL}/pos-billing-software`,
+    keywords:
+      'free POS billing software, retail POS software, thermal receipt billing software, restaurant POS billing software, UPI QR billing app, Invio POS',
+    schemaType: 'SoftwareApplication',
+    parentCategory: 'Solutions',
+    parentUrl: `${BASE_URL}/features`,
   },
   changelog: {
     title: 'Changelog & Release Notes – Version History | Invio',
-    description: 'Documenting all improvements, bug fixes, and feature releases for Invio desktop application on Windows and macOS.',
+    description:
+      'Documenting all improvements, bug fixes, and feature releases for the Invio desktop invoicing application on Windows, macOS, and Linux.',
     canonical: `${BASE_URL}/changelog`,
     keywords: 'Invio changelog, release notes, version history, Invio updates, desktop app releases',
     schemaType: 'WebPage',
   },
-  'system-requirements': {
-    title: 'System Requirements – Windows & macOS Compatibility | Invio',
-    description: 'Verify system requirements for Invio: Supported Windows and macOS versions, minimum RAM, processor architecture (Apple Silicon M-series, Intel, x64), and disk space.',
-    canonical: `${BASE_URL}/docs/system`,
-    keywords: 'Invio system requirements, minimum requirements, Windows 10 compatibility, macOS Apple Silicon compatibility, disk space',
-    schemaType: 'TechArticle',
-  },
   docs: {
-    title: 'Documentation Hub & Guides – Invio Desktop Invoicing | Timrio',
-    description: 'Official documentation for Invio: Setup instructions, system requirements, ESC/POS thermal printing configuration, database backups, and security architecture.',
+    title: 'Documentation Hub & Setup Guides – Invio Invoice | Timrio',
+    description:
+      'Official documentation for Invio Invoice: setup instructions, system requirements, 58mm/80mm thermal printing, POS tiles, Restaurant QR, backups, and security.',
     canonical: `${BASE_URL}/docs`,
     keywords: 'Invio documentation, Invio docs, setup guide, system requirements, thermal printing guide, offline invoice database',
     schemaType: 'TechArticle',
   },
   'docs-download': {
     title: 'How to Download Invio – Official Desktop Packages | Timrio',
-    description: `Download Invio v${CURRENT_VERSION} for Windows, macOS Apple Silicon & Intel, and Linux with SHA-256 integrity verification.`,
+    description: `Download Invio v${CURRENT_VERSION} for Windows, macOS Apple Silicon & Intel, and Linux with verified installers.`,
     canonical: `${BASE_URL}/docs/download`,
-    keywords: 'download Invio desktop, Invio installer, verify SHA-256 Invio, Windows exe, macOS dmg',
+    keywords: 'download Invio desktop, Invio installer, Microsoft Store Invio, Windows exe, macOS dmg',
     schemaType: 'TechArticle',
     parentCategory: 'Documentation',
     parentUrl: `${BASE_URL}/docs`,
@@ -85,14 +133,14 @@ export const PAGE_METADATA = {
     title: 'System & Printer Requirements – Invio Docs | Timrio',
     description: 'Hardware, operating system (Windows, macOS, Linux), and thermal receipt printer specifications for Invio desktop invoicing.',
     canonical: `${BASE_URL}/docs/system`,
-    keywords: 'Invio system requirements, minimum specs, thermal printer compatibility, ESC/POS, Windows 10, macOS Sequoia',
+    keywords: 'Invio system requirements, minimum specs, thermal printer compatibility, ESC/POS, Windows 10, macOS',
     schemaType: 'TechArticle',
     parentCategory: 'Documentation',
     parentUrl: `${BASE_URL}/docs`,
   },
   'docs-installation': {
     title: 'Installation Guide & Setup Instructions – Invio Docs | Timrio',
-    description: 'Step-by-step installation instructions for Invio on Windows and macOS, including security confirmation handling, first run walkthrough, and troubleshooting.',
+    description: 'Step-by-step installation instructions for Invio on Windows and macOS, including Microsoft Store setup and first-run walkthrough.',
     canonical: `${BASE_URL}/docs/installation`,
     keywords: 'Invio installation guide, install Invio Mac, install Invio Windows, installation walkthrough, desktop app setup',
     schemaType: 'TechArticle',
@@ -117,15 +165,6 @@ export const PAGE_METADATA = {
     parentCategory: 'Documentation',
     parentUrl: `${BASE_URL}/docs`,
   },
-  'docs-printing': {
-    title: 'A4 & A5 Office Printers Setup – Invio Docs | Timrio',
-    description: 'Configure standard office inkjet and laser printers for full-page A4 and A5 GST invoices with authorized signatures and bank details.',
-    canonical: `${BASE_URL}/docs/standard-printer`,
-    keywords: 'A4 GST invoice printing, A5 bill printer, laser printer invoice, office printer setup Invio, PDF print',
-    schemaType: 'TechArticle',
-    parentCategory: 'Documentation',
-    parentUrl: `${BASE_URL}/docs`,
-  },
   'docs-thermal-printer': {
     title: 'Thermal Receipt Printer Setup Guide – Invio Docs | Timrio',
     description: 'Complete setup guide for 58mm and 80mm ESC/POS thermal printers: USB, Ethernet LAN, silent printing, auto-cutting, and UPI QR codes.',
@@ -140,15 +179,6 @@ export const PAGE_METADATA = {
     description: 'Plug-and-play USB and wireless barcode scanner integration and automatic cash drawer kick trigger on invoice print in Invio.',
     canonical: `${BASE_URL}/docs/barcode-hardware`,
     keywords: 'barcode scanner billing, retail POS scanner, USB barcode reader, cash drawer RJ11 setup, point and scan checkout',
-    schemaType: 'TechArticle',
-    parentCategory: 'Documentation',
-    parentUrl: `${BASE_URL}/docs`,
-  },
-  'docs-email': {
-    title: 'Email & SMTP Outbox Configuration – Invio Docs | Timrio',
-    description: 'Connect Google Gmail via one-click OAuth or custom SMTP (ports 587/465, App Passwords) for automated PDF invoice delivery.',
-    canonical: `${BASE_URL}/docs/email-setup`,
-    keywords: 'Invio email setup, SMTP configuration, Gmail OAuth, invoice email, app password, email outbox',
     schemaType: 'TechArticle',
     parentCategory: 'Documentation',
     parentUrl: `${BASE_URL}/docs`,
@@ -252,18 +282,11 @@ export const PAGE_METADATA = {
     parentCategory: 'Documentation',
     parentUrl: `${BASE_URL}/docs`,
   },
-  support: {
-    title: 'Support & Help Center – Customer Assistance | Invio',
-    description: 'Get help with Invio desktop invoicing app: Troubleshooting common issues, thermal printer setup, database backups, and direct contact with the Timrio support team.',
-    canonical: `${BASE_URL}/docs/troubleshooting`,
-    keywords: 'Invio support, help center, billing software assistance, contact support, troubleshooting',
-    schemaType: 'ContactPage',
-  },
   faq: {
     title: 'Frequently Asked Questions – Free Invoice Software | Invio',
-    description: 'Simple answers to common questions about Invio: how your bills stay safe offline, receipt printer support, GST tax math, UPI QR codes, and free updates.',
+    description: 'Simple answers to common questions about Invio Invoice: how your bills stay safe offline, receipt printer support, GST tax math, UPI QR codes, and free updates.',
     canonical: `${BASE_URL}/faq`,
-    keywords: 'Invio FAQ, free invoice software FAQ, offline billing questions, receipt printer setup FAQ',
+    keywords: 'Invio FAQ, invio invoice FAQ, free invoice software FAQ, offline billing questions, receipt printer setup FAQ',
     schemaType: 'FAQPage',
   },
   privacy: {
@@ -303,7 +326,7 @@ export const PAGE_METADATA = {
   },
   contact: {
     title: 'Contact Us – Support & Business Identity | Timrio',
-    description: 'Contact the team behind Invio. Email support, report issues, and verify Timrio business identity.',
+    description: 'Contact the team behind Invio Invoice. Email support, report issues, and verify Timrio business identity.',
     canonical: `${BASE_URL}/contact`,
     keywords: 'Contact Invio, Timrio contact, support email, developer contact',
     schemaType: 'ContactPage',
@@ -316,16 +339,26 @@ export const PAGE_METADATA = {
     schemaType: 'ContactPage',
   },
   tools: {
-    title: 'Free Financial, Tax & Payroll Calculators Suite | Invio',
-    description: 'Suite of 100% free online business tools: India GST calculator, FY 25-26 Income Tax calculator, UK and UAE VAT calculators, Payslip generator, HRA exemption, and Gratuity calculators.',
+    title: 'Free Online Invoice Generator, GST & Tax Tools | Invio',
+    description: 'Suite of 100% free online business tools: Free Online Invoice Generator, India GST calculator, FY 25-26 Income Tax calculator, UK & UAE VAT, and Payslip generator.',
     canonical: `${BASE_URL}/tools`,
-    keywords: 'Invio free tools, GST calculator, income tax calculator, UK VAT calculator, payslip generator, HRA exemption calculator, gratuity calculator',
-    schemaType: 'WebPage',
+    keywords: 'free online invoice generator, Invio free tools, GST calculator, income tax calculator, UK VAT calculator, payslip generator',
+    schemaType: 'CollectionPage',
+  },
+  'invoice-generator': {
+    title: 'Free Online Invoice Generator & PDF Maker – No Sign-Up | Invio',
+    description: 'Create and print professional GST or regular invoices online for free with zero sign-up. Add shop details, items, taxes, and discounts, then save as PDF.',
+    canonical: `${BASE_URL}/tools/invoice-generator`,
+    keywords: 'free invoice generator, free online invoice maker, GST invoice generator online, free PDF invoice generator, Invio invoice generator',
+    schemaType: 'WebApplication',
+    parentCategory: 'Free Tools',
+    parentUrl: `${BASE_URL}/tools`,
   },
   'gst-calculator': {
     title: 'Free GST Calculator Online India – CGST, SGST & IGST | Invio',
     description: 'Calculate intra-state CGST & SGST splits, inter-state IGST, and reverse GST inclusive extractions across 0%, 5%, 12%, 18%, 28%, and 40% slabs.',
     canonical: `${BASE_URL}/tools/gst-calculator`,
+    keywords: 'GST calculator India, CGST SGST calculator, IGST calculator, reverse GST calculator',
     schemaType: 'WebApplication',
     parentCategory: 'Free Tools',
     parentUrl: `${BASE_URL}/tools`,
@@ -334,6 +367,7 @@ export const PAGE_METADATA = {
     title: 'Income Tax Calculator India FY 2025-26 (New vs Old Regime) | Invio',
     description: 'Calculate income tax liability comparing New Tax Regime (with ₹75,000 standard deduction) vs Old Tax Regime with instant tax slab and rebate comparison.',
     canonical: `${BASE_URL}/tools/income-tax-india`,
+    keywords: 'Income tax calculator India, FY 2025-26 tax calculator, new vs old tax regime',
     schemaType: 'WebApplication',
     parentCategory: 'Free Tools',
     parentUrl: `${BASE_URL}/tools`,
@@ -342,6 +376,7 @@ export const PAGE_METADATA = {
     title: 'UK VAT Calculator (HMRC Standard 20% & Reduced 5%) | Invio',
     description: 'Calculate HMRC standard 20%, reduced 5%, and zero-rated VAT or reverse extract net prices from gross totals.',
     canonical: `${BASE_URL}/tools/vat-uk`,
+    keywords: 'UK VAT calculator, HMRC 20% VAT calculator, reverse VAT UK',
     schemaType: 'WebApplication',
     parentCategory: 'Free Tools',
     parentUrl: `${BASE_URL}/tools`,
@@ -350,6 +385,7 @@ export const PAGE_METADATA = {
     title: 'UAE VAT Calculator (FTA 5%) – Online Tax Calculator | Invio',
     description: 'Calculate 5% UAE Federal Tax Authority VAT or reverse calculate net amounts from inclusive invoice totals.',
     canonical: `${BASE_URL}/tools/vat-uae`,
+    keywords: 'UAE VAT calculator, FTA 5% VAT calculator, Dubai VAT reverse calculation',
     schemaType: 'WebApplication',
     parentCategory: 'Free Tools',
     parentUrl: `${BASE_URL}/tools`,
@@ -358,6 +394,7 @@ export const PAGE_METADATA = {
     title: 'Free Payslip Generator – Monthly Employee Pay Slip Maker | Invio',
     description: 'Generate, customize, and print formal monthly employee salary pay slips for free with earnings, deductions, and net salary calculations.',
     canonical: `${BASE_URL}/tools/payslip-generator`,
+    keywords: 'free payslip generator, salary slip maker online, employee pay slip PDF',
     schemaType: 'WebApplication',
     parentCategory: 'Free Tools',
     parentUrl: `${BASE_URL}/tools`,
@@ -366,6 +403,7 @@ export const PAGE_METADATA = {
     title: 'Take-Home Paycheck Calculator – Gross to Net Pay | Invio',
     description: 'Calculate net take-home salary after taxes, withholdings, and pre-tax deductions.',
     canonical: `${BASE_URL}/tools/paycheck-calc`,
+    keywords: 'paycheck calculator, take home salary calculator, gross to net pay',
     schemaType: 'WebApplication',
     parentCategory: 'Free Tools',
     parentUrl: `${BASE_URL}/tools`,
@@ -374,6 +412,7 @@ export const PAGE_METADATA = {
     title: 'HRA Exemption Calculator (Section 10(13A)) – Income Tax | Invio',
     description: 'Calculate tax-exempt House Rent Allowance under Section 10(13A) of the Income Tax Act for metro and non-metro cities.',
     canonical: `${BASE_URL}/tools/hra-exemption`,
+    keywords: 'HRA exemption calculator, Section 10 13A calculator, house rent allowance tax',
     schemaType: 'WebApplication',
     parentCategory: 'Free Tools',
     parentUrl: `${BASE_URL}/tools`,
@@ -382,6 +421,7 @@ export const PAGE_METADATA = {
     title: 'Gratuity Calculator India – Payment of Gratuity Act 1972 | Invio',
     description: 'Calculate statutory employee gratuity payout using the 15/26 formula under the Payment of Gratuity Act 1972.',
     canonical: `${BASE_URL}/tools/gratuity-calc`,
+    keywords: 'gratuity calculator India, 15/26 gratuity formula, Payment of Gratuity Act',
     schemaType: 'WebApplication',
     parentCategory: 'Free Tools',
     parentUrl: `${BASE_URL}/tools`,
@@ -390,6 +430,7 @@ export const PAGE_METADATA = {
     title: 'Project Cost Estimator – Hourly Billing & Contingency | Invio',
     description: 'Estimate project costs, labor hours, direct costs, and contingency risk buffers for client proposals.',
     canonical: `${BASE_URL}/tools/project-estimate`,
+    keywords: 'project cost estimator, freelance quote calculator, project budget estimator',
     schemaType: 'WebApplication',
     parentCategory: 'Free Tools',
     parentUrl: `${BASE_URL}/tools`,
@@ -402,19 +443,217 @@ export const PAGE_METADATA = {
   },
 };
 
+function buildOrganizationNode() {
+  return {
+    '@type': 'Organization',
+    '@id': 'https://timrio.com/#organization',
+    name: 'Timrio',
+    url: 'https://timrio.com/',
+    logo: `${BASE_URL}/appLogo.png`,
+    email: 'support@timrio.com',
+    sameAs: [
+      'https://twitter.com/timriocorp',
+      'https://github.com/sktigpta/invio-desktop',
+    ],
+  };
+}
+
+function buildSoftwareAppNode(meta) {
+  return {
+    '@type': 'SoftwareApplication',
+    '@id': `${BASE_URL}/#software`,
+    name: 'Invio',
+    alternateName: [
+      'Invio Invoice',
+      'Invio Invoice Software',
+      'Invio Billing Software',
+      'Invio App',
+      'Invio POS',
+    ],
+    operatingSystem: 'Windows 10, Windows 11, macOS 11.0+, Linux 64-bit',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Invoicing Software, Billing Software, Point of Sale',
+    softwareVersion: CURRENT_VERSION,
+    isAccessibleForFree: true,
+    description: meta.description,
+    url: meta.canonical || `${BASE_URL}/`,
+    downloadUrl: `${BASE_URL}/download`,
+    installUrl: MICROSOFT_STORE_INSTALL_URL,
+    softwareHelp: `${BASE_URL}/docs`,
+    releaseNotes: `${BASE_URL}/changelog`,
+    image: `${BASE_URL}/og-image.jpg`,
+    screenshot: `${BASE_URL}/screenshots/hero.webp`,
+    sameAs: [
+      MICROSOFT_STORE_INSTALL_URL,
+      'https://github.com/sktigpta/invio-desktop',
+    ],
+    featureList: [
+      '100% Offline Billing Saved Safely on Your Computer',
+      'Automatic GST Tax Calculation (CGST, SGST, IGST) on Bills',
+      'Paper Receipt Printing (58mm and 80mm rolls) & A4/A5 PDFs',
+      'UPI Payment QR Codes Printed on Receipts',
+      'USB & Bluetooth Barcode Scanner Support',
+      'Automatic Stock & Inventory Tracking with Low-Stock Alerts',
+      'Customer Contacts and Credit (Udhar) Diary',
+      'Official Add-ons: Picture-Tile POS, Customer POS Display, Restaurant Table QR & Kitchen Screen, Email & WhatsApp',
+    ],
+    offers: {
+      '@type': 'Offer',
+      name: 'Invio Free Forever Plan',
+      price: '0',
+      priceCurrency: 'INR',
+      availability: 'https://schema.org/InStock',
+      url: `${BASE_URL}/download`,
+    },
+    author: { '@id': 'https://timrio.com/#organization' },
+    publisher: { '@id': 'https://timrio.com/#organization' },
+  };
+}
+
+function buildWebSiteNode() {
+  return {
+    '@type': 'WebSite',
+    '@id': `${BASE_URL}/#website`,
+    name: 'Invio',
+    alternateName: ['Invio Invoice', 'Invio by Timrio'],
+    url: `${BASE_URL}/`,
+    description:
+      'Official website, downloads, calculators, and guides for Invio free invoice software and offline billing app.',
+    publisher: { '@id': 'https://timrio.com/#organization' },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${BASE_URL}/docs?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+}
+
 /**
- * Dynamically updates document head tags and structured data
+ * Pure SEO builder used by both server-side prerendering and client-side navigation.
+ */
+export function buildPageSEOData(pageKey, overrides = {}) {
+  const meta = { ...(PAGE_METADATA[pageKey] || PAGE_METADATA.home), ...overrides };
+  const robots = meta.noindex
+    ? meta.noindexFollow
+      ? 'noindex, follow'
+      : 'noindex, nofollow'
+    : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+  const graph = [];
+
+  if (meta.schemaType === 'SoftwareApplication') {
+    graph.push(buildSoftwareAppNode(meta));
+    if (pageKey === 'home') {
+      graph.push(buildWebSiteNode());
+    }
+    graph.push(buildOrganizationNode());
+
+    if (meta.includeHomeFaqSchema) {
+      graph.push({
+        '@type': 'FAQPage',
+        mainEntity: FAQ_ITEMS.slice(0, 6).map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer,
+          },
+        })),
+      });
+    }
+  } else if (meta.schemaType === 'FAQPage') {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: FAQ_ITEMS.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    });
+    graph.push(buildOrganizationNode());
+  } else if (meta.schemaType === 'WebApplication') {
+    graph.push({
+      '@type': 'WebApplication',
+      name: meta.title.split('–')[0].split('|')[0].trim(),
+      description: meta.description,
+      url: meta.canonical || BASE_URL,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Any (Web Browser)',
+      isAccessibleForFree: true,
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'INR',
+        availability: 'https://schema.org/InStock',
+      },
+      publisher: { '@id': 'https://timrio.com/#organization' },
+    });
+    graph.push(buildOrganizationNode());
+  } else if (meta.schemaType) {
+    graph.push({
+      '@type': meta.schemaType,
+      name: meta.title.split('–')[0].split('|')[0].trim(),
+      description: meta.description,
+      url: meta.canonical || BASE_URL,
+      publisher: { '@id': 'https://timrio.com/#organization' },
+    });
+    graph.push(buildOrganizationNode());
+  }
+
+  if (meta.parentCategory && meta.parentUrl && meta.canonical) {
+    graph.push({
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `${BASE_URL}/`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: meta.parentCategory,
+          item: meta.parentUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: meta.title.split('–')[0].split('|')[0].trim(),
+          item: meta.canonical,
+        },
+      ],
+    });
+  }
+
+  const jsonLd = graph.length > 0 ? { '@context': 'https://schema.org', '@graph': graph } : null;
+
+  return {
+    meta,
+    robots,
+    jsonLd,
+    jsonLdString: jsonLd ? JSON.stringify(jsonLd) : '',
+  };
+}
+
+/**
+ * Dynamically updates document head tags and structured data in the browser.
  */
 export function applySEO(pageKey, overrides = {}) {
-  const meta = { ...(PAGE_METADATA[pageKey] || PAGE_METADATA.home), ...overrides };
+  if (typeof document === 'undefined') return;
+  const { meta, robots, jsonLdString } = buildPageSEOData(pageKey, overrides);
 
-  // 1. Document Title
   if (meta.title) {
     document.title = meta.title;
   }
 
   const setMetaTag = (selector, attrName, attrValue, content) => {
-    if (typeof document === 'undefined') return;
     let el = document.querySelector(selector);
     if (!el && content) {
       el = document.createElement('meta');
@@ -426,168 +665,56 @@ export function applySEO(pageKey, overrides = {}) {
     }
   };
 
-  // 2. Standard Search Meta
   setMetaTag('meta[name="title"]', 'name', 'title', meta.title);
   setMetaTag('meta[name="description"]', 'name', 'description', meta.description);
   if (meta.keywords) {
     setMetaTag('meta[name="keywords"]', 'name', 'keywords', meta.keywords);
   }
+  setMetaTag('meta[name="robots"]', 'name', 'robots', robots);
 
-  // Robots directive
-  if (meta.noindex) {
-    setMetaTag('meta[name="robots"]', 'name', 'robots', 'noindex, nofollow');
-  } else {
-    setMetaTag('meta[name="robots"]', 'name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
-  }
-
-  // 3. Open Graph
+  const pageUrl = meta.canonical || (typeof window !== 'undefined' ? window.location.href : BASE_URL);
   setMetaTag('meta[property="og:title"]', 'property', 'og:title', meta.title);
   setMetaTag('meta[property="og:description"]', 'property', 'og:description', meta.description);
-  setMetaTag('meta[property="og:url"]', 'property', 'og:url', meta.canonical || (typeof window !== 'undefined' ? window.location.href : ''));
+  setMetaTag('meta[property="og:url"]', 'property', 'og:url', pageUrl);
   setMetaTag('meta[property="og:type"]', 'property', 'og:type', 'website');
   setMetaTag('meta[property="og:image"]', 'property', 'og:image', `${BASE_URL}/og-image.jpg`);
   setMetaTag('meta[property="og:image:width"]', 'property', 'og:image:width', '1200');
   setMetaTag('meta[property="og:image:height"]', 'property', 'og:image:height', '630');
-  setMetaTag('meta[property="og:image:alt"]', 'property', 'og:image:alt', meta.title || 'Invio');
+  setMetaTag('meta[property="og:image:alt"]', 'property', 'og:image:alt', meta.title || 'Invio Invoice');
   setMetaTag('meta[property="og:image:type"]', 'property', 'og:image:type', 'image/jpeg');
   setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Invio');
   setMetaTag('meta[property="og:locale"]', 'property', 'og:locale', 'en_US');
 
-  // 4. Twitter Card
   setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
   setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', meta.title);
   setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', meta.description);
-  setMetaTag('meta[name="twitter:url"]', 'name', 'twitter:url', meta.canonical || (typeof window !== 'undefined' ? window.location.href : ''));
+  setMetaTag('meta[name="twitter:url"]', 'name', 'twitter:url', pageUrl);
   setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', `${BASE_URL}/og-image.jpg`);
-  setMetaTag('meta[name="twitter:image:alt"]', 'name', 'twitter:image:alt', meta.title || 'Invio');
+  setMetaTag('meta[name="twitter:image:alt"]', 'name', 'twitter:image:alt', meta.title || 'Invio Invoice');
   setMetaTag('meta[name="twitter:site"]', 'name', 'twitter:site', '@timriocorp');
 
-  // 5. Canonical Link
-  if (typeof document !== 'undefined') {
-    let canonicalEl = document.querySelector('link[rel="canonical"]');
-    if (meta.canonical) {
-      if (!canonicalEl) {
-        canonicalEl = document.createElement('link');
-        canonicalEl.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalEl);
-      }
-      canonicalEl.setAttribute('href', meta.canonical);
-    } else if (canonicalEl && meta.noindex) {
-      canonicalEl.remove();
+  let canonicalEl = document.querySelector('link[rel="canonical"]');
+  if (meta.canonical) {
+    if (!canonicalEl) {
+      canonicalEl = document.createElement('link');
+      canonicalEl.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalEl);
     }
+    canonicalEl.setAttribute('href', meta.canonical);
+  } else if (canonicalEl && meta.noindex) {
+    canonicalEl.remove();
   }
 
-  // 6. JSON-LD Structured Data
-  if (typeof document !== 'undefined' && meta.schemaType) {
-    let scriptEl = document.getElementById('dynamic-jsonld');
+  let scriptEl = document.getElementById('dynamic-jsonld');
+  if (jsonLdString) {
     if (!scriptEl) {
       scriptEl = document.createElement('script');
       scriptEl.id = 'dynamic-jsonld';
       scriptEl.type = 'application/ld+json';
       document.head.appendChild(scriptEl);
     }
-
-    let graph = [];
-
-    // Main Entity Schema
-    if (meta.schemaType === 'SoftwareApplication') {
-      graph.push({
-        '@context': 'https://schema.org',
-        '@type': 'SoftwareApplication',
-        name: 'Invio',
-        operatingSystem: 'Windows 10, Windows 11, macOS 11.0+, Linux 64-bit',
-        applicationCategory: 'BusinessApplication',
-        softwareVersion: CURRENT_VERSION,
-        description: meta.description,
-        url: meta.canonical || BASE_URL,
-        downloadUrl: `${BASE_URL}/download`,
-        installUrl: 'https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN',
-        image: `${BASE_URL}/og-image.jpg`,
-        featureList: [
-          '100% Offline Billing Saved Safely on Your Computer',
-          'Automatic GST Tax Calculations',
-          'Paper Receipt Printing & A4/A5 PDF Bills',
-          'UPI Payment QR Codes on Every Bill',
-          'USB & Bluetooth Barcode Scanner Support',
-          'Official 1-Click Add-ons & Tools',
-          'Picture-Tile POS Counter & Second-Screen Customer POS Display',
-          'Restaurant Table QR Menu Ordering & Live Kitchen Screen',
-          '1-Click Email PDF Bills & WhatsApp Bill Sharing'
-        ],
-        offers: {
-          '@type': 'Offer',
-          price: '0',
-          priceCurrency: 'INR',
-          availability: 'https://schema.org/InStock'
-        },
-        author: {
-          '@type': 'Organization',
-          name: 'Timrio',
-          url: 'https://timrio.com/'
-        }
-      });
-    } else if (meta.schemaType === 'FAQPage') {
-      import('../data/faqData').then(({ FAQ_ITEMS }) => {
-        const faqGraph = [
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: FAQ_ITEMS.map((item) => ({
-              '@type': 'Question',
-              name: item.question,
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: item.answer,
-              },
-            })),
-          },
-        ];
-        scriptEl.textContent = JSON.stringify(faqGraph[0]);
-      });
-      return;
-    } else {
-      graph.push({
-        '@context': 'https://schema.org',
-        '@type': meta.schemaType,
-        name: meta.title.split('–')[0].split('|')[0].trim(),
-        description: meta.description,
-        url: meta.canonical || BASE_URL,
-        publisher: {
-          '@type': 'Organization',
-          name: 'Timrio',
-          url: 'https://timrio.com/',
-        },
-      });
-    }
-
-    // Add BreadcrumbList Schema for subpages
-    if (meta.parentCategory && meta.parentUrl && meta.canonical) {
-      graph.push({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Home',
-            item: BASE_URL,
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: meta.parentCategory,
-            item: meta.parentUrl,
-          },
-          {
-            '@type': 'ListItem',
-            position: 3,
-            name: meta.title.split('–')[0].split('|')[0].trim(),
-            item: meta.canonical,
-          },
-        ],
-      });
-    }
-
-    scriptEl.textContent = JSON.stringify(graph.length === 1 ? graph[0] : { '@context': 'https://schema.org', '@graph': graph });
+    scriptEl.textContent = jsonLdString;
+  } else if (scriptEl) {
+    scriptEl.remove();
   }
 }

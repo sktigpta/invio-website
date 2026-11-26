@@ -33,8 +33,8 @@ import { FEATURES_DATA } from '../data/featuresData';
 import { CouponTicket } from '../components/CouponTicket';
 import { CheckoutMembershipSkeleton, Skeleton } from '../components/common/Skeleton';
 
-// Computed once at module level — avoids re-randomizing on every render in React 18 Strict Mode.
-const CHECKOUT_FEATURE_INDEX = Math.floor(Math.random() * FEATURES_DATA.length);
+// Deterministic feature index for SSR hydration consistency.
+const CHECKOUT_FEATURE_INDEX = 0;
 
 const DEFAULT_PRICES_BY_PLAN = {
   plus: { monthly: 149, yearly: 999 },
@@ -770,9 +770,9 @@ export function CheckoutPage() {
               /* Clean Authentication Screen (No billing plans, no coupons, no payment buttons) */
               <div>
                 <div className="mb-6">
-                  <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                  <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                     {authTab === 'login' ? 'Sign In to Continue' : 'Create Your Account'}
-                  </h2>
+                  </h1>
                   <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
                     {authTab === 'login'
                       ? 'Sign in to your Invio account to continue to checkout and license activation.'

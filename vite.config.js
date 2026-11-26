@@ -13,10 +13,8 @@ const BACKEND_PORT =
   (process.platform === 'darwin' ? '3000' : '5000');
 const API_PROXY_TARGET = process.env.VITE_API_URL || `http://localhost:${BACKEND_PORT}`;
 
-export default defineConfig({
-  plugins: [
-    react(),
-  ],
+export default defineConfig(({ isSsrBuild }) => ({
+  plugins: [react()],
   define: {
     'import.meta.env.VITE_APP_VERSION': JSON.stringify(APP_VERSION),
   },
@@ -34,21 +32,27 @@ export default defineConfig({
     port: 7495,
   },
   build: {
-    outDir: 'dist',
+    outDir: isSsrBuild ? '.ssr-temp' : 'dist',
     sourcemap: false,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('react-router-dom') || id.includes('react-dom') || id.includes('/react/')) {
-              return 'react-vendor';
-            }
-            if (id.includes('react-icons')) {
-              return 'icons-vendor';
-            }
-          }
+    rollupOptions: isSsrBuild
+      ? {}
+      : {
+          output: {
+            manualChunks(id) {
+              if (id.includes('node_modules')) {
+                if (
+                  id.includes('react-router-dom') ||
+                  id.includes('react-dom') ||
+                  id.includes('/react/')
+                ) {
+                  return 'react-vendor';
+                }
+                if (id.includes('react-icons')) {
+                  return 'icons-vendor';
+                }
+              }
+            },
+          },
         },
-      },
-    },
   },
-});
+}));

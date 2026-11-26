@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { TOOL_CATEGORIES, ALL_TOOLS } from './tools/toolsData';
 import { applySEO } from '../utils/seoHelper';
 import {
@@ -15,6 +16,7 @@ import {
   ChevronDownIcon,
 } from './tools/ToolIcons';
 import {
+  InvoiceGeneratorTool,
   IndiaGstTool,
   IncomeTaxIndiaTool,
   UkVatTool,
@@ -38,7 +40,12 @@ const ICON_MAP = {
   BriefcaseIcon,
 };
 
-export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDirectDownload, onSelectTool }) {
+export function FinanceToolsDashboard({
+  initialToolId = 'invoice-generator',
+  isOverview = false,
+  onDirectDownload,
+  onSelectTool,
+}) {
   const [selectedToolId, setSelectedToolId] = useState(initialToolId);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -89,6 +96,8 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
 
   const renderActiveToolPanel = () => {
     switch (selectedToolId) {
+      case 'invoice-generator':
+        return <InvoiceGeneratorTool isOverview={isOverview} />;
       case 'gst-calculator':
         return <IndiaGstTool />;
       case 'income-tax-india':
@@ -108,7 +117,7 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
       case 'project-estimate':
         return <ProjectEstimateTool />;
       default:
-        return <IndiaGstTool />;
+        return <InvoiceGeneratorTool isOverview={isOverview} />;
     }
   };
 
@@ -173,10 +182,18 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
                   const IconComponent = ICON_MAP[tool.icon] || CalculatorIcon;
 
                   return (
-                    <button
+                    <Link
                       key={tool.id}
-                      type="button"
-                      onClick={() => handleSelectTool(tool.id)}
+                      to={`/tools/${tool.id}`}
+                      onClick={(e) => {
+                        if (typeof onSelectTool === 'function') {
+                          e.preventDefault();
+                          handleSelectTool(tool.id);
+                        } else {
+                          setSelectedToolId(tool.id);
+                          setMobileMenuOpen(false);
+                        }
+                      }}
                       aria-current={isSelected ? 'page' : undefined}
                       className={`w-full text-left px-2.5 py-2 rounded-lg transition-all flex items-center justify-between group cursor-pointer ${
                         isSelected
@@ -207,7 +224,7 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
                           {tool.badge}
                         </span>
                       )}
-                    </button>
+                    </Link>
                   );
                 })}
               </div>
@@ -232,6 +249,16 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
 
       {/* Center + Right Workspace Area (Scrollable on mobile, fixed full height on desktop) */}
       <main className="flex-1 h-full overflow-y-auto lg:overflow-hidden bg-[#f8fafc] pt-12 lg:pt-0 print:pt-0 print:overflow-visible print:block print:w-full print:h-auto print:bg-white">
+        {isOverview && (
+          <div className="bg-purple-50/70 border-b border-purple-100 px-5 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 no-print print:hidden">
+            <h1 className="text-xs font-extrabold text-slate-900 tracking-tight">
+              Free Online Invoice Generator, GST &amp; Tax Tools Suite
+            </h1>
+            <span className="text-[11px] text-slate-600">
+              100% Free • Runs in Your Browser
+            </span>
+          </div>
+        )}
         {renderActiveToolPanel()}
       </main>
     </div>

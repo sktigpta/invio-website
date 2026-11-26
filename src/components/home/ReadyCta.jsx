@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-import { detectDeviceOS, PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL } from '../../utils/osDetector';
+import { PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL } from '../../utils/osDetector';
+import { useDeviceOS } from '../../hooks/useDeviceOS';
 import { AppleIcon, WindowsIcon, LinuxIcon, CalculatorIcon, DownloadIcon, MicrosoftStoreIcon } from '../Icons';
 import { useDownloadModal } from '../../context/DownloadModalContext';
-import { useInView } from '../../hooks/useInView';
 
 const QUICK_TOOLS = [
+  { label: 'Invoice Generator', path: '/tools/invoice-generator' },
   { label: 'GST Calculator', path: '/tools/gst-calculator' },
   { label: 'Income Tax', path: '/tools/income-tax-india' },
   { label: 'UK VAT', path: '/tools/vat-uk' },
@@ -13,9 +14,8 @@ const QUICK_TOOLS = [
 ];
 
 export function ReadyCta() {
-  const activeOS = detectDeviceOS();
+  const activeOS = useDeviceOS();
   const { openDownloadModal } = useDownloadModal();
-  const { ref, inView } = useInView();
 
   const getOsIcon = (id, sizeClass = 'size-3.5 shrink-0 pointer-events-none') => {
     if (id === 'mac') return <AppleIcon className={sizeClass} />;
@@ -25,20 +25,15 @@ export function ReadyCta() {
   };
 
   return (
-    <section
-      ref={ref}
-      className={`w-full pt-16 pb-0 mb-0 transition-all duration-700 ${
-        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
-    >
-      {/* Free In-Browser Tools Intro (Outside the card, on top of CTA) */}
+    <section className="w-full pt-16 pb-0 mb-0">
+      {/* Free In-Browser Tools Intro */}
       <div className="max-w-[1200px] mx-auto px-6 sm:px-8 mb-12 sm:mb-16 text-center flex flex-col items-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-200/80 text-[#7C3AED] text-xs font-semibold mb-3.5">
           <CalculatorIcon className="size-3.5 text-[#7C3AED]" />
-          <span>Free Online Calculators</span>
+          <span>Free Online Invoice &amp; Tax Tools</span>
         </div>
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto mb-5 font-normal">
-          Need quick math without downloading anything? Try our free online calculators and salary slip maker right in your browser.
+          Need quick billing or tax math without downloading anything? Try our free online invoice generator, GST calculator, and salary slip maker right in your browser.
         </p>
 
         {/* Quick-launch tool pills */}
@@ -74,13 +69,13 @@ export function ReadyCta() {
         {/* Ready to Simplify Invoicing */}
         <div className="relative z-10 max-w-2xl text-center flex flex-col items-center">
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white mb-3 leading-tight">
-            Ready to simplify your shop&rsquo;s invoicing?
+            Ready to try Invio free invoice software?
           </h2>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 max-w-xl font-normal">
-            Download Invio for free. No credit card needed, no sign-up required, and works 100% offline with all your records saved safely on your computer.
+            Download Invio Invoice for free. No credit card needed, no sign-up required, and works 100% offline with all your records saved safely on your computer.
           </p>
 
-          {/* Download button - Windows gets Microsoft Store option to bypass firewall & risk alerts */}
+          {/* Download button - Windows gets Microsoft Store option */}
           {activeOS.id === 'windows' ? (
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a

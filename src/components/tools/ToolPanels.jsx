@@ -1,17 +1,24 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { CopyIcon, PrinterIcon, CheckIcon } from './ToolIcons';
 import { formatINR, formatGBP, formatAED, formatUSD, copyText } from './toolFormatters';
 
 export function SlipPrintHeader({ title, refPrefix = 'INV', subtitle = '' }) {
-  const [stamp] = useState(() => {
+  const [stamp, setStamp] = useState({
+    date: 'Ready to Print',
+    time: '',
+    ref: `${refPrefix}-PREVIEW`,
+  });
+
+  useEffect(() => {
     const now = new Date();
     const pad = (n) => String(n).padStart(2, '0');
-    return {
+    setStamp({
       date: now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
       time: now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
       ref: `${refPrefix}-${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${Math.floor(1000 + Math.random() * 9000)}`,
-    };
-  });
+    });
+  }, [refPrefix]);
 
   return (
     <div className="hidden print:block pb-2 mb-2 text-center font-mono">
@@ -1774,6 +1781,346 @@ export function ProjectEstimateTool() {
               >
                 <PrinterIcon />
                 <span>Print Slip</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+/* =========================================================
+   10. FREE ONLINE INVOICE GENERATOR
+========================================================= */
+const CURRENCY_FORMATTERS = {
+  INR: formatINR,
+  USD: formatUSD,
+  GBP: formatGBP,
+  AED: formatAED,
+};
+
+export function InvoiceGeneratorTool({ isOverview = false }) {
+  const [sellerName, setSellerName] = useState('Sharma Enterprises');
+  const [sellerGstin, setSellerGstin] = useState('');
+  const [customerName, setCustomerName] = useState('Walk-in Customer');
+  const [invoiceNumber, setInvoiceNumber] = useState('INV-1001');
+  const [currency, setCurrency] = useState('INR');
+  const [taxRate, setTaxRate] = useState(18);
+  const [discount, setDiscount] = useState('');
+  const [items, setItems] = useState([
+    { id: 1, name: 'Product or Service Item', qty: 1, price: 1000 },
+  ]);
+  const [copied, setCopied] = useState(false);
+
+  const fmt = CURRENCY_FORMATTERS[currency] || formatINR;
+  const HeadingTag = isOverview ? 'h2' : 'h1';
+
+  const summary = useMemo(() => {
+    const subtotal = items.reduce(
+      (sum, item) => sum + Math.max(0, Number(item.qty) || 0) * Math.max(0, Number(item.price) || 0),
+      0
+    );
+    const disc = Math.min(subtotal, Math.max(0, parseFloat(discount) || 0));
+    const taxable = Math.max(0, subtotal - disc);
+    const tax = taxable * ((parseFloat(taxRate) || 0) / 100);
+    const total = taxable + tax;
+    return { subtotal, disc, taxable, tax, total };
+  }, [items, discount, taxRate]);
+
+  const updateItem = (id, field, value) => {
+    setItems((prev) => prev.map((it) => (it.id === id ? { ...it, [field]: value } : it)));
+  };
+
+  const addItem = () => {
+    setItems((prev) => [
+      ...prev,
+      { id: Date.now() + prev.length, name: `Item ${prev.length + 1}`, qty: 1, price: 0 },
+    ]);
+  };
+
+  const removeItem = (id) => {
+    setItems((prev) => (prev.length > 1 ? prev.filter((it) => it.id !== id) : prev));
+  };
+
+  const copyBreakdown = async () => {
+    const lines = items.map(
+      (it) => `- ${it.name || 'Item'} x${it.qty || 0}: ${fmt((Number(it.qty) || 0) * (Number(it.price) || 0))}`
+    );
+    const text = `Invoice ${invoiceNumber}\nFrom: ${sellerName}\nTo: ${customerName}\n${lines.join('\n')}\nSubtotal: ${fmt(summary.subtotal)}\nTax (${taxRate}%): ${fmt(summary.tax)}\nTotal: ${fmt(summary.total)}`;
+    if (await copyText(text)) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <div className="flex flex-col lg:flex-row h-full w-full overflow-hidden print:block print:h-auto print:overflow-visible print:w-full">
+      {/* Center Column */}
+      <div className="flex-1 h-full flex flex-col min-w-0 bg-[#f8fafc] no-print print:hidden">
+        <div className="w-full h-14 bg-white border-b border-slate-200 px-5 sm:px-6 shrink-0 flex flex-col justify-center">
+          <div className="flex items-center gap-2">
+            <HeadingTag className="text-sm font-bold text-slate-900 tracking-tight leading-tight">
+              Free Online Invoice Generator
+            </HeadingTag>
+            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-50 text-[#7C3AED] border border-purple-200">
+              No Sign-Up
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-500 truncate leading-tight mt-0.5">
+            Create, customize, and print or save a clean GST/tax PDF invoice free in seconds.
+          </p>
+        </div>
+
+        <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
+            {/* Business & Customer Details */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label htmlFor="ig-seller-name" className="block text-xs font-semibold text-slate-700 mb-1">Your Shop / Business Name</label>
+                <input
+                  id="ig-seller-name"
+                  type="text"
+                  value={sellerName}
+                  onChange={(e) => setSellerName(e.target.value)}
+                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
+                />
+              </div>
+              <div>
+                <label htmlFor="ig-seller-gstin" className="block text-xs font-semibold text-slate-700 mb-1">GSTIN / Tax ID (Optional)</label>
+                <input
+                  id="ig-seller-gstin"
+                  type="text"
+                  placeholder="e.g. 29ABCDE1234F1Z5"
+                  value={sellerGstin}
+                  onChange={(e) => setSellerGstin(e.target.value)}
+                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
+                />
+              </div>
+              <div>
+                <label htmlFor="ig-customer-name" className="block text-xs font-semibold text-slate-700 mb-1">Bill To (Customer Name)</label>
+                <input
+                  id="ig-customer-name"
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label htmlFor="ig-inv-no" className="block text-xs font-semibold text-slate-700 mb-1">Invoice No</label>
+                  <input
+                    id="ig-inv-no"
+                    type="text"
+                    value={invoiceNumber}
+                    onChange={(e) => setInvoiceNumber(e.target.value)}
+                    className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="ig-currency" className="block text-xs font-semibold text-slate-700 mb-1">Currency</label>
+                  <select
+                    id="ig-currency"
+                    value={currency}
+                    onChange={(e) => setCurrency(e.target.value)}
+                    className="w-full h-9 px-2 rounded-lg border border-slate-200 bg-slate-50/50 text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
+                  >
+                    <option value="INR">INR (₹)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="GBP">GBP (£)</option>
+                    <option value="AED">AED</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Line Items */}
+            <div className="pt-2 border-t border-slate-100">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-slate-800">Invoice Line Items</span>
+                <button
+                  type="button"
+                  onClick={addItem}
+                  className="text-xs font-semibold text-[#7C3AED] hover:underline cursor-pointer"
+                >
+                  + Add Line Item
+                </button>
+              </div>
+              <div className="space-y-2.5">
+                {items.map((item, idx) => (
+                  <div key={item.id} className="grid grid-cols-12 gap-2 items-center">
+                    <input
+                      type="text"
+                      aria-label={`Item ${idx + 1} description`}
+                      placeholder="Item name"
+                      value={item.name}
+                      onChange={(e) => updateItem(item.id, 'name', e.target.value)}
+                      className="col-span-12 sm:col-span-6 h-8 px-2.5 rounded-lg border border-slate-200 bg-slate-50/50 text-xs font-semibold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
+                    />
+                    <input
+                      type="number"
+                      min="1"
+                      aria-label={`Item ${idx + 1} quantity`}
+                      placeholder="Qty"
+                      value={item.qty}
+                      onChange={(e) => updateItem(item.id, 'qty', e.target.value)}
+                      className="col-span-4 sm:col-span-2 h-8 px-2 rounded-lg border border-slate-200 bg-slate-50/50 text-xs font-semibold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
+                    />
+                    <input
+                      type="number"
+                      min="0"
+                      aria-label={`Item ${idx + 1} unit price`}
+                      placeholder="Price"
+                      value={item.price}
+                      onChange={(e) => updateItem(item.id, 'price', e.target.value)}
+                      className="col-span-6 sm:col-span-3 h-8 px-2 rounded-lg border border-slate-200 bg-slate-50/50 text-xs font-semibold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeItem(item.id)}
+                      disabled={items.length <= 1}
+                      aria-label={`Remove item ${idx + 1}`}
+                      className="col-span-2 sm:col-span-1 h-8 text-xs font-bold text-slate-400 hover:text-rose-600 disabled:opacity-30 cursor-pointer"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tax & Discount */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+              <div>
+                <span className="block text-xs font-semibold text-slate-700 mb-1.5">Tax / GST Rate (%)</span>
+                <div className="grid grid-cols-5 gap-1">
+                  {[0, 5, 12, 18, 28].map((r) => (
+                    <button
+                      key={r}
+                      type="button"
+                      onClick={() => setTaxRate(r)}
+                      className={`py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
+                        taxRate === r ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-slate-50 text-slate-700 border-slate-200'
+                      }`}
+                    >
+                      {r}%
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label htmlFor="ig-discount" className="block text-xs font-semibold text-slate-700 mb-1.5">Discount Amount</label>
+                <input
+                  id="ig-discount"
+                  type="number"
+                  min="0"
+                  placeholder="0.00"
+                  value={discount}
+                  onChange={(e) => setDiscount(e.target.value)}
+                  className="w-full h-9 px-3 rounded-lg border border-slate-200 bg-slate-50/50 text-xs font-bold text-slate-900 focus:outline-none focus:border-[#7C3AED]"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-purple-50/70 border border-purple-200/80 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <p className="text-xs text-slate-700 leading-relaxed">
+              Want automatic UPI QR codes, thermal receipt printing, barcode scanning, and offline shop records?
+            </p>
+            <Link
+              to="/download"
+              className="shrink-0 px-4 py-2 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold text-center transition-colors"
+            >
+              Get Invio Desktop Free →
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Printable Invoice Preview */}
+      <aside className="w-full lg:w-80 xl:w-96 h-full border-t lg:border-t-0 lg:border-l border-slate-200 bg-white flex flex-col justify-between shrink-0 overflow-hidden printable-slip-target text-xs">
+        <div className="w-full h-14 px-5 border-b border-slate-200 shrink-0 flex items-center justify-between bg-white no-print">
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">Live Invoice Preview</h3>
+          </div>
+          <span className="text-[10px] text-slate-400 font-mono font-semibold">{invoiceNumber || 'INV'}</span>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-5 flex flex-col justify-between">
+          <div>
+            <SlipPrintHeader
+              title={`TAX INVOICE • ${invoiceNumber || 'INV'}`}
+              refPrefix="INV"
+              subtitle={`${sellerName}${sellerGstin ? ` • GSTIN: ${sellerGstin}` : ''}`}
+            />
+
+            <div className="mb-3 pb-2 border-b border-slate-100">
+              <div className="font-bold text-slate-900">{sellerName || 'Your Business'}</div>
+              {sellerGstin && <div className="text-[10px] font-mono text-slate-500">GSTIN: {sellerGstin}</div>}
+              <div className="text-[11px] text-slate-600 mt-1">
+                Bill To: <strong className="text-slate-900">{customerName || 'Customer'}</strong>
+              </div>
+            </div>
+
+            <div className="space-y-1.5 pb-3 border-b border-slate-100">
+              {items.map((item) => {
+                const lineTotal = Math.max(0, Number(item.qty) || 0) * Math.max(0, Number(item.price) || 0);
+                return (
+                  <div key={item.id} className="flex justify-between gap-2 text-xs">
+                    <span className="text-slate-700 truncate">
+                      {item.name || 'Item'} <span className="text-slate-400">×{item.qty || 0}</span>
+                    </span>
+                    <strong className="text-slate-900 shrink-0">{fmt(lineTotal)}</strong>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="flex flex-col gap-1.5 pt-3 text-xs">
+              <div className="flex justify-between text-slate-600">
+                <span>Subtotal:</span>
+                <strong className="text-slate-900">{fmt(summary.subtotal)}</strong>
+              </div>
+              {summary.disc > 0 && (
+                <div className="flex justify-between text-emerald-700">
+                  <span>Discount:</span>
+                  <strong>−{fmt(summary.disc)}</strong>
+                </div>
+              )}
+              <div className="flex justify-between text-slate-600">
+                <span>Tax / GST ({taxRate}%):</span>
+                <strong className="text-slate-900">{fmt(summary.tax)}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-4 mt-auto">
+            <div className="p-4 bg-[#F5F3FF] border border-[#DDD6FE] rounded-xl mb-3 print:bg-transparent print:border-y-2 print:border-x-0 print:border-slate-900 print:rounded-none print:p-2 print:my-2 print:shadow-none flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900 print:text-slate-900 block font-mono">Total Amount</span>
+                <span className="text-2xl font-black text-[#7C3AED] print:text-slate-900 font-heading leading-tight print:font-mono print:text-base">{fmt(summary.total)}</span>
+              </div>
+            </div>
+
+            <SlipPrintFooter />
+
+            <div className="grid grid-cols-2 gap-2 no-print">
+              <button
+                type="button"
+                onClick={copyBreakdown}
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                {copied ? <CheckIcon /> : <CopyIcon />}
+                <span>{copied ? 'Copied' : 'Copy'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="py-2.5 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <PrinterIcon />
+                <span>Print / PDF</span>
               </button>
             </div>
           </div>

@@ -10,21 +10,20 @@ export function DownloadCard({
   onClose = null,
   className = '',
 }) {
-  const detectedOS = detectDeviceOS();
-  const isMobile = Boolean(detectedOS?.isMobileFallback);
+  const hasExplicitPlatform = Boolean(initialPlatform && !initialPlatform.isMobileFallback);
 
   const [platform, setPlatform] = useState(() => {
-    if (initialPlatform && !initialPlatform.isMobileFallback) return initialPlatform;
-    return detectedOS.isMobileFallback ? PLATFORM_DOWNLOADS.windows : detectedOS;
+    if (hasExplicitPlatform) return initialPlatform;
+    return PLATFORM_DOWNLOADS.mac;
   });
+  const [isMobile, setIsMobile] = useState(false);
 
   const isWindows = platform?.id === 'windows';
 
   // Windows starts in 'windows_options' so the user can choose Microsoft Store
   // or the direct installer. Non-Windows desktop starts in 'downloading'.
   const [phase, setPhase] = useState(() => {
-    if (isMobile) return 'thankyou';
-    if (initialPlatform?.id === 'windows' || (!initialPlatform && detectedOS?.id === 'windows')) {
+    if (initialPlatform?.id === 'windows') {
       return 'windows_options';
     }
     return 'downloading';
@@ -44,22 +43,45 @@ export function DownloadCard({
     }, 2500);
   };
 
-  // Trigger download on mount only for non-Windows desktop platforms;
-  // Windows shows Store vs Direct Installer options.
+  // Resolve client OS after mount so SSR/hydration matches cleanly and Windows
+  // never triggers a Mac installer before OS detection completes.
   useEffect(() => {
-    if (autoTrigger && !isMobile && platform && !platform.isMobileFallback && !hasAutoTriggeredRef.current) {
-      if (platform.id !== 'windows') {
-        hasAutoTriggeredRef.current = true;
-        triggerDirectDownload(platform);
-        downloadTimer.current = setTimeout(() => {
-          setPhase('thankyou');
-        }, 2500);
-      }
+    const detectedOS = detectDeviceOS();
+    const detectedMobile = Boolean(detectedOS?.isMobileFallback);
+    setIsMobile(detectedMobile);
+
+    const effectivePlatform = hasExplicitPlatform
+      ? initialPlatform
+      : detectedMobile
+        ? PLATFORM_DOWNLOADS.windows
+        : detectedOS;
+
+    if (!hasExplicitPlatform && effectivePlatform?.id !== platform?.id) {
+      setPlatform(effectivePlatform);
     }
+
+    if (detectedMobile) {
+      setPhase('thankyou');
+      return undefined;
+    }
+
+    if (effectivePlatform?.id === 'windows') {
+      setPhase('windows_options');
+      return undefined;
+    }
+
+    if (autoTrigger && effectivePlatform && !effectivePlatform.isMobileFallback && !hasAutoTriggeredRef.current) {
+      hasAutoTriggeredRef.current = true;
+      triggerDirectDownload(effectivePlatform);
+      downloadTimer.current = setTimeout(() => {
+        setPhase('thankyou');
+      }, 2500);
+    }
+
     return () => {
       if (downloadTimer.current) clearTimeout(downloadTimer.current);
     };
-  }, [autoTrigger, platform, isMobile]);
+  }, []);
 
   const handleRetryDownload = () => {
     startPlatformDownload(platform, isWindows ? 'exe' : 'direct');

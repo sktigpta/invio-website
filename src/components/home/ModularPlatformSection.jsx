@@ -4,13 +4,10 @@ import {
   OFFICIAL_EXTENSIONS_SHOWCASE,
 } from '../../data/extensionsShowcaseData';
 import { PuzzleIcon, CheckIcon } from '../Icons';
-import { useInView } from '../../hooks/useInView';
 import { API_BASE_URL } from '../../utils/osDetector';
 
 export function ModularPlatformSection() {
-  const { ref, inView } = useInView();
-  const [extensions, setExtensions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [extensions, setExtensions] = useState(OFFICIAL_EXTENSIONS_SHOWCASE);
 
   useEffect(() => {
     let active = true;
@@ -48,15 +45,10 @@ export function ModularPlatformSection() {
             }
           }
           setExtensions(merged);
-        } else {
-          setExtensions(OFFICIAL_EXTENSIONS_SHOWCASE);
         }
       })
       .catch(() => {
-        if (active) setExtensions(OFFICIAL_EXTENSIONS_SHOWCASE);
-      })
-      .finally(() => {
-        if (active) setLoading(false);
+        // Keep immediate local showcase
       });
     return () => {
       active = false;
@@ -65,11 +57,8 @@ export function ModularPlatformSection() {
 
   return (
     <section
-      ref={ref}
       id="modularity"
-      className={`w-full bg-white py-16 sm:py-24 px-6 sm:px-8 border-b border-slate-200 transition-all duration-700 ${
-        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
+      className="w-full bg-white py-16 sm:py-24 px-6 sm:px-8 border-b border-slate-200"
     >
       <div className="max-w-[1200px] mx-auto">
         {/* Section Header */}
@@ -87,22 +76,6 @@ export function ModularPlatformSection() {
         </div>
 
         {/* Alternating Left-Right / Right-Left Add-on Showcase */}
-        {loading ? (
-          <div className="space-y-12 mb-16 sm:mb-20" aria-busy="true" aria-label="Loading add-ons">
-            {[0, 1].map((n) => (
-              <div key={n} className="flex flex-col md:flex-row items-center gap-10 lg:gap-16 animate-pulse">
-                <div className="flex-1 space-y-4 w-full">
-                  <div className="h-8 w-48 bg-slate-200 rounded-lg" />
-                  <div className="h-4 w-full max-w-md bg-slate-100 rounded" />
-                  <div className="h-4 w-5/6 max-w-md bg-slate-100 rounded" />
-                </div>
-                <div className="flex-1 w-full flex items-center justify-center">
-                  <div className="w-full max-w-[224px] aspect-square rounded-squircle bg-slate-100" />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
         <div className="space-y-16 sm:space-y-24 mb-16 sm:mb-20">
           {extensions.map((ext, idx) => {
             const isReversed = idx % 2 === 1;
@@ -118,7 +91,7 @@ export function ModularPlatformSection() {
                   <div className="flex items-center gap-3">
                     <img
                       src={ext.logoUrl}
-                      alt={`${ext.name} logo`}
+                      alt={`${ext.name} add-on icon`}
                       className="size-10 rounded-xl object-cover border border-slate-200/80 bg-white shrink-0"
                       loading="lazy"
                       onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -160,7 +133,6 @@ export function ModularPlatformSection() {
             );
           })}
         </div>
-        )}
 
         {/* 3 Modularity Trust Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-slate-100">

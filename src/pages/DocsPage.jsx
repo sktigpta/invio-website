@@ -1,8 +1,9 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { A4DocLayout } from '../components/A4DocLayout';
 import { applySEO } from '../utils/seoHelper';
-import { detectDeviceOS, MICROSOFT_STORE_URL } from '../utils/osDetector';
+import { MICROSOFT_STORE_URL } from '../utils/osDetector';
+import { useDeviceOS } from '../hooks/useDeviceOS';
 import { useDownloadModal } from '../context/DownloadModalContext';
 import { useDebounce } from '../hooks/useDebounce';
 import { SearchIcon, ChevronDownIcon } from '../components/tools/ToolIcons';
@@ -184,7 +185,7 @@ export function DocsPage() {
   const { docId } = useParams();
   const navigate = useNavigate();
   const { openDownloadModal } = useDownloadModal();
-  const activeOS = detectDeviceOS();
+  const activeOS = useDeviceOS();
 
   // Normalize aliases
   const normalizedDocId = useMemo(() => {
@@ -248,18 +249,18 @@ export function DocsPage() {
   }, [selectedDocId]);
 
   const currentIndex = ALL_DOC_STEPS.findIndex((s) => s.id === activeDoc.id);
-  const prevDoc = currentIndex > 0 ? ALL_DOC_STEPS[currentIndex - 1] : null;
-  const nextDoc = currentIndex < ALL_DOC_STEPS.length - 1 ? ALL_DOC_STEPS[currentIndex + 1] : null;
+  const prevDoc = !docId ? null : (currentIndex > 0 ? ALL_DOC_STEPS[currentIndex - 1] : null);
+  const nextDoc = !docId ? ALL_DOC_STEPS[0] : (currentIndex < ALL_DOC_STEPS.length - 1 ? ALL_DOC_STEPS[currentIndex + 1] : null);
 
   useEffect(() => {
-    applySEO(activeDoc.seoKey || 'docs');
+    applySEO(docId ? (activeDoc.seoKey || 'docs') : 'docs');
     const rightPane = document.getElementById('docs-content-pane');
     if (rightPane) {
       rightPane.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       window.scrollTo(0, 0);
     }
-  }, [activeDoc]);
+  }, [activeDoc, docId]);
 
   const handleSelectDoc = (id) => {
     setSelectedDocId(id);
@@ -283,7 +284,47 @@ export function DocsPage() {
     })).filter((cat) => cat.steps.length > 0);
   }, [debouncedSearchQuery]);
 
+  const renderDocHubOverview = () => (
+    <>
+      <p>
+        Welcome to the official <strong>Invio Invoice</strong> documentation. Pick any guide below to install the app, connect receipt printers or barcode scanners, turn on POS or Restaurant add-ons, and back up your shop records.
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-4 not-prose">
+        {DOC_CATEGORIES.map((cat) => (
+          <div
+            key={cat.id}
+            className="p-4 rounded-xl border border-slate-200/90 bg-slate-50/50 space-y-2"
+          >
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+              {cat.name}
+            </h2>
+            <ul className="space-y-1.5">
+              {cat.steps.map((step) => (
+                <li key={step.id}>
+                  <Link
+                    to={`/docs/${step.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSelectDoc(step.id);
+                    }}
+                    className="text-xs text-[#7C3AED] hover:underline font-medium inline-flex items-baseline gap-1.5"
+                  >
+                    <span className="font-mono text-[10px] text-slate-400">{step.stepNumber}.</span>
+                    <span>{step.title}</span>
+                  </Link>
+                  <p className="text-[11px] text-slate-500 pl-4">{step.shortDesc}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+
   const renderDocContent = () => {
+    if (!docId) return renderDocHubOverview();
     switch (activeDoc.id) {
       case 'download':
         return (
@@ -1184,13 +1225,16 @@ export function DocsPage() {
                 {isOpen && (
                   <div className="ml-3 pl-1 flex flex-col gap-0.5 mt-0.5 mb-1.5">
                     {category.steps.map((step) => {
-                      const isSelected = selectedDocId === step.id;
+                      const isSelected = Boolean(docId) && selectedDocId === step.id;
 
                       return (
-                        <button
+                        <Link
                           key={step.id}
-                          type="button"
-                          onClick={() => handleSelectDoc(step.id)}
+                          to={`/docs/${step.id}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleSelectDoc(step.id);
+                          }}
                           aria-current={isSelected ? 'page' : undefined}
                           className={`w-full text-left px-2 py-1.5 transition-colors flex items-center gap-1.5 text-xs cursor-pointer ${
                             isSelected
@@ -1206,7 +1250,7 @@ export function DocsPage() {
                             {step.stepNumber}.
                           </span>
                           <span className="truncate">{step.title}</span>
-                        </button>
+                        </Link>
                       );
                     })}
                   </div>
@@ -1238,34 +1282,40 @@ export function DocsPage() {
       >
         <div className="max-w-[780px] w-full mx-auto px-4 sm:px-6 pt-6 pb-12 sm:pt-8 sm:pb-16">
           <A4DocLayout
-            title={activeDoc.title}
+            title={docId ? activeDoc.title : 'Invio Documentation Hub & Setup Guides'}
             subtitle={`Invio Documentation • Simple Store Owner Guide • Published by Timrio`}
           >
             {renderDocContent()}
           </A4DocLayout>
 
-          {/* Step Progression (Start-to-End Footer without dividers) */}
+          {/* Step Progression (Crawlable Start-to-End Footer without dividers) */}
           <div className="mt-10 pt-4 flex items-center justify-between text-xs gap-3">
             {prevDoc ? (
-              <button
-                type="button"
-                onClick={() => handleSelectDoc(prevDoc.id)}
+              <Link
+                to={`/docs/${prevDoc.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectDoc(prevDoc.id);
+                }}
                 className="inline-flex items-center gap-1 text-slate-600 hover:text-[#7C3AED] font-medium transition-colors cursor-pointer"
               >
                 ← Previous: {prevDoc.title}
-              </button>
+              </Link>
             ) : (
               <div />
             )}
 
             {nextDoc ? (
-              <button
-                type="button"
-                onClick={() => handleSelectDoc(nextDoc.id)}
+              <Link
+                to={`/docs/${nextDoc.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectDoc(nextDoc.id);
+                }}
                 className="inline-flex items-center gap-1 text-[#7C3AED] hover:text-[#6D28D9] font-semibold transition-colors cursor-pointer ml-auto"
               >
                 Next: {nextDoc.title} →
-              </button>
+              </Link>
             ) : (
               <div />
             )}

@@ -1,72 +1,59 @@
-# Invio — Full Specification & Architecture Documentation
+# Invio (Invio Invoice) — Full Specification & Architecture Documentation
 
-> Complete technical, functional, and architectural documentation of Invio, the offline desktop invoicing and inventory system with a free forever core plan.
-
----
-
-## 1. Overview & Positioning
-Invio is a free, privacy-first desktop software for retail shops, traders, consultants, and small business owners. Unlike cloud SaaS invoicing services that require recurring monthly fees and internet connectivity, Invio runs 100% locally on the user's computer.
-
-### Primary Values:
-- **Zero Cost to Start**: Free forever core plan for offline billing, GST invoicing, inventory, customers and basic reports.
-- **True Offline Capability**: Works without an internet connection.
-- **Hardware Integration**: Compatible with thermal receipt printers (58mm/80mm), cash drawers, and USB/Bluetooth barcode scanners.
-- **Privacy & Ownership**: All data stays stored on the user's local disk in SQLite or their self-hosted PostgreSQL database.
+> Complete functional, technical, and distribution documentation for Invio Invoice (by Timrio), the free offline invoice software, POS billing app, and inventory manager for Windows, macOS, and Linux.
 
 ---
 
-## 2. Technical Architecture & Stack
-- **Frontend / UI**: React 19, TypeScript, Tailwind CSS, Lucide Icons, Vite.
-- **Desktop Runtime**: Electron 44, Node.js 22, context isolation, sandboxed main-to-renderer bridge via IPC.
-- **Database Engine**: Local SQLite (WAL mode) with fallback/switch support for external PostgreSQL.
-- **PDF Engine**: Electron native window PDF renderer with automated thermal & A4 layouts.
-- **Offline Barcode / QR Generation**: Native vector-based Matrix QR engine for UPI payments (no external API calls required).
+## 1. Overview & Brand Identity
+- **Official Product Name**: Invio (also referred to as Invio Invoice, Invio Billing Software, and Invio Desktop by Timrio)
+- **Publisher**: Timrio (https://timrio.com/)
+- **Official Website**: https://invio.timrio.com/
+- **Current Version**: v1.1.6
+- **Supported Platforms**: Windows 10/11 (Microsoft Store & `.exe`), macOS (Apple Silicon & Intel `.dmg`), and Linux (`.AppImage` & `.deb`)
+
+Invio Invoice is a free, privacy-first desktop invoicing and billing application built for retail shops, wholesalers, cafes, restaurants, freelancers, and small businesses. Unlike cloud SaaS billing apps that lock features behind recurring monthly subscriptions or fail when internet disconnects, Invio runs 100% locally on the user's own computer.
+
+### Core Guarantees:
+- **Free Forever Core Plan (₹0)**: Unlimited offline invoices, products, customers, GST calculations, barcode scanning, credit (udhar) ledger, and A4/A5 PDF bills with zero expiry.
+- **100% Offline Capability**: Works completely without an internet connection.
+- **Privacy & Ownership**: Business data stays on the user's local computer (SQLite WAL by default, with optional local-network/self-hosted PostgreSQL for multi-counter shops).
 
 ---
 
-## 3. Core Features & Workflows
-
-### GST Tax Calculation Engine
-- **Intra-State Transactions**: When seller and customer GSTIN share the same initial 2-digit state code (or for unregistered walk-in customers), tax is split into 50% Central GST (CGST) + 50% State GST (SGST).
-- **Inter-State Transactions**: When buyer's GSTIN state code differs from the seller's state code, 100% Integrated GST (IGST) is applied automatically.
-- **HSN / SAC Codes**: Line items support dedicated HSN/SAC classification codes for statutory compliance.
-
-### Thermal Receipt & Cash Memo Printing
-- **Supported Roll Widths**:
-  - `thermal-58`: 58mm (2-inch) standard POS rolls.
-  - `thermal-80`: 80mm (3-inch) wide POS rolls.
-  - `standard-a4`: Full page standard laser/inkjet formats.
-- **Print Elements**: Business branding logo, store contact header, itemized line rates, tax breakdown summary, balance due, return policy note, and Code128 invoice barcode.
-- **Dynamic UPI Payment QR**: Generates an offline UPI QR string `upi://pay?pa={upiId}&pn={businessName}&am={amountDue}&cu={currency}` rendered directly on thermal slips.
-
-### Inventory & Stock Management
-- **Automatic Stock Adjustments**: Invoice finalization decrements inventory quantities in real-time.
-- **Stock Restoration**: Deleting or cancelling an invoice automatically restores product quantities.
-- **Low Stock Thresholds**: Configurable `minStock` alert boundaries with dashboard notifications.
-- **Hardware Barcode Scanning**: Rapid barcode input automatically matches products and adds billable lines.
+## 2. Plans & Pricing
+- **Free Plan (₹0 forever)**: Unlimited offline invoices, GST tax splits, A4/A5 PDF printing, USB/Bluetooth barcode scanning, stock & inventory tracking, customer credit diary, 1-click backups, plus free POS Picture-Tile and Customer POS Display add-ons.
+- **Invio Plus (₹149/month or ₹999/year)**: Everything in Free plus 58mm & 80mm thermal paper receipt printing, dynamic scan-and-pay UPI QR codes on slips, Restaurant Table QR ordering & Kitchen Display Screen, Gmail/SMTP automated PDF email bills, 1-click WhatsApp bill sharing, and priority email setup support.
+- **Invio Pro (Coming Soon, planned ₹1,299/month or ₹9,999/year)**: Cashier & manager logins, multi-counter scaling, detailed profit & CA-ready GST reports, bulk CSV/Excel upload, and priority phone/WhatsApp support.
 
 ---
 
-## 4. Frequently Asked Questions (FAQ)
-
-### Is Invio really free?
-Yes. The Free plan covers core offline billing free forever. An optional Plus subscription unlocks thermal receipt printing, email & WhatsApp dispatch, POS display, backups and priority support.
-
-### Does Invio require an internet connection?
-No. All billing, printing, stock tracking, and receipt generation work offline. Internet is only required if you choose to email invoices via SMTP or check for app updates.
-
-### Where is my data stored?
-Data is stored directly on your computer in an SQLite database file (`invio.sqlite`). You can also connect to an external PostgreSQL database in Settings.
+## 3. Core Features & Official Add-ons
+- **GST & Regular Invoicing**: Automatic intra-state CGST+SGST and inter-state IGST calculation, HSN/SAC codes, tax-inclusive or exclusive item pricing, discounts, and branded A4/A5 PDFs.
+- **Thermal Receipt Printing & UPI QR**: 58mm (2-inch) and 80mm (3-inch) ESC/POS receipt printing with silent auto-print, cash drawer kick, and dynamic offline UPI payment QR codes (`upi://pay?...`).
+- **Picture-Tile POS Add-on (Free)**: Touch-friendly product photo grid with `+`/`−` controls, quick search, and compact token slip printing.
+- **Customer POS Display Add-on (Free)**: Second monitor/TV counter screen showing live items, discounts, totals, store branding, and scan-and-pay UPI QR code.
+- **Restaurant Add-on (Plus)**: Table map management, printable table QR standees for guest phone ordering over shop Wi-Fi (works without internet), live Kitchen Screen, and 1-click GST bill conversion.
+- **Email & WhatsApp Add-ons (Plus)**: One-click Gmail OAuth or encrypted local SMTP outbox with offline retry queue, plus 1-click WhatsApp receipt sharing.
 
 ---
 
-## 5. Official Distribution Links
+## 4. Dedicated Solution Pages & Free Online Tools
+- **Free Invoice Software**: https://invio.timrio.com/free-invoice-software
+- **Offline Billing Software**: https://invio.timrio.com/offline-billing-software
+- **GST Billing Software**: https://invio.timrio.com/gst-billing-software
+- **POS & Receipt Billing Software**: https://invio.timrio.com/pos-billing-software
+- **Free Online Invoice Generator**: https://invio.timrio.com/tools/invoice-generator
+- **Free Financial & Tax Calculators**: https://invio.timrio.com/tools (India GST, FY 25-26 Income Tax, UK VAT, UAE VAT, Payslip Generator, Paycheck, HRA Exemption, Gratuity, Project Estimator)
+
+---
+
+## 5. Official Distribution & Discovery Links
 - **Website**: https://invio.timrio.com/
+- **Download Page**: https://invio.timrio.com/download
 - **Microsoft Store (Windows 10 / 11)**: https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN
-- **Windows Download (64-bit Direct .exe)**: https://api.invio.timrio.com/api/download?platform=windows
-- **macOS Download (DMG)**: https://api.invio.timrio.com/api/download?platform=mac
-- **Linux Download (AppImage / DEB)**: https://api.invio.timrio.com/api/download?platform=linux
-- **Desktop App Repository**: https://github.com/sktigpta/invio-desktop
-- **Website Repository**: https://github.com/sktigpta/invio-website
-- **Server Repository**: https://github.com/sktigpta/invio-server
+- **Windows Direct Installer (.exe)**: https://api.invio.timrio.com/api/download?platform=windows
+- **macOS Installer (.dmg)**: https://api.invio.timrio.com/api/download?platform=mac
+- **Linux Installer**: https://api.invio.timrio.com/api/download?platform=linux
+- **Documentation Hub**: https://invio.timrio.com/docs
+- **GitHub Desktop Repository**: https://github.com/sktigpta/invio-desktop
 - **Sitemap**: https://invio.timrio.com/sitemap.xml

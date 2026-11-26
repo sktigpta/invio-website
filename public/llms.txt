@@ -1,18 +1,22 @@
-# Invio
+# Invio (Invio Invoice)
 
-> Free invoice software and offline billing software for Windows, Mac, and Linux. Made by Timrio for shops, small businesses, cafes, and freelancers.
+> Invio Invoice is free invoice software and offline billing software for Windows, Mac, and Linux. Made by Timrio for shops, small businesses, cafes, and freelancers.
 
-Invio software helps you create GST and regular bills in seconds, print paper receipts with UPI QR codes, scan product barcodes, track your shop stock, and keep every customer record safely on your own computer — with no internet needed.
+Invio Invoice helps you create GST and regular bills in seconds, print paper receipts with UPI QR codes, scan product barcodes, track your shop stock, and keep every customer record safely on your own computer — with no internet needed.
 
 ## Key Pages
 - **Home**: https://invio.timrio.com/
+- **Free Invoice Software**: https://invio.timrio.com/free-invoice-software
+- **Offline Billing Software**: https://invio.timrio.com/offline-billing-software
+- **GST Billing Software**: https://invio.timrio.com/gst-billing-software
+- **POS & Restaurant Billing Software**: https://invio.timrio.com/pos-billing-software
 - **Features & Add-ons**: https://invio.timrio.com/features
 - **Pricing (Free & Plus)**: https://invio.timrio.com/pricing
 - **Download App**: https://invio.timrio.com/download
 - **What's New (Changelog)**: https://invio.timrio.com/changelog
 - **Questions & Answers (FAQ)**: https://invio.timrio.com/faq
 - **Help & Setup Guides**: https://invio.timrio.com/docs
-- **Pricing**: Free forever core plan (₹0); Plus plan adds paper receipt printing, UPI QR on slips, second customer screen, Restaurant mode, Email & WhatsApp bill sharing; Pro plan coming soon.
+- **Pricing**: Free forever core plan (₹0); Plus plan (₹149/month or ₹999/year) adds paper receipt printing, UPI QR on slips, Restaurant mode, Email & WhatsApp bill sharing; Pro plan coming soon.
 - **Where Data Is Saved**: 100% on your own computer (no cloud needed, works offline).
 - **Works On**: Windows 10/11, Mac (Apple Silicon & Intel), and Linux.
 
@@ -20,16 +24,10 @@ Invio software helps you create GST and regular bills in seconds, print paper re
 - **Fast GST & Normal Bills**: Automatic GST tax calculation (local and out-of-state), discounts, and neat A4/A5 PDF bills.
 - **Paper Receipt Printing**: Works with small 2-inch (58mm) and 3-inch (80mm) shop receipt printers as well as regular office printers.
 - **UPI QR Code on Bills**: Prints a scan-and-pay UPI QR code for the exact bill amount so customers can pay with Google Pay, PhonePe, Paytm, or BHIM.
+- **Official Add-ons**: Picture-tile POS checkout (Free), Customer POS Display second screen (Free), Restaurant Table QR ordering & Kitchen Screen (Plus), Email PDF bills (Plus), and WhatsApp sharing (Plus).
 - **Barcode Scanner Ready**: Plug in any USB or wireless barcode gun and scan items straight into the bill.
 - **Stock & Inventory Tracking**: Stock goes down automatically when you sell, comes back if you cancel a bill, and warns you when items are running low.
 - **Customer Diary (Udhar / Credit)**: Save customer phone numbers, track unpaid dues, and record partial payments.
-- **Daily Sales & Profit Reports**: See cash, UPI, and card collections, shop expenses, and monthly GST reports for your accountant.
-- **Email & WhatsApp Sharing**: Send PDF bills straight to your customer's email or WhatsApp in 1 click.
-
-## How to Start in 3 Easy Steps
-1. Download Invio free on Windows, Mac, or Linux (no sign-up or credit card needed).
-2. Add your shop name, logo, and products (or scan barcodes).
-3. Start making bills, printing receipts, and tracking your stock right away.
 
 ## Download Links
 - [Microsoft Store for Windows (Recommended)](https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN)
@@ -37,7 +35,8 @@ Invio software helps you create GST and regular bills in seconds, print paper re
 - [Mac Installer (.dmg)](https://api.invio.timrio.com/api/download?platform=mac)
 - [Linux Installer](https://api.invio.timrio.com/api/download?platform=linux)
 
-## Free Online Calculators (No Download Needed)
+## Free Online Invoice & Tax Tools (No Download Needed)
+- [Free Online Invoice Generator](https://invio.timrio.com/tools/invoice-generator): Create and print GST or regular invoices free in your browser.
 - [India GST Calculator](https://invio.timrio.com/tools/gst-calculator): Quick GST tax and reverse GST calculator.
 - [Income Tax Calculator (India)](https://invio.timrio.com/tools/income-tax-india): Compare New vs Old Tax Regime for FY 2025–26.
 - [UK VAT Calculator](https://invio.timrio.com/tools/vat-uk): Calculate 20%, 5%, and 0% UK VAT.

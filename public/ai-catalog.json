@@ -2,11 +2,24 @@
   "$schema": "https://raw.githubusercontent.com/ards-project/ard-spec/main/spec/schemas/ai-catalog.schema.json",
   "specVersion": "1.0",
   "host": {
-    "displayName": "Invio",
+    "displayName": "Invio Invoice",
     "identifier": "https://invio.timrio.com",
     "documentationUrl": "https://invio.timrio.com/docs"
   },
   "entries": [
+    {
+      "identifier": "urn:air:invio.timrio.com:product:free-invoice-software",
+      "displayName": "Invio Free Invoice & Offline Billing Software",
+      "type": "text/html",
+      "url": "https://invio.timrio.com/free-invoice-software",
+      "description": "Free forever offline invoice software and GST billing desktop app for Windows, macOS, and Linux by Timrio.",
+      "representativeQueries": [
+        "invio invoice",
+        "free invoice software",
+        "free invoice app for Windows and Mac",
+        "offline billing software"
+      ]
+    },
     {
       "identifier": "urn:air:invio.timrio.com:api:download",
       "displayName": "Invio Desktop Installer Download API",
@@ -20,14 +33,14 @@
       ]
     },
     {
-      "identifier": "urn:air:invio.timrio.com:tools:finance",
-      "displayName": "Free GST and Financial Calculation Tools",
+      "identifier": "urn:air:invio.timrio.com:tools:invoice-generator",
+      "displayName": "Free Online Invoice Generator & Financial Tools",
       "type": "text/html",
-      "url": "https://invio.timrio.com/tools",
-      "description": "Collection of calculators for Indian GST, Income Tax (New vs Old Regime), UK VAT, UAE VAT, and Payroll.",
+      "url": "https://invio.timrio.com/tools/invoice-generator",
+      "description": "Browser-based free invoice generator plus calculators for Indian GST, Income Tax (New vs Old Regime), UK VAT, UAE VAT, and Payroll.",
       "representativeQueries": [
+        "free online invoice generator",
         "calculate GST in India",
-        "compare new vs old tax regime",
         "generate salary slip online free"
       ]
     },
@@ -36,7 +49,7 @@
       "displayName": "Invio Documentation and Hardware Setup Guides",
       "type": "text/html",
       "url": "https://invio.timrio.com/docs",
-      "description": "Complete guides for offline SQLite setup, ESC/POS thermal printer configuration, barcode scanners, and data backup.",
+      "description": "Complete guides for offline SQLite setup, ESC/POS thermal printer configuration, POS tiles, Restaurant QR, barcode scanners, and data backup.",
       "representativeQueries": [
         "setup 58mm thermal printer for billing",
         "configure offline SQLite invoice database",

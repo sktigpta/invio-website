@@ -5,27 +5,34 @@ import { DownloadModal } from './components/DownloadModal';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { PAGE_LOADERS } from './routes/pageLoaders';
 
-// Primary home page loaded eagerly; other pages code-split for minimal initial bundle
+// Primary home page loaded eagerly; other pages code-split on client and overridden eagerly in SSR
 import { HomePage } from './pages/HomePage';
-const FeaturesPage = lazy(() => import('./pages/FeaturesPage').then(m => ({ default: m.FeaturesPage })));
-const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ default: m.PricingPage })));
-const CheckoutPage = lazy(() => import('./pages/CheckoutPage').then(m => ({ default: m.CheckoutPage })));
-const DownloadPage = lazy(() => import('./pages/DownloadPage').then(m => ({ default: m.DownloadPage })));
 
-// Secondary pages loaded on demand (reduces initial bundle size)
-const DocsPage = lazy(() => import('./pages/DocsPage').then(m => ({ default: m.DocsPage })));
-const ChangelogPage = lazy(() => import('./pages/ChangelogPage').then(m => ({ default: m.ChangelogPage })));
-const FaqPage = lazy(() => import('./pages/FaqPage').then(m => ({ default: m.FaqPage })));
-const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
-const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })));
-const EulaPage = lazy(() => import('./pages/EulaPage').then(m => ({ default: m.EulaPage })));
-const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage').then(m => ({ default: m.CookiePolicyPage })));
-const SecurityPage = lazy(() => import('./pages/SecurityPage').then(m => ({ default: m.SecurityPage })));
-const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
-const ReportBugPage = lazy(() => import('./pages/ReportBugPage').then(m => ({ default: m.ReportBugPage })));
-const ToolsPage = lazy(() => import('./pages/ToolsPage').then(m => ({ default: m.ToolsPage })));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+const LazyPages = {
+  FeaturesPage: lazy(PAGE_LOADERS.FeaturesPage),
+  PricingPage: lazy(PAGE_LOADERS.PricingPage),
+  CheckoutPage: lazy(PAGE_LOADERS.CheckoutPage),
+  DownloadPage: lazy(PAGE_LOADERS.DownloadPage),
+  DocsPage: lazy(PAGE_LOADERS.DocsPage),
+  ChangelogPage: lazy(PAGE_LOADERS.ChangelogPage),
+  FaqPage: lazy(PAGE_LOADERS.FaqPage),
+  PrivacyPolicyPage: lazy(PAGE_LOADERS.PrivacyPolicyPage),
+  TermsPage: lazy(PAGE_LOADERS.TermsPage),
+  EulaPage: lazy(PAGE_LOADERS.EulaPage),
+  CookiePolicyPage: lazy(PAGE_LOADERS.CookiePolicyPage),
+  SecurityPage: lazy(PAGE_LOADERS.SecurityPage),
+  ContactPage: lazy(PAGE_LOADERS.ContactPage),
+  ReportBugPage: lazy(PAGE_LOADERS.ReportBugPage),
+  ToolsPage: lazy(PAGE_LOADERS.ToolsPage),
+  FreeInvoiceSoftwarePage: lazy(PAGE_LOADERS.FreeInvoiceSoftwarePage),
+  OfflineBillingSoftwarePage: lazy(PAGE_LOADERS.OfflineBillingSoftwarePage),
+  GstBillingSoftwarePage: lazy(PAGE_LOADERS.GstBillingSoftwarePage),
+  PosBillingSoftwarePage: lazy(PAGE_LOADERS.PosBillingSoftwarePage),
+  NotFoundPage: lazy(PAGE_LOADERS.NotFoundPage),
+};
+
 function PageFallback() {
   return (
     <div className="flex-1 flex items-center justify-center min-h-[50vh]">
@@ -41,11 +48,34 @@ function SitemapRedirect() {
   return null;
 }
 
-export function App() {
+export function App({ pageComponents = LazyPages }) {
   const location = useLocation();
   const isToolsPage = location.pathname.startsWith('/tools');
   const isDocsPage = location.pathname.startsWith('/docs') || location.pathname.startsWith('/doc');
   const isCheckoutPage = location.pathname.startsWith('/checkout');
+
+  const {
+    FeaturesPage,
+    PricingPage,
+    CheckoutPage,
+    DownloadPage,
+    DocsPage,
+    ChangelogPage,
+    FaqPage,
+    PrivacyPolicyPage,
+    TermsPage,
+    EulaPage,
+    CookiePolicyPage,
+    SecurityPage,
+    ContactPage,
+    ReportBugPage,
+    ToolsPage,
+    FreeInvoiceSoftwarePage,
+    OfflineBillingSoftwarePage,
+    GstBillingSoftwarePage,
+    PosBillingSoftwarePage,
+    NotFoundPage,
+  } = pageComponents;
 
   return (
     <DownloadModalProvider>
@@ -70,6 +100,12 @@ export function App() {
                 <Route path="/version" element={<Navigate to="/changelog" replace />} />
                 <Route path="/releases" element={<Navigate to="/changelog" replace />} />
 
+                {/* Dedicated High-Intent Solutions Landing Pages */}
+                <Route path="/free-invoice-software" element={<FreeInvoiceSoftwarePage />} />
+                <Route path="/offline-billing-software" element={<OfflineBillingSoftwarePage />} />
+                <Route path="/gst-billing-software" element={<GstBillingSoftwarePage />} />
+                <Route path="/pos-billing-software" element={<PosBillingSoftwarePage />} />
+
                 {/* Documentation Dashboard (Start-to-End Guides & Requirements) */}
                 <Route path="/docs" element={<DocsPage />} />
                 <Route path="/doc" element={<DocsPage />} />
@@ -80,7 +116,7 @@ export function App() {
                 <Route path="/support" element={<Navigate to="/docs/troubleshooting" replace />} />
                 <Route path="/faq" element={<FaqPage />} />
 
-                {/* Free Financial & Tax Tools */}
+                {/* Free Financial, Invoice & Tax Tools */}
                 <Route path="/tools" element={<ToolsPage />} />
                 <Route path="/tools/:toolId" element={<ToolsPage />} />
 

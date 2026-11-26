@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DownloadIcon, ReceiptIcon, SparklesIcon } from '../Icons';
-import { useInView } from '../../hooks/useInView';
 import { useDownloadModal } from '../../context/DownloadModalContext';
 
 const STEPS = [
@@ -61,15 +60,11 @@ const BUSINESS_TYPES = [
 export function HowItWorksSection() {
   const [activeStep, setActiveStep] = useState('1');
   const { openDownloadModal } = useDownloadModal();
-  const { ref, inView } = useInView();
 
   return (
     <section
-      ref={ref}
       id="how-it-works"
-      className={`w-full bg-white py-16 sm:py-24 px-6 sm:px-8 border-b border-slate-200 transition-all duration-700 ${
-        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
+      className="w-full bg-white py-16 sm:py-24 px-6 sm:px-8 border-b border-slate-200"
     >
       <div className="max-w-[1200px] mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14">
