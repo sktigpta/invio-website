@@ -2,10 +2,20 @@ import { Link } from 'react-router-dom';
 import { detectDeviceOS, PLATFORM_DOWNLOADS, MICROSOFT_STORE_URL } from '../../utils/osDetector';
 import { AppleIcon, WindowsIcon, LinuxIcon, CalculatorIcon, DownloadIcon, MicrosoftStoreIcon } from '../Icons';
 import { useDownloadModal } from '../../context/DownloadModalContext';
+import { useInView } from '../../hooks/useInView';
+
+const QUICK_TOOLS = [
+  { label: 'GST Calculator', path: '/tools/gst-calculator' },
+  { label: 'Income Tax', path: '/tools/income-tax-india' },
+  { label: 'UK VAT', path: '/tools/vat-uk' },
+  { label: 'UAE VAT', path: '/tools/vat-uae' },
+  { label: 'Payslip Maker', path: '/tools/payslip-generator' },
+];
 
 export function ReadyCta() {
   const activeOS = detectDeviceOS();
   const { openDownloadModal } = useDownloadModal();
+  const { ref, inView } = useInView();
 
   const getOsIcon = (id, sizeClass = 'size-3.5 shrink-0 pointer-events-none') => {
     if (id === 'mac') return <AppleIcon className={sizeClass} />;
@@ -15,21 +25,40 @@ export function ReadyCta() {
   };
 
   return (
-    <section className="w-full pt-16 pb-0 mb-0">
+    <section
+      ref={ref}
+      className={`w-full pt-16 pb-0 mb-0 transition-all duration-700 ${
+        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      }`}
+    >
       {/* Free In-Browser Tools Intro (Outside the card, on top of CTA) */}
       <div className="max-w-[1200px] mx-auto px-6 sm:px-8 mb-12 sm:mb-16 text-center flex flex-col items-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-200/80 text-[#7C3AED] text-xs font-semibold mb-3.5">
           <CalculatorIcon className="size-3.5 text-[#7C3AED]" />
-          <span>In-Browser Financial &amp; Tax Suite</span>
+          <span>Free Online Calculators</span>
         </div>
-        <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto mb-4 font-normal">
-          Need quick calculations without installing? Use our free in-browser GST calculator, FY 25–26 income tax planner, UK &amp; UAE VAT tools, and payslip generator.
+        <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto mb-5 font-normal">
+          Need quick math without downloading anything? Try our free online calculators and salary slip maker right in your browser.
         </p>
+
+        {/* Quick-launch tool pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+          {QUICK_TOOLS.map((tool) => (
+            <Link
+              key={tool.path}
+              to={tool.path}
+              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-200 text-xs font-semibold text-slate-700 hover:text-[#7C3AED] transition-all shadow-sm"
+            >
+              {tool.label}
+            </Link>
+          ))}
+        </div>
+
         <Link
           to="/tools"
           className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#7C3AED] hover:text-[#6D28D9] hover:underline transition-colors"
         >
-          <span>Explore Free Financial Tools</span>
+          <span>Explore All Free Financial Tools</span>
           <span aria-hidden="true">→</span>
         </Link>
       </div>
@@ -58,8 +87,8 @@ export function ReadyCta() {
                 href={MICROSOFT_STORE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs select-none"
-                title="Get Invio from Microsoft Store — Safe, Certified & Bypasses Firewall Warnings"
+                className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-sm select-none"
+                title="Get Invio from Microsoft Store"
               >
                 <MicrosoftStoreIcon className="size-4 shrink-0" />
                 <span>Get Free from Microsoft Store</span>
@@ -79,7 +108,7 @@ export function ReadyCta() {
             <button
               type="button"
               onClick={() => openDownloadModal(activeOS)}
-              className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs select-none"
+              className="h-10 px-6 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-sm select-none"
               title={`Download Invio for ${activeOS.id === 'mac' || activeOS.id === 'macIntel' ? 'Mac' : activeOS.name}`}
             >
               {getOsIcon(activeOS.id)}

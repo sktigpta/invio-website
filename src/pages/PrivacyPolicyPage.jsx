@@ -66,8 +66,7 @@ export function PrivacyPolicyPage() {
       </p>
       <p>
         The current version of Invio does <strong>not</strong> synchronize your invoices, customers, products, or
-        expenses to Timrio&rsquo;s cloud. The app contains dormant sync code that is disabled in production builds, and
-        our servers reject sync requests. If cloud synchronization is ever offered in the future, it will require an app
+        expenses to Timrio&rsquo;s cloud. If cloud synchronization is ever offered in the future, it will require an app
         update and your explicit choice, and this policy will be updated before it ships.
       </p>
 

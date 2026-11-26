@@ -10,44 +10,44 @@ export function SecurityPage() {
 
   return (
     <A4DocLayout
-      title="Security Architecture & Vulnerability Disclosure"
-      subtitle="Invio Desktop Application & Infrastructure • Published by Timrio • Last updated: October 2026"
+      title="How Invio Keeps Your Shop Data Safe"
+      subtitle="Invio Desktop App • Published by Timrio • Last updated: October 2026"
     >
       <p>
-        Data security and process isolation are core design requirements of the Invio desktop application. This document details our client architecture, credential handling, local database protection, and our responsible vulnerability disclosure process.
+        Keeping your shop bills, customer records, and passwords safe is our top priority. Here is a simple look at how Invio protects your data on your computer.
       </p>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">
-        1. Desktop Architecture &amp; Process Isolation
+        1. Safe &amp; Separated App Design
       </h2>
       <ul className="list-disc pl-5 space-y-1">
-        <li><strong>Sandboxed Interface Isolation:</strong> The desktop user interface runs within a strict isolated execution sandbox, ensuring complete separation between interface rendering and native operating system primitives.</li>
-        <li><strong>Restricted System Access:</strong> Direct low-level system execution is restricted; untrusted interface scripts cannot execute arbitrary native system commands.</li>
-        <li><strong>Narrow &amp; Validated IPC:</strong> Communication between the renderer interface and background workers is strictly restricted to typed, schema-validated internal communication channels with rigorous input sanitization.</li>
+        <li><strong>Protected Screen Area:</strong> The screens you click on inside Invio are kept separate from your computer&rsquo;s system files so nothing can accidentally change your computer settings.</li>
+        <li><strong>Checked Add-ons Only:</strong> Official Invio add-ons are checked by Timrio and run in their own safe space, so they cannot touch your other computer files.</li>
+        <li><strong>Strict Input Checks:</strong> All numbers, emails, and file names entered into Invio are checked before saving.</li>
       </ul>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">
-        2. Credential Encryption &amp; Key Storage
+        2. Locked Passwords &amp; Email Safety
       </h2>
       <ul className="list-disc pl-5 space-y-1">
-        <li><strong>Native OS Keychain Encryption:</strong> User email secrets (such as OAuth tokens and custom SMTP passwords) are never stored in plain text or browser storage. All sensitive credentials are cryptographically protected using your operating system&rsquo;s native secure key store (such as Windows DPAPI, macOS Keychain, or Linux Secret Service).</li>
-        <li><strong>Fail-Closed Security:</strong> Authentication handoffs are configured to fail closed; network disruptions or token errors never bypass authentication gates.</li>
+        <li><strong>Computer Lockbox Protection:</strong> Your email passwords and Gmail login tokens are never saved as plain text. Invio locks them using your computer&rsquo;s built-in security lockbox (Windows Credential Manager, Mac Keychain, or Linux Keyring).</li>
+        <li><strong>Safe Login Checks:</strong> If your internet drops while connecting Gmail, Invio safely stops the login instead of leaving anything half-open.</li>
       </ul>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">
-        3. Local Database &amp; Zero Network Telemetry
+        3. Your Data Stays on Your Computer
       </h2>
       <ul className="list-disc pl-5 space-y-1">
-        <li><strong>Local Data Custody:</strong> Invoices, pricing catalogues, inventory tallies, and customer identities are stored securely inside a local database file in your user application data path on your device.</li>
-        <li><strong>No Cloud Ledger Transmission:</strong> Timrio operates no background sync daemon that collects or reads your financial records. Your business documents never transit our servers.</li>
-        <li><strong>Transport Security:</strong> All external communication (such as checking the version update feed) enforces TLS encryption over HTTPS.</li>
+        <li><strong>Saved Locally:</strong> All your bills, product lists, stock counts, and customer records are saved right on your own computer.</li>
+        <li><strong>Zero Cloud Spying:</strong> Timrio does not copy, upload, or read your shop bills. Your business records never travel to our servers.</li>
+        <li><strong>Encrypted Connections:</strong> Whenever Invio checks for a new app update, it uses a secure HTTPS connection.</li>
       </ul>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-3">
         4. Responsible Vulnerability Disclosure Program
       </h2>
       <p>
-        We appreciate the efforts of security researchers in identifying potential vulnerabilities in the Invio desktop software, backend proxies, or web infrastructure.
+        We appreciate the efforts of security researchers in identifying potential vulnerabilities in the Invio desktop software or web services.
       </p>
       <p>
         If you believe you have discovered a security vulnerability, please submit a detailed report to our security team:
@@ -59,7 +59,7 @@ export function SecurityPage() {
         Please include the following details in your report:
       </p>
       <ul className="list-disc pl-5 space-y-1">
-        <li>Target component and software version (e.g. Invio Desktop v1.0.2 on Windows 11).</li>
+        <li>Target component and software version (e.g. Invio Desktop v1.1.6 on Windows 11).</li>
         <li>Detailed description of the vulnerability and potential impact.</li>
         <li>Step-by-step reproduction instructions or a minimal proof-of-concept.</li>
       </ul>

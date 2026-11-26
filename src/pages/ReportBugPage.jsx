@@ -128,7 +128,7 @@ export function ReportBugPage() {
 
         {activeTab === 'report' ? (
           createdTicket ? (
-            <div className="rounded-2xl border border-emerald-200 bg-linear-to-b from-emerald-50/70 to-white p-6 sm:p-8 shadow-sm text-center">
+            <div className="rounded-2xl border border-emerald-200 bg-gradient-to-b from-emerald-50/70 to-white p-6 sm:p-8 shadow-sm text-center">
               <div className="size-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-3">
                 <CheckIcon className="size-6" />
               </div>
@@ -157,7 +157,7 @@ export function ReportBugPage() {
                     setLookupTicketId(createdTicket);
                     setActiveTab('status');
                   }}
-                  className="w-full sm:w-auto px-5 py-2.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded-xl shadow-xs transition cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded-xl shadow-sm transition cursor-pointer"
                 >
                   Track This Ticket →
                 </button>
@@ -264,7 +264,7 @@ export function ReportBugPage() {
                     type="text"
                     value={appVersion}
                     onChange={(e) => setAppVersion(e.target.value)}
-                    placeholder="e.g. 1.0.2"
+                    placeholder="e.g. 1.1.6"
                     className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:border-[#7C3AED] text-slate-800"
                   />
                 </div>
@@ -327,7 +327,7 @@ export function ReportBugPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold text-xs rounded-xl shadow-xs transition cursor-pointer disabled:opacity-50"
+                  className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold text-xs rounded-xl shadow-sm transition cursor-pointer disabled:opacity-50"
                 >
                   {submitting ? 'Submitting Report...' : 'Submit Diagnostic Report →'}
                 </button>

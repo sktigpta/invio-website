@@ -33,7 +33,7 @@ export function DownloadPage() {
             to="/changelog"
             className="font-semibold text-[#7C3AED] hover:underline"
           >
-            ← View all releases &amp; checksums
+            ← See all updates &amp; what&rsquo;s new
           </Link>
           <span className="text-slate-300">•</span>
           <Link

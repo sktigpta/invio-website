@@ -398,7 +398,7 @@ export function DocsPage() {
                 <ol className="list-decimal pl-5 space-y-1 text-slate-600">
                   <li>Open the official <a href={MICROSOFT_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-[#7C3AED] font-semibold underline">Invio Microsoft Store Listing</a>.</li>
                   <li>Click <strong>&ldquo;Get in Store app&rdquo;</strong> (or <strong>&ldquo;Install&rdquo;</strong>).</li>
-                  <li>Windows automatically installs Invio with official Microsoft Store certification. <strong>Zero SmartScreen warnings or firewall risk alerts</strong> will appear.</li>
+                  <li>Windows automatically installs and verifies Invio with official Microsoft Store certification and automatic updates.</li>
                   <li>Invio launches immediately and works 100% offline with your private local SQLite database.</li>
                 </ol>
               </div>
@@ -410,9 +410,9 @@ export function DocsPage() {
                 <ol className="list-decimal pl-5 space-y-1 text-slate-600">
                   <li>Open your <strong>Downloads</strong> folder and double-click the file named <code>Invio-win-x64.exe</code>.</li>
                   <li>
-                    <strong>If you see &ldquo;Windows protected your PC&rdquo; (SmartScreen):</strong>
+                    <strong>If Windows asks for confirmation:</strong>
                     <div className="pl-3 py-1 my-1 text-xs text-slate-600 bg-white border border-slate-200 rounded">
-                      This is normal for direct installer downloads from the web. Click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
+                      Click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong> to start setup.
                     </div>
                   </li>
                   <li>The setup will take about 15 seconds. An Invio icon will appear on your desktop, and the app will open ready to use.</li>
@@ -1082,13 +1082,13 @@ export function DocsPage() {
             </ol>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">
-              4. Windows Antivirus / SmartScreen Warning on Install
+              4. Windows Confirmation Prompt on Direct Installer
             </h2>
             <p>
-              To completely bypass Windows Defender SmartScreen and firewall risk alerts, install Invio directly from the <a href={MICROSOFT_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-[#7C3AED] underline font-semibold">official Microsoft Store</a>. Because it is digitally certified by Microsoft, Windows trusts it automatically.
+              For 1-click verified installation with automatic updates, install Invio directly from the <a href={MICROSOFT_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-[#7C3AED] underline font-semibold">official Microsoft Store</a>. Because it is certified by Microsoft, Windows trusts it automatically.
             </p>
             <p className="mt-2">
-              If you downloaded the standalone <code>.exe</code> installer, Windows Defender may show a &ldquo;Windows protected your PC&rdquo; banner because the file was downloaded directly from the web. Invio is completely secure, runs 100% offline, and contains zero tracking or telemetry. Simply click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong>.
+              If you use the standalone <code>.exe</code> installer for an offline PC and Windows asks to confirm a new web download, simply click <strong>&ldquo;More info&rdquo;</strong> and then click <strong>&ldquo;Run anyway&rdquo;</strong>. Invio runs 100% offline on your computer.
             </p>
 
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 pt-4 pb-1">

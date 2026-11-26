@@ -63,19 +63,15 @@ export function Hero() {
 
           {/* Subtitle */}
           <p className="text-sm sm:text-base lg:text-[17px] text-slate-600 font-normal leading-relaxed mb-8 max-w-xl text-center">
-            Create GST bills and shop receipts in seconds. Print paper receipts with UPI QR codes, scan barcodes, track your stock, and keep all your shop records safely on your own computer.
+            Offline GST billing, paper receipts with UPI QR, barcode scanning, and stock tracking—saved safely on your own computer.
           </p>
 
-          {/* Platform Selector & Download Controls (Centered relative to each other) */}
-          <div className="flex flex-col items-center mb-6">
-            <div className="inline-flex flex-col items-center gap-3">
-              <span className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
-                Available on:
-              </span>
-
-              {/* Platform Selector Buttons in a Row */}
+          {/* Platform Selector & Download Controls */}
+          <div className="flex flex-col items-center">
+            <div className="inline-flex flex-col items-center gap-3.5">
+              {/* Platform Selector Buttons */}
               <div
-                className="inline-flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-full border border-slate-200/90 text-slate-700 shadow-2xs"
+                className="inline-flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-full border border-slate-200/90 text-slate-700 shadow-sm"
                 role="radiogroup"
                 aria-label="Select desktop operating system"
               >
@@ -90,7 +86,7 @@ export function Hero() {
                   aria-checked={selectedOSId === 'mac'}
                   className={`px-4 py-2 min-h-[36px] rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
                     selectedOSId === 'mac'
-                      ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
+                      ? 'bg-white font-bold text-[#7C3AED] shadow-sm'
                       : 'text-slate-700 hover:text-slate-900'
                   }`}
                 >
@@ -105,7 +101,7 @@ export function Hero() {
                   aria-checked={selectedOSId === 'windows'}
                   className={`px-4 py-2 min-h-[36px] rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
                     selectedOSId === 'windows'
-                      ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
+                      ? 'bg-white font-bold text-[#7C3AED] shadow-sm'
                       : 'text-slate-700 hover:text-slate-900'
                   }`}
                 >
@@ -120,7 +116,7 @@ export function Hero() {
                   aria-checked={selectedOSId === 'linux'}
                   className={`px-4 py-2 min-h-[36px] rounded-full cursor-pointer flex items-center gap-1.5 text-xs transition-all ${
                     selectedOSId === 'linux'
-                      ? 'bg-white font-bold text-[#7C3AED] shadow-xs'
+                      ? 'bg-white font-bold text-[#7C3AED] shadow-sm'
                       : 'text-slate-700 hover:text-slate-900'
                   }`}
                 >
@@ -131,63 +127,38 @@ export function Hero() {
 
               {/* Download CTA Button */}
               {selectedOSId === 'windows' ? (
-                <div className="flex flex-col items-center gap-2 mt-1">
-                  <div className="flex flex-wrap items-center justify-center gap-2.5">
-                    <a
-                      href={MICROSOFT_STORE_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="h-12 px-7 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
-                      title="Get from Microsoft Store — Safe, Certified & Bypasses Firewall Warnings"
-                    >
-                      <MicrosoftStoreIcon className="size-4 shrink-0" />
-                      <span>Get from Microsoft Store</span>
-                    </a>
+                <div className="flex flex-wrap items-center justify-center gap-2.5">
+                  <a
+                    href={MICROSOFT_STORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="h-12 px-7 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                    title="Get from Microsoft Store"
+                  >
+                    <MicrosoftStoreIcon className="size-4 shrink-0" />
+                    <span>Get from Microsoft Store</span>
+                  </a>
 
-                    <button
-                      type="button"
-                      onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
-                      className="h-12 px-5 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs sm:text-sm font-medium rounded-full shadow-2xs hover:shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      title="Download for Windows"
-                    >
-                      <DownloadIcon className="size-3.5 text-slate-500" />
-                      <span>Download for Windows</span>
-                    </button>
-                  </div>
-                  <span className="text-[11px] text-slate-500">
-                    Microsoft Store version bypasses Windows SmartScreen &amp; firewall alerts
-                  </span>
+                  <button
+                    type="button"
+                    onClick={() => openDownloadModal(PLATFORM_DOWNLOADS.windows)}
+                    className="h-12 px-5 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs sm:text-sm font-medium rounded-full shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    title="Download for Windows"
+                  >
+                    <DownloadIcon className="size-3.5 text-slate-500" />
+                    <span>Download for Windows</span>
+                  </button>
                 </div>
               ) : (
                 <button
                   type="button"
                   onClick={handleDownload}
-                  className="h-12 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer mt-1"
+                  className="h-12 px-8 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-[0.98] text-white text-xs sm:text-sm font-semibold rounded-full shadow-md hover:shadow-purple-200/80 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
                 >
                   {getOsIcon(selectedOSId)}
                   <span>Download for {selectedOSId === 'mac' ? 'Mac' : currentOS.name}</span>
                 </button>
               )}
-            </div>
-          </div>
-
-          {/* Key Feature Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-slate-700 pt-3 border-t border-slate-100 w-full">
-            <div className="flex items-center gap-1.5">
-              <span className="text-emerald-500 font-bold">✓</span>
-              <span>Works 100% Offline</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-emerald-500 font-bold">✓</span>
-              <span>Automated GST (CGST/SGST/IGST)</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-emerald-500 font-bold">✓</span>
-              <span>Thermal POS &amp; UPI QR</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-emerald-500 font-bold">✓</span>
-              <span>Barcode Scanner Ready</span>
             </div>
           </div>
         </div>

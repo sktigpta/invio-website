@@ -1,33 +1,127 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import {
   MODULARITY_PILLARS,
   OFFICIAL_EXTENSIONS_SHOWCASE,
 } from '../../data/extensionsShowcaseData';
-import { PuzzleIcon } from '../Icons';
+import { PuzzleIcon, CheckIcon } from '../Icons';
+import { useInView } from '../../hooks/useInView';
+import { API_BASE_URL } from '../../utils/osDetector';
 
 export function ModularPlatformSection() {
+  const { ref, inView } = useInView();
+  const [extensions, setExtensions] = useState(OFFICIAL_EXTENSIONS_SHOWCASE);
+
+  useEffect(() => {
+    let active = true;
+    fetch(`${API_BASE_URL}/api/extensions/catalog`, { headers: { Accept: 'application/json' } })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!active || !data?.success || !Array.isArray(data.extensions) || !data.extensions.length) return;
+        setExtensions((prev) => {
+          const prevMap = new Map(prev.map((item) => [item.id, item]));
+          return data.extensions.map((remote) => {
+            const existing = prevMap.get(remote.id) || {};
+            return {
+              ...existing,
+              id: remote.id,
+              name: remote.name || existing.name,
+              summary: existing.summary || remote.description || '',
+              highlights: existing.highlights || remote.features || [],
+              logoUrl: remote.iconUrl || `${API_BASE_URL}/api/extensions/logo/${remote.id}`,
+            };
+          });
+        });
+      })
+      .catch(() => {
+        // Keep fallback showcase data when offline
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <section
+      ref={ref}
       id="modularity"
-      className="w-full bg-white py-16 sm:py-24 px-6 sm:px-8 border-b border-slate-200"
+      className={`w-full bg-white py-16 sm:py-24 px-6 sm:px-8 border-b border-slate-200 transition-all duration-700 ${
+        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      }`}
     >
       <div className="max-w-[1200px] mx-auto">
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14">
+        <div className="max-w-3xl mx-auto text-center mb-14 sm:mb-16">
           <span className="text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-100/70 border border-purple-200/80 px-3 py-1 rounded-full inline-flex items-center gap-1.5 mb-4">
             <PuzzleIcon className="size-3.5 text-[#7C3AED]" />
-            <span>ADD-ONS &amp; MODULES</span>
+            <span>OFFICIAL INVIO ADD-ONS</span>
           </span>
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 mb-4 leading-tight">
             Start simple with billing. <span className="text-[#7C3AED]">Add tools as you grow.</span>
           </h2>
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Keep your billing counter fast and clutter-free. Start with Invio for everyday bills and stock, and turn on extra tools like POS, Restaurant, or Email only when your shop needs them.
+            Turn on POS, Customer Screen, Restaurant QR ordering, Email, or WhatsApp in 1 click—without slowing down your computer.
           </p>
         </div>
 
-        {/* 3 Simple Highlights (Clean Borderless Row) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14 sm:mb-16">
+        {/* Alternating Left-Right / Right-Left Add-on Showcase */}
+        <div className="space-y-16 sm:space-y-24 mb-16 sm:mb-20">
+          {extensions.map((ext, idx) => {
+            const isReversed = idx % 2 === 1;
+            return (
+              <div
+                key={ext.id}
+                className={`flex flex-col ${
+                  isReversed ? 'md:flex-row-reverse' : 'md:flex-row'
+                } items-center gap-10 lg:gap-16`}
+              >
+                {/* Text & Highlights Column */}
+                <div className="flex-1 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={ext.logoUrl}
+                      alt={`${ext.name} logo`}
+                      className="size-10 rounded-xl object-cover border border-slate-200/80 bg-white shrink-0"
+                      loading="lazy"
+                    />
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                      {ext.name}
+                    </h3>
+                  </div>
+
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl">
+                    {ext.summary}
+                  </p>
+
+                  <ul className="space-y-2.5 pt-1">
+                    {ext.highlights.map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+                        <span className="size-5 rounded-full bg-purple-50 text-[#7C3AED] flex items-center justify-center shrink-0 mt-0.5">
+                          <CheckIcon className="size-3" />
+                        </span>
+                        <span className="leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Visual Logo Card Column */}
+                <div className="flex-1 w-full flex items-center justify-center">
+                  <div className="w-full max-w-[224px] aspect-square rounded-squircle bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:border-[#7C3AED]/30 transition-all duration-300 overflow-hidden group">
+                    <img
+                      src={ext.logoUrl}
+                      alt={`${ext.name} add-on`}
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 3 Modularity Trust Pillars */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-slate-100">
           {MODULARITY_PILLARS.map((pillar) => {
             const Icon = pillar.icon;
             return (
@@ -36,73 +130,14 @@ export function ModularPlatformSection() {
                   <Icon className="size-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-slate-900 mb-1">{pillar.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <h4 className="text-sm font-bold text-slate-900 mb-1">{pillar.title}</h4>
+                  <p className="text-xs text-slate-600 leading-relaxed">
                     {pillar.description}
                   </p>
                 </div>
               </div>
             );
           })}
-        </div>
-
-        {/* Official Extensions Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
-              Official Timrio Extensions
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Every add-on works smoothly with your existing bills, products, and customers without slowing down your computer.
-            </p>
-          </div>
-          <Link
-            to="/features#extensions"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#7C3AED] hover:underline shrink-0"
-          >
-            <span>See All Add-ons</span>
-            <span aria-hidden="true">→</span>
-          </Link>
-        </div>
-
-        {/* Clean Flat Grid of Extension Cards (No Outer Wrapper Card, No Nested Cards) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {OFFICIAL_EXTENSIONS_SHOWCASE.map((ext) => (
-            <div
-              key={ext.id}
-              className="p-5 rounded-squircle bg-slate-50/70 border border-slate-200/80 hover:border-[#7C3AED]/40 hover:bg-white transition-all flex flex-col gap-3.5"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="size-11 rounded-squircle-sm overflow-hidden shrink-0">
-                    <img
-                      src={ext.logoUrl}
-                      alt={`${ext.name} logo`}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900 leading-tight">{ext.name}</h4>
-                    <span className="text-xs text-slate-500">{ext.category}</span>
-                  </div>
-                </div>
-                <span
-                  className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border shrink-0 ${
-                    ext.tier === 'Free'
-                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                      : 'bg-purple-50 text-[#7C3AED] border-purple-200'
-                  }`}
-                >
-                  {ext.tier}{ext.status === 'Beta' ? ' · Beta' : ''}
-                </span>
-              </div>
-
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                {ext.summary}
-              </p>
-            </div>
-          ))}
         </div>
       </div>
     </section>

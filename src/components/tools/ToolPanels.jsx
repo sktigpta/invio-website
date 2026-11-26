@@ -118,7 +118,7 @@ export function IndiaGstTool() {
 
         {/* Scrollable Center Form Section */}
         <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col gap-4 form-section-input">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
             {/* Step 1: Rate Slab on Top */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. GST Rate Slab (%)</label>
@@ -146,7 +146,7 @@ export function IndiaGstTool() {
                   type="button"
                   onClick={() => setMode('exclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'exclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    mode === 'exclusive' ? 'bg-white text-[#7C3AED] shadow-sm' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   + Exclusive (Add GST on Base)
@@ -155,7 +155,7 @@ export function IndiaGstTool() {
                   type="button"
                   onClick={() => setMode('inclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'inclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    mode === 'inclusive' ? 'bg-white text-[#7C3AED] shadow-sm' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   − Inclusive (Extract GST from MRP)
@@ -288,7 +288,7 @@ export function IndiaGstTool() {
               <button
                 type="button"
                 onClick={copyBreakdown}
-                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -388,7 +388,7 @@ export function IncomeTaxIndiaTool() {
 
         {/* Scrollable Center Form Section */}
         <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col gap-4 form-section-input">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
             {/* Step 1: Financial Year Slabs */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. Financial Year / Budget Slabs</label>
@@ -497,7 +497,7 @@ export function IncomeTaxIndiaTool() {
               <button
                 type="button"
                 onClick={copyBreakdown}
-                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -571,7 +571,7 @@ export function UkVatTool() {
 
         {/* Scrollable Center Form Section */}
         <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col gap-4 form-section-input">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
             {/* Step 1: VAT Rate Slab */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. HMRC VAT Rate Slab</label>
@@ -603,7 +603,7 @@ export function UkVatTool() {
                   type="button"
                   onClick={() => setMode('exclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'exclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600'
+                    mode === 'exclusive' ? 'bg-white text-[#7C3AED] shadow-sm' : 'text-slate-600'
                   }`}
                 >
                   + Add VAT (Net to Gross)
@@ -612,7 +612,7 @@ export function UkVatTool() {
                   type="button"
                   onClick={() => setMode('inclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'inclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600'
+                    mode === 'inclusive' ? 'bg-white text-[#7C3AED] shadow-sm' : 'text-slate-600'
                   }`}
                 >
                   − Extract VAT (Gross to Net)
@@ -676,7 +676,7 @@ export function UkVatTool() {
               <button
                 type="button"
                 onClick={copyBreakdown}
-                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -748,7 +748,7 @@ export function UaeVatTool() {
 
         {/* Scrollable Center Form Section */}
         <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col gap-4 form-section-input">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
             {/* Step 1: VAT Rate Slab */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. UAE Federal Tax Authority Rate</label>
@@ -765,7 +765,7 @@ export function UaeVatTool() {
                   type="button"
                   onClick={() => setMode('exclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'exclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600'
+                    mode === 'exclusive' ? 'bg-white text-[#7C3AED] shadow-sm' : 'text-slate-600'
                   }`}
                 >
                   + Add 5% VAT
@@ -774,7 +774,7 @@ export function UaeVatTool() {
                   type="button"
                   onClick={() => setMode('inclusive')}
                   className={`py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    mode === 'inclusive' ? 'bg-white text-[#7C3AED] shadow-xs' : 'text-slate-600'
+                    mode === 'inclusive' ? 'bg-white text-[#7C3AED] shadow-sm' : 'text-slate-600'
                   }`}
                 >
                   − Extract 5% VAT
@@ -838,7 +838,7 @@ export function UaeVatTool() {
               <button
                 type="button"
                 onClick={copyBreakdown}
-                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -911,7 +911,7 @@ export function PayslipGeneratorTool() {
 
         {/* Scrollable Center Form Section */}
         <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col gap-4 form-section-input">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
             {/* Employee Meta Row */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
@@ -1098,7 +1098,7 @@ export function PayslipGeneratorTool() {
               <button
                 type="button"
                 onClick={copyBreakdown}
-                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -1160,7 +1160,7 @@ export function PaycheckTool() {
 
         {/* Scrollable Center Form Section */}
         <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col gap-4 form-section-input">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
             {/* Step 1: Tax Rate Slab */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. Estimated Tax Withholding Rate (%)</label>
@@ -1254,7 +1254,7 @@ export function PaycheckTool() {
               <button
                 type="button"
                 onClick={copyBreakdown}
-                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -1323,7 +1323,7 @@ export function HraExemptionTool() {
 
         {/* Scrollable Center Form Section */}
         <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col gap-4 form-section-input">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
             {/* Step 1: City Category */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. City Category (Exemption Slab)</label>
@@ -1441,7 +1441,7 @@ export function HraExemptionTool() {
               <button
                 type="button"
                 onClick={copyBreakdown}
-                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -1503,7 +1503,7 @@ export function GratuityTool() {
 
         {/* Scrollable Center Form Section */}
         <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col gap-4 form-section-input">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
             {/* Step 1: Formula Standard */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. Statutory Gratuity Formula</label>
@@ -1588,7 +1588,7 @@ export function GratuityTool() {
               <button
                 type="button"
                 onClick={copyBreakdown}
-                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -1654,7 +1654,7 @@ export function ProjectEstimateTool() {
 
         {/* Scrollable Center Form Section */}
         <div className="flex-1 h-full overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col gap-4 form-section-input">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col gap-4 form-section-input">
             {/* Step 1: Contingency Buffer */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">1. Risk Contingency Buffer Slab (%)</label>
@@ -1762,7 +1762,7 @@ export function ProjectEstimateTool() {
               <button
                 type="button"
                 onClick={copyBreakdown}
-                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2.5 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>

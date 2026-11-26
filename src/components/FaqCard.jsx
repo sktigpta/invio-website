@@ -16,8 +16,8 @@ export function FaqCard({
     <div
       className={`border rounded-squircle-sm bg-white overflow-hidden transition-all duration-200 ${
         isOpen
-          ? 'border-[#7C3AED]/40 shadow-xs ring-1 ring-[#7C3AED]/10'
-          : 'border-slate-200/90 hover:border-slate-300 hover:shadow-2xs'
+          ? 'border-[#7C3AED]/40 shadow-sm ring-1 ring-[#7C3AED]/10'
+          : 'border-slate-200/90 hover:border-slate-300 hover:shadow-sm'
       } ${className}`}
     >
       <button

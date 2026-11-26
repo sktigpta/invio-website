@@ -22,7 +22,7 @@ export function Skeleton({ className = '', variant = 'rect', ...props }) {
 export function PricingCardSkeleton({ isFeatured = false }) {
   return (
     <div
-      className={`p-6 rounded-squircle border bg-white flex flex-col justify-between shadow-2xs relative ${
+      className={`p-6 rounded-squircle border bg-white flex flex-col justify-between shadow-sm relative ${
         isFeatured ? 'border-2 border-purple-300 shadow-md ring-2 ring-purple-600/10' : 'border-slate-200/90'
       }`}
     >
@@ -85,7 +85,7 @@ export function TableSkeleton({ rows = 5, cols = 6 }) {
 
 export function KpiCardSkeleton() {
   return (
-    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-3">
+    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
       <div className="flex items-center justify-between">
         <Skeleton className="h-3.5 w-24 rounded" />
         <Skeleton className="size-7 rounded-lg" />

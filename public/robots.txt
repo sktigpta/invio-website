@@ -1,6 +1,32 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
-# Host & Sitemap
+
+# AI & Search Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Host & Sitemaps
 Host: https://invio.timrio.com
 Sitemap: https://invio.timrio.com/sitemap.xml
+
+# AI Agent & LLM Discovery Files:
+# https://invio.timrio.com/agent.txt
+# https://invio.timrio.com/llm.txt
+# https://invio.timrio.com/llms.txt
+# https://invio.timrio.com/llms-full.txt

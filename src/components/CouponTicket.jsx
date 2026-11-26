@@ -220,7 +220,7 @@ export function CouponTicket({
         <button
           type="button"
           onClick={onRemove}
-          className="absolute -top-2 -right-2 z-30 size-5 rounded-full bg-slate-900 hover:bg-rose-600 active:scale-90 text-white flex items-center justify-center transition-colors cursor-pointer border-2 border-white shadow-xs"
+          className="absolute -top-2 -right-2 z-30 size-5 rounded-full bg-slate-900 hover:bg-rose-600 active:scale-90 text-white flex items-center justify-center transition-colors cursor-pointer border-2 border-white shadow-sm"
           title="Remove coupon"
           aria-label="Remove coupon"
         >

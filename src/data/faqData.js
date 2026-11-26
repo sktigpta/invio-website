@@ -7,7 +7,7 @@ export const FAQ_ITEMS = [
   {
     id: 'internet-connection',
     question: 'Do I need an active internet connection to use Invio?',
-    answer: 'No. Invio is completely offline-first. You can create invoices, print thermal receipts, scan barcodes, and track stock without any internet connection. An internet connection is only needed when checking for software updates or sending digital invoices via email.',
+    answer: 'No. Invio works completely offline. You can make bills, print paper receipts, scan barcodes, and track your stock without any internet connection. Internet is only needed when checking for app updates or sending PDF bills by email.',
   },
   {
     id: 'free-forever',
@@ -17,12 +17,12 @@ export const FAQ_ITEMS = [
   {
     id: 'printers',
     question: 'Which printers and paper formats are supported?',
-    answer: 'Invio works with standard 58mm (2-inch) and 80mm (3-inch) paper roll receipt printers. It also works with normal office printers for A4 and A5 bills with your shop letterhead.',
+    answer: 'Invio works with standard small and wide paper roll receipt printers, as well as normal office printers for A4 and A5 bills with your shop letterhead.',
   },
   {
     id: 'upi-qr',
-    question: 'How does the dynamic UPI QR code work on invoices?',
-    answer: 'When you configure your UPI VPA ID in Settings, Invio dynamically generates an offline payment QR code encoded with the exact bill grand total. Customers can scan the code on the printed receipt with any UPI app (Google Pay, PhonePe, Paytm, BHIM) for instant payment.',
+    question: 'How does the UPI QR code work on bills?',
+    answer: 'Just add your UPI ID once in Settings. Every time you make a bill, Invio automatically creates a QR code for that exact amount. Customers can scan it on the printed slip with Google Pay, PhonePe, Paytm, or BHIM to pay right away.',
   },
   {
     id: 'barcode-scanners',
@@ -36,7 +36,7 @@ export const FAQ_ITEMS = [
   },
   {
     id: 'os-support',
-    question: 'Which operating systems and architectures are supported?',
-    answer: 'Invio runs natively on Windows 10/11 (64-bit), macOS 11.0+ (Universal build supporting Apple Silicon M1-M4 and Intel processors), and standard 64-bit Linux distributions via AppImage.',
+    question: 'Which computers can run Invio?',
+    answer: 'Invio works on Windows, Mac, and Linux computers.',
   },
 ];

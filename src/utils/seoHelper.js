@@ -3,54 +3,52 @@
  * Manages route-specific metadata: title, description, canonical, OG, Twitter, and JSON-LD structured data.
  */
 
-import { FAQ_ITEMS } from '../data/faqData';
-
 export const BASE_URL = 'https://invio.timrio.com';
 export const CURRENT_VERSION =
   (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_APP_VERSION) ||
-  '1.1.4';
+  '1.1.6';
 
 export const PAGE_METADATA = {
   home: {
-    title: 'Invio – Free Offline Billing, POS & Invoice Software | Timrio',
-    description: 'Invio is a free offline billing & GST invoice software for Windows, Mac & Linux. Create bills in seconds, keep all shop records safely on your computer, and add tools for POS, Customer POS Display, Restaurant, Email, and WhatsApp.',
+    title: 'Invio – Free Invoice Software & Offline Billing Software | Timrio',
+    description: 'Invio is free invoice software and offline billing software for Windows, Mac & Linux. Make bills in seconds, keep all shop records safely on your computer, and add tools for POS, Customer Screen, Restaurant, Email, and WhatsApp.',
     canonical: `${BASE_URL}/`,
-    keywords: 'Invio, offline billing software, free invoice software, GST billing app, POS billing software, customer POS display, restaurant QR ordering, kitchen screen, receipt printing, UPI QR billing, Timrio',
+    keywords: 'Invio, Invio software, free software, free invoice software, free billing software, offline billing software, GST billing app, shop billing software, POS billing software, customer POS display, restaurant QR ordering, receipt printing, UPI QR billing, Timrio',
     schemaType: 'SoftwareApplication',
   },
   product: {
-    title: 'Invio Desktop Billing App – Free Invoicing & GST Software for PC & Mac',
-    description: 'Invio desktop billing app: Fast counter checkout, paper receipts, automatic GST calculations, barcode scanner support, and safe offline storage on your own computer.',
+    title: 'Invio Software – Free Invoice & Billing App for PC & Mac',
+    description: 'Invio billing app: Fast counter checkout, paper receipts, automatic GST calculations, barcode scanner support, and safe offline storage on your own computer.',
     canonical: `${BASE_URL}/features`,
-    keywords: 'Invio product, offline invoice software, desktop billing app, retail POS software, GST invoice software, Timrio Invio, invoice maker for Mac, free invoice app for Windows',
+    keywords: 'Invio software, free software, free invoice software, offline invoice software, desktop billing app, retail POS software, GST invoice software, Timrio Invio, invoice maker for Mac, free invoice app for Windows',
     schemaType: 'SoftwareApplication',
   },
   features: {
-    title: 'Features & Add-ons – Offline Billing, POS, Restaurant & Email | Invio',
-    description: 'See everything Invio can do: offline GST billing, paper receipts with UPI QR, picture-tile POS, Customer POS Display, Restaurant table QR & kitchen screen, Email bills, and WhatsApp sharing.',
+    title: 'Features & Add-ons – Free Invoice Software, POS & Restaurant | Invio',
+    description: 'See everything Invio can do: free offline GST billing, paper receipts with UPI QR, picture-tile POS, Customer POS Display, Restaurant table QR & kitchen screen, Email bills, and WhatsApp sharing.',
     canonical: `${BASE_URL}/features`,
-    keywords: 'Invio features, Invio add-ons, POS billing tiles, customer POS display, restaurant QR ordering, kitchen display screen, offline GST billing, receipt printing, email bills, WhatsApp bills',
+    keywords: 'Invio features, Invio add-ons, free invoice software, POS billing tiles, customer POS display, restaurant QR ordering, kitchen display screen, offline GST billing, receipt printing, email bills, WhatsApp bills',
     schemaType: 'SoftwareApplication',
   },
   pricing: {
-    title: 'Pricing – Free Core, Plus POS & Pro Enterprise Plans | Invio',
-    description: 'Transparent pricing for Invio: Free Core forever for offline desktop billing, Plus plan for thermal receipts and UPI QR, and Pro Enterprise for multi-user cashier roles and audit analytics.',
+    title: 'Pricing – Free Forever Plan & Plus Shop Plans | Invio',
+    description: 'Simple pricing for Invio: Free forever for offline computer billing, Plus plan for small paper receipts and UPI QR, and Pro coming soon for bigger teams.',
     canonical: `${BASE_URL}/pricing`,
-    keywords: 'Invio pricing, free billing software, desktop invoice price, Invio Plus license, Invio Pro plan, enterprise invoice software, retail POS plans',
+    keywords: 'Invio pricing, free billing software, free invoice software, Invio Plus price, shop billing plan, retail POS plans',
     schemaType: 'WebPage',
   },
   checkout: {
     title: 'Checkout & Subscription – Upgrade to Invio Plus | Invio',
-    description: 'Upgrade to Invio Plus for advanced thermal receipt printing, dynamic UPI QR codes, and multi-user retail checkout.',
+    description: 'Upgrade to Invio Plus for small receipt printing, UPI QR codes on slips, Email & WhatsApp bills, and extra counter tools.',
     canonical: `${BASE_URL}/checkout`,
     keywords: 'Invio checkout, Invio Plus subscription, billing software upgrade, secure checkout',
     schemaType: 'WebPage',
   },
   download: {
-    title: 'Download Invio – Free Invoice Software & Generator App for Windows & Mac',
-    description: `Download Invio v${CURRENT_VERSION} for Windows 10/11, macOS, and Linux. Free offline desktop invoice generator app with local SQLite data storage, instant thermal printing, and zero cloud lock-in.`,
+    title: 'Download Invio – Free Invoice Software for Windows, Mac & Linux',
+    description: `Download Invio v${CURRENT_VERSION} free for Windows 10/11, Mac, and Linux. Free offline invoice software with safe storage on your own computer, fast receipt printing, and no monthly cloud fees.`,
     canonical: `${BASE_URL}/download`,
-    keywords: 'Download Invio, Invio Windows download, Invio Mac download, desktop invoicing installer, download billing software',
+    keywords: 'Download Invio, Invio software download, free invoice software download, Invio Windows download, Invio Mac download, free billing software',
     schemaType: 'SoftwareApplication',
   },
   changelog: {
@@ -262,10 +260,10 @@ export const PAGE_METADATA = {
     schemaType: 'ContactPage',
   },
   faq: {
-    title: 'Frequently Asked Questions – Invio Desktop Invoicing | Timrio',
-    description: 'Answers to common questions about Invio: 100% offline database privacy, thermal printer compatibility, GST calculations, UPI QR codes, and update policies.',
+    title: 'Frequently Asked Questions – Free Invoice Software | Invio',
+    description: 'Simple answers to common questions about Invio: how your bills stay safe offline, receipt printer support, GST tax math, UPI QR codes, and free updates.',
     canonical: `${BASE_URL}/faq`,
-    keywords: 'Invio FAQ, billing software FAQ, offline invoice questions, thermal printer setup FAQ',
+    keywords: 'Invio FAQ, free invoice software FAQ, offline billing questions, receipt printer setup FAQ',
     schemaType: 'FAQPage',
   },
   privacy: {
@@ -297,10 +295,10 @@ export const PAGE_METADATA = {
     schemaType: 'WebPage',
   },
   security: {
-    title: 'Security Architecture & Vulnerability Reporting | Invio',
-    description: 'Invio security model: Electron context isolation, safe OS keychain credential storage, zero unauthorized network calls, and responsible vulnerability disclosure process.',
+    title: 'How Invio Keeps Your Shop Data Safe | Invio',
+    description: 'How Invio keeps your bills, customer records, and email passwords safe on your own computer without uploading your shop data to the internet.',
     canonical: `${BASE_URL}/security`,
-    keywords: 'Invio security, vulnerability disclosure, Electron security, safe storage, privacy first',
+    keywords: 'Invio security, offline privacy, safe shop data, privacy first',
     schemaType: 'WebPage',
   },
   contact: {
@@ -507,8 +505,8 @@ export function applySEO(pageKey, overrides = {}) {
         image: `${BASE_URL}/og-image.jpg`,
         featureList: [
           '100% Offline Billing Saved Safely on Your Computer',
-          'Automatic GST (CGST+SGST & IGST) Tax Calculations',
-          'Paper Receipt Printing (58mm and 80mm rolls) & A4/A5 PDFs',
+          'Automatic GST Tax Calculations',
+          'Paper Receipt Printing & A4/A5 PDF Bills',
           'UPI Payment QR Codes on Every Bill',
           'USB & Bluetooth Barcode Scanner Support',
           'Official 1-Click Add-ons & Tools',
@@ -522,13 +520,6 @@ export function applySEO(pageKey, overrides = {}) {
           priceCurrency: 'INR',
           availability: 'https://schema.org/InStock'
         },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.9',
-          reviewCount: '128',
-          bestRating: '5',
-          worstRating: '1'
-        },
         author: {
           '@type': 'Organization',
           name: 'Timrio',
@@ -536,18 +527,24 @@ export function applySEO(pageKey, overrides = {}) {
         }
       });
     } else if (meta.schemaType === 'FAQPage') {
-      graph.push({
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: FAQ_ITEMS.map((item) => ({
-          '@type': 'Question',
-          name: item.question,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: item.answer,
+      import('../data/faqData').then(({ FAQ_ITEMS }) => {
+        const faqGraph = [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQ_ITEMS.map((item) => ({
+              '@type': 'Question',
+              name: item.question,
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: item.answer,
+              },
+            })),
           },
-        })),
+        ];
+        scriptEl.textContent = JSON.stringify(faqGraph[0]);
       });
+      return;
     } else {
       graph.push({
         '@context': 'https://schema.org',

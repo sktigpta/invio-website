@@ -52,7 +52,7 @@ export function ContactPage() {
     >
       <div className="w-full max-w-md mx-auto my-6">
         {/* Contact Card matching Checkout & Auth UI */}
-        <div className="rounded-2xl border border-slate-200/90 bg-linear-to-b from-slate-50/70 to-white p-5 sm:p-6 shadow-xs mb-5">
+        <div className="rounded-2xl border border-slate-200/90 bg-gradient-to-b from-slate-50/70 to-white p-5 sm:p-6 shadow-sm mb-5">
           {/* Header row with avatar and email */}
           <div className="flex items-center justify-between gap-3 pb-4 border-b border-slate-200/70">
             <div className="flex items-center gap-3 min-w-0">
@@ -72,7 +72,7 @@ export function ContactPage() {
             <button
               type="button"
               onClick={handleCopyEmail}
-              className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-2xs transition-colors shrink-0 cursor-pointer flex items-center gap-1"
+              className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-sm transition-colors shrink-0 cursor-pointer flex items-center gap-1"
             >
               {copied ? (
                 <>
@@ -125,7 +125,7 @@ export function ContactPage() {
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-xs space-y-3.5">
+          <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm space-y-3.5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Your Name *</label>
@@ -188,7 +188,7 @@ export function ContactPage() {
             <button
               type="submit"
               disabled={sending}
-              className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               <MailIcon className="size-4" />
               <span>{sending ? 'Sending...' : 'Send Message'}</span>

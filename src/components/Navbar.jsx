@@ -92,9 +92,9 @@ export function Navbar() {
         hidden && !isFullWidthPage ? '-translate-y-full' : 'translate-y-0'
       } ${
         isFullWidthPage
-          ? 'bg-white border-b border-slate-200 shadow-2xs'
+          ? 'bg-white border-b border-slate-200 shadow-sm'
           : scrolled
-          ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs'
+          ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm'
           : 'bg-white/90 backdrop-blur-sm border-b border-slate-100'
       }`}
     >
@@ -134,7 +134,7 @@ export function Navbar() {
               title="Visit Timrio"
             >
               <span>by Timrio</span>
-              <svg className="size-2.5 text-slate-500" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <svg className="size-2.5 text-slate-500" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
             </a>
@@ -170,7 +170,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={handleDownload}
-              className="h-9 px-4 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold flex items-center gap-2 transition-colors duration-150 cursor-pointer shadow-xs select-none"
+              className="h-9 px-4 rounded-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold flex items-center gap-2 transition-colors duration-150 cursor-pointer shadow-sm select-none"
               title={activeOS.isMobileFallback ? 'View downloads for Windows and Mac' : `Download for ${activeOS.name}`}
             >
               {getOsIcon(activeOS.id, "size-3.5 shrink-0 pointer-events-none")}
@@ -190,11 +190,11 @@ export function Navbar() {
             aria-controls="mobile-nav"
           >
             {mobileMenuOpen ? (
-              <svg className="size-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+              <svg className="size-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <svg className="size-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+              <svg className="size-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
             )}

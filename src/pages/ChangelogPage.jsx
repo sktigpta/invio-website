@@ -39,62 +39,59 @@ Invio Desktop v1.1.4 delivers comprehensive ecosystem hardening, clean multi-pla
 `,
   'v1.1.3': `## Invio v1.1.3 (Previous Production Release)
 
-Invio Desktop v1.1.3 is a major production hardening and compatibility release bringing Windows 11 Microsoft Store Centennial architecture support (\`TargetDeviceFamily 10.0.22621.0\`), live Kitchen Display System (KDS) rolling 6-digit verification OTP and timer UI synchronization, official Extension Platform catalog navigation integration, and comprehensive cross-platform performance optimizations.
+Invio Desktop v1.1.3 brings enhanced Windows 11 Microsoft Store compatibility, live Kitchen Display verification codes with countdown timers, and improved Add-ons Store navigation.
 
 ---
 
 ### What's Changed
 
-#### 🪟 Microsoft Store Windows 11 Architecture Hardening
-- **Windows 11 TargetDeviceFamily Standard**: Configured \`MinVersion 10.0.17763.0\` and \`MaxVersionTested 10.0.22621.0\` in modern Store packaging, eliminating the Windows 11 *"App is not available on your device"* filtering issue.
-- **Store Container Sandboxing Integrity**: Gated background auto-updater checks inside Windows Store containers (\`process.windowsStore\`), preventing container permission alerts and ensuring compliance with Microsoft Store certification policies.
-- **Optimized Store Visual Package**: Included all required Windows tile assets, high-contrast badges, dynamic splash screen scaling, and bundled high-res store screenshots.
+#### 🪟 Windows 11 & Microsoft Store Support
+- **Windows 11 Compatibility**: Updated Microsoft Store packaging for seamless installation across all Windows 10 and Windows 11 devices.
+- **Smooth Store Updates**: Updates inside Microsoft Store installations are managed cleanly by the Store without extra prompts.
+- **Refined Visual Assets**: Added high-DPI Windows tiles and splash screen scaling.
 
-#### 🍽️ Restaurant POS & Live KDS Verification Portal
-- **Rolling Kitchen Verification OTP**: Added rolling 6-digit verification code with 60-second expiration countdown timers for kitchen tablet and smartphone logins.
-- **Active Kitchen Screen Session Monitor**: Cashiers can see connected kitchen screens and tablet count in real-time.
-- **1-Click OTP Copying & Navigation**: Added instant clipboard copying and direct browser link integration.
+#### 🍽️ Restaurant POS & Kitchen Display
+- **Rolling Kitchen Verification Code**: Added a 6-digit verification code with a 60-second countdown timer for kitchen tablet and phone logins.
+- **Active Kitchen Screen Monitor**: Cashiers can see connected kitchen screens in real time.
+- **1-Click Code Copy**: Added instant clipboard copying for faster kitchen screen pairing.
 
-#### 🧩 Official Extension Platform Navigation Sync
-- **Email Dispatch Navigation Item**: Registered \`views\` contribution for the Email Dispatch interface in official catalog and marketplace packages.
-- **Verified Cloudflare R2 Distribution**: All 25 extension objects cryptographically signed with Ed25519 and synced to Cloudflare R2.
+#### 🧩 Add-ons & Store Improvements
+- **Email Dispatch Navigation**: Improved navigation and menu registration for the Email Add-on.
+- **Signed Package Delivery**: All official add-on packages are digitally signed and verified before installation.
 `,
-  'v1.1.2': `## Invio v1.1.2 (Latest Production Release)
+  'v1.1.2': `## Invio v1.1.2 (Previous Production Release)
 
-Invio Desktop v1.1.2 is a major release introducing the official Invio Extension Ecosystem, Cloudflare R2 / S3-compatible verified package repository, Ed25519 digital signature security, Restaurant & QR tabletop ordering, Dual-Screen POS display, automated email/WhatsApp dispatch, and an ultra-lean 7MB desktop app binary (>91% size reduction).
+Invio Desktop v1.1.2 introduces the official Invio Add-ons Store, Restaurant & QR table ordering, Dual-Screen Customer POS Display, automated Email & WhatsApp bill sharing, and a much smaller, faster desktop app.
 
 ---
 
 ### What's Changed
 
-#### 🧩 Official Extension Platform & Modular Architecture
-- **In-App Extension Manager & Store**: Discover, install, enable, disable, and configure certified extensions from the new left-sidebar 🧩 Extensions tab.
-- **Strict Server Authority**: Extension catalog fetches fail closed without falling back to stale mock data when unreachable, maintaining full database integrity for locally installed packages.
-- **Cloudflare R2 / S3 Storage Distribution**: Official extension packages and manifests are distributed via zero-egress Cloudflare R2 with automatic local S3 bucket fallback.
-- **Ed25519 Cryptographic Verification**: Packages are digitally signed with author private keys (\`timrio-ext-prod-2026\`) and verified against SHA-256 integrity hashes prior to extraction.
-- **Dynamic Decoupled Stylesheets**: Core application CSS is completely unpolluted; extension CSS is dynamically mounted into \`<style id="invio-ext-style-<id>">\` on enable and removed on disable.
-- **Non-Blocking Streaming Downloads**: Real-time progress tracking reporting transfer speeds and stage status across Electron IPC (\`extensions:download-progress\`).
+#### 🧩 Official Add-ons Store
+- **In-App Add-ons Manager**: Discover, install, enable, and manage official add-ons from the new Add-ons tab.
+- **Verified & Signed Packages**: Every official add-on is digitally signed and verified before installation.
+- **Isolated & Fast**: Each add-on runs cleanly in its own space so your core billing stays fast and uncluttered.
+- **Real-Time Download Progress**: Live download speed and progress tracking when installing add-ons.
 
-#### 🍽️ Restaurant POS & QR Tabletop Ordering Extension
-- **Dine-In Table Management**: Configure table counts and dining areas with live visual occupancy cards (Vacant, Dining, Bill Requested).
-- **Standalone SVG QR Table Standees**: Generate high-resolution tabletop QR stands for customer self-ordering.
-- **Customer Mobile Wi-Fi Ordering**: Guests scan table QR codes to view live menus and submit orders directly over local Wi-Fi without internet or app installation.
-- **Live Kitchen Display System (KDS)**: Kitchen staff receive order tickets with chime notifications, cooking countdown timers, and order status transitions (Queued → Cooking → Ready).
-- **1-Click GST Bill Settlement**: Instantly transfer dine-in orders into Invio's checkout cart for cashier settlement and thermal printing.
+#### 🍽️ Restaurant POS & QR Table Ordering
+- **Dine-In Table Management**: Configure tables and dining areas with live status cards (Vacant, Dining, Bill Requested).
+- **Printable QR Table Stands**: Generate clean QR table stands for customer self-ordering.
+- **Local Wi-Fi Mobile Ordering**: Guests scan table QR codes to view menus and place orders over shop Wi-Fi without internet.
+- **Live Kitchen Screen**: Kitchen staff see incoming orders with chime alerts, timers, and status updates.
+- **1-Click GST Billing**: Convert any table order into a paid Cash, UPI, or Card bill in one click.
 
-#### 🖥️ Dual-Screen POS Customer Display Extension
-- **High-Performance Cart Mirroring**: Mirrors cashier cart line items, quantities, and totals to a customer-facing monitor with under 16ms latency.
-- **Dynamic On-Screen UPI QR Code**: Renders a crisp payment QR code encoded with the exact bill total for instant scanning via GPay, PhonePe, or Paytm.
-- **Branded Idle Screen**: Shows store logo, greeting messages, and promotional banners when billing is idle.
+#### 🖥️ Dual-Screen Customer POS Display
+- **Live Cart Mirroring**: Shows line items, quantities, and totals on a customer-facing monitor in real time.
+- **On-Screen UPI QR Code**: Displays a scan-and-pay UPI QR code for the exact bill total.
+- **Branded Idle Screen**: Shows your shop name and welcome message between customers.
 
-#### ✉️ Automated Email & WhatsApp Invoicing Extension
-- **Gmail OAuth & Custom SMTP**: Connect store Google accounts or business SMTP with credentials safely encrypted in OS Credential Manager.
-- **Resilient Offline Outbox**: Automatically queues invoices locally when disconnected from the internet and dispatches with backoff retry upon reconnection.
-- **1-Click WhatsApp Invoicing**: Automatically drafts itemized invoice receipts and sends via WhatsApp Web/Desktop without saving customer phone contacts.
+#### ✉️ Email & WhatsApp Bill Sharing
+- **Gmail & Custom Business Email**: Connect Gmail in 1 click or configure business email with encrypted local credential storage.
+- **Offline Outbox**: Queues unsent emails when offline and sends them automatically once back online.
+- **1-Click WhatsApp Sharing**: Drafts itemized bill summaries for WhatsApp without needing to save customer contacts.
 
-#### ⚡ Extreme Binary Optimization (>91% Reduction)
-- **Ultra-Lean Packaged Archive**: Application archive (\`app.asar\`) optimized from >80 MB down to 7.05 MB via tree-shaking, CSS code splitting, comment stripping, and maximum compression.
-- **Sub-Second Cold Startup**: Instant boot times and minimal RAM footprint across macOS, Windows, and Linux.`,
+#### ⚡ Faster & Lighter App
+- **Smaller Footprint**: Reduced app bundle size by over 90% for faster downloads and instant startup.`,
 
   'v1.1.1': `## Invio v1.1.1 (Previous Production Release)
 
@@ -114,19 +111,15 @@ Invio Desktop v1.1.1 delivers essential security patches, offline entitlement pr
 
   'v1.1.0': `## Invio v1.1.0 (Previous Production Release)
 
-Invio Desktop v1.1.0 brings comprehensive security hardening, a fully audited and patched dependency graph across all platforms, and enhanced privilege isolation for macOS in-app updates.
+Invio Desktop v1.1.0 brings comprehensive security updates, updated platform dependencies across all operating systems, and safer macOS in-app updates.
 
 ---
 
 ### What's Changed
 
-#### 🛡️ Security Hardening & Update Isolation
-- **macOS Updater Command Execution Hardening**: Completely eliminated string-interpolated shell commands during in-app updates. Upgrades now generate an isolated executable updater script with strictly validated semver versioning and POSIX positional argument passing for both standard and root-privileged operations.
-- **Strict Version Format Validation**: Added strict semver pattern enforcement on updater packages, neutralizing shell metacharacters and untrusted update inputs.
-
-#### 📦 Ecosystem-Wide Dependency Audit & Zero Vulnerabilities
-- **Audited and Patched Dependencies**: Updated packages across Desktop, Backend, CRM, and Web portals to eliminate all known security advisories (resolving CVEs in \`shell-quote\`, \`electron\`, \`vite\`, \`body-parser\`, \`brace-expansion\`, and \`postcss-selector-parser\`).
-- **Clean Audit Status**: Achieved 0 security vulnerabilities across all production and development dependency manifests.`,
+#### 🛡️ Security & Update Reliability
+- **Hardened macOS Updater**: Improved in-app update execution with strict version validation and isolated script handling.
+- **Updated Dependencies**: Upgraded core libraries across Desktop and Web services to the latest security-patched releases.`,
 
   'v1.0.10': `## Invio v1.0.10 (Previous Production Release)
 
@@ -152,43 +145,35 @@ Invio Desktop v1.0.10 delivers a seamless cross-platform in-app auto-update and 
 
   'v1.0.9': `## Invio v1.0.9 (Previous Production Release)
 
-Invio Desktop v1.0.9 delivers critical connectivity and stability enhancements, restoring uninterrupted Google OAuth sign-in, bundling cloud PostgreSQL project CAs, and fixing external database storage accuracy.
+Invio Desktop v1.0.9 improves Google sign-in reliability, cloud database TLS connectivity, and paid invoice tracking accuracy.
 
 ---
 
 ### What's Changed
 
 #### 🌐 Cloud Database TLS & Connectivity
-- **Bundled Aiven Project CA**: Integrated root CA certificates for cloud-hosted PostgreSQL instances (*.aivencloud.com), enabling strict TLS certificate validation without manual cert configuration.
-- **Environment TLS Option Parity**: Strictly honored administrator DB_SSL_REJECT_UNAUTHORIZED and ALLOW_INSECURE_DB_TLS settings across production environments.
-- **Sanitized Driver Connection Strings**: Eliminated query string parameter conflicts with pool SSL configurations.
+- **Built-in Project CA Support**: Added root CA certificate support for cloud-hosted PostgreSQL instances so TLS works out of the box.
+- **Connection Reliability**: Improved connection pool cleanup during storage tests.
 
-#### 🔑 Google Authentication Reliability
-- **Resolved Microsoft Store Policy 10.1.2.10**: Guaranteed uninterrupted Google Sign-In with validated database readiness checks on all OAuth entry points.
-- **Enhanced Browser Fallbacks**: Added responsive error card rendering for browser-mediated OAuth redirects.
-
-#### 💾 Desktop PostgreSQL Adapter Hardening
-- **Auto-Detected Connection SSL**: Automatically detects SSL requirements when connection URIs specify sslmode=require.
-- **Connection Leak Elimination**: Enforced proper connection pool teardown on storage connection tests.
-- **Accurate Paid Invoice Tracking**: Ensured amountPaid and amountDue reflect exact totals on paid invoices.`,
+#### 🔑 Google Sign-In Reliability
+- **Smoother OAuth Flow**: Improved Google Sign-In reliability with clearer browser fallback feedback.
+- **Accurate Paid Invoice Tracking**: Ensured paid and due amounts reflect exact totals on settled invoices.`,
 
   'v1.0.8': `## Invio v1.0.8 (Previous Production Release)
 
-Invio Desktop v1.0.8 is an essential security and stability release introducing native DOM tree-walking HTML sanitization, guest checkout takeover protection, constant-time authentication latency normalization, download proxy SSRF guards, and distributed per-email rate limiting.
+Invio Desktop v1.0.8 strengthens HTML sanitization, checkout verification, and download security.
 
 ---
 
 ### What's Changed
 
-#### 🛡️ Native DOM Tree-Walking Sanitizer
-- **Native DOMParser Tree Walking**: Replaced string/regex parsing with native DOMParser allowlist tree walking across desktop notes, email previews, and customer notices, completely neutralizing malformed or unclosed tag XSS exploits.
-- **Consolidated QR SVG Architecture**: Eliminated page-local duplicate sanitizer in POS display, standardizing all vector markup on the canonical shared sanitizer.
+#### 🛡️ Sanitization & Input Safety
+- **Structured DOM Sanitization**: Standardized HTML sanitization across desktop notes, email previews, and customer notices.
+- **Consistent QR Rendering**: Unified vector QR markup rendering across the app.
 
-#### 🔐 Authentication & Session Hardening
-- **Guest Checkout Takeover Prevention**: Enforced cryptographic random token generation on guest checkouts, requiring out-of-band email verification before account claiming.
-- **Constant-Time Latency Defense**: Normalized bcrypt execution latency across valid and non-existent users with constant-time dummy comparisons, closing timing-based user enumeration.
-- **Download Proxy SSRF Guards**: Enforced strict origin and HTTPS protocol allowlisting for all release downloads and updater metadata proxies.
-- **Distributed Contact Form Throttling**: Implemented dual-window rate limiting (1 submission per minute, 3 per day) backed by Redis distributed counters.`,
+#### 🔐 Account & Download Protection
+- **Verified Checkout Claiming**: Enforced out-of-band email verification before claiming guest checkout accounts.
+- **Validated Release Downloads**: Added strict origin and HTTPS checks for release downloads and update feeds.`,
 
   'v1.0.7': `## Invio v1.0.7 (Previous Production Release)
 
@@ -856,7 +841,7 @@ function renderMarkdown(mdText) {
         );
 
         elements.push(
-          <div key={`table-${i}`} className="overflow-x-auto my-3 rounded border border-slate-200 bg-white shadow-2xs">
+          <div key={`table-${i}`} className="overflow-x-auto my-3 rounded border border-slate-200 bg-white shadow-sm">
             <table className="w-full text-left font-mono text-[11px] border-collapse">
               <thead className="bg-slate-100/80 text-slate-800 font-semibold border-b border-slate-200">
                 <tr>
@@ -1106,10 +1091,10 @@ export function ChangelogPage() {
   return (
     <A4DocLayout
       title="Invio Desktop Release Notes &amp; Version History"
-      subtitle="Official release documentation, verified distribution binaries, security bulletins, and hardware specifications • Published by Timrio • Last updated: October 2026"
+      subtitle="Official release documentation, verified distribution binaries, and hardware specifications • Published by Timrio • Last updated: November 2026"
     >
       {/* Sticky, Horizontal Scrollable Jump-To Navigation (Auto-Populates for Every Release) */}
-      <div className="sticky top-16 z-30 bg-slate-50/95 backdrop-blur-md py-2.5 -mx-4 px-4 sm:-mx-6 sm:px-6 my-4 shadow-2xs not-prose border-y border-slate-200/80">
+      <div className="sticky top-16 z-30 bg-slate-50/95 backdrop-blur-md py-2.5 -mx-4 px-4 sm:-mx-6 sm:px-6 my-4 shadow-sm not-prose border-y border-slate-200/80">
         <div className="flex items-center gap-1.5 overflow-x-auto py-1 scroll-smooth scrollbar-thin">
           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 shrink-0 mr-1 flex items-center gap-1">
             <svg className="size-3.5 text-[#7C3AED]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -1124,7 +1109,7 @@ export function ChangelogPage() {
               href={`#${rel.anchorId}`}
               className={`shrink-0 text-xs px-2.5 py-1 rounded-full transition-all flex items-center gap-1.5 ${
                 rel.isLatest
-                  ? 'bg-[#7C3AED] text-white shadow-xs font-semibold hover:bg-[#6D28D9]'
+                  ? 'bg-[#7C3AED] text-white shadow-sm font-semibold hover:bg-[#6D28D9]'
                   : 'bg-white text-slate-700 hover:text-[#7C3AED] hover:bg-slate-100 border border-slate-200/90 font-medium'
               }`}
             >
@@ -1190,7 +1175,7 @@ export function ChangelogPage() {
                   ...(matchingAsset?.downloadUrl ? { downloadEndpoint: matchingAsset.downloadUrl } : {}),
                 });
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded shadow-2xs transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-semibold rounded shadow-sm transition-colors cursor-pointer"
             >
               <DownloadIcon className="size-3.5" />
               <span>Download {rel.tag}</span>
@@ -1218,7 +1203,7 @@ export function ChangelogPage() {
                 </span>
               </div>
 
-              <div className="overflow-x-auto rounded border border-slate-200 bg-white shadow-2xs">
+              <div className="overflow-x-auto rounded border border-slate-200 bg-white shadow-sm">
                 <table className="w-full text-left font-mono text-[11px] border-collapse">
                   <thead className="bg-slate-100/70 text-slate-800 font-semibold border-b border-slate-200">
                     <tr>
@@ -1321,7 +1306,7 @@ export function ChangelogPage() {
           Invio natively renders and prints across standard laser/inkjet sheet paper and specialized continuous roll thermal receipt hardware:
         </p>
 
-        <div className="overflow-x-auto rounded border border-slate-200 bg-white shadow-2xs mt-2">
+        <div className="overflow-x-auto rounded border border-slate-200 bg-white shadow-sm mt-2">
           <table className="w-full text-left font-mono text-[11px] border-collapse">
             <thead className="bg-slate-100/70 text-slate-800 font-semibold border-b border-slate-200">
               <tr>

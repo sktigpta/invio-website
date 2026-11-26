@@ -20,8 +20,8 @@ export function DownloadCard({
 
   const isWindows = platform?.id === 'windows';
 
-  // Windows starts in 'windows_options' so the user can choose the safe Microsoft Store method
-  // to bypass Windows Defender SmartScreen & Firewall warnings. Non-Windows desktop starts in 'downloading'.
+  // Windows starts in 'windows_options' so the user can choose Microsoft Store
+  // or the direct installer. Non-Windows desktop starts in 'downloading'.
   const [phase, setPhase] = useState(() => {
     if (isMobile) return 'thankyou';
     if (initialPlatform?.id === 'windows' || (!initialPlatform && detectedOS?.id === 'windows')) {
@@ -34,8 +34,18 @@ export function DownloadCard({
   const downloadTimer = useRef(null);
   const hasAutoTriggeredRef = useRef(false);
 
+  const startPlatformDownload = (targetPlatform, method = 'direct') => {
+    setPhase('downloading');
+    setDownloadMethod(method);
+    triggerDirectDownload(targetPlatform);
+    if (downloadTimer.current) clearTimeout(downloadTimer.current);
+    downloadTimer.current = setTimeout(() => {
+      setPhase('thankyou');
+    }, 2500);
+  };
+
   // Trigger download on mount only for non-Windows desktop platforms;
-  // Windows shows Store vs Standalone options so users can bypass firewall & risk alerts.
+  // Windows shows Store vs Direct Installer options.
   useEffect(() => {
     if (autoTrigger && !isMobile && platform && !platform.isMobileFallback && !hasAutoTriggeredRef.current) {
       if (platform.id !== 'windows') {
@@ -52,13 +62,7 @@ export function DownloadCard({
   }, [autoTrigger, platform, isMobile]);
 
   const handleRetryDownload = () => {
-    setPhase('downloading');
-    setDownloadMethod('exe');
-    triggerDirectDownload(platform);
-    if (downloadTimer.current) clearTimeout(downloadTimer.current);
-    downloadTimer.current = setTimeout(() => {
-      setPhase('thankyou');
-    }, 2500);
+    startPlatformDownload(platform, isWindows ? 'exe' : 'direct');
   };
 
   const handleSelectPlatform = (selected) => {
@@ -69,8 +73,7 @@ export function DownloadCard({
       setPhase('windows_options');
       setDownloadMethod(null);
     } else {
-      setPhase('downloading');
-      setDownloadMethod('direct');
+      startPlatformDownload(selected, 'direct');
     }
   };
 
@@ -117,7 +120,7 @@ export function DownloadCard({
               onClick={() => handleSelectPlatform(item)}
               className={`flex-1 py-1 px-3 text-xs font-semibold rounded-full transition-all cursor-pointer ${
                 isSelected
-                  ? 'bg-white text-slate-900 shadow-2xs font-bold'
+                  ? 'bg-white text-slate-900 shadow-sm font-bold'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -131,7 +134,7 @@ export function DownloadCard({
       {isWindows && phase === 'windows_options' && (
         <div className="flex flex-col text-center pt-1 animate-fadeIn">
           {/* Primary Recommended: Microsoft Store */}
-          <div className="bg-gradient-to-b from-purple-50/80 to-white rounded-2xl border border-purple-200/90 p-5 shadow-xs mb-3 text-left relative overflow-hidden">
+          <div className="bg-gradient-to-b from-purple-50/80 to-white rounded-2xl border border-purple-200/90 p-5 shadow-sm mb-3 text-left relative overflow-hidden">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#7C3AED] text-white uppercase tracking-wider">
                 <ShieldCheckIcon className="size-3" />
@@ -146,13 +149,13 @@ export function DownloadCard({
             </h3>
 
             <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-              Officially verified by Microsoft. Installs in 1-click and <strong>bypasses Windows Defender SmartScreen &amp; firewall risk alerts</strong> with automatic background updates.
+              Officially verified by Microsoft. Installs in 1 click with automatic updates.
             </p>
 
             <button
               type="button"
               onClick={handleStoreClick}
-              className="mt-3.5 w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer group"
+              className="mt-3.5 w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer group"
             >
               <MicrosoftStoreIcon className="size-4 shrink-0" />
               <span>Get from Microsoft Store (Free)</span>
@@ -185,8 +188,8 @@ export function DownloadCard({
               <span>Download for Windows</span>
             </button>
 
-            <p className="text-[10px] text-slate-400 mt-1.5 text-center leading-normal">
-              If Windows displays &ldquo;Windows protected your PC&rdquo;, click &ldquo;More info&rdquo; &rarr; &ldquo;Run anyway&rdquo;.
+            <p className="text-[11px] text-slate-400 mt-2 text-center leading-normal">
+              Standalone .exe setup for PCs without Microsoft Store access.
             </p>
           </div>
         </div>
@@ -232,7 +235,7 @@ export function DownloadCard({
           {downloadMethod === 'store' ? (
             <div className="space-y-2 mt-2">
               <p className="text-xs text-slate-600 leading-relaxed max-w-xs mx-auto">
-                Your browser opened the official <span className="font-semibold text-slate-800">Microsoft Store</span> page. Click <strong>&ldquo;Get in Store app&rdquo;</strong> to complete installation with zero firewall alerts.
+                Your browser opened the official <span className="font-semibold text-slate-800">Microsoft Store</span> page. Click <strong>&ldquo;Get in Store app&rdquo;</strong> to finish installing.
               </p>
               <p className="text-[11px] text-slate-400">
                 Didn&apos;t open?{' '}
@@ -268,16 +271,16 @@ export function DownloadCard({
                 .
               </p>
               {isWindows && (
-                <div className="p-2 bg-slate-50 border border-slate-200/80 rounded-lg text-[11px] text-slate-600 max-w-xs mx-auto text-left">
-                  <strong>Tip:</strong> If Windows Defender displays &ldquo;Windows protected your PC&rdquo;, click <strong>&ldquo;More info&rdquo;</strong> &rarr; <strong>&ldquo;Run anyway&rdquo;</strong>, or{' '}
+                <div className="p-2.5 bg-slate-50 border border-slate-200/80 rounded-lg text-[11px] text-slate-600 max-w-xs mx-auto text-left">
+                  <strong>Tip:</strong> If Windows asks to confirm a web download, click <strong>&ldquo;More info&rdquo;</strong> &rarr; <strong>&ldquo;Run anyway&rdquo;</strong>, or{' '}
                   <button
                     type="button"
                     onClick={handleStoreClick}
                     className="text-[#7C3AED] font-semibold underline cursor-pointer"
                   >
-                    get it from Microsoft Store
+                    install from Microsoft Store
                   </button>{' '}
-                  to bypass this warning completely.
+                  for 1-click setup.
                 </div>
               )}
             </div>
@@ -287,7 +290,7 @@ export function DownloadCard({
             {onClose ? (
               <button
                 type="button"
-                className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-2xs cursor-pointer"
+                className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-sm cursor-pointer"
                 onClick={onClose}
               >
                 Back to Invio Website
@@ -295,7 +298,7 @@ export function DownloadCard({
             ) : (
               <Link
                 to="/"
-                className="block w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-2xs cursor-pointer"
+                className="block w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-sm cursor-pointer"
               >
                 Back to Invio Website
               </Link>

@@ -35,7 +35,7 @@ export function DownloadModal() {
   return (
     <div
       // z-[1000] exceeds the Navbar mobile drawer z-[999] (U4).
-      className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn"
+      className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn"
       role="dialog"
       aria-modal="true"
       aria-labelledby="download-modal-title"

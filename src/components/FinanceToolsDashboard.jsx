@@ -115,7 +115,7 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
   return (
     <div className="w-full h-[calc(100dvh-64px)] mt-16 bg-[#f8fafc] flex overflow-hidden print:mt-0 print:h-auto print:overflow-visible print:block">
       {/* Mobile Tool Selector Header (< 1024px) */}
-      <div className="lg:hidden fixed top-16 left-0 right-0 z-30 bg-white border-b border-slate-200 px-4 py-2.5 flex items-center justify-between shadow-xs no-print print:hidden">
+      <div className="lg:hidden fixed top-16 left-0 right-0 z-30 bg-white border-b border-slate-200 px-4 py-2.5 flex items-center justify-between shadow-sm no-print print:hidden">
         <div className="flex items-center gap-2">
           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Tool:</span>
           <span className="text-xs font-bold text-slate-900 truncate max-w-[200px]">{activeTool.name}</span>
@@ -180,7 +180,7 @@ export function FinanceToolsDashboard({ initialToolId = 'gst-calculator', onDire
                       aria-current={isSelected ? 'page' : undefined}
                       className={`w-full text-left px-2.5 py-2 rounded-lg transition-all flex items-center justify-between group cursor-pointer ${
                         isSelected
-                          ? 'bg-purple-100/70 text-[#7C3AED] font-bold shadow-2xs'
+                          ? 'bg-purple-100/70 text-[#7C3AED] font-bold shadow-sm'
                           : 'hover:bg-slate-100/80 text-slate-700 font-medium'
                       }`}
                     >

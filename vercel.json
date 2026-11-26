@@ -82,7 +82,7 @@
       ]
     },
     {
-      "source": "/(llms.txt|llms-full.txt|llm.txt)",
+      "source": "/(llms.txt|llms-full.txt|llm.txt|agent.txt)",
       "headers": [
         {
           "key": "Content-Type",

@@ -5,7 +5,7 @@ import { AppleIcon, WindowsIcon, LinuxIcon, DownloadIcon, MicrosoftStoreIcon } f
 
 export function DownloadCta({
   title = "Download Invio for Desktop",
-  subtitle = `Version ${APP_VERSION} for Windows, macOS, and Linux. Free forever for core billing with 100% local SQLite storage.`,
+  subtitle = `Version ${APP_VERSION} for Windows, Mac, and Linux. Free forever for everyday billing, with all your records saved safely on your computer.`,
   showAllLinks = true,
   className = ""
 }) {
@@ -20,7 +20,7 @@ export function DownloadCta({
   };
 
   return (
-    <section className={`my-6 p-5 sm:p-6 border border-slate-200/90 rounded-squircle bg-white shadow-2xs ${className}`}>
+    <section className={`my-6 p-5 sm:p-6 border border-slate-200/90 rounded-squircle bg-white shadow-sm ${className}`}>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight mb-1">
@@ -39,7 +39,7 @@ export function DownloadCta({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-semibold rounded-full transition-all flex items-center gap-2 cursor-pointer shadow-sm hover:shadow-purple-200"
-                title="Get Invio from Microsoft Store — Certified to bypass firewall & SmartScreen warnings"
+                title="Get Invio from Microsoft Store"
               >
                 <MicrosoftStoreIcon className="size-3.5" />
                 <span>Get from Microsoft Store</span>

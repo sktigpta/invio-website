@@ -657,7 +657,7 @@ export function CheckoutPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/download"
-              className="w-full sm:w-auto py-2.5 px-6 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-2xs text-center cursor-pointer"
+              className="w-full sm:w-auto py-2.5 px-6 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-sm text-center cursor-pointer"
             >
               Download Desktop App
             </Link>
@@ -694,7 +694,7 @@ export function CheckoutPage() {
           {!currentUser ? (
             pendingVerificationEmail ? (
               /* OTP Verification Sub-step */
-              <div className="rounded-2xl border border-purple-200 bg-purple-50/30 p-5 shadow-xs">
+              <div className="rounded-2xl border border-purple-200 bg-purple-50/30 p-5 shadow-sm">
                 <div className="text-center mb-4">
                   <div className="size-12 rounded-full bg-purple-100 text-[#7C3AED] flex items-center justify-center mx-auto mb-2">
                     <MailIcon className="size-6" />
@@ -717,7 +717,7 @@ export function CheckoutPage() {
                       value={verificationCode}
                       onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
                       placeholder="0000"
-                      className="w-full h-11 text-center font-mono text-xl tracking-widest rounded-xl border border-slate-200 bg-white text-slate-900 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                      className="w-full h-11 text-center font-mono text-xl tracking-widest rounded-xl border border-slate-200 bg-white text-slate-900 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-sm"
                       autoFocus
                     />
                   </div>
@@ -737,7 +737,7 @@ export function CheckoutPage() {
                   <button
                     type="submit"
                     disabled={isVerifyingCode || verificationCode.trim().length !== 4}
-                    className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-sm cursor-pointer flex items-center justify-center gap-2"
                   >
                     {isVerifyingCode ? 'Verifying...' : 'Verify & Continue'}
                   </button>
@@ -790,7 +790,7 @@ export function CheckoutPage() {
                     }}
                     className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                       authTab === 'login'
-                        ? 'bg-white text-[#7C3AED] shadow-2xs'
+                        ? 'bg-white text-[#7C3AED] shadow-sm'
                         : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
@@ -804,7 +804,7 @@ export function CheckoutPage() {
                     }}
                     className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                       authTab === 'register'
-                        ? 'bg-white text-[#7C3AED] shadow-2xs'
+                        ? 'bg-white text-[#7C3AED] shadow-sm'
                         : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
@@ -827,7 +827,7 @@ export function CheckoutPage() {
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           placeholder="Your full name"
-                          className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                          className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-sm"
                         />
                       </div>
 
@@ -842,7 +842,7 @@ export function CheckoutPage() {
                           value={businessName}
                           onChange={(e) => setBusinessName(e.target.value)}
                           placeholder="Business or shop name"
-                          className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                          className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-sm"
                         />
                       </div>
                     </>
@@ -860,7 +860,7 @@ export function CheckoutPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="name@business.com"
-                      className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                      className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-sm"
                     />
                     {isFromDesktop && (
                       <p className="text-[11px] text-emerald-600 font-medium mt-1 flex items-center gap-1">
@@ -883,7 +883,7 @@ export function CheckoutPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder={authTab === 'register' ? 'At least 6 characters' : 'Enter your password'}
-                        className="w-full h-10 px-3 pr-10 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                        className="w-full h-10 px-3 pr-10 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-sm"
                       />
                       <button
                         type="button"
@@ -911,7 +911,7 @@ export function CheckoutPage() {
                   <button
                     type="submit"
                     disabled={authLoading}
-                    className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2 mt-4"
+                    className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-sm cursor-pointer flex items-center justify-center gap-2 mt-4"
                   >
                     {authLoading ? (
                       <>
@@ -939,7 +939,7 @@ export function CheckoutPage() {
                   type="button"
                   disabled={authLoading}
                   onClick={handleGoogleAuth}
-                  className="w-full py-2.5 px-4 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2.5"
+                  className="w-full py-2.5 px-4 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-sm cursor-pointer flex items-center justify-center gap-2.5"
                 >
                   <GoogleIcon className="size-4" />
                   <span>Continue with Google</span>
@@ -948,7 +948,7 @@ export function CheckoutPage() {
             )
           ) : needsBusinessDetails ? (
             /* Google Sign-in: Missing Business Details Form */
-            <div className="rounded-2xl border border-slate-200 p-5 shadow-xs bg-white">
+            <div className="rounded-2xl border border-slate-200 p-5 shadow-sm bg-white">
               <div className="mb-4">
                 <h3 className="text-lg font-bold text-slate-900">Complete Your Business Profile</h3>
                 <p className="text-xs text-slate-500 mt-1">
@@ -968,7 +968,7 @@ export function CheckoutPage() {
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
                     placeholder="e.g. Gupta Retail Stores"
-                    className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                    className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-sm"
                     autoFocus
                   />
                 </div>
@@ -983,7 +983,7 @@ export function CheckoutPage() {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Your contact name"
-                    className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                    className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-sm"
                   />
                 </div>
 
@@ -996,7 +996,7 @@ export function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={authLoading || !businessName.trim()}
-                  className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2 mt-2"
+                  className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-colors shadow-sm cursor-pointer flex items-center justify-center gap-2 mt-2"
                 >
                   {authLoading ? 'Saving...' : 'Save & Continue to Checkout'}
                 </button>
@@ -1016,7 +1016,7 @@ export function CheckoutPage() {
             /* STEP 2: Authenticated -> Check Active Membership OR Proceed to Checkout */
             <div>
               {/* Account Pill Header */}
-              <div className="rounded-2xl border border-slate-200/90 bg-linear-to-b from-slate-50/70 to-white p-4 shadow-2xs mb-5">
+              <div className="rounded-2xl border border-slate-200/90 bg-gradient-to-b from-slate-50/70 to-white p-4 shadow-sm mb-5">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="size-9 rounded-full bg-purple-100 text-[#7C3AED] font-bold text-sm flex items-center justify-center shrink-0 ring-2 ring-white">
@@ -1034,7 +1034,7 @@ export function CheckoutPage() {
                   <button
                     type="button"
                     onClick={handleSwitchAccount}
-                    className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-2xs transition-colors shrink-0 cursor-pointer"
+                    className="px-2.5 py-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-sm transition-colors shrink-0 cursor-pointer"
                   >
                     Switch
                   </button>
@@ -1068,7 +1068,7 @@ export function CheckoutPage() {
                   <div className="space-y-2.5 pt-2">
                     <Link
                       to="/download"
-                      className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2 text-center cursor-pointer"
+                      className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-sm flex items-center justify-center gap-2 text-center cursor-pointer"
                     >
                       Download Desktop App
                     </Link>
@@ -1112,7 +1112,7 @@ export function CheckoutPage() {
                         onClick={() => setBillingCycle('yearly')}
                         className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
                           billingCycle === 'yearly'
-                            ? 'bg-white text-slate-900 shadow-2xs ring-1 ring-purple-100 font-bold'
+                            ? 'bg-white text-slate-900 shadow-sm ring-1 ring-purple-100 font-bold'
                             : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
@@ -1138,7 +1138,7 @@ export function CheckoutPage() {
                         onClick={() => setBillingCycle('monthly')}
                         className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
                           billingCycle === 'monthly'
-                            ? 'bg-white text-slate-900 shadow-2xs ring-1 ring-purple-100 font-bold'
+                            ? 'bg-white text-slate-900 shadow-sm ring-1 ring-purple-100 font-bold'
                             : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
@@ -1194,14 +1194,14 @@ export function CheckoutPage() {
                             }
                           }}
                           placeholder="Enter coupon code"
-                          className="w-full h-10 pl-3.5 pr-20 text-xs font-mono font-bold tracking-wider rounded-xl border border-slate-300 bg-white text-slate-900 uppercase placeholder:normal-case placeholder:font-sans placeholder:font-normal placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-2xs"
+                          className="w-full h-10 pl-3.5 pr-20 text-xs font-mono font-bold tracking-wider rounded-xl border border-slate-300 bg-white text-slate-900 uppercase placeholder:normal-case placeholder:font-sans placeholder:font-normal placeholder:text-slate-400 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 transition-all shadow-sm"
                           autoFocus
                         />
                         <button
                           type="button"
                           onClick={() => handleApplyCoupon()}
                           disabled={validatingCoupon || !couponInput.trim()}
-                          className="absolute right-1.5 top-1.5 bottom-1.5 px-3.5 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:opacity-50 text-white rounded-lg font-semibold text-xs transition-colors cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs"
+                          className="absolute right-1.5 top-1.5 bottom-1.5 px-3.5 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:opacity-50 text-white rounded-lg font-semibold text-xs transition-colors cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                         >
                           {validatingCoupon ? (
                             <>
@@ -1237,7 +1237,7 @@ export function CheckoutPage() {
                     type="button"
                     disabled={paying || pricingLoading || basePrice === null}
                     onClick={handleStartPayment}
-                    className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full py-3 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] disabled:bg-purple-300 text-white rounded-full font-semibold text-xs sm:text-sm transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2"
                   >
                     {paying ? (
                       <>

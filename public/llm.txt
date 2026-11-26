@@ -1,52 +1,54 @@
 # Invio
 
-> Free Offline Invoice Generator & GST Billing Software with a free forever core plan for Small Businesses, Retail Stores, and Freelancers.
+> Free invoice software and offline billing software for Windows, Mac, and Linux. Made by Timrio for shops, small businesses, cafes, and freelancers.
 
-Invio is a desktop application built for high-speed offline retail billing, professional GST invoicing, 58mm/80mm thermal receipt printing with dynamic UPI payment QR codes, barcode scanning, and local inventory management.
+Invio software helps you create GST and regular bills in seconds, print paper receipts with UPI QR codes, scan product barcodes, track your shop stock, and keep every customer record safely on your own computer — with no internet needed.
 
-## Key Information
-- **Website**: https://invio.timrio.com/
-- **Features & Architecture**: https://invio.timrio.com/features
-- **Pricing & Plans**: https://invio.timrio.com/pricing
-- **Download Desktop Binary**: https://invio.timrio.com/download
-- **Changelog & History**: https://invio.timrio.com/changelog
-- **FAQ**: https://invio.timrio.com/faq
-- **Google Merchant Center Feed**: https://invio.timrio.com/feeds/google-merchant.tsv
-- **Pricing**: Free forever core plan (Free); Plus subscription unlocks thermal printing, email & WhatsApp dispatch, POS display and backups; Pro Enterprise coming soon
-- **Data Architecture**: Offline-first (private local SQLite database with optional external PostgreSQL configuration)
-- **Supported Platforms**: macOS (Apple Silicon & Intel), Windows 10/11 (64-bit), Linux (AppImage & DEB)
+## Key Pages
+- **Home**: https://invio.timrio.com/
+- **Features & Add-ons**: https://invio.timrio.com/features
+- **Pricing (Free & Plus)**: https://invio.timrio.com/pricing
+- **Download App**: https://invio.timrio.com/download
+- **What's New (Changelog)**: https://invio.timrio.com/changelog
+- **Questions & Answers (FAQ)**: https://invio.timrio.com/faq
+- **Help & Setup Guides**: https://invio.timrio.com/docs
+- **Pricing**: Free forever core plan (₹0); Plus plan adds paper receipt printing, UPI QR on slips, second customer screen, Restaurant mode, Email & WhatsApp bill sharing; Pro plan coming soon.
+- **Where Data Is Saved**: 100% on your own computer (no cloud needed, works offline).
+- **Works On**: Windows 10/11, Mac (Apple Silicon & Intel), and Linux.
 
-## Core Capabilities
-- **GST Invoicing**: Automatic split for intra-state (CGST + SGST 50/50) and inter-state (IGST 100%) transactions based on 15-character GSTIN state prefixes.
-- **Thermal Receipt Printing**: Formatted specifically for 58mm (2-inch) and 80mm (3-inch) ESC/POS thermal printers and standard A4/A5 formats.
-- **Dynamic UPI Payment QR**: Generates offline UPI QR codes directly on paper receipts so customers can scan & pay instantly using any UPI app (Google Pay, PhonePe, Paytm, BHIM).
-- **Barcode Scanner Support**: Hardware barcode scanning automatically adds items to active invoices in real-time.
-- **Inventory Management**: Real-time stock decrement on sales, automatic stock restoration on invoice deletions, and low-stock threshold alerts.
-- **Customer Directory & Credit**: Customer purchase tracking and ledger balance management.
-- **Business Expenses & Reports**: Expense categorization and financial analytics (Paid Revenue, Outstanding, Expenses, Net Profit).
-- **Email & WhatsApp Sharing**: Direct PDF invoice delivery via user-configured SMTP and 1-click WhatsApp messaging.
+## What You Can Do With Invio
+- **Fast GST & Normal Bills**: Automatic GST tax calculation (local and out-of-state), discounts, and neat A4/A5 PDF bills.
+- **Paper Receipt Printing**: Works with small 2-inch (58mm) and 3-inch (80mm) shop receipt printers as well as regular office printers.
+- **UPI QR Code on Bills**: Prints a scan-and-pay UPI QR code for the exact bill amount so customers can pay with Google Pay, PhonePe, Paytm, or BHIM.
+- **Barcode Scanner Ready**: Plug in any USB or wireless barcode gun and scan items straight into the bill.
+- **Stock & Inventory Tracking**: Stock goes down automatically when you sell, comes back if you cancel a bill, and warns you when items are running low.
+- **Customer Diary (Udhar / Credit)**: Save customer phone numbers, track unpaid dues, and record partial payments.
+- **Daily Sales & Profit Reports**: See cash, UPI, and card collections, shop expenses, and monthly GST reports for your accountant.
+- **Email & WhatsApp Sharing**: Send PDF bills straight to your customer's email or WhatsApp in 1 click.
 
-## Download Endpoints
-- [Microsoft Store for Windows (Official App)](https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN)
-- [Windows Installer (64-bit Direct .exe)](https://api.invio.timrio.com/api/download?platform=windows)
-- [macOS Installer (Apple Silicon & Intel)](https://api.invio.timrio.com/api/download?platform=mac)
-- [Linux Package (AppImage / DEB)](https://api.invio.timrio.com/api/download?platform=linux)
-- [Latest Release Metadata](https://api.invio.timrio.com/api/download/meta/latest)
+## How to Start in 3 Easy Steps
+1. Download Invio free on Windows, Mac, or Linux (no sign-up or credit card needed).
+2. Add your shop name, logo, and products (or scan barcodes).
+3. Start making bills, printing receipts, and tracking your stock right away.
 
-## Free Online Finance & Payroll Tools Suite
-- [India GST Calculator](https://invio.timrio.com/tools/gst-calculator): Instant intra/inter-state GST and reverse inclusive tax calculator.
-- [Income Tax Calculator (India)](https://invio.timrio.com/tools/income-tax-india): New vs Old Tax Regime comparison for FY 2025–26.
-- [UK VAT Calculator](https://invio.timrio.com/tools/vat-uk): Standard 20%, reduced 5%, and zero-rated VAT calculations.
-- [UAE VAT Calculator](https://invio.timrio.com/tools/vat-uae): 5% UAE Federal Tax Authority VAT breakdown.
-- [Free Payslip Generator](https://invio.timrio.com/tools/payslip-generator): Professional employee salary slip formatter.
-- [Paycheck Calculator](https://invio.timrio.com/tools/paycheck-calc): Gross to net take-home salary calculator.
-- [HRA Exemption Calculator](https://invio.timrio.com/tools/hra-exemption): Section 10(13A) House Rent Allowance tax savings.
-- [Gratuity Calculator](https://invio.timrio.com/tools/gratuity-calc): Payment of Gratuity Act (15 × salary × tenure / 26).
-- [Project Cost Estimate Calculator](https://invio.timrio.com/tools/project-estimate): Client quote, labor hours, and risk contingency estimator.
+## Download Links
+- [Microsoft Store for Windows (Recommended)](https://apps.microsoft.com/detail/9nd42tj7n976?hl=en-US&gl=IN)
+- [Windows Installer (.exe)](https://api.invio.timrio.com/api/download?platform=windows)
+- [Mac Installer (.dmg)](https://api.invio.timrio.com/api/download?platform=mac)
+- [Linux Installer](https://api.invio.timrio.com/api/download?platform=linux)
 
-## Optional & Related Links
-- [Full LLM Context Specification](https://invio.timrio.com/llms-full.txt)
+## Free Online Calculators (No Download Needed)
+- [India GST Calculator](https://invio.timrio.com/tools/gst-calculator): Quick GST tax and reverse GST calculator.
+- [Income Tax Calculator (India)](https://invio.timrio.com/tools/income-tax-india): Compare New vs Old Tax Regime for FY 2025–26.
+- [UK VAT Calculator](https://invio.timrio.com/tools/vat-uk): Calculate 20%, 5%, and 0% UK VAT.
+- [UAE VAT Calculator](https://invio.timrio.com/tools/vat-uae): Calculate 5% UAE VAT.
+- [Free Payslip Generator](https://invio.timrio.com/tools/payslip-generator): Create and print monthly employee salary slips.
+- [Paycheck Calculator](https://invio.timrio.com/tools/paycheck-calc): Calculate take-home salary after deductions.
+- [HRA Exemption Calculator](https://invio.timrio.com/tools/hra-exemption): Calculate House Rent Allowance tax savings.
+- [Gratuity Calculator](https://invio.timrio.com/tools/gratuity-calc): Calculate employee gratuity payout.
+- [Project Cost Estimate Calculator](https://invio.timrio.com/tools/project-estimate): Estimate project quotes, hours, and costs.
+
+## Related Links
+- [Agent Guide (agent.txt)](https://invio.timrio.com/agent.txt)
+- [Full LLM Guide](https://invio.timrio.com/llms-full.txt)
 - [XML Sitemap](https://invio.timrio.com/sitemap.xml)
-- [Desktop App Repository](https://github.com/sktigpta/invio-desktop)
-- [Website Repository](https://github.com/sktigpta/invio-website)
-- [Server Repository](https://github.com/sktigpta/invio-server)

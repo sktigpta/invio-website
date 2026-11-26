@@ -6,7 +6,6 @@ import { DownloadCta } from '../components/DownloadCta';
 import { FaqAccordion } from '../components/FaqAccordion';
 import { useDownloadModal } from '../context/DownloadModalContext';
 import { fetchSubscriptionPlans } from '../services/paymentService';
-import { PricingCardSkeleton } from '../components/common/Skeleton';
 
 function parsePrice(value) {
   if (value === null || value === undefined || value === '') return null;
@@ -31,46 +30,46 @@ const DEFAULT_PLANS_STATE = {
   free: {
     id: 'free',
     name: 'Free',
-    description: 'Starter plan with core invoicing.',
+    description: 'Everything you need to make bills and track stock for free.',
     priceMonthly: 0,
     priceYearly: 0,
     badge: 'Free Forever',
     ctaText: 'Download Free App',
     ctaLink: '/download',
     features: [
-      'Unlimited offline invoices, estimates, and receipts',
-      'Unlimited customer contacts & stock items',
-      'Automated GST tax engine (CGST / SGST / IGST)',
-      'Standard A4 & A5 PDF invoice generation',
-      'Basic barcode scanner input (standard HID)',
-      '100% offline local SQLite database privacy',
-      'One-click data backup export & restore',
+      'Unlimited offline bills, quotes, and receipts',
+      'Unlimited customer contacts and shop products',
+      'Automatic GST tax math on every bill',
+      'Clean A4 & A5 PDF bills with your shop logo',
+      'Works with any plug-in barcode scanner',
+      'All your bills and records stay safely on your computer',
+      'One-click backup to a pen drive or folder',
     ],
   },
   plus: {
     id: 'plus',
     name: 'Plus',
-    description: 'Enhanced plan with access to all features.',
+    description: 'Extra tools for busy counters, receipt printers, and restaurants.',
     priceMonthly: 149,
     priceYearly: 999,
     badge: 'Most Popular',
     ctaText: 'Get Invio Plus',
     ctaLink: '/download',
     features: [
-      'Everything in Free Core Plan',
-      '58mm & 80mm ESC/POS thermal receipt printing',
-      'Dynamic UPI QR code printed on counter slips',
-      'Dual-screen customer display POS projection',
-      'Rapid item barcode scanning with auto-cart increment',
-      'Automated WhatsApp and email invoice dispatch',
-      'Multi-counter local network database support',
-      'Priority email and remote setup assistance',
+      'Everything in the Free Plan',
+      'Small paper receipt printing',
+      'Scan-and-pay UPI QR code printed on every receipt',
+      'Second screen for customers to see their bill and QR code',
+      'Fast barcode scanning that adds items and counts automatically',
+      'Send PDF bills by Email or WhatsApp in 1 click',
+      'Use multiple billing computers together on your shop Wi-Fi',
+      'Priority help with setup and printers by email',
     ],
   },
   pro: {
     id: 'pro',
     name: 'Pro',
-    description: 'Premium plan. Pro-only features will be added here later.',
+    description: 'For larger teams and multiple cashiers. Coming soon.',
     priceMonthly: 1299,
     priceYearly: 9999,
     badge: 'Coming Soon',
@@ -79,13 +78,13 @@ const DEFAULT_PLANS_STATE = {
     isComingSoon: true,
     features: [
       'Everything in Invio Plus Plan',
-      'Multi-user cashier & manager permission roles',
-      'Unlimited multi-counter networked terminals',
-      'Advanced profit margin & GSTR-1 tax audit reports',
-      'Automated low-inventory reorder alerts & bulk CSV catalog tools',
-      'Dedicated remote deployment engineer',
-      'Custom invoice branding, templates & receipt headers',
-      'Direct priority WhatsApp & telephone support',
+      'Separate logins for cashiers and shop managers',
+      'Connect as many billing counters as you need',
+      'Detailed profit reports and ready-to-file GST reports for your CA',
+      'Low-stock reorder reminders and bulk Excel / CSV item upload',
+      'Dedicated remote setup help for your shop',
+      'Custom bill designs and receipt headers',
+      'Direct priority WhatsApp and phone support',
     ],
   },
 };
@@ -106,7 +105,6 @@ export function PricingPage() {
     paramCycle === 'monthly' ? 'monthly' : 'yearly'
   );
   const [plansData, setPlansData] = useState(DEFAULT_PLANS_STATE);
-  const [loadingPlans, setLoadingPlans] = useState(true);
   const [plansError, setPlansError] = useState('');
   const plusSavings = getYearlySavings(
     plansData.plus.priceMonthly,
@@ -159,8 +157,6 @@ export function PricingPage() {
         }
       } catch {
         // Retain authoritative fallback prices
-      } finally {
-        setLoadingPlans(false);
       }
     };
 
@@ -177,12 +173,12 @@ export function PricingPage() {
       a: 'Yearly billing offers plan-specific discounts. You pay once for the full year and receive continuous updates and feature enhancements. The exact annual price and effective monthly equivalent are shown on each plan.'
     },
     {
-      q: 'Are there any hidden cloud or synchronization fees?',
-      a: 'No. Because Invio stores your data locally on your computer in an embedded SQLite database, there are zero server hosting fees or cloud egress costs passed onto you.'
+      q: 'Are there any hidden monthly server or cloud fees?',
+      a: 'No. Because Invio saves all your bills and records directly on your own computer, there are zero cloud storage fees or hidden charges.'
     },
     {
-      q: 'What is included in the Invio Plus and Pro commercial plans?',
-      a: 'Invio Plus unlocks hardware POS peripherals (58mm/80mm thermal receipt printers, dynamic UPI QR codes, dual-screen customer display, and email sharing). Pro Enterprise adds multi-user staff roles, advanced analytics, custom receipt templates, and priority telephone support.'
+      q: 'What do I get with Invio Plus and Pro?',
+      a: 'Invio Plus unlocks small paper receipt printers, UPI QR codes on slips, a second customer screen, Restaurant QR ordering, and Email & WhatsApp bill sharing. Pro adds staff logins, detailed profit reports, custom bill templates, and phone support.'
     },
     {
       q: 'What payment methods do you accept?',
@@ -203,7 +199,7 @@ export function PricingPage() {
       {/* Monthly / Yearly Billing Toggle */}
       <div className="flex items-center justify-center mt-6 mb-8">
         <div
-          className="inline-flex items-center p-1 rounded-full bg-slate-100 border border-slate-200 shadow-2xs select-none"
+          className="inline-flex items-center p-1 rounded-full bg-slate-100 border border-slate-200 shadow-sm select-none"
           role="radiogroup"
           aria-label="Billing cycle selection"
         >
@@ -218,7 +214,7 @@ export function PricingPage() {
             aria-checked={billingCycle === 'monthly'}
             className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               billingCycle === 'monthly'
-                ? 'bg-white text-[#7C3AED] shadow-xs'
+                ? 'bg-white text-[#7C3AED] shadow-sm'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -231,12 +227,12 @@ export function PricingPage() {
             aria-checked={billingCycle === 'yearly'}
             className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
               billingCycle === 'yearly'
-                ? 'bg-[#7C3AED] text-white shadow-xs'
+                ? 'bg-[#7C3AED] text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <span>Yearly Billing</span>
-            <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+            <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
               billingCycle === 'yearly' ? 'bg-white/20 text-white' : 'bg-purple-100 text-[#7C3AED]'
             }`}>
               {plusSavings === null ? 'Annual pricing' : `Save ${plusSavings}%`}
@@ -246,13 +242,7 @@ export function PricingPage() {
       </div>
 
       {/* 3-Column Pricing Grid (Free, Plus, Pro) */}
-      {loadingPlans ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-8 items-stretch" aria-busy="true" aria-label="Loading pricing plans">
-          <PricingCardSkeleton />
-          <PricingCardSkeleton isFeatured={true} />
-          <PricingCardSkeleton />
-        </div>
-      ) : plansData.plus.priceMonthly === null || plansData.plus.priceYearly === null ? (
+      {plansData.plus.priceMonthly === null || plansData.plus.priceYearly === null ? (
         <div className="my-8 rounded-2xl border border-amber-200 bg-amber-50 p-6 text-center">
           <p className="text-sm font-semibold text-amber-900">
             {plansError || 'Pricing is temporarily unavailable.'}
@@ -262,7 +252,7 @@ export function PricingPage() {
       ) : (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-8 items-stretch">
         {/* 1. Free Plan */}
-        <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between shadow-2xs hover:shadow-xs transition-shadow">
+        <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between shadow-sm hover:shadow-sm transition-shadow">
           <div>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-xl font-bold text-slate-900">{plansData.free.name}</h2>
@@ -295,7 +285,7 @@ export function PricingPage() {
           <button
             type="button"
             onClick={() => openDownloadModal()}
-            className="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-semibold text-xs text-center transition-colors shadow-2xs select-none block cursor-pointer"
+            className="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-semibold text-xs text-center transition-colors shadow-sm select-none block cursor-pointer"
           >
             {plansData.free.ctaText}
           </button>
@@ -304,7 +294,7 @@ export function PricingPage() {
         {/* 2. Plus Plan (Highlighted) */}
         <div className="p-6 rounded-squircle border-2 border-[#7C3AED] bg-white relative flex flex-col justify-between shadow-md hover:shadow-lg transition-shadow">
           <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-            <span className="text-[10px] font-extrabold uppercase tracking-widest bg-[#7C3AED] text-white px-3 py-1 rounded-full shadow-xs">
+            <span className="text-[10px] font-extrabold uppercase tracking-widest bg-[#7C3AED] text-white px-3 py-1 rounded-full shadow-sm">
               {plansData.plus.badge}
             </span>
           </div>
@@ -352,14 +342,14 @@ export function PricingPage() {
 
           <Link
             to={`/checkout?plan=plus&cycle=${billingCycle}${paramEmail ? `&email=${encodeURIComponent(paramEmail)}` : ''}${paramCoupon ? `&coupon=${encodeURIComponent(paramCoupon)}` : ''}`}
-            className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-xs select-none cursor-pointer flex items-center justify-center gap-2"
+            className="w-full py-2.5 px-4 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full font-semibold text-xs text-center transition-colors shadow-sm select-none cursor-pointer flex items-center justify-center gap-2"
           >
             <span>{plansData.plus.ctaText}</span>
           </Link>
         </div>
 
         {/* 3. Pro Plan (Enterprise -> Coming Soon) */}
-        <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between shadow-2xs hover:shadow-xs transition-shadow relative overflow-hidden">
+        <div className="p-6 rounded-squircle border border-slate-200/90 bg-white flex flex-col justify-between shadow-sm hover:shadow-sm transition-shadow relative overflow-hidden">
           <div>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-xl font-bold text-slate-900">{plansData.pro.name}</h2>
