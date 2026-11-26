@@ -24,20 +24,30 @@ export function ModularPlatformSection() {
             ? data.extensions
             : null;
         if (remoteList && remoteList.length > 0) {
-          const fallbackMap = new Map(OFFICIAL_EXTENSIONS_SHOWCASE.map((item) => [item.id, item]));
-          setExtensions(
-            remoteList.map((remote) => {
-              const existing = fallbackMap.get(remote.id) || {};
-              return {
-                ...existing,
+          const remoteMap = new Map(remoteList.map((r) => [r.id, r]));
+          const merged = OFFICIAL_EXTENSIONS_SHOWCASE.map((local) => {
+            const remote = remoteMap.get(local.id);
+            if (!remote) return local;
+            return {
+              ...local,
+              name: local.name || remote.name,
+              summary: local.summary || remote.description || '',
+              highlights: local.highlights?.length ? local.highlights : remote.features || [],
+              logoUrl: remote.iconUrl || `${API_BASE_URL}/api/extensions/logo/${remote.id}`,
+            };
+          });
+          for (const remote of remoteList) {
+            if (!OFFICIAL_EXTENSIONS_SHOWCASE.some((l) => l.id === remote.id)) {
+              merged.push({
                 id: remote.id,
-                name: existing.name || remote.name,
-                summary: existing.summary || remote.description || '',
-                highlights: existing.highlights || remote.features || [],
+                name: remote.name,
+                summary: remote.description || '',
+                highlights: remote.features || [],
                 logoUrl: remote.iconUrl || `${API_BASE_URL}/api/extensions/logo/${remote.id}`,
-              };
-            })
-          );
+              });
+            }
+          }
+          setExtensions(merged);
         } else {
           setExtensions(OFFICIAL_EXTENSIONS_SHOWCASE);
         }
