@@ -31,7 +31,7 @@ export const INTENT_LANDING_PAGES = {
     ],
     comparisonRows: [
       { label: 'Core billing, stock & customers', invio: 'Free forever (₹0)', cloud: 'Free trial or capped invoices' },
-      { label: 'Works without internet', invio: '100% offline', cloud: 'Stops if Wi-Fi drops' },
+      { label: 'Works without internet', invio: '100% offline', cloud: 'Requires active internet connection' },
       { label: 'Where shop records are stored', invio: 'Safely on your computer', cloud: 'Uploaded to third-party servers' },
       { label: 'Desktop OS support', invio: 'Windows, Mac & Linux', cloud: 'Usually browser or Windows only' },
       { label: 'UPI QR & paper receipts', invio: 'Built-in & Plus ready', cloud: 'Often paid add-on' },

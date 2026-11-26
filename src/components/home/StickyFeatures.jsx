@@ -66,7 +66,7 @@ export function StickyFeatures() {
                   Explore Our <span className="text-[#7C3AED]">Features</span>
                 </h2>
                 <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed mb-5">
-                  Other billing apps charge you every month and stop working when your internet goes out. Invio is free to start, works without internet, and keeps all your shop bills safely on your computer. Upgrade to Plus only when you want fast paper receipt printers, UPI QR codes on slips, or extra counter screens.
+                  Other billing apps charge you every month and require active internet to bill at your counter. Invio is free to start, works 100% offline, and keeps all your shop bills safely on your computer. Upgrade to Plus only when you want fast paper receipt printers, UPI QR codes on slips, or extra counter screens.
                 </p>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                   <Link
@@ -101,7 +101,14 @@ export function StickyFeatures() {
                   <article
                     key={feature.id || feature.title}
                     onClick={() => setExpandedId(isExpanded ? null : feature.id)}
-                    className={`group text-left relative p-6 rounded-squircle bg-white border transition-all duration-300 flex flex-col justify-between min-h-[240px] sm:min-h-[250px] h-full overflow-hidden cursor-pointer shadow-sm ${
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setExpandedId(isExpanded ? null : feature.id);
+                      }
+                    }}
+                    tabIndex={0}
+                    className={`group text-left relative p-6 rounded-squircle bg-white border transition-all duration-300 flex flex-col justify-between min-h-[240px] sm:min-h-[250px] h-full overflow-hidden cursor-pointer shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] ${
                       isExpanded
                         ? 'border-[#7C3AED] shadow-xl shadow-purple-900/10 ring-1 ring-[#7C3AED]/15'
                         : 'border-slate-200/90 hover:border-[#7C3AED]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/10'
