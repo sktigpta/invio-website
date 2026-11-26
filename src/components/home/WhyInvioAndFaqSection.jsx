@@ -4,47 +4,57 @@ import { FAQ_ITEMS } from '../../data/faqData';
 
 const INVIO_BENEFITS = [
   {
-    title: 'Core Billing Software',
-    desc: 'Free forever (₹0) — unlimited bills, no watermark, no trial expiration',
+    feature: 'Core Invoice & Billing Software',
+    highlight: 'Free forever (₹0)',
+    detail: 'Unlimited invoices, no watermark, no trial limits or expiry',
   },
   {
-    title: '100% Offline Billing',
-    desc: 'Works completely offline — zero internet needed to create & print bills',
+    feature: 'Works Without Internet',
+    highlight: '100% offline on PC & Mac',
+    detail: 'Zero internet needed to create, calculate, and print bills',
   },
   {
-    title: 'Data Privacy & Control',
-    desc: 'Stored safely on your own computer — 100% private local storage',
+    feature: 'Data Privacy & Control',
+    highlight: 'Saved safely on your computer',
+    detail: '100% private local SQLite database that you fully own',
   },
   {
-    title: 'GST Bills & Thermal Receipts',
-    desc: 'A4/A5 GST invoices & 58mm/80mm thermal slips with instant UPI QR',
+    feature: 'GST Bills, Receipts & UPI QR',
+    highlight: 'A4/A5 PDFs + 58mm/80mm slips',
+    detail: 'Full GST tax invoices + thermal receipts with dynamic UPI QR',
   },
   {
-    title: 'Native Desktop Performance',
-    desc: 'Fast desktop app built natively for Windows, macOS & Linux',
+    feature: 'Windows, Mac & Linux Support',
+    highlight: 'Native desktop app for all 3',
+    detail: 'Fast, native performance built for high-volume store counters',
   },
 ];
 
 const CLOUD_APP_DRAWBACKS = [
   {
-    title: 'Core Billing Software',
-    desc: 'Monthly fees (₹500–₹1,500/month) or restricted free-trial limits',
+    feature: 'Core Invoice & Billing Software',
+    highlight: 'Trial limits or monthly fee',
+    detail: 'Charges ₹500–₹1,500/month or locks basic invoicing features',
   },
   {
-    title: 'Internet Dependency',
-    desc: 'Requires an active internet connection to generate bills at counter',
+    feature: 'Works Without Internet',
+    highlight: 'Requires active internet connection',
+    detail: 'Cannot create bills or print slips when Wi-Fi or broadband drops',
   },
   {
-    title: 'Data Privacy & Control',
-    desc: 'Business records and sales data uploaded to third-party cloud servers',
+    feature: 'Data Privacy & Control',
+    highlight: 'Uploaded to external servers',
+    detail: 'Customer data and sales numbers stored on third-party cloud',
   },
   {
-    title: 'GST Bills & Thermal Receipts',
-    desc: 'Thermal printer support and dynamic UPI QR often locked in paid plans',
+    feature: 'GST Bills, Receipts & UPI QR',
+    highlight: 'Often restricted to paid tiers',
+    detail: 'Thermal printer drivers and dynamic QR locked in higher plans',
   },
   {
-    title: 'Platform Limitations',
-    desc: 'Usually runs in slow browser tabs or restricted to Windows only',
+    feature: 'Windows, Mac & Linux Support',
+    highlight: 'Usually browser-only or Windows-only',
+    detail: 'Slow browser tabs that freeze, or lack of Mac & Linux desktop apps',
   },
 ];
 
@@ -63,7 +73,7 @@ export function WhyInvioAndFaqSection() {
       className="w-full bg-slate-50/50 py-16 sm:py-24 px-6 sm:px-8"
     >
       <div className="max-w-[1200px] mx-auto space-y-16 sm:space-y-20">
-        {/* 1. Comparison - Clean, Simple Dual Cards (No Lines, No Tables) */}
+        {/* 1. Comparison - Clean Unified Split (No Gap, No Inner Border Radius, Matching Rhythm) */}
         <div>
           <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-100/70 px-3.5 py-1 rounded-full inline-block mb-4">
@@ -77,10 +87,10 @@ export function WhyInvioAndFaqSection() {
             </p>
           </div>
 
-          {/* Simple Dual-Card Comparison */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {/* Invio Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col justify-between">
+          {/* Unified Comparison Container: Zero Gap, Matches Across Both Sides */}
+          <div className="bg-white rounded-3xl overflow-hidden shadow-sm max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-0">
+            {/* Left: Invio Invoice */}
+            <div className="p-6 sm:p-8 bg-white flex flex-col justify-between">
               <div>
                 <div className="mb-6">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full inline-block mb-3">
@@ -91,20 +101,25 @@ export function WhyInvioAndFaqSection() {
                   </h3>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-5">
                   {INVIO_BENEFITS.map((item) => (
-                    <div key={item.title} className="flex items-start gap-3">
+                    <div key={item.feature} className="flex items-start gap-3 min-h-[58px]">
                       <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
                       <div>
-                        <span className="text-xs font-bold text-slate-900 block">
-                          {item.title}
-                        </span>
-                        <p className="text-xs sm:text-sm text-slate-600 mt-0.5 leading-relaxed">
-                          {item.desc}
+                        <div className="flex items-baseline gap-1.5 flex-wrap">
+                          <span className="text-xs font-bold text-slate-900">
+                            {item.feature}:
+                          </span>
+                          <span className="text-xs font-extrabold text-emerald-700">
+                            {item.highlight}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                          {item.detail}
                         </p>
                       </div>
                     </div>
@@ -113,8 +128,8 @@ export function WhyInvioAndFaqSection() {
               </div>
             </div>
 
-            {/* Monthly Cloud Billing Apps Card */}
-            <div className="bg-slate-100/70 rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+            {/* Right: Monthly Cloud Billing Apps */}
+            <div className="p-6 sm:p-8 bg-slate-50/80 flex flex-col justify-between">
               <div>
                 <div className="mb-6">
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 bg-slate-200/70 px-3 py-1 rounded-full inline-block mb-3">
@@ -125,20 +140,25 @@ export function WhyInvioAndFaqSection() {
                   </h3>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-5">
                   {CLOUD_APP_DRAWBACKS.map((item) => (
-                    <div key={item.title} className="flex items-start gap-3">
+                    <div key={item.feature} className="flex items-start gap-3 min-h-[58px]">
                       <div className="w-5 h-5 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center shrink-0 mt-0.5">
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                       </div>
                       <div>
-                        <span className="text-xs font-semibold text-slate-700 block">
-                          {item.title}
-                        </span>
-                        <p className="text-xs sm:text-sm text-slate-500 mt-0.5 leading-relaxed">
-                          {item.desc}
+                        <div className="flex items-baseline gap-1.5 flex-wrap">
+                          <span className="text-xs font-semibold text-slate-800">
+                            {item.feature}:
+                          </span>
+                          <span className="text-xs font-semibold text-slate-600">
+                            {item.highlight}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                          {item.detail}
                         </p>
                       </div>
                     </div>
@@ -148,7 +168,7 @@ export function WhyInvioAndFaqSection() {
             </div>
           </div>
 
-          {/* Quick Solution Links */}
+          {/* Quick Solution Links (SEO Pillars) */}
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-2.5">
             {SOLUTION_PILLS.map((item) => (
               <Link
