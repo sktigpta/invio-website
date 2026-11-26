@@ -79,6 +79,7 @@ export function ModularPlatformSection() {
         <div className="space-y-16 sm:space-y-24 mb-16 sm:mb-20">
           {extensions.map((ext, idx) => {
             const isReversed = idx % 2 === 1;
+            const FallbackIcon = ext.icon;
             return (
               <div
                 key={ext.id}
@@ -89,13 +90,27 @@ export function ModularPlatformSection() {
                 {/* Text & Highlights Column */}
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center gap-3">
-                    <img
-                      src={ext.logoUrl}
-                      alt={`${ext.name} add-on icon`}
-                      className="size-10 rounded-xl object-cover border border-slate-200/80 bg-white shrink-0"
-                      loading="lazy"
-                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                    />
+                    <div className="size-10 rounded-xl overflow-hidden border border-slate-200/80 bg-white shrink-0 flex items-center justify-center relative">
+                      {/* Invio Logo Background Watermark: 300% size, 0.2 opacity */}
+                      <img
+                        src="/appLogo.png"
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute w-full h-full object-contain scale-[3] opacity-20 pointer-events-none select-none"
+                      />
+                      {FallbackIcon && (
+                        <div className="absolute inset-0 flex items-center justify-center text-[#7C3AED]/60 pointer-events-none">
+                          <FallbackIcon className="size-5" />
+                        </div>
+                      )}
+                      <img
+                        src={ext.logoUrl}
+                        alt={`${ext.name} add-on icon`}
+                        className="relative z-10 size-7 object-contain"
+                        loading="lazy"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    </div>
                     <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
                       {ext.name}
                     </h3>
@@ -119,11 +134,27 @@ export function ModularPlatformSection() {
 
                 {/* Visual Logo Card Column */}
                 <div className="flex-1 w-full flex items-center justify-center">
-                  <div className="w-full max-w-[224px] aspect-square rounded-squircle bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:border-[#7C3AED]/30 transition-all duration-300 overflow-hidden group">
+                  <div className="w-full max-w-[224px] aspect-square rounded-squircle bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:border-[#7C3AED]/30 transition-all duration-300 overflow-hidden flex items-center justify-center group relative">
+                    {/* Invio Logo Background Watermark: 300% size, 0.2 opacity, overflow hidden */}
+                    <img
+                      src="/appLogo.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="absolute w-full h-full object-contain scale-[3] opacity-20 pointer-events-none select-none transition-transform duration-500 group-hover:scale-[3.1]"
+                    />
+
+                    {/* Fallback Icon when image not available */}
+                    {FallbackIcon && (
+                      <div className="absolute inset-0 flex items-center justify-center text-[#7C3AED]/60 pointer-events-none">
+                        <FallbackIcon className="size-16" />
+                      </div>
+                    )}
+
+                    {/* Extension Logo */}
                     <img
                       src={ext.logoUrl}
                       alt={`${ext.name} add-on`}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                      className="relative z-10 size-24 sm:size-28 rounded-2xl object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                       onError={(e) => { e.currentTarget.style.display = 'none'; }}
                     />
