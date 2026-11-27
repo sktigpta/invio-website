@@ -6,6 +6,7 @@ import { DownloadCta } from '../components/DownloadCta';
 import { FaqAccordion } from '../components/FaqAccordion';
 import { useDownloadModal } from '../context/DownloadModalContext';
 import { fetchSubscriptionPlans } from '../services/paymentService';
+import { PRICING_FAQS } from '../data/faqData';
 
 function parsePrice(value) {
   if (value === null || value === undefined || value === '') return null;
@@ -162,33 +163,6 @@ export function PricingPage() {
 
     loadPlans();
   }, [isAutoCheckout, paramPlan, paramCycle, paramEmail, navigate]);
-
-  const pricingFaqs = [
-    {
-      q: 'Is the Free Core plan really free forever?',
-      a: 'Yes. There is no trial expiration date, no invoice count cap, and no forced upgrade. All core features will remain completely free forever for desktop billing.'
-    },
-    {
-      q: 'How does billing work between monthly and yearly cycles?',
-      a: 'Yearly billing offers plan-specific discounts. You pay once for the full year and receive continuous updates and feature enhancements. The exact annual price and effective monthly equivalent are shown on each plan.'
-    },
-    {
-      q: 'Are there any hidden monthly server or cloud fees?',
-      a: 'No. Because Invio saves all your bills and records directly on your own computer, there are zero cloud storage fees or hidden charges.'
-    },
-    {
-      q: 'What do I get with Invio Plus and Pro?',
-      a: 'Invio Plus unlocks small paper receipt printers, UPI QR codes on slips, a second customer screen, Restaurant QR ordering, and Email & WhatsApp bill sharing. Pro adds staff logins, detailed profit reports, custom bill templates, and phone support.'
-    },
-    {
-      q: 'What payment methods do you accept?',
-      a: 'We accept secure payments via Razorpay including UPI (Google Pay, PhonePe, Paytm, CRED), all major Debit and Credit Cards, and Netbanking.'
-    },
-    {
-      q: 'What is your refund policy?',
-      a: 'Because you can evaluate the desktop software completely for free before deciding to purchase Plus or Pro, digital license activations are non-refundable once unlocked. However, you can cancel any recurring plan at any time without fees.'
-    }
-  ];
 
   return (
     <PageContainer
@@ -409,7 +383,7 @@ export function PricingPage() {
           Frequently Asked Questions About Pricing
         </h2>
         <FaqAccordion
-          items={pricingFaqs.map((faq, idx) => ({
+          items={PRICING_FAQS.map((faq, idx) => ({
             id: `pricing-faq-${idx}`,
             question: faq.q,
             answer: faq.a,

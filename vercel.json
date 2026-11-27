@@ -152,6 +152,16 @@
       "permanent": true
     },
     {
+      "source": "/doc",
+      "destination": "/docs",
+      "permanent": true
+    },
+    {
+      "source": "/doc/:docId",
+      "destination": "/docs/:docId",
+      "permanent": true
+    },
+    {
       "source": "/system-requirements",
       "destination": "/docs/system",
       "permanent": true

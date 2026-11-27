@@ -158,6 +158,11 @@ export function triggerGoogleSignIn({ businessName = '', mode = 'signin', onSucc
       `width=${width},height=${height},left=${left},top=${top},status=no,menubar=no,toolbar=no`
     );
 
+    if (!popup) {
+      if (onError) onError('Popup was blocked by your browser. Please allow popups for this site and try again.');
+      return;
+    }
+
     const cleanup = () => {
       resolved = true;
       activeGoogleCleanup = null;

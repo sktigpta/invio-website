@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
@@ -9,9 +10,17 @@
   <!-- ========================================== -->
   <url>
     <loc>https://invio.timrio.com/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.00</priority>
+    <image:image>
+      <image:loc>https://invio.timrio.com/screenshots/hero.webp</image:loc>
+      <image:title>Invio Free Invoice Software &amp; Offline Billing Desktop App</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://invio.timrio.com/og-image.jpg</image:loc>
+      <image:title>Invio Invoice Preview</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://invio.timrio.com/free-invoice-software</loc>
@@ -39,9 +48,25 @@
   </url>
   <url>
     <loc>https://invio.timrio.com/features</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://invio.timrio.com/features/gst-invoicing-billing-software.webp</image:loc>
+      <image:title>GST Invoicing &amp; Billing Software</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://invio.timrio.com/features/thermal-receipt-printing-upi-qr.webp</image:loc>
+      <image:title>Thermal Receipt Printing with UPI QR</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://invio.timrio.com/features/barcode-scanner-pos-billing.webp</image:loc>
+      <image:title>Barcode Scanner POS Billing</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://invio.timrio.com/features/offline-sqlite-database-privacy.webp</image:loc>
+      <image:title>Offline SQLite Database Privacy</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://invio.timrio.com/pricing</loc>

@@ -1023,7 +1023,7 @@ function renderMarkdown(mdText) {
       elements.push(
         <blockquote
           key={`quote-${i}`}
-          className="border-l-3 border-[#7C3AED] pl-3 py-1 my-2 text-xs italic text-slate-600 bg-purple-50/20 rounded-r"
+          className="border-l-2 border-[#7C3AED] pl-3 py-1 my-2 text-xs italic text-slate-600 bg-purple-50/20 rounded-r"
         >
           {formatInline(trimmed.slice(2))}
         </blockquote>

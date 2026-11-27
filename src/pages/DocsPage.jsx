@@ -1156,7 +1156,7 @@ export function DocsPage() {
       <div className="lg:hidden fixed top-16 left-0 right-0 z-30 bg-white border-b border-slate-200 px-4 py-2.5 flex items-center justify-between no-print print:hidden">
         <div className="flex items-center gap-2 min-w-0">
           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Doc:</span>
-          <span className="text-xs font-bold text-slate-900 truncate max-w-[200px]">{activeDoc.title}</span>
+          <span className="text-xs font-bold text-slate-900 truncate max-w-[200px]">{docId ? activeDoc.title : 'Documentation Hub'}</span>
         </div>
         <button
           type="button"
